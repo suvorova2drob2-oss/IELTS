@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+.env
+.env.*
+
+# Large coursebook archives / downloads (not app source)
+*.zip
+*.rar
+*.crdownload
+Expert_IELTS_7_5_TEACHER/
+Expert_IELTS_7_5_TEACHER 2/
+
+# Temp OCR / extract scripts
+_tmp_*

@@ -1,0 +1,84 @@
+---
+description: Practice Reading Tests — engines, layout, content rules
+globs: src/data/practiceReading*.ts,src/components/PracticeReading*.tsx,src/index.css
+alwaysApply: false
+---
+
+# Practice Reading Tests
+
+## Entry
+- Home → Practice Reading → **catalog of 3 tests** (open any ready test)
+- Catalog: `practiceReadingCatalog.ts`
+
+## Modes (inside a test)
+- **Learn** — Lead-in → Task advice (if any) → tasks → Vocab / Learn-pack
+- **Exam** — scored tasks подряд → **Done → combined results** → next test
+
+## Shell
+- Hub: `PracticeReadingHub` (catalog → modes → session → results)
+- Results: `PracticeReadingResults`
+- Exam: `PracticeReadingExam` reports score via `onFinish`
+- Data: `practiceReadingTest1.ts`, `practiceReadingTest2.ts`, `practiceReadingTest3.ts`
+
+## Layout (locked — reuse for all practice exam engines)
+- Split **Reading | Questions** = **equal columns** (`1fr 1fr`)
+- No internal scrollbar on the questions panel — content must fit the viewport
+- Questions panel fills height: stems + option bank use `flex` / `space-evenly` (not stuck to the top with empty void below)
+- Readable type (~0.86–0.92rem stems); do not shrink text to “fit” by making it tiny
+- Passage may scroll if long; questions side should not need a scrollbar for 6 items
+- After Check: evidence highlight in passage; tip as one bottom strip (not expanding every row)
+- CSS hooks: `.pr-exam__split:has(.pr-task-box--tfng|endings|completion)`, `.pr-endings-panel`, `.pr-task-box--endings`
+
+## Engines (reuse for same task types)
+### True / False / Not Given (`type: "tfng"`)
+- One row: **num | statement | TRUE · FALSE · NG** (choices on the right)
+- Compact legend: `TRUE · FALSE · NOT GIVEN`
+- Component: `TfngExam` in `PracticeReadingExam.tsx`
+
+### Matching headings (`type: "matching-headings"`)
+- Passage left | List of Headings right with paragraph select (A–F) on each row
+- Example heading locked (e.g. iv → G)
+- Component: `MatchingExam` in `PracticeReadingExam.tsx`
+
+### Matching sentence endings (`type: "sentence-endings"`) — canonical engine
+- Passage left | stems with ending select (A–H) + endings bank (2-col) below
+- Each letter used at most once; used bank items dimmed
+- Short one-line instruction under “Questions 1–6”
+- Component: `EndingsExam` in `PracticeReadingExam.tsx`
+- **Reuse this pattern** for future tests with the same task type
+
+### Sentence completion (`type: "sentence-completion"`)
+- Passage left | stems with inline blank (NO MORE THAN THREE WORDS)
+- Accept list + normalized match (trim / case / spaces)
+- Same equal-column layout as endings
+- Component: `CompletionExam` in `PracticeReadingExam.tsx`
+
+### Matching information (`type: "matching-information"`)
+- Passage left | statements + paragraph select A–F
+- `allowReuse: true` → letters may repeat (IELTS NB)
+- Optional `training` synonyms → `PracticeReadingSuggestedFill`
+- Component: `MatchingInfoExam` in `PracticeReadingExam.tsx`
+
+### Summary completion (`type: "summary-completion"`)
+- Continuous summary with `{{7}}` blank markers · ONE WORD ONLY
+- Component: `SummaryExam` in `PracticeReadingExam.tsx`
+
+### Learn pack (`type: "learn-pack"`)
+- Language → optional Vocabulary → Follow-up speak
+- Component: `PracticeReadingLearnPack.tsx`
+
+### Pronoun reference (Language with passage) — reuse engine
+- Trigger: language items use `prompt` (+ optional `paragraphId`)
+- Layout: **Reading | Language** equal columns (`1fr 1fr`) — same as exam engines
+- Bold pronouns in `**it**` / `**They**`; student types what they refer to
+- Hover/focus item → highlight that paragraph in the passage
+- After Check: show key; flexible `accept[]`
+- Do **not** show language-only full-width without passage for this task type
+
+## Stats
+- Exam Done → `savePracticeAttempt` → `localStorage` (`practiceStats.ts`)
+- Home progress opens `StatsPage`
+
+## Content
+- **Do not change textbook wording** from user scans
+- Official keys from teacher book when provided

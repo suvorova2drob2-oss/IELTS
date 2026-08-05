@@ -1,0 +1,47 @@
+/** Practice Test 3 · Learn mode · Lead-in (exact book wording). */
+export const practiceReadingLeadIn3 = {
+  id: "prt3-lead-in",
+  title: "Lead-in",
+  image: "",
+  imageAlt: "Taste words",
+  instruction: "1 Find words in the picture that match the definitions.",
+  /** Word-cloud bank from the book. */
+  wordBank: [
+    "bitter",
+    "bland",
+    "sour",
+    "robust",
+    "spicy",
+    "sweet",
+    "syrupy",
+    "tangy",
+  ],
+  statements: [
+    "containing or having a taste like sugar",
+    "a pleasantly strong, hot taste",
+    "a strong sharp taste like black coffee without sugar",
+    "food that has very little taste",
+    "a taste or smell that is strong and sharp in a pleasant way",
+    "having a sharp acid taste, like the taste of a lemon",
+    "thick and sticky, like treacle or honey",
+    "food that has a good, strong taste",
+  ],
+  answers: [
+    "sweet",
+    "spicy",
+    "bitter",
+    "bland",
+    "tangy",
+    "sour",
+    "syrupy",
+    "robust",
+  ],
+  discussInstruction: "2 Work in pairs and discuss the questions.",
+  discussQuestions: [
+    "What kind of food do you enjoy eating?",
+    "What’s your favourite dish? Why?",
+    "Do you like eating spicy food? Why/Why not?",
+    "What condiments do you use to add extra flavour to the food you eat?",
+  ],
+  speakSec: 120,
+};

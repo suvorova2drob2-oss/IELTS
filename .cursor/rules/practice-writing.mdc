@@ -1,0 +1,43 @@
+---
+description: Practice Writing Tests — Task 1 graphs/process, Task 2 essay, Learn/Exam
+globs: src/data/practiceWriting*.ts,src/components/PracticeWriting*.tsx,src/components/OutdoorActivitiesGraph.tsx
+alwaysApply: false
+---
+
+# Practice Writing Tests
+
+## Entry
+- Home → Practice Writing → catalog
+- Hub: `PracticeWritingHub.tsx`
+- Catalog: `practiceWritingCatalog.ts`
+
+## Test 1 (Outdoor activities · graph)
+- Data: `practiceWritingTest1.ts` · Session: `PracticeWritingTest1Session.tsx`
+- Graph: SVG `OutdoorActivitiesGraph.tsx`
+- **Learn** — discuss → rank → graph explore → T/F → model fill → write → follow-up
+- **Exam** — write → checklist → sample → results
+
+## Test 2 (Online shopping · process)
+- Data: `practiceWritingTest2.ts` · Session: `PracticeWritingTest2Session.tsx`
+- Diagram asset: `practice-writing-test2-process.png`
+- **Learn** — discuss → vocab (1B 2E 3D 4F 5C 6A) → passive notice → transforms → structure order C→A→B → plan → write (15 min tip) → descriptors (1C 2B 3D 4A) → peer feedback
+- **Exam** — process write → checklist → sample → results
+- Teacher keys + sample answer from teacher book
+
+## Test 3 (Travel & tourism · Task 2 cause/effect)
+- Data: `practiceWritingTest3.ts` · Session: `PracticeWritingTest3Session.tsx`
+- Lead-in: `practice-writing-test3-airport.png`
+- **Learn** — discuss → prep gaps (for/about/on…) → cause-effect words → brainstorm table → intro = Q3 → intro roles A4 B1 C2 D3 → thesis A1 B4 C2 → plan tips → write tourism essay → sample
+- **Exam** — Task 2 write (~40 min) → checklist → sample → results
+- Write prompt: effects of tourism on local communities · sample from teacher book
+
+## Test 4 (Technology & the elderly · Task 2 problem–solution)
+- Data: `practiceWritingTest4.ts` · Session: `PracticeWritingTest4Session.tsx`
+- Lead-in: `practice-writing-test4-elderly.png`
+- **Learn** — discuss → task keywords → recommendation stems → softening (while it is true that / complex issue / despite…) → sort ideas P/S/A/D → mini paragraph → plan table → write → sample
+- **Exam** — Task 2 write (~40 min) → checklist → sample → results
+- Teacher chains: 4→2→8→3 and 6→7→1→5 · full sample from teacher book
+
+## Results / stats
+- Reuse `PracticeReadingResults`
+- Skills: `task-1-graph`, `task-1-process`, `task-2-essay`

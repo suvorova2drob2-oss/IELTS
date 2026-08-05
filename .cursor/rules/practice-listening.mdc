@@ -1,0 +1,59 @@
+---
+description: Practice Listening Tests — engines, audio, scripts
+globs: src/data/practiceListening*.ts,src/components/PracticeListening*.tsx,src/components/AudioPlayer.tsx
+alwaysApply: false
+---
+
+# Practice Listening Tests
+
+## Entry
+- Home → Practice Listening → catalog of 3 tests
+- Catalog: `practiceListeningCatalog.ts`
+- Hub: `PracticeListeningHub.tsx`
+
+## Modes
+### Test 1
+- **Learn** — Lead-in → adverts → task advice → Table 1–5 (audio) → Predicting → Short 6–10 (audio) → Follow-up
+- **Exam** — Table → Short → combined score
+### Test 2 (Te Papa)
+- **Learn** — Discuss → vocab → predict → Map 1–6 (2.1) → Matching 7–10 (2.2) → language → gap follow-up (2.3) → notes
+- **Exam** — Map → Matching → results
+- Session: `PracticeListeningTest2Session.tsx` · data: `practiceListeningTest2.ts`
+### Test 3 (Friendships)
+- **Learn** — Photo discuss → meet friend → Q1–4 (3.1) → MC tips → Q5–10 (3.2) → language → follow-up
+- **Exam** — Q1–4 → Q5–10 → results
+- Session: `PracticeListeningTest3Session.tsx` · data: `practiceListeningTest3.ts`
+### Test 4 (Urban planning)
+- **Learn** — Photo → discuss → synonyms match/fill → Q1–10 (4.1) → follow-up
+- **Exam** — Q1–10 (matching + flow chart + summary) → results
+- Session: `PracticeListeningTest4Session.tsx` · data: `practiceListeningTest4.ts`
+
+## Audio
+- Player: `AudioPlayer.tsx` (Play/Pause, seek, time)
+- After **Check**: green/red blanks + correct answer beside wrong ones; **Tapescript** side panel
+- Reuse this pattern for every listening practice task
+
+## Engines (reuse)
+### Job adverts / vocab word box
+- Word chips → fill sentence blanks; one word each
+
+### Task advice table
+- Tips 1–8 → place into Before / During / After columns
+
+### Table completion
+- Audio + HTML table with numbered blanks · ≤2 words
+
+### Short answer questions
+- Audio + numbered prompts · ≤3 words and/or numbers
+
+### Map labelling (Test 2)
+- Map image + letter bank A–I + selects for Q1–6; script after Check
+
+### Matching letters (Test 2)
+- Purpose bank A–F + selects for Q7–10; letters used once
+
+### Predicting (T/F or discuss)
+- T/F chips (Test 1) or discuss + suggested answers (Test 2)
+
+## Content
+- Textbook wording + teacher keys only
