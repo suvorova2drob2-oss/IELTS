@@ -159,6 +159,8 @@ function MatchingExam({
   );
   const [checked, setChecked] = useState(false);
   const [activeQ, setActiveQ] = useState<number | null>(null);
+  /** After Check: which heading statement is hovered → yellow proof on left. */
+  const [hoverHeading, setHoverHeading] = useState<HeadingId | null>(null);
 
   const paragraphByHeading = useMemo(() => {
     const map = new Map<HeadingId, string>();
@@ -185,6 +187,18 @@ function MatchingExam({
 
   const active = task.questions.find((q) => q.id === activeQ);
   const evidence = checked && active ? active.evidence : [];
+
+  const hoverQuestion = useMemo(() => {
+    if (!checked || !hoverHeading) return null;
+    return task.questions.find((q) => q.key === hoverHeading) ?? null;
+  }, [checked, hoverHeading, task.questions]);
+
+  const focusParagraphId =
+    hoverQuestion?.paragraphId ?? (checked ? active?.paragraphId : null) ?? null;
+  const leftEvidence = hoverQuestion?.evidence ?? evidence;
+  const leftHighlight = Boolean(
+    checked && leftEvidence.length > 0 && (hoverQuestion || activeQ != null),
+  );
 
   const assignHeadingToParagraph = (headingId: HeadingId, paragraphId: string) => {
     const q = task.questions.find((item) => item.paragraphId === paragraphId);
@@ -227,9 +241,9 @@ function MatchingExam({
           readingLabel={test.readingLabel}
           passageTitle={test.passageTitle}
           paragraphs={test.paragraphs}
-          evidence={evidence}
-          highlight={checked && activeQ != null}
-          focusParagraphId={active?.paragraphId}
+          evidence={leftEvidence}
+          highlight={leftHighlight}
+          focusParagraphId={focusParagraphId}
           showParagraphIds={test.showParagraphIds !== false}
         />
 
@@ -242,13 +256,20 @@ function MatchingExam({
             Example: Paragraph {task.example.paragraphId} →{" "}
             {task.example.headingId}
           </p>
+          {checked && (
+            <p className="pr-exam__instruction pr-headings-rail__hint">
+              Hover a heading to see proof in the passage (yellow).
+            </p>
+          )}
           <ul className="pr-headings">
             {task.headings.map((h) => {
               const isExample = h.id === task.example.headingId;
               const paragraphId = paragraphByHeading.get(h.id);
               const matchedQ = task.questions.find((q) => answers[q.id] === h.id);
+              const correctQ = task.questions.find((q) => q.key === h.id);
               const ok = matchedQ != null && matchedQ.key === h.id;
-              const shouldHaveMatch = task.questions.some((q) => q.key === h.id);
+              const shouldHaveMatch = correctQ != null;
+              const hovering = hoverHeading === h.id;
               let selectState = "";
               if (checked && shouldHaveMatch) {
                 selectState = ok
@@ -261,14 +282,26 @@ function MatchingExam({
               return (
                 <li
                   key={h.id}
-                  className={
+                  className={[
                     isExample
                       ? "pr-headings__item--example"
                       : matchedQ
                         ? "pr-headings__item--picked"
-                        : undefined
-                  }
-                  onMouseEnter={() => matchedQ && checked && setActiveQ(matchedQ.id)}
+                        : "",
+                    hovering && checked && shouldHaveMatch
+                      ? "pr-headings__item--hover"
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ") || undefined}
+                  onMouseEnter={() => {
+                    if (!checked || !shouldHaveMatch) return;
+                    setHoverHeading(h.id);
+                    if (correctQ) setActiveQ(correctQ.id);
+                  }}
+                  onMouseLeave={() => {
+                    if (hoverHeading === h.id) setHoverHeading(null);
+                  }}
                 >
                   <strong>{h.id}</strong>
                   <span className="pr-headings__text">{h.text}</span>
@@ -286,7 +319,14 @@ function MatchingExam({
                         if (!val) clearHeading(h.id);
                         else assignHeadingToParagraph(h.id, val);
                       }}
-                      onFocus={() => matchedQ && setActiveQ(matchedQ.id)}
+                      onFocus={() => {
+                        if (correctQ && checked) {
+                          setHoverHeading(h.id);
+                          setActiveQ(correctQ.id);
+                        } else if (matchedQ) {
+                          setActiveQ(matchedQ.id);
+                        }
+                      }}
                     >
                       <option value="">—</option>
                       {task.questions.map((q) => {
@@ -306,9 +346,13 @@ function MatchingExam({
                       })}
                     </select>
                   )}
-                  {checked && shouldHaveMatch && !ok && (
-                    <span className="pr-headings__key">
-                      → {task.questions.find((q) => q.key === h.id)?.paragraphId}
+                  {checked && shouldHaveMatch && (
+                    <span
+                      className={
+                        ok ? "pr-headings__key pr-headings__key--ok" : "pr-headings__key"
+                      }
+                    >
+                      → {correctQ?.paragraphId}
                     </span>
                   )}
                 </li>
@@ -332,6 +376,7 @@ function MatchingExam({
           setChecked(false);
           setAnswers({});
           setActiveQ(null);
+          setHoverHeading(null);
         }}
         onCheck={() => setChecked(true)}
         onNext={onNext}

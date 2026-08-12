@@ -67,10 +67,12 @@ export function ReadingCompletionTrainer({
   const [tableAnswers, setTableAnswers] = useState<Record<number, string>>({});
   const [checked, setChecked] = useState(false);
 
+  const isScorableGap = (g: GapItem) => g.id > 0 && g.maxWords > 0;
+
   const allGaps: GapItem[] = [
     ...data.notes.items,
     ...data.table.rows.flatMap((r) => [...r.advice, ...r.benefits]),
-  ];
+  ].filter(isScorableGap);
 
   const setTable = (id: number, v: string) =>
     setTableAnswers((prev) => ({ ...prev, [id]: v }));
@@ -94,6 +96,22 @@ export function ReadingCompletionTrainer({
       setTable(item.id, v);
     }
   };
+
+  const renderTableLine = (item: GapItem, key: string) =>
+    isScorableGap(item) ? (
+      <GapInput
+        key={key}
+        item={item}
+        value={getGapValue(item)}
+        onChange={(v) => setGapValue(item, v)}
+        showResult={checked}
+        mode={mode}
+      />
+    ) : (
+      <p key={key} className="completion-table__static">
+        • {item.label}
+      </p>
+    );
 
   return (
     <div className="app-shell">
@@ -228,28 +246,14 @@ export function ReadingCompletionTrainer({
               <div key={row.category} className="completion-table__row">
                 <span className="completion-table__cat">{row.category}</span>
                 <div className="completion-table__cell">
-                  {row.advice.map((item) => (
-                    <GapInput
-                      key={item.id}
-                      item={item}
-                      value={getGapValue(item)}
-                      onChange={(v) => setGapValue(item, v)}
-                      showResult={checked}
-                      mode={mode}
-                    />
-                  ))}
+                  {row.advice.map((item, i) =>
+                    renderTableLine(item, `${row.category}-a-${i}`),
+                  )}
                 </div>
                 <div className="completion-table__cell">
-                  {row.benefits.map((item) => (
-                    <GapInput
-                      key={item.id}
-                      item={item}
-                      value={getGapValue(item)}
-                      onChange={(v) => setGapValue(item, v)}
-                      showResult={checked}
-                      mode={mode}
-                    />
-                  ))}
+                  {row.benefits.map((item, i) =>
+                    renderTableLine(item, `${row.category}-b-${i}`),
+                  )}
                 </div>
               </div>
             ))}

@@ -331,6 +331,7 @@ function InlineLine({
   mode,
   onGapFocus,
   onGapHover,
+  as = "li",
 }: {
   segments: Segment[];
   values: Record<number, string>;
@@ -340,9 +341,12 @@ function InlineLine({
   mode: PracticeMode;
   onGapFocus?: (id: number) => void;
   onGapHover?: (id: number | null) => void;
+  /** Use "div" when already inside a <li> (notes list). */
+  as?: "li" | "div";
 }) {
+  const Tag = as;
   return (
-    <li className="inline-line">
+    <Tag className="inline-line">
       {segments.map((seg, i) => {
         if (seg.type === "text") return <span key={i}>{seg.text}</span>;
         const ok =
@@ -365,7 +369,7 @@ function InlineLine({
               onChange={(e) => onChange(seg.id, e.target.value)}
               onFocus={() => onGapFocus?.(seg.id)}
               aria-label={`Gap ${seg.id}`}
-              placeholder="…"
+              placeholder="type answer…"
             />
             {showResult && gapMeta && (
               <span className={ok ? "inline-gap-ok" : "inline-gap-bad"}>
@@ -378,7 +382,7 @@ function InlineLine({
       {mode === "practice" && !showResult && gapMeta && (
         <span className="line-hint"> 💡 {gapMeta.hint}</span>
       )}
-    </li>
+    </Tag>
   );
 }
 
@@ -500,7 +504,16 @@ function CompletionTablePanel({
           <span className="completion-table__cat">{row.category}</span>
           <ul className="completion-table__cell">
             {row.advice.map((line, i) => (
-              <li key={i} className="inline-line">
+              <li
+                key={i}
+                className="inline-line"
+                onMouseEnter={() =>
+                  line.gap ? onGapHover?.(line.gap.id) : undefined
+                }
+                onMouseLeave={() =>
+                  line.gap ? onGapHover?.(null) : undefined
+                }
+              >
                 <SegmentContent
                   segments={line.segments}
                   mode={mode}
@@ -509,7 +522,6 @@ function CompletionTablePanel({
                   showResult={showResult}
                   gaps={data.gaps}
                   onGapFocus={onGapFocus}
-                  onGapHover={onGapHover}
                 />
                 {mode === "fill" &&
                   practiceMode === "practice" &&
@@ -522,7 +534,16 @@ function CompletionTablePanel({
           </ul>
           <ul className="completion-table__cell">
             {row.benefits.map((line, i) => (
-              <li key={i} className="inline-line">
+              <li
+                key={i}
+                className="inline-line"
+                onMouseEnter={() =>
+                  line.gap ? onGapHover?.(line.gap.id) : undefined
+                }
+                onMouseLeave={() =>
+                  line.gap ? onGapHover?.(null) : undefined
+                }
+              >
                 <SegmentContent
                   segments={line.segments}
                   mode={mode}
@@ -531,7 +552,6 @@ function CompletionTablePanel({
                   showResult={showResult}
                   gaps={data.gaps}
                   onGapFocus={onGapFocus}
-                  onGapHover={onGapHover}
                 />
                 {mode === "fill" &&
                   practiceMode === "practice" &&
@@ -588,9 +608,12 @@ function NotesPanel({
             className={
               highlightGapId === item.gap.id ? "notes-list__item--active" : ""
             }
+            onMouseEnter={() => onGapHover?.(item.gap.id)}
+            onMouseLeave={() => onGapHover?.(null)}
           >
             {mode === "fill" ? (
               <InlineLine
+                as="div"
                 segments={item.segments}
                 values={values}
                 onChange={onChange}
@@ -598,7 +621,6 @@ function NotesPanel({
                 gapMeta={data.gaps[item.gap.id]}
                 mode={practiceMode}
                 onGapFocus={onGapFocus}
-                onGapHover={onGapHover}
               />
             ) : (
               <span className="inline-line">
@@ -648,54 +670,49 @@ function ExamSplit({
   const [activeGapId, setActiveGapId] = useState<number | undefined>(1);
   const [hoverGapId, setHoverGapId] = useState<number | null>(null);
   const [mobilePane, setMobilePane] = useState<"passage" | "tasks">("tasks");
+  const hoverClearRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const allAnchors = [
     ...data.notes.map((n) => n.relatedParagraphIndex),
     ...data.table.rows.map((r) => r.relatedParagraphIndex),
   ];
 
-  const focusGapId =
+  const taskHighlightGapId =
     externalGapId ?? hoverGapId ?? activeGapId ?? undefined;
 
+  // During fill, don't drive the passage from hover — that re-renders the text pane and feels like flicker.
+  // After Check, hover may point at evidence in the passage.
+  const passageFocusGapId = showResult
+    ? (externalGapId ?? hoverGapId ?? activeGapId ?? undefined)
+    : (externalGapId ?? activeGapId ?? undefined);
+
   const activeParagraphIndex =
-    focusGapId != null ? getGapParagraphIndex(data, focusGapId) : undefined;
+    passageFocusGapId != null
+      ? getGapParagraphIndex(data, passageFocusGapId)
+      : undefined;
 
   const evidenceTerms =
-    showResult && focusGapId != null
-      ? (data.gaps[focusGapId]?.evidence ?? [])
+    showResult && passageFocusGapId != null
+      ? (data.gaps[passageFocusGapId]?.evidence ?? [])
       : [];
 
   const jumpToGap = useCallback(
     (gapId: number) => {
       setActiveGapId(gapId);
       const paraIdx = getGapParagraphIndex(data, gapId);
-      if (paraIdx != null) {
-        paraRefs.current[paraIdx]?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
-
-      const noteIdx = data.notes.findIndex((n) => n.gap.id === gapId);
-      if (noteIdx >= 0) {
-        noteRefs.current[noteIdx]?.scrollIntoView({
-          behavior: "smooth",
-          block: "nearest",
-        });
-        return;
-      }
-
-      data.table.rows.forEach((row, i) => {
-        const hit = [...row.advice, ...row.benefits].some(
-          (l) => l.gap?.id === gapId,
-        );
-        if (hit) {
-          rowRefs.current[i]?.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-          });
+      const paraEl = paraIdx != null ? paraRefs.current[paraIdx] : null;
+      if (paraEl) {
+        const root = passageScrollRef.current;
+        if (root) {
+          const er = paraEl.getBoundingClientRect();
+          const pr = root.getBoundingClientRect();
+          const visible = er.top >= pr.top + 8 && er.bottom <= pr.bottom - 8;
+          if (!visible) {
+            paraEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+          }
         }
-      });
+      }
+      // Never scroll the task pane here — focusing/hovering would fight the cursor and flicker
     },
     [data],
   );
@@ -716,16 +733,16 @@ function ExamSplit({
         : "";
 
   const handleHover = (id: number | null) => {
-    setHoverGapId(id);
-    if (id != null && showResult) {
-      const paraIdx = getGapParagraphIndex(data, id);
-      if (paraIdx != null) {
-        paraRefs.current[paraIdx]?.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
-      }
+    if (hoverClearRef.current) {
+      clearTimeout(hoverClearRef.current);
+      hoverClearRef.current = null;
     }
+    if (id == null) {
+      hoverClearRef.current = setTimeout(() => setHoverGapId(null), 120);
+      return;
+    }
+    // Highlight only — no scroll on hover (scroll was jerking the whole split view)
+    setHoverGapId(id);
   };
 
   return (
@@ -754,10 +771,10 @@ function ExamSplit({
         >
           <p className="exam-split__col-label">
             Passage
-            {showResult && focusGapId != null && (
+            {showResult && passageFocusGapId != null && (
               <span className="exam-split__active-q">
                 {" "}
-                · ответ Q{focusGapId} в тексте
+                · ответ Q{passageFocusGapId} в тексте
               </span>
             )}
           </p>
@@ -798,7 +815,7 @@ function ExamSplit({
             onChange={onChange}
             showResult={showResult}
             practiceMode={practiceMode}
-            highlightGapId={focusGapId}
+            highlightGapId={taskHighlightGapId}
             noteRefs={noteRefs}
             onGapFocus={jumpToGap}
             onGapHover={handleHover}
@@ -812,10 +829,10 @@ function ExamSplit({
             showResult={showResult}
             practiceMode={practiceMode}
             highlightRowIndex={
-              focusGapId != null
+              taskHighlightGapId != null
                 ? data.table.rows.findIndex((row) =>
                     [...row.advice, ...row.benefits].some(
-                      (l) => l.gap?.id === focusGapId,
+                      (l) => l.gap?.id === taskHighlightGapId,
                     ),
                   )
                 : undefined

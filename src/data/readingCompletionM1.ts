@@ -61,7 +61,7 @@ export const readingCompletionM1: ReadingCompletionData = {
   notes: {
     title: "Using your time effectively",
     instruction:
-      "Complete the notes. NO MORE THAN TWO WORDS from the passage for each answer.",
+      "Questions 1–4\nComplete the notes below.\nChoose NO MORE THAN TWO WORDS from the passage for each answer.",
     items: [
       {
         id: 1,
@@ -72,23 +72,25 @@ export const readingCompletionM1: ReadingCompletionData = {
       },
       {
         id: 2,
-        label: "do not send an email that requires a non-urgent ___ until main work done",
+        label:
+          "do not send an email that requires a non-urgent ___ until main work done",
         hint: "What might an email require from you? (one word)",
         answers: ["reply", "response"],
         maxWords: 2,
       },
       {
         id: 3,
-        label: "a drop in ___ affects mental power — avoid early/post-lunch hours",
+        label:
+          "a drop in ___ affects mental power – avoid early/post-lunch hours",
         hint: "What can «drop» in your body after meals?",
         answers: ["blood sugar", "glucose"],
         maxWords: 2,
       },
       {
         id: 4,
-        label: "___ is a good way of «switching off»",
+        label: "___ is a good way of ‘switching off’",
         hint: "What activity helps you relax and reset?",
-        answers: ["meditation", "mindfulness"],
+        answers: ["day-dreaming", "day dreaming", "meditation", "mindfulness"],
         maxWords: 2,
       },
     ],
@@ -96,7 +98,7 @@ export const readingCompletionM1: ReadingCompletionData = {
   table: {
     title: "Brain boosting",
     instruction:
-      "Complete the table. NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage.",
+      "Questions 5–9\nComplete the table below.\nChoose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.",
     rows: [
       {
         category: "Exercise",
@@ -107,6 +109,13 @@ export const readingCompletionM1: ReadingCompletionData = {
             hint: "What expensive thing is NOT required to exercise?",
             answers: ["gym membership", "a gym membership"],
             maxWords: 3,
+          },
+          {
+            id: 0,
+            label: "run up steps or on spot",
+            hint: "(no gap)",
+            answers: [],
+            maxWords: 0,
           },
         ],
         benefits: [
@@ -124,7 +133,7 @@ export const readingCompletionM1: ReadingCompletionData = {
         advice: [
           {
             id: 7,
-            label: "breakfast rich in ___",
+            label: "have breakfast rich in ___ ;",
             hint: "What nutrient should breakfast contain?",
             answers: ["protein"],
             maxWords: 2,
@@ -137,15 +146,39 @@ export const readingCompletionM1: ReadingCompletionData = {
             maxWords: 2,
           },
         ],
-        benefits: [],
+        benefits: [
+          {
+            id: 0,
+            label: "makes you calmer and more alert",
+            hint: "(no gap)",
+            answers: [],
+            maxWords: 0,
+          },
+          {
+            id: 0,
+            label: "you achieve more when a bit hungry",
+            hint: "(no gap)",
+            answers: [],
+            maxWords: 0,
+          },
+        ],
       },
       {
-        category: "Study/Work area",
-        advice: [],
+        category: "Study/ Work area",
+        advice: [
+          {
+            id: 0,
+            label: "remove unnecessary mess from your workspace",
+            hint: "(no gap)",
+            answers: [],
+            maxWords: 0,
+          },
+        ],
         benefits: [
           {
             id: 9,
-            label: "more freedom of ___",
+            label:
+              "prevents attention wandering; allows more freedom of ___",
             hint: "A tidy desk gives freedom of what?",
             answers: ["thought"],
             maxWords: 2,

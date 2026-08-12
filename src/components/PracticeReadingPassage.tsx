@@ -56,7 +56,15 @@ export function PracticeReadingPassage({
             {showParagraphIds && (
               <strong className="pr-para__id">{p.id}</strong>
             )}
-            {highlightText(p.text, evidence, highlight)}
+            {highlightText(
+              p.text,
+              evidence,
+              Boolean(
+                highlight &&
+                  evidence.length > 0 &&
+                  (!focusParagraphId || focusParagraphId === p.id),
+              ),
+            )}
           </p>
         ))}
       </article>

@@ -2631,12 +2631,36 @@ button {
   line-height: 1.7;
 }
 
-.notes-list__item--active {
-  background: #fff8e6;
-  border-radius: 8px;
-  box-shadow: inset 4px 0 0 var(--accent);
-  padding: 4px 8px 4px 4px;
+.notes-list > li {
+  padding: 8px 10px;
   margin-left: -4px;
+  border-radius: 8px;
+  box-shadow: inset 4px 0 0 transparent;
+}
+
+.notes-list__item--active {
+  background: rgba(176, 141, 87, 0.22);
+  box-shadow: inset 4px 0 0 var(--brass, #b08d57);
+  color: inherit;
+}
+
+/* Never wash out note text on the cream “active” highlight */
+.reading-flow--viewport .notes-list__item--active {
+  background: rgba(232, 196, 90, 0.18);
+  color: var(--text);
+}
+
+.reading-flow--viewport .notes-list__item--active .line-hint {
+  color: rgba(244, 239, 230, 0.72);
+}
+
+.reading-flow--viewport .notes-task-panel .inline-line {
+  color: var(--text);
+}
+
+.reading-flow--viewport .notes-task-panel .inline-gap-input {
+  color: #1a1510;
+  background: #fff;
 }
 
 .notes-task-panel {
@@ -2647,13 +2671,28 @@ button {
 }
 
 .notes-task-panel__header {
-  padding: 16px 20px;
+  padding: 8px 12px;
   border-bottom: 1px solid var(--border);
-  background: var(--surface);
+  background: #e8eef3;
+  color: #1a1f26;
+}
+
+.notes-task-panel__header .task-title-box__q {
+  color: #8a6a28;
 }
 
 .notes-task-panel__header .notes-title {
-  margin: 8px 0;
+  margin: 2px 0 0;
+  font-size: 1.05rem;
+  color: #1a1f26;
+}
+
+.notes-task-panel__header .section-hint {
+  display: none;
+}
+
+.notes-task-panel--exam .notes-task-panel__header {
+  padding: 6px 12px;
 }
 
 .notes-task-panel .notes-list {
@@ -2979,33 +3018,81 @@ button {
 }
 
 .completion-table__titlebar {
-  padding: 16px 18px;
+  padding: 8px 12px;
   background: #e8eef3;
   border-bottom: 1px solid var(--border);
+  color: #1a1f26;
+}
+
+.completion-table__titlebar .task-title-box__q {
+  display: block;
+  margin-bottom: 2px;
+  color: #8a6a28;
 }
 
 .completion-table__titlebar h3 {
-  margin: 0 0 6px;
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 1.35rem;
-  text-align: center;
+  font-size: 1.05rem;
+  color: #1a1f26;
+  text-align: left;
 }
 
 .completion-table__titlebar p {
-  margin: 0;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  text-align: center;
+  display: none;
+}
+
+.completion-table__head {
+  color: #1a1f26;
+}
+
+.completion-table--exam .completion-table__titlebar {
+  padding: 6px 12px;
 }
 
 .completion-table__row--active {
   background: #fff8e6;
   box-shadow: inset 4px 0 0 var(--accent);
+  color: #1a1f26;
 }
 
 .completion-table__row--active .completion-table__cat {
   background: #ffe8a3;
-  color: var(--accent-dark);
+  color: #5c4818;
+}
+
+.completion-table__row--active .line-hint {
+  color: #6b5a3a;
+}
+
+.completion-table__row--active .inline-gap-input {
+  color: #1a1510;
+  background: #fff;
+}
+
+/* Dark exam pane: cream wash washes out light text — use soft brass instead */
+.reading-flow--viewport .completion-table__row--active {
+  background: rgba(232, 196, 90, 0.18);
+  color: var(--text);
+  box-shadow: inset 4px 0 0 var(--brass, #b08d57);
+}
+
+.reading-flow--viewport .completion-table__row--active .completion-table__cat {
+  background: rgba(232, 196, 90, 0.28);
+  color: var(--text);
+}
+
+.reading-flow--viewport .completion-table__row--active .line-hint {
+  color: rgba(244, 239, 230, 0.72);
+}
+
+.reading-flow--viewport .completion-table .inline-line {
+  color: inherit;
+}
+
+.reading-flow--viewport .completion-table .inline-gap-input {
+  color: #1a1510;
+  background: #fff;
 }
 
 .table-predict-grid {
@@ -3280,7 +3367,11 @@ button {
 }
 
 .completion-table--exam {
-  margin-top: 28px;
+  margin-top: 16px;
+}
+
+.completion-table--exam .completion-table__head span {
+  padding: 6px 10px;
 }
 
 .passage-evidence {
@@ -4907,6 +4998,16 @@ button {
   grid-column: 2 / -1;
   font-size: 0.7rem;
   color: #e8b0b0;
+}
+
+.pr-headings__key--ok {
+  color: #9ee0b8;
+}
+
+.pr-headings__item--hover {
+  background: rgba(176, 141, 87, 0.14);
+  border-radius: 8px;
+  outline: 1px solid rgba(176, 141, 87, 0.35);
 }
 
 .pr-headings__item--example {

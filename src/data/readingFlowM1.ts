@@ -168,9 +168,9 @@ export const readingFlowM1: ReadingFlowData = {
     notesTitle: "Using your time effectively",
     tableTitle: "Brain boosting",
     notesInstruction:
-      "Questions 1–4. Complete the notes. NO MORE THAN TWO WORDS from the passage.",
+      "Complete the notes below.\nChoose NO MORE THAN TWO WORDS from the passage for each answer.",
     tableInstruction:
-      "Questions 5–9. Complete the table. NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage.",
+      "Complete the table below.\nChoose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.",
   },
   predictLanguage: {
     context:
@@ -319,7 +319,7 @@ export const readingFlowM1: ReadingFlowData = {
     {
       segments: [
         { type: "gap", id: 4, maxWords: 2 },
-        { type: "text", text: " is a good way of 'switching off'" },
+        { type: "text", text: " is a good way of ‘switching off’" },
       ],
       gap: {
         id: 4,
@@ -412,7 +412,7 @@ export const readingFlowM1: ReadingFlowData = {
         ],
       },
       {
-        category: "Study/Work area",
+        category: "Study/ Work area",
         relatedParagraphIndex: 8,
         predictPrompt:
           "What workspace advice? (desk, light, clutter, movement…)",
@@ -424,10 +424,12 @@ export const readingFlowM1: ReadingFlowData = {
           },
         ],
         benefits: [
-          { segments: [{ type: "text", text: "prevents attention wandering;" }] },
           {
             segments: [
-              { type: "text", text: "allows more freedom of " },
+              {
+                type: "text",
+                text: "prevents attention wandering; allows more freedom of ",
+              },
               { type: "gap", id: 9, maxWords: 2 },
             ],
             gap: {
