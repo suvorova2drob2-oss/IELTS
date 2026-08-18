@@ -35,8 +35,10 @@ function formatTime(seconds: number): string {
 
 function DiscussionPanel({
   data,
+  bookPages,
 }: {
   data: ReadingFlowData["discussion"];
+  bookPages: string;
 }) {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
@@ -78,7 +80,7 @@ function DiscussionPanel({
         <span className="dot" />
         Discussion
       </h2>
-      <p className="article-preview__label">After reading · pp. 8–9</p>
+      <p className="article-preview__label">After reading · {bookPages}</p>
       <p className="question-text">{data.instruction}</p>
       <OralBanner>
         Обсуждайте в парах или группе. Писать не нужно — включите таймер и говорите.
@@ -152,14 +154,25 @@ function DiscussionPanel({
   );
 }
 
+function modeStorageKey(dataId: string) {
+  return `${READING_MODE_KEY}:${dataId}`;
+}
+
+function stepStorageKey(dataId: string) {
+  return `${READING_STEP_KEY}:${dataId}`;
+}
+
 function loadTrackMode(
+  dataId: string,
   restart?: boolean,
   initialStep?: number,
 ): TrackMode {
   if (initialStep != null) return "learn";
   if (restart) return "exam";
   try {
-    const raw = sessionStorage.getItem(READING_MODE_KEY);
+    const raw =
+      sessionStorage.getItem(modeStorageKey(dataId)) ??
+      sessionStorage.getItem(READING_MODE_KEY);
     if (raw === "learn" || raw === "exam") return raw;
   } catch {
     /* ignore */
@@ -167,13 +180,19 @@ function loadTrackMode(
   return "exam";
 }
 
-function loadLearnStep(restart?: boolean, initialStep?: number): number {
+function loadLearnStep(
+  dataId: string,
+  restart?: boolean,
+  initialStep?: number,
+): number {
   if (initialStep != null) {
     return migrateLegacyReadingStep(initialStep);
   }
   if (restart) return 0;
   try {
-    const raw = sessionStorage.getItem(READING_STEP_KEY);
+    const raw =
+      sessionStorage.getItem(stepStorageKey(dataId)) ??
+      sessionStorage.getItem(READING_STEP_KEY);
     if (raw != null) {
       const n = Number(raw);
       if (!Number.isNaN(n) && n >= 0) {
@@ -484,24 +503,45 @@ function CompletionTablePanel({
   return (
     <div className="completion-table completion-table--full completion-table--exam">
       <div className="completion-table__titlebar">
-        <span className="task-title-box__q">Questions 5–9</span>
+        <span className="task-title-box__q">
+          {data.taskOverview.tableQuestionLabel ?? "Questions 5–9"}
+        </span>
         <h3>{data.taskOverview.tableTitle}</h3>
         <p>{data.taskOverview.tableInstruction}</p>
       </div>
       <div className="completion-table__head">
-        <span />
-        <span>ADVICE</span>
-        <span>BENEFITS</span>
+        <span>{(data.taskOverview.tableHead ?? ["", "ADVICE", "BENEFITS"])[0]}</span>
+        <span>{(data.taskOverview.tableHead ?? ["", "ADVICE", "BENEFITS"])[1]}</span>
+        <span>{(data.taskOverview.tableHead ?? ["", "ADVICE", "BENEFITS"])[2]}</span>
       </div>
       {data.table.rows.map((row, rowIndex) => (
         <div
-          key={row.category}
+          key={row.categoryGap?.id ?? row.category}
           ref={(el) => {
             if (rowRefs) rowRefs.current[rowIndex] = el;
           }}
           className={`completion-table__row ${highlightRowIndex === rowIndex ? "completion-table__row--active" : ""}`}
         >
-          <span className="completion-table__cat">{row.category}</span>
+          <span className="completion-table__cat">
+            {row.categoryGap ? (
+              <SegmentContent
+                segments={[
+                  ...(row.category
+                    ? [{ type: "text" as const, text: row.category }]
+                    : []),
+                  { type: "gap" as const, id: row.categoryGap.id, maxWords: row.categoryGap.maxWords },
+                ]}
+                mode={mode}
+                values={values}
+                onChange={onChange}
+                showResult={showResult}
+                gaps={data.gaps}
+                onGapFocus={onGapFocus}
+              />
+            ) : (
+              row.category
+            )}
+          </span>
           <ul className="completion-table__cell">
             {row.advice.map((line, i) => (
               <li
@@ -594,7 +634,9 @@ function NotesPanel({
   return (
     <div className="notes-task-panel notes-task-panel--exam">
       <div className="notes-task-panel__header">
-        <span className="task-title-box__q">Questions 1–4</span>
+        <span className="task-title-box__q">
+          {data.taskOverview.notesQuestionLabel ?? "Questions 1–4"}
+        </span>
         <h3 className="notes-title">{data.taskOverview.notesTitle}</h3>
         <p className="section-hint">{data.taskOverview.notesInstruction}</p>
       </div>
@@ -808,39 +850,50 @@ function ExamSplit({
             )}
           </p>
 
-          <NotesPanel
-            data={data}
-            mode="fill"
-            values={values}
-            onChange={onChange}
-            showResult={showResult}
-            practiceMode={practiceMode}
-            highlightGapId={taskHighlightGapId}
-            noteRefs={noteRefs}
-            onGapFocus={jumpToGap}
-            onGapHover={handleHover}
-          />
-
-          <CompletionTablePanel
-            data={data}
-            mode="fill"
-            values={values}
-            onChange={onChange}
-            showResult={showResult}
-            practiceMode={practiceMode}
-            highlightRowIndex={
-              taskHighlightGapId != null
-                ? data.table.rows.findIndex((row) =>
-                    [...row.advice, ...row.benefits].some(
-                      (l) => l.gap?.id === taskHighlightGapId,
-                    ),
-                  )
-                : undefined
-            }
-            rowRefs={rowRefs}
-            onGapFocus={jumpToGap}
-            onGapHover={handleHover}
-          />
+          {(data.taskOverview.tasksOrder === "table-notes"
+            ? (["table", "notes"] as const)
+            : (["notes", "table"] as const)
+          ).map((kind) =>
+            kind === "notes" ? (
+              <NotesPanel
+                key="notes"
+                data={data}
+                mode="fill"
+                values={values}
+                onChange={onChange}
+                showResult={showResult}
+                practiceMode={practiceMode}
+                highlightGapId={taskHighlightGapId}
+                noteRefs={noteRefs}
+                onGapFocus={jumpToGap}
+                onGapHover={handleHover}
+              />
+            ) : (
+              <CompletionTablePanel
+                key="table"
+                data={data}
+                mode="fill"
+                values={values}
+                onChange={onChange}
+                showResult={showResult}
+                practiceMode={practiceMode}
+                highlightRowIndex={
+                  taskHighlightGapId != null
+                    ? data.table.rows.findIndex(
+                        (row) =>
+                          row.categoryGap?.id === taskHighlightGapId ||
+                          [...row.advice, ...row.benefits].some(
+                            (l) => l.gap?.id === taskHighlightGapId,
+                          ),
+                      )
+                    : undefined
+                }
+                rowRefs={rowRefs}
+                onGapFocus={jumpToGap}
+                onGapHover={handleHover}
+              />
+            ),
+          )}
 
           {showResult && (
             <div className="exam-review exam-review--compact">
@@ -871,10 +924,10 @@ export function ReadingFlowTrainer({
   initialStep?: number;
 }) {
   const [trackMode, setTrackMode] = useState<TrackMode>(() =>
-    loadTrackMode(restart, initialStep),
+    loadTrackMode(data.id, restart, initialStep),
   );
   const [learnStep, setLearnStep] = useState(() =>
-    loadLearnStep(restart, initialStep),
+    loadLearnStep(data.id, restart, initialStep),
   );
   const [practiceMode, setPracticeMode] = useState<PracticeMode>("practice");
   const [revealedHints, setRevealedHints] = useState(0);
@@ -897,12 +950,13 @@ export function ReadingFlowTrainer({
       setLearnStep(initialStep != null ? migrateLegacyReadingStep(initialStep) : 0);
       setChecked(false);
       try {
+        sessionStorage.removeItem(stepStorageKey(data.id));
         sessionStorage.removeItem(READING_STEP_KEY);
       } catch {
         /* ignore */
       }
     }
-  }, [restart, initialStep]);
+  }, [restart, initialStep, data.id]);
 
   useEffect(() => {
     if (initialStep != null) {
@@ -913,14 +967,14 @@ export function ReadingFlowTrainer({
 
   useEffect(() => {
     try {
-      sessionStorage.setItem(READING_MODE_KEY, trackMode);
+      sessionStorage.setItem(modeStorageKey(data.id), trackMode);
       if (trackMode === "learn") {
-        sessionStorage.setItem(READING_STEP_KEY, String(learnStep));
+        sessionStorage.setItem(stepStorageKey(data.id), String(learnStep));
       }
     } catch {
       /* ignore */
     }
-  }, [trackMode, learnStep]);
+  }, [trackMode, learnStep, data.id]);
 
   const gapIds = Object.keys(data.gaps).map(Number);
   const score = gapIds.filter((id) =>
@@ -1194,7 +1248,7 @@ export function ReadingFlowTrainer({
 
       {trackMode === "learn" && learnStep === 3 && (
         <div className="learn-screen learn-discussion">
-          <DiscussionPanel data={data.discussion} />
+          <DiscussionPanel data={data.discussion} bookPages={data.bookPages} />
         </div>
       )}
 

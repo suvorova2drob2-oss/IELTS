@@ -1,0 +1,882 @@
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  checkM2Short,
+  collectM2Evidence,
+  LEARN_STEP_NEXT_M2,
+  LEARN_STEPS_M2,
+  readingM2,
+} from "../data/readingM2";
+import type { TfngValue } from "../data/practiceReadingTest1";
+import { READING_MODE_KEY, READING_STEP_KEY } from "../hooks/useCourseData";
+
+type TrackMode = "exam" | "learn";
+type SplitBias = "balanced" | "passage" | "tasks";
+
+const TFNG_OPTIONS: TfngValue[] = ["TRUE", "FALSE", "NOT GIVEN"];
+const ALL_IDS = [...readingM2.tfng.map((q) => q.id), ...readingM2.short.map((q) => q.id)];
+
+function escapeRegex(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${s.toString().padStart(2, "0")}`;
+}
+
+function OralBanner({ children }: { children: ReactNode }) {
+  return (
+    <div className="oral-banner">
+      <span className="oral-banner__icon" aria-hidden>
+        🎤
+      </span>
+      <p>{children}</p>
+    </div>
+  );
+}
+
+function modeStorageKey(id: string) {
+  return `${READING_MODE_KEY}:${id}`;
+}
+function stepStorageKey(id: string) {
+  return `${READING_STEP_KEY}:${id}`;
+}
+
+function loadTrackMode(restart?: boolean, initialStep?: number): TrackMode {
+  if (initialStep != null) return "learn";
+  if (restart) return "exam";
+  try {
+    const raw = sessionStorage.getItem(modeStorageKey(readingM2.id));
+    if (raw === "learn" || raw === "exam") return raw;
+  } catch {
+    /* ignore */
+  }
+  return "exam";
+}
+
+function loadLearnStep(restart?: boolean, initialStep?: number): number {
+  if (initialStep != null) return initialStep;
+  if (restart) return 0;
+  try {
+    const raw = sessionStorage.getItem(stepStorageKey(readingM2.id));
+    if (raw != null) {
+      const n = Number(raw);
+      if (!Number.isNaN(n) && n >= 0 && n < LEARN_STEPS_M2.length) return n;
+    }
+  } catch {
+    /* ignore */
+  }
+  return 0;
+}
+
+function highlightText(
+  text: string,
+  terms: string[],
+  markClass: string,
+  onMark?: (el: HTMLElement | null, index: number) => void,
+): ReactNode {
+  if (terms.length === 0) return text;
+  const sorted = [...terms].sort((a, b) => b.length - a.length);
+  const regex = new RegExp(`(${sorted.map(escapeRegex).join("|")})`, "gi");
+  const parts = text.split(regex);
+  let markIndex = 0;
+  return parts.map((part, i) => {
+    const isHit = sorted.some((t) => part.toLowerCase() === t.toLowerCase());
+    if (!isHit) return <span key={i}>{part}</span>;
+    const idx = markIndex++;
+    return (
+      <mark
+        key={i}
+        className={markClass}
+        ref={(el) => onMark?.(el, idx)}
+      >
+        {part}
+      </mark>
+    );
+  });
+}
+
+function PassagePane({
+  evidenceTerms,
+  showEvidence,
+  highlightTopic,
+  activeParagraphIndex,
+  paragraphRefs,
+}: {
+  evidenceTerms: string[];
+  showEvidence: boolean;
+  highlightTopic?: boolean;
+  activeParagraphIndex?: number;
+  paragraphRefs?: React.MutableRefObject<(HTMLParagraphElement | null)[]>;
+}) {
+  return (
+    <article className="passage-reader passage-reader--compact passage-reader--single-col">
+      <header className="passage-reader__header">
+        <h2>{readingM2.title}</h2>
+      </header>
+      <p className="rm2-intro">{readingM2.introduction}</p>
+      <div className="passage-reader__body">
+        {readingM2.passage.map((p, i) => {
+          const topic = i === 0 ? readingM2.topicSentences.topicSentence : "";
+          let body = p;
+          let lead: ReactNode = null;
+          if (highlightTopic && topic && p.startsWith(topic)) {
+            lead = (
+              <mark className="rm2-topic-sent">{topic}</mark>
+            );
+            body = p.slice(topic.length);
+          }
+          const rest =
+            showEvidence && evidenceTerms.length > 0
+              ? highlightText(body, evidenceTerms, "passage-evidence")
+              : body;
+          return (
+            <p
+              key={i}
+              ref={(el) => {
+                if (paragraphRefs) paragraphRefs.current[i] = el;
+              }}
+              className={[
+                i === 0
+                  ? "passage-reader__p passage-reader__p--drop"
+                  : "passage-reader__p",
+                activeParagraphIndex === i ? "passage-reader__p--active" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              {lead}
+              {rest}
+            </p>
+          );
+        })}
+      </div>
+    </article>
+  );
+}
+
+function DiscussionBlock() {
+  const data = readingM2.discussion;
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(data.timeSecPerQuestion);
+  const [timerDone, setTimerDone] = useState(false);
+  const question = data.questions[questionIndex];
+
+  useEffect(() => {
+    setTimerRunning(false);
+    setTimeLeft(data.timeSecPerQuestion);
+    setTimerDone(false);
+  }, [questionIndex, data.timeSecPerQuestion]);
+
+  useEffect(() => {
+    if (!timerRunning || timeLeft <= 0) return;
+    const id = window.setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) {
+          setTimerRunning(false);
+          setTimerDone(true);
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [timerRunning, timeLeft]);
+
+  const timerClass = timerDone
+    ? "timer done"
+    : timerRunning
+      ? "timer running"
+      : "timer";
+
+  return (
+    <section className="card flow-card discussion-panel">
+      <h2 className="card-title">
+        <span className="dot" />
+        Discussion
+      </h2>
+      <p className="article-preview__label">After reading · {readingM2.bookPages}</p>
+      <p className="question-text">{data.instruction}</p>
+      <OralBanner>
+        Обсуждайте в парах. Писать не нужно — включите таймер и говорите.
+      </OralBanner>
+      <div className="question-header">
+        <span className="question-number">
+          Question {questionIndex + 1} of {data.questions.length}
+        </span>
+        <div className={timerClass}>
+          ⏱ {formatTime(timeLeft)}
+          {!timerRunning && !timerDone && (
+            <button
+              type="button"
+              className="action-btn"
+              style={{ padding: "4px 10px", marginLeft: 8 }}
+              onClick={() => setTimerRunning(true)}
+            >
+              Start
+            </button>
+          )}
+          {timerDone && (
+            <button
+              type="button"
+              className="action-btn"
+              style={{ padding: "4px 10px", marginLeft: 8 }}
+              onClick={() => {
+                setTimeLeft(data.timeSecPerQuestion);
+                setTimerDone(false);
+              }}
+            >
+              Reset
+            </button>
+          )}
+        </div>
+      </div>
+      <p className="discussion-question">{question}</p>
+      <div className="nav-row">
+        <button
+          type="button"
+          className="nav-btn"
+          disabled={questionIndex === 0}
+          onClick={() => setQuestionIndex((i) => i - 1)}
+        >
+          ← Previous
+        </button>
+        <button
+          type="button"
+          className="nav-btn action-btn primary"
+          disabled={questionIndex >= data.questions.length - 1}
+          onClick={() => setQuestionIndex((i) => i + 1)}
+        >
+          Next →
+        </button>
+      </div>
+    </section>
+  );
+}
+
+export function ReadingM2Trainer({
+  onBack,
+  restart,
+  initialStep,
+}: {
+  onBack?: () => void;
+  restart?: boolean;
+  initialStep?: number;
+}) {
+  const [trackMode, setTrackMode] = useState<TrackMode>(() =>
+    loadTrackMode(restart, initialStep),
+  );
+  const [learnStep, setLearnStep] = useState(() =>
+    loadLearnStep(restart, initialStep),
+  );
+  const [tfngAnswers, setTfngAnswers] = useState<
+    Record<number, TfngValue | undefined>
+  >({});
+  const [shortAnswers, setShortAnswers] = useState<Record<number, string>>({});
+  const [checked, setChecked] = useState(false);
+  const [activeQ, setActiveQ] = useState<number | null>(null);
+  const [splitBias, setSplitBias] = useState<SplitBias>("balanced");
+  const [mobilePane, setMobilePane] = useState<"passage" | "tasks">("passage");
+  const [ticks, setTicks] = useState<Record<string, boolean>>({});
+  const [ticksChecked, setTicksChecked] = useState(false);
+  const [agree, setAgree] = useState<Record<number, "agree" | "disagree" | undefined>>(
+    {},
+  );
+  const [discussQ, setDiscussQ] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(readingM2.beforeYouRead.timeSec);
+  const paraRefs = useRef<(HTMLParagraphElement | null)[]>([]);
+
+  useEffect(() => {
+    if (restart) {
+      setTrackMode(initialStep != null ? "learn" : "exam");
+      setLearnStep(initialStep ?? 0);
+      setChecked(false);
+    }
+  }, [restart, initialStep]);
+
+  useEffect(() => {
+    if (initialStep != null) {
+      setTrackMode("learn");
+      setLearnStep(initialStep);
+    }
+  }, [initialStep]);
+
+  useEffect(() => {
+    try {
+      sessionStorage.setItem(modeStorageKey(readingM2.id), trackMode);
+      if (trackMode === "learn") {
+        sessionStorage.setItem(stepStorageKey(readingM2.id), String(learnStep));
+      }
+    } catch {
+      /* ignore */
+    }
+  }, [trackMode, learnStep]);
+
+  useEffect(() => {
+    setTimerRunning(false);
+    setTimeLeft(readingM2.beforeYouRead.timeSec);
+  }, [discussQ]);
+
+  useEffect(() => {
+    if (!timerRunning || timeLeft <= 0) return;
+    const id = window.setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 1) {
+          setTimerRunning(false);
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, [timerRunning, timeLeft]);
+
+  const tfngScore = readingM2.tfng.filter((q) => tfngAnswers[q.id] === q.key).length;
+  const shortScore = readingM2.short.filter((q) =>
+    checkM2Short(shortAnswers[q.id] ?? "", q.answers),
+  ).length;
+  const score = tfngScore + shortScore;
+  const total = ALL_IDS.length;
+
+  const showExamTask =
+    trackMode === "exam" || (trackMode === "learn" && learnStep === 2);
+
+  const evidence = collectM2Evidence(activeQ != null ? [activeQ] : []);
+
+  useEffect(() => {
+    if (!checked || evidence.paragraphIndex == null) return;
+    paraRefs.current[evidence.paragraphIndex]?.scrollIntoView({
+      block: "nearest",
+      behavior: "smooth",
+    });
+  }, [checked, activeQ, evidence.paragraphIndex]);
+
+  const biasClass =
+    splitBias === "passage"
+      ? "exam-split__layout--passage"
+      : splitBias === "tasks"
+        ? "exam-split__layout--tasks"
+        : "";
+
+  const activeTip =
+    checked && activeQ != null
+      ? (readingM2.tfng.find((q) => q.id === activeQ)?.tip ??
+        readingM2.short.find((q) => q.id === activeQ)?.tip)
+      : undefined;
+
+  const isTfngOk = (id: number) =>
+    tfngAnswers[id] === readingM2.tfng.find((q) => q.id === id)?.key;
+  const isShortOk = (id: number) => {
+    const q = readingM2.short.find((s) => s.id === id);
+    return q ? checkM2Short(shortAnswers[id] ?? "", q.answers) : false;
+  };
+  const isOk = (id: number) => (id <= 5 ? isTfngOk(id) : isShortOk(id));
+
+  const switchTrack = (mode: TrackMode) => {
+    setTrackMode(mode);
+    setChecked(false);
+    if (mode === "learn") setLearnStep(0);
+  };
+
+  const goPrev = () => {
+    if (trackMode !== "learn") return;
+    setLearnStep((s) => Math.max(0, s - 1));
+  };
+
+  const goNext = () => {
+    if (trackMode !== "learn") return;
+    if (learnStep === 2 && !checked) {
+      setChecked(true);
+      return;
+    }
+    if (learnStep >= LEARN_STEPS_M2.length - 1) {
+      onBack?.();
+      return;
+    }
+    setLearnStep((s) => Math.min(s + 1, LEARN_STEPS_M2.length - 1));
+  };
+
+  const learnNextLabel =
+    learnStep === 2 && !checked
+      ? "Check answers →"
+      : (LEARN_STEP_NEXT_M2[learnStep] ?? "Дальше →");
+
+  return (
+    <div
+      className={`app-shell reading-flow reading-flow--${trackMode} reading-flow--viewport`}
+    >
+      <div className="reading-chrome">
+        {onBack && (
+          <button
+            type="button"
+            className="back-link reading-chrome__back"
+            onClick={onBack}
+          >
+            ← Модуль
+          </button>
+        )}
+        <span className="badge reading-chrome__badge">
+          Reading · {readingM2.bookPages}
+        </span>
+        <div className="controls mode-toggle track-toggle">
+          <button
+            type="button"
+            className={trackMode === "exam" ? "active" : ""}
+            onClick={() => switchTrack("exam")}
+          >
+            Exam
+          </button>
+          <button
+            type="button"
+            className={trackMode === "learn" ? "active" : ""}
+            onClick={() => switchTrack("learn")}
+          >
+            Learn
+          </button>
+        </div>
+        {trackMode === "learn" && (
+          <div className="learn-step-tabs">
+            {LEARN_STEPS_M2.map((label, i) => (
+              <button
+                key={label}
+                type="button"
+                className={`learn-step-tabs__btn ${i === learnStep ? "learn-step-tabs__btn--on" : ""}`}
+                onClick={() => {
+                  setLearnStep(i);
+                  if (i !== 2) setChecked(false);
+                }}
+              >
+                {i + 1}. {label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {trackMode === "learn" && learnStep === 0 && (
+        <section className="card flow-card learn-screen">
+          <h2 className="card-title">
+            <span className="dot" />
+            Before you read
+          </h2>
+          <p className="question-text">{readingM2.beforeYouRead.instruction}</p>
+          <OralBanner>
+            Говорите вслух в группах. Писать не нужно.
+          </OralBanner>
+          <div className="question-header">
+            <span className="question-number">
+              Question {discussQ + 1} of {readingM2.beforeYouRead.questions.length}
+            </span>
+            <div className={timerRunning ? "timer running" : "timer"}>
+              ⏱ {formatTime(timeLeft)}
+              {!timerRunning && timeLeft > 0 && (
+                <button
+                  type="button"
+                  className="action-btn"
+                  style={{ padding: "4px 10px", marginLeft: 8 }}
+                  onClick={() => setTimerRunning(true)}
+                >
+                  Start
+                </button>
+              )}
+            </div>
+          </div>
+          <p className="discussion-question">
+            {readingM2.beforeYouRead.questions[discussQ]}
+          </p>
+          <div className="nav-row">
+            <button
+              type="button"
+              className="nav-btn"
+              disabled={discussQ === 0}
+              onClick={() => setDiscussQ((i) => i - 1)}
+            >
+              ← Previous
+            </button>
+            <button
+              type="button"
+              className="nav-btn action-btn primary"
+              disabled={discussQ >= readingM2.beforeYouRead.questions.length - 1}
+              onClick={() => setDiscussQ((i) => i + 1)}
+            >
+              Next →
+            </button>
+          </div>
+        </section>
+      )}
+
+      {trackMode === "learn" && learnStep === 1 && (
+        <section className="card flow-card learn-screen learn-scan">
+          <div className="learn-scan__layout">
+            <div className="learn-scan__passage">
+              <PassagePane
+                evidenceTerms={[]}
+                showEvidence={false}
+                highlightTopic
+              />
+            </div>
+            <aside className="learn-scan__sidebar">
+              <h2 className="card-title">
+                <span className="dot" />
+                Topic sentences
+              </h2>
+              <p className="learn-screen__hint">
+                {readingM2.topicSentences.instruction}
+              </p>
+              <ul className="rm2-ticks">
+                {readingM2.topicSentences.details.map((d) => {
+                  const on = Boolean(ticks[d.id]);
+                  let mark = "";
+                  if (ticksChecked) {
+                    mark = on === d.mentioned ? "rm2-ticks__item--ok" : "rm2-ticks__item--bad";
+                  } else if (on) {
+                    mark = "rm2-ticks__item--on";
+                  }
+                  return (
+                    <li key={d.id} className={mark}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={on}
+                          onChange={() =>
+                            setTicks((p) => ({ ...p, [d.id]: !p[d.id] }))
+                          }
+                        />
+                        {d.label}
+                      </label>
+                      {ticksChecked && <p className="rm2-ticks__note">{d.note}</p>}
+                    </li>
+                  );
+                })}
+              </ul>
+              <button
+                type="button"
+                className="nav-btn action-btn primary"
+                onClick={() => setTicksChecked(true)}
+              >
+                Check →
+              </button>
+              {ticksChecked && (
+                <>
+                  <h3 className="learn-scan__sub">3a Topic sentences (rest of passage)</h3>
+                  <p className="learn-screen__hint">
+                    Usually the first sentence. Skim to check supporting details.
+                  </p>
+                  <ol className="scan-box__steps scan-box__steps--compact">
+                    {readingM2.topicSentences.laterTopics.map((t) => (
+                      <li key={t}>{t}</li>
+                    ))}
+                  </ol>
+                </>
+              )}
+            </aside>
+          </div>
+        </section>
+      )}
+
+      {showExamTask && (
+        <section className="card flow-card flow-card--exam-split learn-screen">
+          <div className="exam-split__toolbar">
+            <h2 className="card-title" style={{ margin: 0 }}>
+              <span className="dot" />
+              {trackMode === "exam" ? "Exam task 1–10" : "Task 1–10"}
+            </h2>
+            <div className="exam-split__toolbar-actions">
+              <button
+                type="button"
+                className={`nav-btn ${splitBias === "passage" ? "nav-btn--on" : ""}`}
+                onClick={() =>
+                  setSplitBias((b) => (b === "passage" ? "balanced" : "passage"))
+                }
+              >
+                Wider text
+              </button>
+              <button
+                type="button"
+                className={`nav-btn ${splitBias === "tasks" ? "nav-btn--on" : ""}`}
+                onClick={() =>
+                  setSplitBias((b) => (b === "tasks" ? "balanced" : "tasks"))
+                }
+              >
+                Wider tasks
+              </button>
+            </div>
+          </div>
+
+          <div className="exam-split exam-split--m2">
+            <div className="exam-split__mobile-toggle">
+              <button
+                type="button"
+                className={mobilePane === "passage" ? "active" : ""}
+                onClick={() => setMobilePane("passage")}
+              >
+                Текст
+              </button>
+              <button
+                type="button"
+                className={mobilePane === "tasks" ? "active" : ""}
+                onClick={() => setMobilePane("tasks")}
+              >
+                Задания 1–10
+              </button>
+            </div>
+            <div className={`exam-split__layout ${biasClass}`}>
+              <div
+                className={`exam-split__passage ${mobilePane === "passage" ? "exam-split__pane--show" : ""}`}
+              >
+                <p className="exam-split__col-label">Passage</p>
+                <PassagePane
+                  evidenceTerms={checked ? evidence.terms : []}
+                  showEvidence={checked && evidence.terms.length > 0}
+                  activeParagraphIndex={
+                    checked ? evidence.paragraphIndex : undefined
+                  }
+                  paragraphRefs={paraRefs}
+                />
+              </div>
+              <aside
+                className={`exam-split__tasks ${mobilePane === "tasks" ? "exam-split__pane--show" : ""}`}
+              >
+                <p className="exam-split__col-label">Questions 1–5</p>
+                <p className="rm2-q-instr">{readingM2.tfngInstruction}</p>
+                <p className="pr-tfng__legend-line">
+                  {readingM2.tfngLegend.map((l, i) => (
+                    <span key={l.value}>
+                      {i > 0 ? " · " : ""}
+                      <strong>{l.value}</strong>
+                    </span>
+                  ))}
+                </p>
+                <ol className="pr-tfng rm2-tfng">
+                  {readingM2.tfng.map((q) => {
+                    const selected = tfngAnswers[q.id];
+                    const ok = selected === q.key;
+                    return (
+                      <li
+                        key={q.id}
+                        className={activeQ === q.id ? "pr-tfng__item--on" : undefined}
+                        onMouseEnter={() => checked && setActiveQ(q.id)}
+                      >
+                        <span className="pr-mc__num">{q.id}</span>
+                        <p className="pr-tfng__prompt">
+                          {q.statement}
+                          {checked && (
+                            <span className="pr-tfng__mark">
+                              {ok ? (
+                                <span className="inline-gap-ok"> ✓</span>
+                              ) : (
+                                <span className="inline-gap-bad"> → {q.key}</span>
+                              )}
+                            </span>
+                          )}
+                        </p>
+                        <div className="pr-tfng__choices">
+                          {TFNG_OPTIONS.map((opt) => {
+                            let state = "";
+                            if (checked) {
+                              if (opt === q.key) state = "pr-chip--ok";
+                              else if (selected === opt) state = "pr-chip--bad";
+                            } else if (selected === opt) {
+                              state = "pr-chip--picked";
+                            }
+                            return (
+                              <button
+                                key={opt}
+                                type="button"
+                                className={`pr-chip pr-chip--tfng ${state}`}
+                                onClick={() => {
+                                  setActiveQ(q.id);
+                                  if (checked) return;
+                                  setTfngAnswers((a) => ({ ...a, [q.id]: opt }));
+                                }}
+                              >
+                                {opt === "NOT GIVEN" ? "NG" : opt}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
+
+                <p className="exam-split__col-label">Questions 6–10</p>
+                <p className="rm2-q-instr">{readingM2.shortInstruction}</p>
+                <ol className="rm2-sa">
+                  {readingM2.short.map((q) => {
+                    const val = shortAnswers[q.id] ?? "";
+                    const ok = checkM2Short(val, q.answers);
+                    return (
+                      <li
+                        key={q.id}
+                        className={activeQ === q.id ? "rm2-sa__item--on" : undefined}
+                        onMouseEnter={() => checked && setActiveQ(q.id)}
+                      >
+                        <span className="pr-mc__num">{q.id}</span>
+                        <p>
+                          {q.question}{" "}
+                          <input
+                            className={
+                              checked
+                                ? ok
+                                  ? "pr-completion__input pr-completion__input--ok"
+                                  : "pr-completion__input pr-completion__input--bad"
+                                : "pr-completion__input"
+                            }
+                            value={val}
+                            disabled={checked}
+                            placeholder="…"
+                            onFocus={() => setActiveQ(q.id)}
+                            onChange={(e) => {
+                              setActiveQ(q.id);
+                              setShortAnswers((a) => ({
+                                ...a,
+                                [q.id]: e.target.value,
+                              }));
+                            }}
+                          />
+                          {checked && !ok && (
+                            <span className="inline-gap-bad">
+                              {" "}
+                              → {q.answers[0]}
+                            </span>
+                          )}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ol>
+                {checked && activeTip && (
+                  <p className="pr-endings-panel__tip">{activeTip}</p>
+                )}
+              </aside>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {trackMode === "learn" && learnStep === 3 && (
+        <div className="learn-screen learn-discussion rm2-discuss">
+          <section className="card flow-card">
+            <h2 className="card-title">
+              <span className="dot" />
+              Task analysis
+            </h2>
+            <p className="learn-screen__hint">
+              How useful were the test strategies? Agree or disagree.
+            </p>
+            <ul className="rm2-agree">
+              {readingM2.taskAnalysis.map((s, i) => (
+                <li key={s}>
+                  <p>{s}</p>
+                  <div className="pr-tfng__choices">
+                    {(["agree", "disagree"] as const).map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        className={`pr-chip ${agree[i] === opt ? "pr-chip--picked" : ""}`}
+                        onClick={() =>
+                          setAgree((a) => ({ ...a, [i]: opt }))
+                        }
+                      >
+                        {opt === "agree" ? "Agree" : "Disagree"}
+                      </button>
+                    ))}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+          <DiscussionBlock />
+        </div>
+      )}
+
+      <div className={`flow-footer ${checked && showExamTask ? "flow-footer--checked" : ""}`}>
+        {trackMode === "learn" && learnStep !== 2 ? (
+          <>
+            <button
+              type="button"
+              className="flow-footer__btn"
+              disabled={learnStep === 0}
+              onClick={goPrev}
+            >
+              ← Назад
+            </button>
+            <span className="flow-footer__step">
+              {learnStep + 1} / {LEARN_STEPS_M2.length}
+            </span>
+            <button
+              type="button"
+              className="flow-footer__btn flow-footer__btn--primary"
+              onClick={goNext}
+            >
+              {learnNextLabel}
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              type="button"
+              className="flow-footer__btn"
+              onClick={trackMode === "learn" ? goPrev : () => onBack?.()}
+            >
+              {trackMode === "learn" ? "← Назад" : "← К модулю"}
+            </button>
+            {checked ? (
+              <div className="flow-footer__result">
+                <span className="flow-footer__ok">✓ {score} верно</span>
+                <span className="flow-footer__bad">✗ {total - score} неверно</span>
+                <div className="flow-footer__palette">
+                  {ALL_IDS.map((id) => (
+                    <button
+                      key={id}
+                      type="button"
+                      className={`exam-review__q ${isOk(id) ? "exam-review__q--ok" : "exam-review__q--bad"} ${activeQ === id ? "exam-review__q--on" : ""}`}
+                      onMouseEnter={() => setActiveQ(id)}
+                      onClick={() => setActiveQ(id)}
+                    >
+                      {id}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <span className="flow-footer__step">Вопросы 1–10</span>
+            )}
+            <button
+              type="button"
+              className="flow-footer__btn"
+              onClick={() => {
+                setChecked(false);
+                setTfngAnswers({});
+                setShortAnswers({});
+                setActiveQ(null);
+              }}
+            >
+              Заново
+            </button>
+            <button
+              type="button"
+              className="flow-footer__btn flow-footer__btn--primary"
+              onClick={() => setChecked(true)}
+            >
+              Check answers →
+            </button>
+            {trackMode === "learn" && learnStep === 2 && checked && (
+              <button
+                type="button"
+                className="flow-footer__btn flow-footer__btn--primary"
+                onClick={() => setLearnStep(3)}
+              >
+                Discussion →
+              </button>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

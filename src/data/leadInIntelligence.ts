@@ -11,6 +11,7 @@ export interface Photo {
   label: string;
   intelligenceType: string;
   hint: string;
+  objectPosition?: string;
 }
 
 export interface Question {
@@ -20,6 +21,10 @@ export interface Question {
   vocab: string[];
   sentenceFrame?: string;
   timeSec: number;
+  classify?: {
+    labels: [string, string];
+    items: { id: string; text: string; key: 0 | 1 }[];
+  };
 }
 
 export interface LeadInData {

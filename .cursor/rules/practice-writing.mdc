@@ -10,6 +10,7 @@ alwaysApply: false
 - Home → Practice Writing → catalog
 - Hub: `PracticeWritingHub.tsx`
 - Catalog: `practiceWritingCatalog.ts`
+- Models folder: `practiceWritingModels.ts` (not a fifth test)
 
 ## Test 1 (Outdoor activities · graph)
 - Data: `practiceWritingTest1.ts` · Session: `PracticeWritingTest1Session.tsx`
@@ -37,6 +38,15 @@ alwaysApply: false
 - **Learn** — discuss → task keywords → recommendation stems → softening (while it is true that / complex issue / despite…) → sort ideas P/S/A/D → mini paragraph → plan table → write → sample
 - **Exam** — Task 2 write (~40 min) → checklist → sample → results
 - Teacher chains: 4→2→8→3 and 6→7→1→5 · full sample from teacher book
+
+## Models (separate folder)
+- Data: `practiceWritingModels.ts` · UI: `PracticeWritingModels.tsx`
+- Hub catalog → **Models** → Task 1 graphs (bar/pie/table/map/mixed) + Task 2 essays (7 types) + linking
+- Task 2 types: discuss both · agree/disagree · problem–solution · why+effects · advantages outweigh · positive/negative development · why + what governments can do
+- Each part: phrases · **Нужно** (must be in this paragraph) · **Нельзя** (typical mistakes) · example. Own ideas, whole frame in order.
+- Task 1 pages also show the chart, **Обычно** (what this type describes), **Вставить** (what to plug in)
+- Read-only hard sample; not mixed into Tests 1–4
+- **No leftover scrollbar** on the Models folder or chart page if the viewport still has empty space. Compact cards/charts instead of `overflow: auto`. See `no-useless-scroll.mdc`.
 
 ## Results / stats
 - Reuse `PracticeReadingResults`

@@ -1,0 +1,38 @@
+---
+description: Never add a scrollbar when the screen still has empty space. Overflow is a last resort, not a default.
+alwaysApply: true
+---
+
+# No useless scrollbars
+
+Do not put `overflow: auto`, `overflow-y: auto`, or `overflow: scroll` on a layout “just in case”.
+
+If there is empty space on the page, the content must **fit**. Shrink padding, gaps, card `min-height`, chart height, or use two columns. Do not open a scrollport.
+
+A Windows scrollbar (white track, arrows) on a dark hub with empty background beside it is always a bug.
+
+## Do
+
+- Default: `overflow: hidden` on full-height shells (`100dvh` hubs, shells, splits).
+- Scroll **one** pane only when that pane’s content is truly taller than the pane (long essay, long passage).
+- If cards almost fit, cut `min-height` / padding until they fit. Do not add a scroller for 20px.
+
+## Do not
+
+```css
+/* BAD — inner scroll while the viewport still has empty space */
+.pr-hub__tasks { flex: 1; min-height: 0; overflow: auto; }
+.pw-model-page { overflow: auto; padding-bottom: 20px; }
+
+/* BAD — scrollbar always reserved */
+overflow-y: scroll;
+scrollbar-gutter: stable;
+```
+
+```css
+/* GOOD — catalog / folder / chart page that should fit */
+.pr-hub { height: 100dvh; overflow: hidden; }
+.pr-hub__tasks { overflow: hidden; }
+```
+
+Never nest two scrollbars. Never add a scrollbar around a chart.

@@ -10,7 +10,11 @@ const VOCABULARY_STEP_KEY = "ielts-vocabulary-m1-step";
 function migrateCourse(data: CourseData): CourseData {
   const course = structuredClone(data);
   for (const mod of course.modules) {
+    if (mod.id === "module-1") {
+      mod.review.trainerId = "review-m1-flow";
+    }
     for (const sec of mod.sections) {
+      if (sec.id === "2a") sec.subtitle = "Development";
       for (const block of sec.blocks) {
         if (block.id === "1a-reading") {
           block.trainerId = "reading-m1-flow";
@@ -25,6 +29,74 @@ function migrateCourse(data: CourseData): CourseData {
           block.trainerId = "vocabulary-m1-flow";
           block.trainerLabel =
             "Vocabulary p. 10 — 1a–1c, Collocations, 3a–3b, Dictionary";
+        }
+        if (block.id === "1b-reading") {
+          block.trainerId = "reading-m1b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Untapped resources · The learning brain. Exam: текст + вопросы 1–9 рядом. Learn: warm-up → scan → задание → discussion.";
+          block.topics = [
+            "Before you read: True/False",
+            "Scan the first paragraph",
+            "Table and note completion",
+            "Discussion",
+          ];
+        }
+        if (block.id === "1b-language") {
+          block.trainerId = "language-m1b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "p. 16 Describe trends · 2a table, then b verb forms.";
+          block.topics = [
+            "2a Go up / Go down / No movement",
+            "b Verb forms",
+          ];
+        }
+        if (block.id === "2a-lead-in") {
+          block.trainerId = "lead-in-development";
+          block.trainerLabel =
+            "Обсуждение перед модулем — 3 фото: здоровье, энергия, медицина";
+          block.nextTrainerId = "reading-m2-flow";
+          block.topics = [
+            "Living standards around the world",
+            "What development means",
+            "Personal vs social development",
+          ];
+        }
+        if (block.id === "2a-reading") {
+          block.trainerId = "reading-m2-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "A better life? · Agricultural Revolution. Exam: текст + TFNG 1–5 и short answers 6–10. Learn: discuss → topic sentences → задание → discussion.";
+          block.topics = [
+            "Before you read: discuss",
+            "Topic sentences and supporting details",
+            "True / False / Not Given 1–5",
+            "Short-answer questions 6–10",
+          ];
+        }
+        if (block.id === "2a-vocabulary") {
+          block.trainerId = "vocabulary-m2-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "p. 26 Academic verbs, spoken forms, process word forms.";
+          block.topics = [
+            "Academic verbs 1a–1b",
+            "Written and spoken 2a–2c",
+            "Process verbs 3a–3b",
+          ];
+        }
+        if (block.id === "1b-writing") {
+          block.trainerId = "writing-m1b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Task 1 line graph · UK employment by education. Exam: график + письмо. Learn: оси → features → overview → 150 слов.";
+          block.topics = [
+            "Understand the graph",
+            "Main features",
+            "Overview + language",
+            "Write 150 words",
+          ];
         }
       }
     }

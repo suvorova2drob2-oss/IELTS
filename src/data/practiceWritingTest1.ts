@@ -217,7 +217,7 @@ export const practiceWritingTest1 = {
     focusNote:
       "Focus on camping, cycling and horse riding — you do not need to describe every line.",
     timeSec: 600,
-    minWords: 120,
+    minWords: 150,
     structure: [
       {
         label: "1 · Introduction",

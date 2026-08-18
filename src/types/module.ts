@@ -69,6 +69,7 @@ export const skillIcons: Record<string, string> = {
   "Language development": "🔤",
   "Language development and vocabulary": "🔤",
   Writing: "✍️",
+  "Module 1 review": "🔁",
 };
 
 export function getSkillIcon(skill: string): string {

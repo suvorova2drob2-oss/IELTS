@@ -112,8 +112,14 @@ export const defaultCourse: CourseData = {
             {
               id: "1b-language",
               skill: "Language development and vocabulary",
-              topics: ["Tense review", "Describe trends"],
+              topics: [
+                "2a Go up / Go down / No movement",
+                "b Verb forms",
+              ],
               pages: "p. 16",
+              trainerId: "language-m1b-flow",
+              trainerLabel:
+                "p. 16 Describe trends · 2a table, then b verb forms.",
             },
             {
               id: "1b-speaking",
@@ -124,14 +130,30 @@ export const defaultCourse: CourseData = {
             {
               id: "1b-reading",
               skill: "Reading",
-              topics: ["Table completion", "Note completion"],
+              topics: [
+                "Before you read: True/False",
+                "Scan the first paragraph",
+                "Table and note completion",
+                "Discussion",
+              ],
               pages: "pp. 18–19",
+              trainerId: "reading-m1b-flow",
+              trainerLabel:
+                "Untapped resources · The learning brain. Exam: текст + вопросы 1–9 рядом. Learn: warm-up → scan → задание → discussion.",
             },
             {
               id: "1b-writing",
               skill: "Writing",
-              topics: ["Task 1: Describe a line graph"],
+              topics: [
+                "Understand the graph",
+                "Main features",
+                "Overview + language",
+                "Write 150 words",
+              ],
               pages: "pp. 20–21",
+              trainerId: "writing-m1b-flow",
+              trainerLabel:
+                "Task 1 line graph · UK employment by education. Exam: график + письмо. Learn: оси → features → overview → 150 слов.",
             },
           ],
         },
@@ -139,6 +161,7 @@ export const defaultCourse: CourseData = {
       review: {
         label: "Module 1 review",
         pages: "p. 22",
+        trainerId: "review-m1-flow",
       },
     },
     {
@@ -150,19 +173,47 @@ export const defaultCourse: CourseData = {
         {
           id: "2a",
           label: "A",
-          subtitle: "Multiple intelligences",
+          subtitle: "Development",
           blocks: [
+            {
+              id: "2a-lead-in",
+              skill: "Lead-in",
+              topics: [
+                "Living standards around the world",
+                "What development means",
+                "Personal vs social development",
+              ],
+              pages: "p. 23",
+              trainerId: "lead-in-development",
+              trainerLabel: "Обсуждение перед модулем — 3 фото: здоровье, энергия, медицина",
+              nextTrainerId: "reading-m2-flow",
+            },
             {
               id: "2a-reading",
               skill: "Reading",
-              topics: ["Predict content", "Scan for names", "Matching headings"],
+              topics: [
+                "Before you read: discuss",
+                "Topic sentences and supporting details",
+                "True / False / Not Given 1–5",
+                "Short-answer questions 6–10",
+              ],
               pages: "pp. 24–25",
+              trainerId: "reading-m2-flow",
+              trainerLabel:
+                "A better life? · Agricultural Revolution. Exam: текст + TFNG 1–5 и short answers 6–10. Learn: discuss → topic sentences → задание → discussion.",
             },
             {
               id: "2a-vocabulary",
               skill: "Vocabulary",
-              topics: ["Intelligence", "Word families", "Precise verbs"],
+              topics: [
+                "Academic verbs 1a–1b",
+                "Written and spoken 2a–2c",
+                "Process verbs 3a–3b",
+              ],
               pages: "p. 26",
+              trainerId: "vocabulary-m2-flow",
+              trainerLabel:
+                "p. 26 Academic verbs, spoken forms, process word forms.",
             },
             {
               id: "2a-speaking",

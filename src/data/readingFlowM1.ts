@@ -36,6 +36,10 @@ export interface ReadingFlowData {
     tableTitle: string;
     notesInstruction: string;
     tableInstruction: string;
+    notesQuestionLabel?: string;
+    tableQuestionLabel?: string;
+    tableHead?: [string, string, string];
+    tasksOrder?: "notes-table" | "table-notes";
   };
   predictLanguage: {
     context: string;
@@ -48,6 +52,7 @@ export interface ReadingFlowData {
   table: {
     rows: {
       category: string;
+      categoryGap?: GapMeta;
       relatedParagraphIndex: number;
       predictPrompt: string;
       advice: { segments: Segment[]; gap?: GapMeta }[];
@@ -70,6 +75,7 @@ export function getGapParagraphIndex(
   const note = data.notes.find((n) => n.gap.id === gapId);
   if (note) return note.relatedParagraphIndex;
   for (const row of data.table.rows) {
+    if (row.categoryGap?.id === gapId) return row.relatedParagraphIndex;
     const hit = [...row.advice, ...row.benefits].some((l) => l.gap?.id === gapId);
     if (hit) return row.relatedParagraphIndex;
   }

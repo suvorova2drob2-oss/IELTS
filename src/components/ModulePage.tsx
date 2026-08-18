@@ -107,23 +107,47 @@ function ActivityPanel({
 }) {
   const trainers = getBlockTrainers(block);
   const trainerId = trainers[0]?.id;
-  const isReadingFlow = trainerId === "reading-m1-flow";
+  const isReadingM2 = trainerId === "reading-m2-flow";
+  const isReadingFlow =
+    trainerId === "reading-m1-flow" ||
+    trainerId === "reading-m1b-flow" ||
+    isReadingM2;
+  const isWritingFlow = trainerId === "writing-m1b-flow";
   const isVocabularyFlow = trainerId === "vocabulary-m1-flow";
+  const isVocabularyM2 = trainerId === "vocabulary-m2-flow";
+  const isLanguageFlow = trainerId === "language-m1b-flow";
+  const isExamLearn = isReadingFlow || isWritingFlow;
 
   const startAt = (step?: number) => {
     if (trainerId && onStartTrainer) onStartTrainer(trainerId, step);
   };
 
-  const readingLearnSteps = [
-    { label: "Warm-up: predict", step: 0 },
-    { label: "Scan focus", step: 1 },
-    { label: "Exam task 1–9", step: 2 },
-    { label: "Discussion", step: 3 },
+  const writingLearnSteps = [
+    { label: "Understand the graph", step: 0 },
+    { label: "Main features", step: 1 },
+    { label: "Overview + language", step: 2 },
+    { label: "Write 150 words", step: 3 },
   ] as const;
+
+  const readingLearnSteps = isReadingM2
+    ? ([
+        { label: "Before you read", step: 0 },
+        { label: "Topic sentences", step: 1 },
+        { label: "Exam task 1–10", step: 2 },
+        { label: "Discussion", step: 3 },
+      ] as const)
+    : ([
+        { label: "Warm-up: predict", step: 0 },
+        { label: "Scan focus", step: 1 },
+        { label: "Exam task 1–9", step: 2 },
+        { label: "Discussion", step: 3 },
+      ] as const);
+
+  const learnSteps = isWritingFlow ? writingLearnSteps : readingLearnSteps;
 
   return (
     <aside
-      className={`activity-panel ${isReadingFlow ? "activity-panel--compact" : ""}`}
+      className={`activity-panel ${isExamLearn ? "activity-panel--compact" : ""}`}
     >
       <button type="button" className="activity-panel__close" onClick={onClose}>
         ✕
@@ -144,7 +168,13 @@ function ActivityPanel({
 
         {isReadingFlow ? (
           <p className="activity-panel__intro">
-            Текст и вопросы 1–9 рядом. Learn — с разминкой и discussion.
+            {isReadingM2
+              ? "Текст и вопросы 1–10 рядом. Learn — discuss, topic sentences, задание, discussion."
+              : "Текст и вопросы 1–9 рядом. Learn — с разминкой и discussion."}
+          </p>
+        ) : isWritingFlow ? (
+          <p className="activity-panel__intro">
+            График и письмо рядом. Learn — оси, features, overview, потом 150 слов.
           </p>
         ) : (
           block.trainerLabel && (
@@ -152,14 +182,18 @@ function ActivityPanel({
           )
         )}
 
-        {isReadingFlow && onStartTrainer && trainerId && (
+        {isExamLearn && onStartTrainer && trainerId && (
           <div className="activity-panel__mode-entry">
             <button
               type="button"
               className="btn-start"
               onClick={() => onStartTrainer(trainerId)}
             >
-              Экзамен (текст + 1–9) →
+              {isWritingFlow
+                ? "Экзамен (график + письмо) →"
+                : isReadingM2
+                  ? "Экзамен (текст + 1–10) →"
+                  : "Экзамен (текст + 1–9) →"}
             </button>
             <button
               type="button"
@@ -173,11 +207,11 @@ function ActivityPanel({
 
         <div className="activity-panel__topics">
           <h4>
-            {isReadingFlow ? "Этапы Learn" : "Что делаем — нажмите этап"}
+            {isExamLearn ? "Этапы Learn" : "Что делаем — нажмите этап"}
           </h4>
           <ul className="topic-entry-list">
-            {isReadingFlow
-              ? readingLearnSteps.map((item, i) => (
+            {isExamLearn
+              ? learnSteps.map((item, i) => (
                   <li key={item.label} className="topic-entry">
                     <button
                       type="button"
@@ -202,6 +236,16 @@ function ActivityPanel({
                           if (i === 0) startAt(0);
                           else if (i === 1) startAt(4);
                           else if (i === 2) startAt(7);
+                          return;
+                        }
+                        if (isVocabularyM2) {
+                          if (i === 0) startAt(0);
+                          else if (i === 1) startAt(2);
+                          else startAt(4);
+                          return;
+                        }
+                        if (isLanguageFlow) {
+                          startAt(i === 0 ? 0 : 1);
                           return;
                         }
                         startAt();
@@ -237,6 +281,36 @@ function ActivityPanel({
                         </button>
                       </div>
                     )}
+                    {isVocabularyM2 && i === 0 && (
+                      <div className="topic-entry__subs">
+                        <button type="button" onClick={() => startAt(0)}>
+                          1a Match
+                        </button>
+                        <button type="button" onClick={() => startAt(1)}>
+                          1b Verb forms
+                        </button>
+                      </div>
+                    )}
+                    {isVocabularyM2 && i === 1 && (
+                      <div className="topic-entry__subs">
+                        <button type="button" onClick={() => startAt(2)}>
+                          2a Spoken / written
+                        </button>
+                        <button type="button" onClick={() => startAt(3)}>
+                          2b–2c Phrasal
+                        </button>
+                      </div>
+                    )}
+                    {isVocabularyM2 && i === 2 && (
+                      <div className="topic-entry__subs">
+                        <button type="button" onClick={() => startAt(4)}>
+                          3a Process verbs
+                        </button>
+                        <button type="button" onClick={() => startAt(5)}>
+                          3b Word forms
+                        </button>
+                      </div>
+                    )}
                   </li>
                 ))}
           </ul>
@@ -246,7 +320,7 @@ function ActivityPanel({
       </div>
 
       <div className="activity-panel__actions">
-        {!isReadingFlow &&
+        {!isExamLearn &&
           (trainers.length > 0 && onStartTrainer ? (
             trainers.length === 1 ? (
               <button

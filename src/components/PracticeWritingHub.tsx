@@ -15,12 +15,13 @@ import {
   PracticeReadingResults,
   type TaskScore,
 } from "./PracticeReadingResults";
+import { PracticeWritingModels } from "./PracticeWritingModels";
 import { PracticeWritingTest1Session } from "./PracticeWritingTest1Session";
 import { PracticeWritingTest2Session } from "./PracticeWritingTest2Session";
 import { PracticeWritingTest3Session } from "./PracticeWritingTest3Session";
 import { PracticeWritingTest4Session } from "./PracticeWritingTest4Session";
 
-type Screen = "catalog" | "modes" | "session" | "results";
+type Screen = "catalog" | "modes" | "session" | "results" | "models";
 type Track = "learn" | "exam";
 type ScorePair = { score: number; total: number };
 
@@ -29,6 +30,7 @@ export function PracticeWritingHub({ onBack }: { onBack: () => void }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [track, setTrack] = useState<Track | null>(null);
   const [taskScores, setTaskScores] = useState<TaskScore[]>([]);
+  const [modelId, setModelId] = useState<string | null>(null);
 
   const selected: PracticeWritingCatalogItem | null = useMemo(
     () =>
@@ -125,6 +127,19 @@ export function PracticeWritingHub({ onBack }: { onBack: () => void }) {
     });
     setScreen("results");
   };
+
+  if (screen === "models") {
+    return (
+      <PracticeWritingModels
+        selectedId={modelId}
+        onOpen={setModelId}
+        onBackToFolder={() => {
+          if (modelId) setModelId(null);
+          else setScreen("catalog");
+        }}
+      />
+    );
+  }
 
   if (screen === "results" && selected) {
     return (
@@ -290,6 +305,21 @@ export function PracticeWritingHub({ onBack }: { onBack: () => void }) {
               </span>
             </button>
           ))}
+          <button
+            type="button"
+            className="pr-hub__task pr-hub__task--models"
+            onClick={() => {
+              setModelId(null);
+              setScreen("models");
+            }}
+          >
+            <span className="pr-hub__task-num">Folder</span>
+            <strong>Models</strong>
+            <span className="pr-hub__task-meta">
+              Task 1 graphs · 7 Task 2 types · Band 7.5
+            </span>
+            <span className="pr-hub__task-go">Open</span>
+          </button>
         </div>
       </section>
     </div>

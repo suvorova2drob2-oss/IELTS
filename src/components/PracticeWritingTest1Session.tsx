@@ -777,7 +777,7 @@ function WritePhase({
             <WordCountMeter
               words={words}
               minWords={data.minWords}
-              label="This focused Task 1 · write at least this many"
+              label="IELTS Task 1 minimum · at least 150 words"
             />
             <span
               className={

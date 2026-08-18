@@ -6,6 +6,7 @@ import {
   type Photo,
   type Question,
 } from "../data/leadInIntelligence";
+import { leadInDevelopment } from "../data/leadInDevelopment";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -30,7 +31,7 @@ function PhotoGrid({
         <span className="dot" />
         Photos — click for hints
       </h2>
-      <div className="photo-grid">
+      <div className={`photo-grid ${photos.length === 3 ? "photo-grid--3" : ""}`}>
         {photos.map((photo) => (
           <button
             key={photo.id}
@@ -38,7 +39,15 @@ function PhotoGrid({
             className={`photo-card ${selectedId === photo.id ? "selected" : ""}`}
             onClick={() => onSelect(photo)}
           >
-            <img src={photo.src} alt={photo.label} />
+            <img
+              src={photo.src}
+              alt={photo.label}
+              style={
+                photo.objectPosition
+                  ? { objectPosition: photo.objectPosition }
+                  : undefined
+              }
+            />
             <div className="caption">
               <strong>{photo.label}</strong>
               <span>{photo.intelligenceType}</span>
@@ -53,6 +62,66 @@ function PhotoGrid({
         </div>
       )}
     </section>
+  );
+}
+
+function ClassifyRow({
+  items,
+  exam,
+}: {
+  items: NonNullable<Question["classify"]>;
+  exam: boolean;
+}) {
+  const [picked, setPicked] = useState<Record<string, 0 | 1>>({});
+  const [checked, setChecked] = useState(false);
+
+  const score = items.items.filter((it) => picked[it.id] === it.key).length;
+
+  return (
+    <div className="lead-in-classify">
+      {items.items.map((it) => {
+        const chosen = picked[it.id];
+        const bad = checked && chosen !== it.key;
+        return (
+          <div key={it.id} className="lead-in-classify__row">
+            <span>{it.text}</span>
+            <div className="writing-flow__opts">
+              {items.labels.map((label, oi) => (
+                <button
+                  key={label}
+                  type="button"
+                  className={[
+                    chosen === oi ? "active" : "",
+                    checked && oi === it.key ? "writing-flow__opt--ok" : "",
+                    checked && chosen === oi && bad
+                      ? "writing-flow__opt--bad"
+                      : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                  disabled={checked}
+                  onClick={() =>
+                    setPicked((x) => ({ ...x, [it.id]: oi as 0 | 1 }))
+                  }
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+      {!exam && (
+        <button
+          type="button"
+          className="nav-btn"
+          onClick={() => setChecked(true)}
+          disabled={checked}
+        >
+          {checked ? `✓ ${score}/${items.items.length}` : "Check personal / social →"}
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -149,6 +218,10 @@ function QuestionCard({
       </div>
 
       <p className="question-text">{question.text}</p>
+
+      {question.classify && (
+        <ClassifyRow items={question.classify} exam={mode === "exam"} />
+      )}
 
       {mode === "practice" && (
         <div className="hint-buttons">
@@ -376,4 +449,5 @@ export function LeadInTrainer({
 
 export const trainers: Record<string, LeadInData> = {
   "lead-in-intelligence": leadInIntelligence,
+  "lead-in-development": leadInDevelopment,
 };
