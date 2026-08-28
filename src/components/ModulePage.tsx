@@ -126,7 +126,22 @@ function ActivityPanel({
   const isWritingFlow = trainerId === "writing-m1b-flow";
   const isVocabularyFlow = trainerId === "vocabulary-m1-flow";
   const isVocabularyM2 = trainerId === "vocabulary-m2-flow";
+  const isVocabularyM3 = trainerId === "vocabulary-m3-flow";
   const isLanguageFlow = trainerId === "language-m1b-flow";
+  const isLanguageM1a = trainerId === "language-m1a-flow";
+  const isLanguageM2a = trainerId === "language-m2a-flow";
+  const isWritingM1a = trainerId === "writing-m1a-flow";
+  const isWritingM2a = trainerId === "writing-m2a-flow";
+  const isWritingM2b = trainerId === "writing-m2b-flow";
+  const isListeningM1 = trainerId === "listening-m1-flow";
+  const isListeningM1b = trainerId === "listening-m1b-flow";
+  const isListeningM2a = trainerId === "listening-m2a-flow";
+  const isListeningM2b = trainerId === "listening-m2b-flow";
+  const isSpeakingM1b = trainerId === "speaking-m1b-flow";
+  const isSpeakingM2a = trainerId === "speaking-m2a-flow";
+  const isSpeakingM2b = trainerId === "speaking-m2b-flow";
+  const isSpeakingM3a = trainerId === "speaking-m3a-flow";
+  const isReadingM3Flow = trainerId === "reading-m3-flow";
   const isExamLearn =
     (isReadingFlow || isWritingFlow) && !isReadingM2ExamOnly;
 
@@ -191,6 +206,18 @@ function ActivityPanel({
               : isReadingM2Full
                 ? "Текст и вопросы 1–10 рядом. Learn — discuss, topic sentences, задание, discussion."
                 : "Текст и вопросы 1–9 рядом. Learn — с разминкой и discussion."}
+          </p>
+        ) : isListeningM1 ? (
+          <p className="activity-panel__intro">
+            Learn: Before you listen → 3a–3d (paraphrase strategy).
+          </p>
+        ) : isListeningM1b ? (
+          <p className="activity-panel__intro">
+            Before you listen → paraphrase → 01_05 → Test 01_06 → Discussion.
+          </p>
+        ) : isListeningM2a ? (
+          <p className="activity-panel__intro">
+            Before you listen → map → walks → directions (italics).
           </p>
         ) : isWritingFlow ? (
           <p className="activity-panel__intro">
@@ -292,8 +319,68 @@ function ActivityPanel({
                           else startAt(4);
                           return;
                         }
+                        if (isVocabularyM3) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
                         if (isLanguageFlow) {
-                          startAt(i === 0 ? 0 : 1);
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isLanguageM1a) {
+                          startAt(Math.min(i, 7));
+                          return;
+                        }
+                        if (isLanguageM2a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM1a) {
+                          startAt(Math.min(i, 6));
+                          return;
+                        }
+                        if (isWritingM2a) {
+                          startAt(Math.min(i, 8));
+                          return;
+                        }
+                        if (isWritingM2b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM1) {
+                          startAt(Math.min(i, 8));
+                          return;
+                        }
+                        if (isListeningM1b) {
+                          startAt(Math.min(i, 6));
+                          return;
+                        }
+                        if (isListeningM2a) {
+                          startAt(Math.min(i, 6));
+                          return;
+                        }
+                        if (isListeningM2b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM1b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM2a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isSpeakingM2b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM3a) {
+                          startAt(Math.min(i, 6));
+                          return;
+                        }
+                        if (isReadingM3Flow) {
+                          startAt(Math.min(i, 5));
                           return;
                         }
                         if (isReadingM2ExamOnly && leadInTrainerId) {

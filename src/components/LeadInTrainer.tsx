@@ -8,6 +8,8 @@ import {
 } from "../data/leadInIntelligence";
 import { leadInDevelopment } from "../data/leadInDevelopment";
 import { leadInInsectEmpire } from "../data/leadInInsectEmpire";
+import { leadInLibrariesM1 } from "../data/leadInLibrariesM1";
+import { leadInTeenagers } from "../data/leadInTeenagers";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -337,34 +339,47 @@ function StackLeadIn({
   onContinue?: () => void;
   continueLabel?: string;
 }) {
+  const hero = data.photos.length === 1;
   return (
-    <section className="card flow-card lead-in-stack">
-      <div className="lead-in-stack__photos">
+    <section
+      className={`card flow-card lead-in-stack ${hero ? "lead-in-stack--hero" : ""}`}
+    >
+      <div className={`lead-in-stack__photos ${hero ? "lead-in-stack__photos--hero" : ""}`}>
         {data.photos.map((photo) => (
           <figure key={photo.id} className="lead-in-stack__shot">
-            <img src={photo.src} alt={photo.label} />
-            <figcaption>{photo.label}</figcaption>
+            <img
+              src={photo.src}
+              alt={photo.label}
+              style={
+                photo.objectFit ? { objectFit: photo.objectFit } : undefined
+              }
+            />
+            {photo.label ? <figcaption>{photo.label}</figcaption> : null}
           </figure>
         ))}
       </div>
-      {data.stackInstruction && (
-        <p className="lead-in-stack__instr">{data.stackInstruction}</p>
-      )}
-      <ol className="lead-in-stack__questions">
-        {data.questions.map((q, i) => (
-          <li key={q.id}>
-            <span className="lead-in-stack__num">{i + 1}</span>
-            <span>{q.text}</span>
-          </li>
-        ))}
-      </ol>
-      {onContinue && (
-        <div className="trainer-chain">
-          <button type="button" className="btn-start" onClick={onContinue}>
-            {continueLabel ?? "Reading (pp. 34–35) →"}
-          </button>
-        </div>
-      )}
+      <div className="lead-in-stack__body">
+        {data.stackInstruction && (
+          <p className="lead-in-stack__instr">
+            <span className="write-m2a__badge">1</span> {data.stackInstruction}
+          </p>
+        )}
+        <ol className="lead-in-stack__questions">
+          {data.questions.map((q, i) => (
+            <li key={q.id}>
+              <span className="lead-in-stack__num">{i + 1}</span>
+              <span>{q.text}</span>
+            </li>
+          ))}
+        </ol>
+        {onContinue && (
+          <div className="trainer-chain">
+            <button type="button" className="btn-start" onClick={onContinue}>
+              {continueLabel ?? "Дальше →"}
+            </button>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
@@ -534,4 +549,6 @@ export const trainers: Record<string, LeadInData> = {
   "lead-in-intelligence": leadInIntelligence,
   "lead-in-development": leadInDevelopment,
   "lead-in-insect-empire": leadInInsectEmpire,
+  "lead-in-libraries-m1": leadInLibrariesM1,
+  "lead-in-teenagers": leadInTeenagers,
 };

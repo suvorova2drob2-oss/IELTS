@@ -58,6 +58,8 @@ export type View =
       blockLabel?: string;
       restart?: boolean;
       initialStep?: number;
+      /** New value each open so trainer remounts clean for the next student. */
+      openKey?: number;
     };
 
 export const skillIcons: Record<string, string> = {

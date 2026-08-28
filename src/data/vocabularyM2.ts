@@ -27,12 +27,21 @@ function normalize(s: string): string {
 export function checkVocabM2(input: string, accepted: string[]): boolean {
   const n = normalize(input);
   if (!n) return false;
-  return accepted.some((a) => normalize(a) === n);
+  return accepted.some((a) => {
+    if (normalize(a) === n) return true;
+    return a.split("/").some((part) => normalize(part) === n);
+  });
+}
+
+/** TB display key → accepted variants (slash forms + whole string). */
+export function formsFromKey(key: string): string[] {
+  const parts = key.split("/").map((p) => p.trim()).filter(Boolean);
+  return [...new Set([key, ...parts])];
 }
 
 export type FormCell =
   | { given: string }
-  | { id: number; answers: string[] };
+  | { id: number; key: string; answers: string[] };
 
 export type GapBit = { text: string } | { gap: number; answers: string[] };
 
@@ -42,7 +51,7 @@ export type ProcessBit =
 
 export function isFormBlank(
   cell: FormCell,
-): cell is { id: number; answers: string[] } {
+): cell is { id: number; key: string; answers: string[] } {
   return "id" in cell;
 }
 
@@ -217,59 +226,95 @@ export const vocabularyM2 = {
     instruction: "Complete the table.",
     rows: [
       {
-        noun: { id: 1, answers: ["heat", "heating"] },
-        verb: { id: 2, answers: ["heat"] },
+        noun: { id: 1, key: "heat", answers: formsFromKey("heat") },
+        verb: { id: 2, key: "heat", answers: formsFromKey("heat") },
         adj: { given: "hot/heated" },
       },
       {
-        noun: { id: 3, answers: ["cooling", "coolness", "cool"] },
+        noun: { id: 3, key: "coolness", answers: formsFromKey("coolness") },
         verb: { given: "cool" },
-        adj: { id: 4, answers: ["cool", "cooled", "cooling"] },
+        adj: { id: 4, key: "cool/cooling", answers: formsFromKey("cool/cooling") },
       },
       {
-        noun: { id: 5, answers: ["construction"] },
+        noun: { id: 5, key: "construction", answers: formsFromKey("construction") },
         verb: { given: "construct" },
-        adj: { id: 6, answers: ["constructive", "constructed"] },
+        adj: { id: 6, key: "constructed", answers: formsFromKey("constructed") },
       },
       {
         noun: { given: "connection" },
-        verb: { id: 7, answers: ["connect"] },
-        adj: { id: 8, answers: ["connected", "connective"] },
+        verb: { id: 7, key: "connect", answers: formsFromKey("connect") },
+        adj: {
+          id: 8,
+          key: "connected/connecting",
+          answers: formsFromKey("connected/connecting"),
+        },
       },
       {
-        noun: { id: 9, answers: ["development"] },
+        noun: {
+          id: 9,
+          key: "development/developer",
+          answers: formsFromKey("development/developer"),
+        },
         verb: { given: "develop" },
-        adj: { id: 10, answers: ["developed", "developing", "developmental"] },
+        adj: { id: 10, key: "developing", answers: formsFromKey("developing") },
       },
       {
-        noun: { id: 11, answers: ["addition"] },
+        noun: { id: 11, key: "addition", answers: formsFromKey("addition") },
         verb: { given: "add" },
-        adj: { id: 12, answers: ["additional", "added"] },
+        adj: {
+          id: 12,
+          key: "additional/added",
+          answers: formsFromKey("additional/added"),
+        },
       },
       {
-        noun: { id: 13, answers: ["destruction"] },
-        verb: { id: 14, answers: ["destroy"] },
+        noun: {
+          id: 13,
+          key: "destruction/destroyer",
+          answers: formsFromKey("destruction/destroyer"),
+        },
+        verb: { id: 14, key: "destroy", answers: formsFromKey("destroy") },
         adj: { given: "destroyed/destructible" },
       },
       {
-        noun: { id: 15, answers: ["rise"] },
+        noun: { id: 15, key: "rise", answers: formsFromKey("rise") },
         verb: { given: "rise" },
-        adj: { id: 16, answers: ["rising", "risen"] },
+        adj: { id: 16, key: "risen/rising", answers: formsFromKey("risen/rising") },
       },
       {
         noun: { given: "rotation/rotator" },
-        verb: { id: 17, answers: ["rotate"] },
-        adj: { id: 18, answers: ["rotating", "rotary", "rotational"] },
+        verb: { id: 17, key: "rotate", answers: formsFromKey("rotate") },
+        adj: {
+          id: 18,
+          key: "rotated/rotating/rotatable",
+          answers: formsFromKey("rotated/rotating/rotatable"),
+        },
       },
       {
-        noun: { id: 19, answers: ["transfer", "transference"] },
+        noun: {
+          id: 19,
+          key: "transference/transfer",
+          answers: formsFromKey("transference/transfer"),
+        },
         verb: { given: "transfer" },
-        adj: { id: 20, answers: ["transferable", "transferred"] },
+        adj: {
+          id: 20,
+          key: "transferred/transferable",
+          answers: formsFromKey("transferred/transferable"),
+        },
       },
       {
-        noun: { id: 21, answers: ["extraction", "extract"] },
+        noun: {
+          id: 21,
+          key: "extraction/extractor",
+          answers: formsFromKey("extraction/extractor"),
+        },
         verb: { given: "extract" },
-        adj: { id: 22, answers: ["extractable", "extracted"] },
+        adj: {
+          id: 22,
+          key: "extracted/extractable",
+          answers: formsFromKey("extracted/extractable"),
+        },
       },
     ] satisfies { noun: FormCell; verb: FormCell; adj: FormCell }[],
   },
@@ -279,8 +324,12 @@ export function vocabM2GapIds(): number[] {
   return vocabularyM2.gapText.parts.filter(isGapBit).map((p) => p.gap);
 }
 
-export function vocabM2TableBlanks(): { id: number; answers: string[] }[] {
-  const out: { id: number; answers: string[] }[] = [];
+export function vocabM2TableBlanks(): {
+  id: number;
+  key: string;
+  answers: string[];
+}[] {
+  const out: { id: number; key: string; answers: string[] }[] = [];
   for (const row of vocabularyM2.wordTable.rows) {
     for (const cell of [row.noun, row.verb, row.adj]) {
       if (isFormBlank(cell)) out.push(cell);

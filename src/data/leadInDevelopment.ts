@@ -1,4 +1,6 @@
-import collage from "../assets/lead-in-m2-development.png";
+import gymImg from "../assets/lead-in-m2-gym.png";
+import energyImg from "../assets/lead-in-m2-energy.png";
+import clinicImg from "../assets/lead-in-m2-clinic.png";
 import type { LeadInData } from "./leadInIntelligence";
 
 /** Module 2 · A world of change · Lead-in p. 23 */
@@ -11,24 +13,21 @@ export const leadInDevelopment: LeadInData = {
   photos: [
     {
       id: "gym",
-      src: collage,
-      objectPosition: "18% 10%",
+      src: gymImg,
       label: "Keeping fit in later life",
       intelligenceType: "Personal development",
       hint: "Health, ageing well, lifestyle — development of the individual.",
     },
     {
       id: "energy",
-      src: collage,
-      objectPosition: "82% 14%",
+      src: energyImg,
       label: "Energy and the environment",
       intelligenceType: "Social / environmental development",
       hint: "Wind power next to a power station — how society produces energy, and the impact on the planet.",
     },
     {
       id: "clinic",
-      src: collage,
-      objectPosition: "50% 48%",
+      src: clinicImg,
       label: "Healthcare",
       intelligenceType: "Social development",
       hint: "Access to doctors and clinics — a common measure of living standards in a country.",
@@ -37,7 +36,7 @@ export const leadInDevelopment: LeadInData = {
   questions: [
     {
       id: 1,
-      text: "Would you agree that living standards are improving all around the world? Why / Why not?",
+      text: "Would you agree that living standards are improving all around the world? Why/Why not?",
       hints: [
         "Living standards = quality of life: health, income, education, housing, safety.",
         "You can agree in some countries / for some groups, and disagree in others.",
@@ -90,8 +89,8 @@ export const leadInDevelopment: LeadInData = {
         labels: ["personal", "social"],
         items: [
           { id: "uni", text: "studying at university", key: 0 },
-          { id: "carbon", text: "reducing carbon emissions", key: 1 },
           { id: "health", text: "improving healthcare", key: 1 },
+          { id: "carbon", text: "reducing carbon emissions", key: 1 },
           { id: "comms", text: "improving communication skills", key: 0 },
         ],
       },
@@ -110,7 +109,7 @@ export const leadInDevelopment: LeadInData = {
     },
     {
       id: 5,
-      text: "Which do you think is more important — personal or social development? Why?",
+      text: "Which do you think is more important – personal or social development? Why?",
       hints: [
         "Pick one and justify. A Band 7 answer often admits the other still matters.",
         "Use: I would argue that… / Having said that…",

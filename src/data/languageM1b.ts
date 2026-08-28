@@ -1,14 +1,30 @@
-/** Module 1B · Untapped resources · Language p. 16 · Describe trends. */
+/** Module 1B · Untapped resources · Language p. 16 */
 
 export type TrendCol = "up" | "down" | "stable";
 
-export const LANG_M1B_STEPS = ["2a Table", "b Verb forms"] as const;
+export const LANG_M1B_STEPS = [
+  "2a Describe trends",
+  "2b Correct errors",
+  "b Verb forms",
+  "c Choose options",
+] as const;
+
+export type LangM1bChoiceBit =
+  | { text: string }
+  | { gap: number; options: [string, string]; key: string };
+
+export function isLangM1bChoiceGap(
+  part: LangM1bChoiceBit,
+): part is { gap: number; options: [string, string]; key: string } {
+  return "gap" in part;
+}
 
 export const languageM1b = {
   id: "language-m1b-flow",
   module: 1,
   bookPages: "p. 16 in your coursebook",
   table: {
+    heading: "Describe trends",
     instruction: "2a Write the words below in the correct place in the table.",
     columns: [
       { id: "up" as TrendCol, label: "Go up" },
@@ -28,88 +44,173 @@ export const languageM1b = {
       { id: "soar", key: "up" as TrendCol },
     ],
   },
+  /** Coursebook 2b · TB corrections in parentheses. */
+  step2b: {
+    instruction:
+      "b Read the sentences about the graph and underline the errors. Correct the errors.",
+    items: [
+      {
+        id: 1,
+        before: "Firstly, the line ",
+        error: "remains stable",
+        after: " then it falls sharply.",
+        options: ["rises", "increases", "climbs"],
+        answers: ["rises", "increases", "climbs"],
+      },
+      {
+        id: 2,
+        before: "Next the line ",
+        error: "increases",
+        after: " gradually.",
+        options: ["decreases", "drops"],
+        answers: ["decreases", "drops"],
+      },
+      {
+        id: 3,
+        before: "Then the line rises ",
+        error: "sharply",
+        after: ".",
+        options: ["gradually", "steadily"],
+        answers: ["gradually", "steadily"],
+      },
+      {
+        id: 4,
+        before: "After this, the line ",
+        error: "plummets",
+        after: ".",
+        options: ["fluctuates"],
+        answers: ["fluctuates"],
+      },
+      {
+        id: 5,
+        before: "Finally, there is a ",
+        error: "slight",
+        after: " drop.",
+        options: ["sharp", "significant"],
+        answers: ["sharp", "significant"],
+      },
+    ],
+    tip: "1 rises/increases/climbs · 2 decreases/drops · 3 gradually/steadily · 4 fluctuates · 5 sharp/significant",
+  },
+  /** Coursebook b · TB keys. */
   instruction:
     "b Complete the sentences with the correct form of the verbs in brackets.",
-  tenseCues: [
-    { marker: "Since / this century", tense: "present perfect (have + V3)" },
-    { marker: "In the future / coming years", tense: "will / going to" },
-    { marker: "At the end of the 20th century", tense: "past simple" },
-    { marker: "after … had worn off", tense: "past simple" },
-  ],
   items: [
     {
       id: 1,
-      before: "Since this academic year started, the students’ grades ",
-      after: " steadily.",
-      verb: "rise",
-      answers: ["have risen", "have been rising"],
-      tip: "Since + started → present perfect.",
+      before: "Last week I ",
+      after:
+        " the application forms to the three universities I’m interested in.",
+      verb: "complete",
+      answers: ["completed"],
+      tip: "Last week → past simple.",
     },
     {
       id: 2,
       before:
-        "The number of students taking online higher education courses ",
-      after: " after the initial excitement had worn off.",
-      verb: "plummet",
-      answers: ["plummeted"],
-      tip: "had worn off → past simple after that.",
+        "My sister started an online English course last month and her vocabulary ",
+      after: " every day.",
+      verb: "increase",
+      answers: ["is increasing"],
+      tip: "every day (now) → present continuous.",
     },
     {
       id: 3,
-      before: "In the future, the use of technology in all types of learning ",
-      after: " beyond what we can now imagine.",
-      verb: "soar",
-      answers: ["will soar", "is going to soar", "will be soaring"],
-      tip: "In the future → will / going to.",
+      before: "When I saw my teacher smiling I knew I ",
+      after: " a high mark for my essay.",
+      verb: "achieve",
+      answers: ["had achieved"],
+      tip: "knew + earlier result → past perfect.",
     },
     {
       id: 4,
-      before: "The need for IT and science knowledge for the future workforce ",
-      after: " considerably this century.",
-      verb: "grow",
-      answers: ["has grown", "has been growing"],
-      tip: "this century = still going on → present perfect.",
+      before: "Since my friends and I started a band, I ",
+      after: " much less nervous about performing in public.",
+      verb: "become",
+      answers: ["have become"],
+      tip: "Since + started → present perfect.",
     },
     {
       id: 5,
-      before: "The popularity of media degrees ",
-      after: " because there are now many unemployed media graduates.",
-      verb: "decline",
-      answers: ["is declining", "has declined", "has been declining"],
-      tip: "now → present / present perfect.",
+      before: "Next year, my tutor ",
+      after: " a new programming module into our course.",
+      verb: "introduce",
+      answers: [
+        "is going to introduce",
+        "’s going to introduce",
+        "'s going to introduce",
+      ],
+      tip: "Next year (plan) → be going to.",
     },
     {
       id: 6,
-      before: "The government has said that it ",
-      after:
-        " funding for sport in primary and secondary education over the coming years.",
-      verb: "reduce",
-      answers: ["will reduce", "is going to reduce", "would reduce"],
-      tip: "coming years → future after has said.",
-    },
-    {
-      id: 7,
       before:
-        "At the end of the 20th century the importance of studying languages in the UK ",
-      after: ".",
-      verb: "decrease",
-      answers: ["decreased"],
-      tip: "At the end of the 20th century → finished time, past simple.",
-    },
-    {
-      id: 8,
-      before: "The government has announced that they ",
-      after: " tuition fees for the next academic year.",
-      verb: "increase",
-      answers: [
-        "will increase",
-        "are going to increase",
-        "are increasing",
-        "would increase",
-      ],
-      tip: "next academic year → future after has announced.",
+        "After speaking to my parents about the benefits, I now know that I ",
+      after: " abroad to study.",
+      verb: "go",
+      answers: ["will go", "’ll go", "'ll go"],
+      tip: "now know that → will (decision / prediction).",
     },
   ],
+  /** Coursebook c · TB: 're going to show · 'll outline · wanted · 'd thought · 've tried · love */
+  stepC: {
+    instruction:
+      "c Choose the correct option in italics to complete the text.",
+    parts: [
+      {
+        text: "Hello everyone and welcome to our presentation. Today we ",
+      },
+      {
+        gap: 1,
+        options: ["’re going to show", "show"] as [string, string],
+        key: "’re going to show",
+      },
+      {
+        text: " you our app, which is a phrasebook app. We ",
+      },
+      {
+        gap: 2,
+        options: ["’ve outlined", "’ll outline"] as [string, string],
+        key: "’ll outline",
+      },
+      {
+        text: " the reasons why we chose it, and then give you a demonstration. So, firstly, we ",
+      },
+      {
+        gap: 3,
+        options: ["want", "wanted"] as [string, string],
+        key: "wanted",
+      },
+      {
+        text: " to make an app that could help us travel around. As students we often travel, so it’d be really useful. We ",
+      },
+      {
+        gap: 4,
+        options: ["’d thought", "’re thinking"] as [string, string],
+        key: "’d thought",
+      },
+      {
+        text: " that there weren’t many apps on the market for this, but we were surprised to find out that quite a few existed. We ",
+      },
+      {
+        gap: 5,
+        options: ["’ve tried", "’d tried"] as [string, string],
+        key: "’ve tried",
+      },
+      {
+        text: " to make ours different though so we designed it like a cartoon. Students ",
+      },
+      {
+        gap: 6,
+        options: ["’re loving", "love"] as [string, string],
+        key: "love",
+      },
+      {
+        text: " gaming and cartoons so we thought this would appeal to them.",
+      },
+    ] as LangM1bChoiceBit[],
+    tip: "1 ’re going to show · 2 ’ll outline · 3 wanted · 4 ’d thought · 5 ’ve tried · 6 love",
+  },
 };
 
 function normalize(s: string): string {
@@ -123,6 +224,10 @@ function normalize(s: string): string {
 export function checkTrendForm(input: string, answers: string[]): boolean {
   const n = normalize(input);
   return answers.some((a) => normalize(a) === n);
+}
+
+export function sameLangChoice(a: string, b: string): boolean {
+  return normalize(a) === normalize(b);
 }
 
 export type LanguageM1bData = typeof languageM1b;

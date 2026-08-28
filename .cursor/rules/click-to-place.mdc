@@ -1,0 +1,13 @@
+---
+description: Prefer click-to-place over typing for IELTS exercise gaps
+alwaysApply: true
+---
+
+# Click-to-place, not typing
+
+For coursebook gap-fills, matching, word banks, and prefixes in this app:
+
+- Prefer **click chip → click gap** (used chips go grey; click filled gap to undo).
+- Do **not** default to free-text `<input>` when the answer comes from a closed bank / stem list.
+- Word formation: bank shows **stems**; placing a stem inserts the **correct form** of that stem into the gap.
+- Typing is OK only when the book truly requires open production and no bank exists.

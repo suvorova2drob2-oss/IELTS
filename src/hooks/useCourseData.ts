@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { defaultCourse } from "../data/defaultModules";
 import type { CourseData, CourseModule, SkillBlock } from "../types/module";
 
-const STORAGE_KEY = "ielts-expert-course-v11";
+const STORAGE_KEY = "ielts-expert-course-v44";
 const READING_STEP_KEY = "ielts-reading-m1-step";
 const READING_MODE_KEY = "ielts-reading-m1-mode";
 const VOCABULARY_STEP_KEY = "ielts-vocabulary-m1-step";
@@ -12,6 +12,18 @@ function migrateCourse(data: CourseData): CourseData {
   for (const mod of course.modules) {
     if (mod.id === "module-1") {
       mod.review.trainerId = "review-m1-flow";
+    }
+    if (mod.id === "module-2") {
+      mod.review.trainerId = "review-m2-flow";
+    }
+    if (mod.id === "module-3") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-3");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
     }
     for (const sec of mod.sections) {
       if (sec.id === "2a") sec.subtitle = "Development";
@@ -46,6 +58,69 @@ function migrateCourse(data: CourseData): CourseData {
           block.trainerLabel =
             "Vocabulary p. 10 — 1a–1c, Collocations, 3a–3b, Dictionary";
         }
+        if (block.id === "1a-listening") {
+          block.trainerId = "listening-m1-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Learn: Before you listen → 3a–3d → 4a–4b → Choose TWO → Discussion.";
+          block.topics = [
+            "Before you listen: libraries",
+            "3a Underline listening focus",
+            "3b Paraphrase options A–C",
+            "3c Check with the script",
+            "3d Strategy questions",
+            "4a Question focus",
+            "4b Synonyms for options",
+            "Listen: Choose TWO (B, D)",
+            "Discussion",
+          ];
+        }
+        if (block.id === "1a-language") {
+          block.trainerId = "language-m1a-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Language development · synonyms, prefixes, word formation, paraphrase.";
+          block.topics = [
+            "1a Match synonyms",
+            "1b Complete the sentences",
+            "2a Prefixes",
+            "2b Match meanings",
+            "3a Word forms",
+            "3b Word formation",
+            "4a Paraphrase sentences",
+            "4b Discussion",
+          ];
+        }
+        if (block.id === "1a-writing") {
+          block.trainerId = "writing-m1a-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Task 1 · women employment + education years · 1a–3a + Write.";
+          block.topics = [
+            "1a Look at the graph",
+            "1b Match structures",
+            "2a Overview",
+            "2b Trend or detail",
+            "2c Other trends",
+            "3a Plan",
+            "Write",
+          ];
+        }
+        if (block.id === "1b-listening") {
+          block.trainerId = "listening-m1b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Section 2 · paraphrase → 01_05 → Test 01_06 (1A 2C · C+D).";
+          block.topics = [
+            "Before you listen",
+            "2a Alternative language",
+            "2c Listen",
+            "2d Script",
+            "3 Alt language",
+            "Test practice",
+            "Discussion",
+          ];
+        }
         if (block.id === "1b-reading") {
           block.trainerId = "reading-m1b-flow";
           block.trainers = undefined;
@@ -62,10 +137,25 @@ function migrateCourse(data: CourseData): CourseData {
           block.trainerId = "language-m1b-flow";
           block.trainers = undefined;
           block.trainerLabel =
-            "p. 16 Describe trends · 2a table, then b verb forms.";
+            "p. 16 · 2a table · 2b peak study times · b verb forms · c italics.";
           block.topics = [
-            "2a Go up / Go down / No movement",
-            "b Verb forms",
+            "2a Describe trends",
+            "2b Correct graph errors",
+            "b Verb forms (1–6)",
+            "c Choose the correct option",
+          ];
+        }
+        if (block.id === "1b-speaking") {
+          block.trainerId = "speaking-m1b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Speaking Part 1 · Vocabulary + Test practice (school / IELTS) + self-check.";
+          block.topics = [
+            "1a Picture discussion",
+            "1b Decision collocations",
+            "1c Your big decision",
+            "3 Test practice",
+            "4a Assess and improve",
           ];
         }
         if (block.id === "2a-lead-in") {
@@ -100,6 +190,96 @@ function migrateCourse(data: CourseData): CourseData {
             "Academic verbs 1a–1b",
             "Written and spoken 2a–2c",
             "Process verbs 3a–3b",
+          ];
+        }
+        if (block.id === "2a-speaking") {
+          block.trainerId = "speaking-m2a-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Speaking · Lead-in + cue card + Paris mind map + your notes.";
+          block.topics = [
+            "Lead-in: architecture photo",
+            "2a Cue card points",
+            "3a Plan notes (mind map)",
+            "3b Your notes + speak",
+          ];
+        }
+        if (block.id === "2a-listening") {
+          block.trainerId = "listening-m2a-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Listening Section 1 · map skills + walks + Camp Horizon label.";
+          block.topics = [
+            "Before you listen: bungee jump",
+            "2 Map prepositions",
+            "2.2 Listen: Robert & Filipo walks",
+            "4 Directions (italics)",
+            "5 Match direction phrases",
+            "6a Camp Horizon map",
+            "6b Label the map (02_03)",
+          ];
+        }
+        if (block.id === "2a-language") {
+          block.trainerId = "language-m2a-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Language · The passive (italics + forms + rewrite + discuss).";
+          block.topics = [
+            "b Passive italics (photos)",
+            "c Passive forms (article)",
+            "c Rewrite active → passive",
+            "3 Discuss (festival / home)",
+          ];
+        }
+        if (block.id === "2a-writing") {
+          block.trainerId = "writing-m2a-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Writing Task 1 · process diagrams (wind turbine + edible oils).";
+          block.topics = [
+            "1 Lead-in",
+            "2a–2d Wind turbine process",
+            "3a–3c Active / passive",
+            "4 Edible oils process",
+          ];
+        }
+        if (block.id === "2b-listening") {
+          block.trainerId = "listening-m2b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Listening Section 1 · Turtle Bay Safari Camp (Track 02_04).";
+          block.topics = [
+            "Before you listen",
+            "2a–2b Accurate answers",
+            "3 Form + map (02_04)",
+            "5 Discussion",
+          ];
+        }
+        if (block.id === "2b-speaking") {
+          block.trainerId = "speaking-m2b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Speaking Part 2 · photos + vocab + 2-minute talk + cue cards.";
+          block.topics = [
+            "1 Photos: Catskill / Reef",
+            "2a Vocabulary (italics)",
+            "2b Speak 2 minutes",
+            "Part 2 Cue cards",
+            "Model answers",
+          ];
+        }
+        if (block.id === "2b-writing") {
+          block.trainerId = "writing-m2b-flow";
+          block.trainers = undefined;
+          block.trainerLabel =
+            "Writing Task 1 · supervolcano process (diagram + cohesion + write).";
+          block.topics = [
+            "1 Lead-in: volcano photo",
+            "2 Understand the diagram",
+            "3 Plan (coherence)",
+            "4 Cohesion: Danger in the skies",
+            "5 Language 5a–5b",
+            "6 Write summary",
           ];
         }
         if (block.id === "2b-reading") {

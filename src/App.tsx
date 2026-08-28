@@ -98,7 +98,8 @@ export default function App() {
                 blockId: block.id,
                 blockLabel: `${block.skill} · ${block.pages}`,
                 initialStep,
-                restart: initialStep == null,
+                restart: true,
+                openKey: Date.now(),
               })
             }
             onUpdateMeta={(patch) => updateModuleMeta(currentModule.id, patch)}
@@ -112,6 +113,7 @@ export default function App() {
           <>
             {hasTrainer(view.trainerId) ? (
               <TrainerView
+                key={view.openKey ?? `${view.trainerId}-${view.initialStep ?? "all"}`}
                 trainerId={view.trainerId}
                 restart={view.restart}
                 initialStep={view.initialStep}
@@ -138,6 +140,7 @@ export default function App() {
                       ? `${nextBlock.skill} · ${nextBlock.pages}`
                       : undefined,
                     restart: true,
+                    openKey: Date.now(),
                   });
                 }}
                 continueLabel={
@@ -147,7 +150,9 @@ export default function App() {
                       ? "Reading (pp. 24–25) →"
                       : view.trainerId === "lead-in-insect-empire"
                         ? "Reading (pp. 34–35) →"
-                        : undefined
+                        : view.trainerId === "lead-in-teenagers"
+                          ? "Reading (pp. 40–41) →"
+                          : undefined
                 }
               />
             ) : (

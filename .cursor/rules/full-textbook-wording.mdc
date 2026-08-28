@@ -1,0 +1,14 @@
+---
+description: Never shorten or paraphrase textbook exercise wording in the app
+alwaysApply: true
+---
+
+# Full textbook wording
+
+When building IELTS course exercises from the coursebook / Teacher’s Book:
+
+- Use the **complete** original sentences, questions, options, and instructions.
+- Do **not** invent shortened labels like `Sentence 1 (…-library loan)`, ellipsis summaries, or paraphrased stubs “to save space”.
+- If a later exercise refers to earlier sentences (e.g. 2b → 2a), show those **full** sentences again (filled forms OK when the book assumes they were completed).
+- Fit layout by tightening padding/gaps/type size or using two columns — **never** by cutting the learner-facing text.
+- Answer keys may be short; **stem / option / passage text must stay complete**.

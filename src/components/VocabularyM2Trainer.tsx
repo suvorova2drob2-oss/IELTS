@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 import {
   checkVocabM2,
   isGapBit,
@@ -31,17 +31,6 @@ function loadStep(restart?: boolean, initialStep?: number): number {
   return 0;
 }
 
-function OralBanner({ children }: { children: ReactNode }) {
-  return (
-    <div className="oral-banner">
-      <span className="oral-banner__icon" aria-hidden>
-        🎤
-      </span>
-      <p>{children}</p>
-    </div>
-  );
-}
-
 function TableCell({
   cell,
   values,
@@ -60,15 +49,17 @@ function TableCell({
   const ok = checkVocabM2(val, cell.answers);
   return (
     <span className="vm2-blank">
+      <strong className="vm2-n">{cell.id}</strong>
       <input
-        className={`inline-gap-input ${checked ? (ok ? "inline-gap-input--ok" : "inline-gap-input--bad") : ""}`}
+        className={`inline-gap-input vm2-table__input ${checked ? (ok ? "inline-gap-input--ok" : "inline-gap-input--bad") : ""}`}
         value={val}
         disabled={checked}
-        placeholder={`${cell.id}`}
+        placeholder="________"
+        aria-label={`Gap ${cell.id}`}
         onChange={(e) => onChange(cell.id, e.target.value)}
       />
       {checked && !ok && (
-        <span className="inline-gap-bad"> → {cell.answers[0]}</span>
+        <span className="inline-gap-bad"> → {cell.key}</span>
       )}
     </span>
   );
@@ -376,32 +367,32 @@ export function VocabularyM2Trainer({
       )}
 
       {step === 3 && (
-        <section className="card flow-card vm2-card">
+        <section className="card flow-card vm2-card vm2-card--phrasal">
           <h2 className="card-title">
             <span className="dot" />
             2b Spoken forms
           </h2>
           <p className="learn-screen__hint">{data.phrasal.instruction}</p>
-          <p className="vm2-bank">
+          <p className="vm2-bank vm2-bank--row">
             {data.phrasal.bank.map((p) => (
               <span key={p} className="vocab-tag">
                 {p}
               </span>
             ))}
           </p>
-          <ol className="vm2-phrasal">
+          <ol className="vm2-phrasal vm2-phrasal--grid">
             {data.phrasal.items.map((it) => {
               const val = phrasal[it.id] ?? "";
               const ok = checkVocabM2(val, it.answers);
               return (
                 <li key={it.id}>
                   <p>
-                    {it.before}
+                    <strong>{it.id}.</strong> {it.before}
                     <em>{it.bold}</em>
                     {it.after}
                   </p>
                   <input
-                    className={`inline-gap-input ${checked ? (ok ? "inline-gap-input--ok" : "inline-gap-input--bad") : ""}`}
+                    className={`inline-gap-input vm2-phrasal__input ${checked ? (ok ? "inline-gap-input--ok" : "inline-gap-input--bad") : ""}`}
                     value={val}
                     disabled={checked}
                     placeholder="spoken phrase"
@@ -419,18 +410,23 @@ export function VocabularyM2Trainer({
           {checked && (
             <p className="line-hint">Extra phrase: {data.phrasal.extra}</p>
           )}
-          <OralBanner>{data.phrasal.discuss}</OralBanner>
+          <div className="oral-banner oral-banner--compact">
+            <span className="oral-banner__icon" aria-hidden>
+              🎤
+            </span>
+            <p>{data.phrasal.discuss}</p>
+          </div>
         </section>
       )}
 
       {step === 4 && (
-        <section className="card flow-card vm2-card">
+        <section className="card flow-card vm2-card vm2-card--process">
           <h2 className="card-title">
             <span className="dot" />
             3a Process verbs
           </h2>
           <p className="learn-screen__hint">{data.process.instruction}</p>
-          <article className="vm2-passage">
+          <article className="vm2-passage vm2-passage--process">
             <h3>{data.process.title}</h3>
             <p>
               {data.process.parts.map((part, i) => {
@@ -468,51 +464,53 @@ export function VocabularyM2Trainer({
       )}
 
       {step === 5 && (
-        <section className="card flow-card vm2-card">
+        <section className="card flow-card vm2-card vm2-card--table">
           <h2 className="card-title">
             <span className="dot" />
             3b Word forms
           </h2>
           <p className="learn-screen__hint">{data.wordTable.instruction}</p>
-          <table className="vm2-table">
-            <thead>
-              <tr>
-                <th>Noun</th>
-                <th>Verb</th>
-                <th>Adjective</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.wordTable.rows.map((row, i) => (
-                <tr key={i}>
-                  <td>
-                    <TableCell
-                      cell={row.noun}
-                      values={table}
-                      onChange={(id, v) => setTable((t) => ({ ...t, [id]: v }))}
-                      checked={checked}
-                    />
-                  </td>
-                  <td>
-                    <TableCell
-                      cell={row.verb}
-                      values={table}
-                      onChange={(id, v) => setTable((t) => ({ ...t, [id]: v }))}
-                      checked={checked}
-                    />
-                  </td>
-                  <td>
-                    <TableCell
-                      cell={row.adj}
-                      values={table}
-                      onChange={(id, v) => setTable((t) => ({ ...t, [id]: v }))}
-                      checked={checked}
-                    />
-                  </td>
+          <div className="vm2-table-wrap">
+            <table className="vm2-table">
+              <thead>
+                <tr>
+                  <th>Noun</th>
+                  <th>Verb</th>
+                  <th>Adjective</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data.wordTable.rows.map((row, i) => (
+                  <tr key={i}>
+                    <td>
+                      <TableCell
+                        cell={row.noun}
+                        values={table}
+                        onChange={(id, v) => setTable((t) => ({ ...t, [id]: v }))}
+                        checked={checked}
+                      />
+                    </td>
+                    <td>
+                      <TableCell
+                        cell={row.verb}
+                        values={table}
+                        onChange={(id, v) => setTable((t) => ({ ...t, [id]: v }))}
+                        checked={checked}
+                      />
+                    </td>
+                    <td>
+                      <TableCell
+                        cell={row.adj}
+                        values={table}
+                        onChange={(id, v) => setTable((t) => ({ ...t, [id]: v }))}
+                        checked={checked}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       )}
 

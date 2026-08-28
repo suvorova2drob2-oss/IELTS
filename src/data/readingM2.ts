@@ -71,10 +71,22 @@ export type ReadingM2Data = {
     questions: string[];
   };
   topicSentences?: {
+    heading: string;
+    /** Exercise 2 — full coursebook wording. */
     instruction: string;
+    predictPrompt: string;
+    skimPrompt: string;
     topicSentence: string;
     details: M2DetailTick[];
-    laterTopics: string[];
+    /** Exercise 3a / 3b */
+    ex3a: string;
+    ex3b: string;
+    laterTopics: {
+      paragraphIndex: number;
+      topicSentence: string;
+      /** Teacher’s Book supporting-detail check (3b). */
+      summary: string;
+    }[];
   };
   tfngInstruction: string;
   tfngLegend: { value: TfngValue; meaning: string }[];
@@ -119,8 +131,13 @@ export const readingM2: ReadingM2Data = {
     ],
   },
   topicSentences: {
+    heading: "Topic sentences and supporting details",
     instruction:
-      "Look at the highlighted topic sentence in the first paragraph. Predict which details the rest of the paragraph will give about the Agricultural Revolution. Then skim and tick which supporting details are mentioned.",
+      "Look at the highlighted topic sentence in the first paragraph of the article.",
+    predictPrompt:
+      "Predict which of these details the rest of the paragraph will give about the Agricultural Revolution.",
+    skimPrompt:
+      "Skim the paragraph quickly and tick which of these supporting details are mentioned.",
     topicSentence:
       "At the end of the Ice Age, 10,000-12,000 years ago, the Agricultural Revolution took place, something which was to transform people's lives forever.",
     details: [
@@ -134,24 +151,70 @@ export const readingM2: ReadingM2Data = {
         id: "where",
         label: "where it began",
         mentioned: true,
-        note: "Yes — more or less simultaneously in a number of regions throughout the world (not one starting place).",
+        note: "Yes — more or less simultaneously in a number of regions throughout the world.",
       },
       {
         id: "before",
         label: "how people lived before that time",
         mentioned: false,
-        note: "No — hunter-gatherers are in the intro box, not in the rest of paragraph 1.",
+        note: "No — hunter-gatherers are in the introduction, not in the rest of paragraph 1.",
       },
     ] satisfies M2DetailTick[],
+    ex3a: "Highlight the topic sentences in the rest of the passage. Predict what the supporting details will be.",
+    ex3b: "Skim quickly and check.",
     laterTopics: [
-      "Perhaps the most significant consequence of this change was the ability to produce a surplus of food…",
-      "These developments produced a revolution in human lives.",
-      "The health of agriculturalists of this time can in part be assessed by the newly emerging techniques of paleopathology…",
-      "Studies also show that hunter-gatherers living about 7,000 years ago had bone density…",
-      "Another example of paleopathology at work is the study of Native American skeletons…",
-      "When compared with their hunter-gatherer ancestors, the farmers were found to have significant health deficiencies…",
-      "The evidence suggests that while hunter-gatherers enjoyed a varied diet…",
-      "The lasting impact of the Agricultural Revolution was to enable Homo sapiens to succeed as a species…",
+      {
+        paragraphIndex: 1,
+        topicSentence:
+          "Perhaps the most significant consequence of this change was the ability to produce a surplus of food…",
+        summary: "details of how a surplus of food was produced",
+      },
+      {
+        paragraphIndex: 2,
+        topicSentence:
+          "These developments produced a revolution in human lives.",
+        summary:
+          "what changes were made (people began to settle in one place; there were more epidemics)",
+      },
+      {
+        paragraphIndex: 3,
+        topicSentence:
+          "The health of agriculturalists of this time can in part be assessed by the newly emerging techniques of paleopathology…",
+        summary:
+          "an example of paleopathology, how height changed with the growth of agriculture",
+      },
+      {
+        paragraphIndex: 4,
+        topicSentence:
+          "Studies also show that hunter-gatherers living about 7,000 years ago had bone density…",
+        summary:
+          "contrasting details of bone strength in agriculturalists and reasons why",
+      },
+      {
+        paragraphIndex: 5,
+        topicSentence:
+          "Another example of paleopathology at work is the study of Native American skeletons…",
+        summary: "impact of change to intensive farming on health",
+      },
+      {
+        paragraphIndex: 6,
+        topicSentence:
+          "When compared with their hunter-gatherer ancestors, the farmers were found to have significant health deficiencies…",
+        summary: "life expectancy",
+      },
+      {
+        paragraphIndex: 7,
+        topicSentence:
+          "The evidence suggests that while hunter-gatherers enjoyed a varied diet…",
+        summary: "problems with the new agricultural diet",
+      },
+      {
+        paragraphIndex: 8,
+        topicSentence:
+          "The lasting impact of the Agricultural Revolution was to enable Homo sapiens to succeed as a species…",
+        summary:
+          "a summary of the short term negative effects of the Agricultural Revolution",
+      },
     ],
   },
   tfngInstruction:
@@ -166,11 +229,11 @@ export const readingM2: ReadingM2Data = {
       id: 1,
       statement:
         "Studies prove that the Agricultural Revolution was prompted by a rise in the birth rate at the time.",
-      key: "NOT GIVEN",
+      key: "FALSE",
       evidence: [
         "Whether this was a consequence or the cause of the dramatic population growth which we know occurred around this time is still unclear",
       ],
-      tip: "Population growth is debated as cause or consequence — not 'studies prove', and birth rate is not mentioned.",
+      tip: "TB: False. The text says the link with population growth is still unclear — that contradicts ‘studies prove’. Birth rate is not mentioned.",
       paragraphIndex: 0,
     },
     {
@@ -181,7 +244,7 @@ export const readingM2: ReadingM2Data = {
       evidence: [
         "surplus of food beyond the immediate needs of daily subsistence",
       ],
-      tip: "Surplus beyond daily subsistence = more than the daily minimum.",
+      tip: "TB: True. Surplus beyond daily subsistence = more than the daily minimum.",
       paragraphIndex: 1,
     },
     {
@@ -192,7 +255,7 @@ export const readingM2: ReadingM2Data = {
       evidence: [
         "accelerated the spread of parasites and infectious diseases",
       ],
-      tip: "Crowded farming societies sped up parasites and infectious disease.",
+      tip: "TB: True. Crowded farming societies sped up parasites and infectious disease.",
       paragraphIndex: 2,
     },
     {
@@ -201,7 +264,7 @@ export const readingM2: ReadingM2Data = {
         "Not until modern times have people in Greece and Turkey reached the same average height as their hunter-gatherer ancestors.",
       key: "NOT GIVEN",
       evidence: ["before very slowly beginning to rise again"],
-      tip: "Height fell, then rose slowly — the text does not say they only caught up in modern times.",
+      tip: "TB: Not given. Height fell, then rose slowly — the text does not say they only caught up in modern times.",
       paragraphIndex: 3,
     },
     {
@@ -213,7 +276,7 @@ export const readingM2: ReadingM2Data = {
         "these findings do not imply that the latter worked fewer hours",
         "pattern of physical activity",
       ],
-      tip: "Not more hours of work — mobile foraging vs sedentary farming.",
+      tip: "TB: False. Not more hours of work — mobile foraging vs sedentary farming.",
       paragraphIndex: 4,
     },
   ] satisfies M2TfngQ[],
@@ -223,10 +286,12 @@ export const readingM2: ReadingM2Data = {
     {
       id: 6,
       question:
-        "To what extent did people's teeth worsen as a result of an agricultural diet?",
-      answers: ["50 percent", "50%", "50 per cent"],
-      evidence: ["enamel defects increased by 50 percent"],
-      tip: "Extent = a number. Enamel defects increased by 50 percent.",
+        "How much more common were bone lesions among early farmers compared with hunter-gatherers?",
+      answers: ["three times", "3 times"],
+      evidence: [
+        "bone lesions were three times more evident which points to an increase in infectious diseases",
+      ],
+      tip: "TB: three times (bone lesions, para 7).",
       paragraphIndex: 6,
     },
     {
@@ -234,18 +299,18 @@ export const readingM2: ReadingM2Data = {
       question: "What chemical element was lacking in the diet of agriculturalists?",
       answers: ["iron"],
       evidence: ["iron-deficiency anaemia"],
-      tip: "Porotic hyperostosis → iron-deficiency anaemia → the element is iron.",
+      tip: "TB: iron. Porotic hyperostosis → iron-deficiency anaemia.",
       paragraphIndex: 6,
     },
     {
       id: 8,
       question:
-        "What physical evidence is there that catching illnesses from others at that time was common?",
-      answers: ["bone lesions"],
+        "What physical problem resulted from the gruelling physical work of early farmers?",
+      answers: ["bone damage", "spinal conditions"],
       evidence: [
-        "bone lesions were three times more evident which points to an increase in infectious diseases",
+        "a rise in degenerative spinal conditions was the result of the gruelling physical work",
       ],
-      tip: "Bone lesions = physical evidence of infectious disease.",
+      tip: "TB: bone damage (degenerative spinal conditions from hard physical work).",
       paragraphIndex: 6,
     },
     {
@@ -254,7 +319,7 @@ export const readingM2: ReadingM2Data = {
         "What was greatly reduced as a result of diet and illness in post-agricultural times?",
       answers: ["life expectancy"],
       evidence: ["life expectancy dropped by about seven years"],
-      tip: "Life expectancy fell from 26 years to 19.",
+      tip: "TB: life expectancy. Fell from 26 years to 19.",
       paragraphIndex: 6,
     },
     {
@@ -264,7 +329,7 @@ export const readingM2: ReadingM2Data = {
       evidence: [
         "Using new food sources such as dairy products proved difficult as humans had not adapted to digest it",
       ],
-      tip: "Dairy products — humans had not adapted to digest it.",
+      tip: "TB: dairy products — humans had not adapted to digest it.",
       paragraphIndex: 7,
     },
   ] satisfies M2ShortQ[],

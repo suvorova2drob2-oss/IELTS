@@ -1,0 +1,56 @@
+---
+description: Never ship mushy/overlapping trainer layouts — content must fit cleanly with no stacking collisions.
+alwaysApply: true
+---
+
+# No mushy layouts (no overlap / no clip)
+
+Learner text, inputs, tips, and the footer must **never** sit on top of each other. Overlapping lines, tips covering options, or half-visible last items are always a bug.
+
+## Hard ban
+
+- Tip / answer key / compare note drawn **over** options, inputs, or other stems
+- Fixed footer covering the last question or chip
+- Two labels stacked on the same pixels (zero/negative margin collision)
+- `overflow: hidden` used to **hide** content that still doesn’t fit — fix layout instead
+
+## Required check before finishing ANY exercise step
+
+1. Can you read **every** stem, option, input, and tip **without** one covering another?
+2. Is the last item (C, Q6, gap 8, Check…) fully above the footer with clear gap?
+3. Is there empty space on the right/bottom that could hold the clipped/mashed content?
+
+If any answer fails → **do not ship**. Use columns or tighten.
+
+## How to fix (order)
+
+1. **Two-column / grid** for 3+ paraphrase or MC rows (`grid-template-columns: 1fr 1fr`).
+2. **Shrink** type, padding, gaps, card title — keep full textbook wording.
+3. Tip stays `flex-shrink: 0` **inside** the panel flow, **not** absolutely positioned over content.
+4. Shell already has bottom padding for `.flow-footer` — never let panel content extend under it.
+
+## Do
+
+```css
+/* GOOD — paraphrase rows share width */
+.listen-m1__para-list--grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+.pr-endings-panel__tip { flex-shrink: 0; } /* in document flow */
+```
+
+## Do not
+
+```css
+/* BAD — stack everything in one tall column then clip */
+.listen-m1__para-list { flex-direction: column; overflow: hidden; }
+/* BAD — tip floating over answers */
+.tip { position: absolute; bottom: 0; }
+```
+
+Related: `fit-viewport-content.mdc`, `no-useless-scroll.mdc`, `full-textbook-wording.mdc`.
+---

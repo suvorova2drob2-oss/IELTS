@@ -67,31 +67,55 @@ export const defaultCourse: CourseData = {
               id: "1a-listening",
               skill: "Listening",
               topics: [
-                "Recognise paraphrasing",
-                "Section 2 tasks: Multiple choice",
-                "Select from a list",
+                "Before you listen: libraries",
+                "3a Underline listening focus",
+                "3b Paraphrase options A–C",
+                "3c Check with the script",
+                "3d Strategy questions",
+                "4a Question focus",
+                "4b Synonyms for options",
+                "Listen: Choose TWO (B, D)",
+                "Discussion",
               ],
               pages: "p. 12",
+              trainerId: "listening-m1-flow",
+              trainerLabel:
+                "Learn: Before you listen → 3a–3d → 4a–4b → Choose TWO → Discussion.",
             },
             {
               id: "1a-language",
               skill: "Language development",
               topics: [
-                "Synonyms",
-                "Prefixes",
-                "Word formation",
-                "Paraphrase sentences",
+                "1a Match synonyms",
+                "1b Complete the sentences",
+                "2a Prefixes",
+                "2b Match meanings",
+                "3a Word forms",
+                "3b Word formation",
+                "4a Paraphrase sentences",
+                "4b Discussion",
               ],
               pages: "p. 13",
+              trainerId: "language-m1a-flow",
+              trainerLabel:
+                "Language development · synonyms, prefixes, word formation, paraphrase.",
             },
             {
               id: "1a-writing",
               skill: "Writing",
               topics: [
-                "Structure your answer",
-                "Summarise features (Task 1)",
+                "1a Look at the graph",
+                "1b Match structures",
+                "2a Overview",
+                "2b Trend or detail",
+                "2c Other trends",
+                "3a Plan",
+                "Write",
               ],
               pages: "p. 14",
+              trainerId: "writing-m1a-flow",
+              trainerLabel:
+                "Task 1 · women employment + education years · 1a–3a + Write.",
             },
           ],
         },
@@ -104,28 +128,47 @@ export const defaultCourse: CourseData = {
               id: "1b-listening",
               skill: "Listening",
               topics: [
-                "Section 2: Multiple choice",
-                "Select from a list",
+                "Before you listen",
+                "2a Alternative language",
+                "2c Listen",
+                "2d Script",
+                "3 Alt language",
+                "Test practice",
+                "Discussion",
               ],
               pages: "p. 15",
+              trainerId: "listening-m1b-flow",
+              trainerLabel:
+                "Section 2 · paraphrase → 01_05 → Test 01_06 (1A 2C · C+D).",
             },
             {
               id: "1b-language",
               skill: "Language development and vocabulary",
               topics: [
-                "2a Go up / Go down / No movement",
-                "b Verb forms",
+                "2a Describe trends",
+                "2b Correct graph errors",
+                "b Verb forms (1–6)",
+                "c Choose the correct option",
               ],
               pages: "p. 16",
               trainerId: "language-m1b-flow",
               trainerLabel:
-                "p. 16 Describe trends · 2a table, then b verb forms.",
+                "p. 16 · 2a table · 2b peak study times · b verb forms · c italics.",
             },
             {
               id: "1b-speaking",
               skill: "Speaking",
-              topics: ["Part 1: Talk about studying"],
+              topics: [
+                "1a Picture discussion",
+                "1b Decision collocations",
+                "1c Your big decision",
+                "3 Test practice",
+                "4a Assess and improve",
+              ],
               pages: "p. 17",
+              trainerId: "speaking-m1b-flow",
+              trainerLabel:
+                "Speaking Part 1 · Vocabulary + Test practice (school / IELTS) + self-check.",
             },
             {
               id: "1b-reading",
@@ -218,26 +261,60 @@ export const defaultCourse: CourseData = {
             {
               id: "2a-speaking",
               skill: "Speaking",
-              topics: ["Extend your answers", "Part 1 practice"],
+              topics: [
+                "Lead-in: architecture photo",
+                "2a Cue card points",
+                "3a Plan notes (mind map)",
+                "3b Your notes + speak",
+              ],
               pages: "p. 27",
+              trainerId: "speaking-m2a-flow",
+              trainerLabel:
+                "Speaking · Lead-in + cue card + Paris mind map + your notes.",
             },
             {
               id: "2a-listening",
               skill: "Listening",
-              topics: ["Section 3: Multiple choice", "Note completion"],
+              topics: [
+                "Before you listen: bungee jump",
+                "2 Map prepositions",
+                "2.2 Listen: Robert & Filipo walks",
+                "4 Directions (italics)",
+                "5 Match direction phrases",
+                "6a Camp Horizon map",
+                "6b Label the map (02_03)",
+              ],
               pages: "p. 28",
+              trainerId: "listening-m2a-flow",
+              trainerLabel:
+                "Listening Section 1 · map skills + walks + Camp Horizon label.",
             },
             {
               id: "2a-language",
               skill: "Language development",
-              topics: ["Noun phrases", "Cause and effect"],
+              topics: [
+                "b Passive italics (photos)",
+                "c Passive forms (article)",
+                "c Rewrite active → passive",
+                "3 Discuss (festival / home)",
+              ],
               pages: "p. 29",
+              trainerId: "language-m2a-flow",
+              trainerLabel: "Language · The passive (italics + forms + rewrite + discuss).",
             },
             {
               id: "2a-writing",
               skill: "Writing",
-              topics: ["Task 2: Opinion essay structure"],
+              topics: [
+                "1 Lead-in",
+                "2a–2d Wind turbine process",
+                "3a–3c Active / passive",
+                "4 Edible oils process",
+              ],
               pages: "p. 30",
+              trainerId: "writing-m2a-flow",
+              trainerLabel:
+                "Writing Task 1 · process diagrams (wind turbine + edible oils).",
             },
           ],
         },
@@ -249,8 +326,16 @@ export const defaultCourse: CourseData = {
             {
               id: "2b-listening",
               skill: "Listening",
-              topics: ["Section 3 practice"],
+              topics: [
+                "Before you listen",
+                "2a–2b Accurate answers",
+                "3 Form + map (02_04)",
+                "5 Discussion",
+              ],
               pages: "p. 31",
+              trainerId: "listening-m2b-flow",
+              trainerLabel:
+                "Listening Section 1 · Turtle Bay Safari Camp (Track 02_04).",
             },
             {
               id: "2b-language",
@@ -261,8 +346,17 @@ export const defaultCourse: CourseData = {
             {
               id: "2b-speaking",
               skill: "Speaking",
-              topics: ["Part 2: Cue card"],
+              topics: [
+                "1 Photos: Catskill / Reef",
+                "2a Vocabulary (italics)",
+                "2b Speak 2 minutes",
+                "Part 2 Cue cards",
+                "Model answers",
+              ],
               pages: "p. 33",
+              trainerId: "speaking-m2b-flow",
+              trainerLabel:
+                "Speaking Part 2 · photos + vocab + 2-minute talk + cue cards.",
             },
             {
               id: "2b-reading",
@@ -290,8 +384,18 @@ export const defaultCourse: CourseData = {
             {
               id: "2b-writing",
               skill: "Writing",
-              topics: ["Task 2: Full essay"],
+              topics: [
+                "1 Lead-in: volcano photo",
+                "2 Understand the diagram",
+                "3 Plan (coherence)",
+                "4 Cohesion: Danger in the skies",
+                "5 Language 5a–5b",
+                "6 Write summary",
+              ],
               pages: "pp. 36–37",
+              trainerId: "writing-m2b-flow",
+              trainerLabel:
+                "Writing Task 1 · supervolcano process (diagram + cohesion + write).",
             },
           ],
         },
@@ -299,10 +403,149 @@ export const defaultCourse: CourseData = {
       review: {
         label: "Module 2 review",
         pages: "p. 38",
+        trainerId: "review-m2-flow",
       },
     },
-    ...Array.from({ length: 8 }, (_, i) => {
-      const n = i + 3;
+    {
+      id: "module-3",
+      number: 3,
+      title: "The feel-good factor",
+      startPage: "p. 39",
+      sections: [
+        {
+          id: "3a",
+          label: "A",
+          subtitle: "The mind…",
+          blocks: [
+            {
+              id: "3a-lead-in",
+              skill: "Lead-in",
+              topics: [
+                "Today’s teenagers infographic",
+                "Positive vs negative statistics",
+                "Psychological vs physical factors",
+                "Effect on studying",
+                "Compare with your country",
+              ],
+              pages: "p. 39",
+              trainerId: "lead-in-teenagers",
+              trainerLabel:
+                "Lead-in · Today’s teenagers (USA school students infographic).",
+              nextTrainerId: "reading-m3-flow",
+            },
+            {
+              id: "3a-reading",
+              skill: "Reading",
+              topics: [
+                "Before you read: stress",
+                "2a–2b Identify the main idea",
+                "Matching headings 1–4",
+                "Multiple choice (two answers) 5–6",
+                "Task analysis + Discussion",
+              ],
+              pages: "pp. 40–41",
+              trainerId: "reading-m3-flow",
+              trainerLabel:
+                "Prescribing nature · Matching headings + select two answers.",
+            },
+            {
+              id: "3a-vocabulary",
+              skill: "Vocabulary",
+              topics: [
+                "1 Problems and solutions (match)",
+                "2 Yoga italics",
+                "3a Academic collocations",
+                "3b Discuss",
+                "4a Idioms match",
+                "4b Idiom sentences",
+              ],
+              pages: "p. 42",
+              trainerId: "vocabulary-m3-flow",
+              trainerLabel:
+                "Vocabulary · Problems and solutions + idioms (p. 42).",
+            },
+            {
+              id: "3a-speaking",
+              skill: "Speaking",
+              topics: [
+                "1a Positivity quiz",
+                "1b Half full / half empty",
+                "2a Word forms",
+                "2b Examiner question",
+                "3 Develop techniques",
+                "4 Notes + models",
+                "5a More Part 3 questions",
+              ],
+              pages: "p. 43",
+              trainerId: "speaking-m3a-flow",
+              trainerLabel:
+                "Speaking Part 3 · positivity quiz + vocabulary + develop answers.",
+            },
+            {
+              id: "3a-listening",
+              skill: "Listening",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+            {
+              id: "3a-language",
+              skill: "Language development",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+            {
+              id: "3a-writing",
+              skill: "Writing",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+          ],
+        },
+        {
+          id: "3b",
+          label: "B",
+          subtitle: "… and body",
+          blocks: [
+            {
+              id: "3b-listening",
+              skill: "Listening",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+            {
+              id: "3b-language",
+              skill: "Language development and vocabulary",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+            {
+              id: "3b-speaking",
+              skill: "Speaking",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+            {
+              id: "3b-reading",
+              skill: "Reading",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+            {
+              id: "3b-writing",
+              skill: "Writing",
+              topics: ["Add topics here"],
+              pages: "—",
+            },
+          ],
+        },
+      ],
+      review: {
+        label: "Module 3 review",
+        pages: "—",
+      },
+    },
+    ...Array.from({ length: 7 }, (_, i) => {
+      const n = i + 4;
       return {
         id: `module-${n}`,
         number: n,

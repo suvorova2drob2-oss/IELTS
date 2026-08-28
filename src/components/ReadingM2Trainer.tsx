@@ -125,6 +125,7 @@ function PassagePane({
   evidenceTerms,
   showEvidence,
   highlightTopic,
+  highlightedParagraphs,
   activeParagraphIndex,
   paragraphRefs,
 }: {
@@ -132,10 +133,15 @@ function PassagePane({
   evidenceTerms: string[];
   showEvidence: boolean;
   highlightTopic?: boolean;
+  /** Paragraph indices whose topic sentence should be marked (ex 3a). */
+  highlightedParagraphs?: number[];
   activeParagraphIndex?: number;
   paragraphRefs?: React.MutableRefObject<(HTMLParagraphElement | null)[]>;
 }) {
   const topicSentence = data.topicSentences?.topicSentence ?? "";
+  const later = data.topicSentences?.laterTopics ?? [];
+  const marked = new Set(highlightedParagraphs ?? []);
+
   return (
     <article className="passage-reader passage-reader--compact passage-reader--single-col">
       <header className="passage-reader__header">
@@ -144,14 +150,21 @@ function PassagePane({
       <p className="rm2-intro">{data.introduction}</p>
       <div className="passage-reader__body">
         {data.passage.map((p, i) => {
-          const topic = i === 0 ? topicSentence : "";
-          let body = p;
           let lead: ReactNode = null;
-          if (highlightTopic && topic && p.startsWith(topic)) {
-            lead = (
-              <mark className="rm2-topic-sent">{topic}</mark>
-            );
-            body = p.slice(topic.length);
+          let body = p;
+          if (highlightTopic && i === 0 && topicSentence && p.startsWith(topicSentence)) {
+            lead = <mark className="rm2-topic-sent">{topicSentence}</mark>;
+            body = p.slice(topicSentence.length);
+          } else if (marked.has(i)) {
+            const match = later.find((t) => t.paragraphIndex === i);
+            const full = data.passage[i];
+            // Highlight first sentence (up to first . ! ?)
+            const m = full.match(/^[\s\S]*?[.!?](?=\s|$)/);
+            const first = m?.[0] ?? match?.topicSentence ?? "";
+            if (first && full.startsWith(first)) {
+              lead = <mark className="rm2-topic-sent rm2-topic-sent--pick">{first}</mark>;
+              body = full.slice(first.length);
+            }
           }
           const rest =
             showEvidence && evidenceTerms.length > 0
@@ -321,6 +334,8 @@ export function ReadingM2Trainer({
   const [mobilePane, setMobilePane] = useState<"passage" | "tasks">("passage");
   const [ticks, setTicks] = useState<Record<string, boolean>>({});
   const [ticksChecked, setTicksChecked] = useState(false);
+  const [markedParas, setMarkedParas] = useState<number[]>([]);
+  const [ex3Checked, setEx3Checked] = useState(false);
   const [agree, setAgree] = useState<Record<number, "agree" | "disagree" | undefined>>(
     {},
   );
@@ -336,6 +351,10 @@ export function ReadingM2Trainer({
       setTrackMode(initialStep != null && !examOnly ? "learn" : "exam");
       setLearnStep(initialStep ?? 0);
       setChecked(false);
+      setTicks({});
+      setTicksChecked(false);
+      setMarkedParas([]);
+      setEx3Checked(false);
     }
   }, [restart, initialStep, examOnly]);
 
@@ -565,61 +584,128 @@ export function ReadingM2Trainer({
                 evidenceTerms={[]}
                 showEvidence={false}
                 highlightTopic
+                highlightedParagraphs={markedParas}
               />
             </div>
-            <aside className="learn-scan__sidebar">
+            <aside className="learn-scan__sidebar rm2-strategy">
               <h2 className="card-title">
                 <span className="dot" />
-                Topic sentences
+                {data.topicSentences.heading}
               </h2>
-              <p className="learn-screen__hint">
-                {data.topicSentences.instruction}
-              </p>
-              <ul className="rm2-ticks">
-                {data.topicSentences.details.map((d) => {
-                  const on = Boolean(ticks[d.id]);
-                  let mark = "";
-                  if (ticksChecked) {
-                    mark = on === d.mentioned ? "rm2-ticks__item--ok" : "rm2-ticks__item--bad";
-                  } else if (on) {
-                    mark = "rm2-ticks__item--on";
-                  }
-                  return (
-                    <li key={d.id} className={mark}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={on}
-                          onChange={() =>
-                            setTicks((p) => ({ ...p, [d.id]: !p[d.id] }))
-                          }
-                        />
-                        {d.label}
-                      </label>
-                      {ticksChecked && <p className="rm2-ticks__note">{d.note}</p>}
-                    </li>
-                  );
-                })}
-              </ul>
-              <button
-                type="button"
-                className="nav-btn action-btn primary"
-                onClick={() => setTicksChecked(true)}
-              >
-                Check →
-              </button>
+
+              <div className="rm2-strategy__block">
+                <p className="rm2-strategy__ex">
+                  <span>2</span>
+                  {data.topicSentences.instruction}
+                </p>
+                <p className="learn-screen__hint">
+                  <strong>1</strong> {data.topicSentences.predictPrompt}
+                </p>
+                <ul className="rm2-ticks">
+                  {data.topicSentences.details.map((d) => {
+                    const on = Boolean(ticks[d.id]);
+                    let mark = "";
+                    if (ticksChecked) {
+                      mark =
+                        on === d.mentioned
+                          ? "rm2-ticks__item--ok"
+                          : "rm2-ticks__item--bad";
+                    } else if (on) {
+                      mark = "rm2-ticks__item--on";
+                    }
+                    return (
+                      <li key={d.id} className={mark}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={on}
+                            disabled={ticksChecked}
+                            onChange={() =>
+                              setTicks((p) => ({ ...p, [d.id]: !p[d.id] }))
+                            }
+                          />
+                          {d.label}
+                        </label>
+                        {ticksChecked && (
+                          <p className="rm2-ticks__note">{d.note}</p>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+                <p className="learn-screen__hint">
+                  <strong>2</strong> {data.topicSentences.skimPrompt}
+                </p>
+                {!ticksChecked && (
+                  <button
+                    type="button"
+                    className="nav-btn action-btn primary"
+                    onClick={() => setTicksChecked(true)}
+                  >
+                    Check supporting details →
+                  </button>
+                )}
+              </div>
+
               {ticksChecked && (
-                <>
-                  <h3 className="learn-scan__sub">3a Topic sentences (rest of passage)</h3>
-                  <p className="learn-screen__hint">
-                    Usually the first sentence. Skim to check supporting details.
+                <div className="rm2-strategy__block">
+                  <p className="rm2-strategy__ex">
+                    <span>3a</span>
+                    {data.topicSentences.ex3a}
                   </p>
-                  <ol className="scan-box__steps scan-box__steps--compact">
-                    {data.topicSentences.laterTopics.map((t) => (
-                      <li key={t}>{t}</li>
-                    ))}
+                  <p className="learn-screen__hint">
+                    Click a paragraph number to highlight its topic sentence in
+                    the text.
+                  </p>
+                  <ol className="rm2-strategy__later">
+                    {data.topicSentences.laterTopics.map((t) => {
+                      const on = markedParas.includes(t.paragraphIndex);
+                      return (
+                        <li key={t.paragraphIndex}>
+                          <button
+                            type="button"
+                            className={`rm2-strategy__later-btn ${on ? "rm2-strategy__later-btn--on" : ""}`}
+                            disabled={ex3Checked}
+                            onClick={() =>
+                              setMarkedParas((prev) =>
+                                prev.includes(t.paragraphIndex)
+                                  ? prev.filter((x) => x !== t.paragraphIndex)
+                                  : [...prev, t.paragraphIndex],
+                              )
+                            }
+                          >
+                            <strong>Para {t.paragraphIndex + 1}</strong>
+                            <span>{t.topicSentence}</span>
+                          </button>
+                          {ex3Checked && (
+                            <p className="rm2-ticks__note">
+                              Supporting details: {t.summary}
+                            </p>
+                          )}
+                        </li>
+                      );
+                    })}
                   </ol>
-                </>
+                  <p className="rm2-strategy__ex">
+                    <span>3b</span>
+                    {data.topicSentences.ex3b}
+                  </p>
+                  {!ex3Checked ? (
+                    <button
+                      type="button"
+                      className="nav-btn action-btn primary"
+                      onClick={() => setEx3Checked(true)}
+                    >
+                      Check topic sentences →
+                    </button>
+                  ) : (
+                    <p className="pr-endings-panel__tip rm2-strategy__tip">
+                      TB: Para 2 surplus · 3 settle / epidemics · 4 height · 5
+                      bone strength · 6 intensive farming · 7 life expectancy ·
+                      8 diet · 9 short-term negatives
+                    </p>
+                  )}
+                </div>
               )}
             </aside>
           </div>

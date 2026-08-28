@@ -1,0 +1,41 @@
+---
+description: Every exercise must fit the viewport — never clip content while empty space remains.
+alwaysApply: true
+---
+
+# Fit the viewport (no clipped content)
+
+Before finishing any trainer / exercise UI change, **verify the full task is visible** in a normal desktop viewport (~1280×800 and up) without cutting off questions, options, gaps, or footer actions.
+
+## Hard ban (also see `no-mushy-layout.mdc`)
+
+- Tip / answer key drawn **over** options or inputs
+- Footer covering the last question
+- Labels stacked on the same pixels
+
+## Required check (do this every time)
+
+1. Open the changed step mentally or in the browser.
+2. Ask: **Is any learner text or control cut off at the bottom or side?**
+3. Ask: **Is there empty background beside or below the content that could hold that clipped text?**
+4. If yes to both → **layout bug**. Fix before shipping.
+
+A Windows scrollbar next to empty dark space is always wrong (see also `no-useless-scroll.mdc`).
+
+## How to fix (prefer in order)
+
+1. **Use horizontal space** — two columns, side bank/chips, wider shell (`max-width` not 960px on a full-bleed panel).
+2. **Tighten** — smaller type, padding, gaps, `min-height`; drop decorative empty rows.
+3. **One scroll pane only** if content is truly longer than the viewport (long essay / long passage) — never scroll a short quiz that would fit after tightening.
+
+## Do not
+
+- Leave `max-width: 960px` (or similar) on a panel that sits in a wider shell while content clips vertically.
+- Stack long lists in one narrow column when the right half of the screen is empty.
+- Ship with Q3+ options / last gaps / Check button half-visible.
+
+## Graphs / textbook visuals
+
+- Axis years and figures must be **high contrast** (near-black on cream plots), not dim grey.
+- Match coursebook layout where provided (legend position, axis labels, scale).
+---
