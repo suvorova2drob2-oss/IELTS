@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { defaultCourse } from "../data/defaultModules";
 import type { CourseData, CourseModule, SkillBlock } from "../types/module";
 
-const STORAGE_KEY = "ielts-expert-course-v10";
+const STORAGE_KEY = "ielts-expert-course-v11";
 const READING_STEP_KEY = "ielts-reading-m1-step";
 const READING_MODE_KEY = "ielts-reading-m1-mode";
 const VOCABULARY_STEP_KEY = "ielts-vocabulary-m1-step";
@@ -15,6 +15,22 @@ function migrateCourse(data: CourseData): CourseData {
     }
     for (const sec of mod.sections) {
       if (sec.id === "2a") sec.subtitle = "Development";
+      if (sec.id === "2b") {
+        sec.blocks = sec.blocks.filter((b) => b.id !== "2b-reading-lead-in");
+        const defaultMod = defaultCourse.modules.find((m) => m.id === "module-2");
+        const default2b = defaultMod?.sections.find((s) => s.id === "2b");
+        const defaultReading = default2b?.blocks.find((b) => b.id === "2b-reading");
+        if (defaultReading) {
+          const idx = sec.blocks.findIndex((b) => b.id === "2b-reading");
+          if (idx >= 0) {
+            sec.blocks[idx] = { ...sec.blocks[idx], ...defaultReading };
+          } else {
+            const speakIdx = sec.blocks.findIndex((b) => b.id === "2b-speaking");
+            if (speakIdx >= 0) sec.blocks.splice(speakIdx + 1, 0, defaultReading);
+            else sec.blocks.push(defaultReading);
+          }
+        }
+      }
       for (const block of sec.blocks) {
         if (block.id === "1a-reading") {
           block.trainerId = "reading-m1-flow";
@@ -84,6 +100,27 @@ function migrateCourse(data: CourseData): CourseData {
             "Academic verbs 1a–1b",
             "Written and spoken 2a–2c",
             "Process verbs 3a–3b",
+          ];
+        }
+        if (block.id === "2b-reading") {
+          block.trainers = [
+            {
+              id: "lead-in-insect-empire",
+              label: "Before you read (p. 34)",
+            },
+            {
+              id: "reading-m2b-flow",
+              label: "The Insect Empire · Exam 1–9",
+            },
+          ];
+          block.trainerId = undefined;
+          block.trainerLabel =
+            "The Insect Empire · Before you read → текст + TFNG 1–5 + short 6–9";
+          block.nextTrainerId = "reading-m2b-flow";
+          block.topics = [
+            "Before you read: tiger, bee, bush baby",
+            "True / False / Not Given 1–5",
+            "Short answers 6–9",
           ];
         }
         if (block.id === "1b-writing") {

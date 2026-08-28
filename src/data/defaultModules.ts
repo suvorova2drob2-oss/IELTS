@@ -267,8 +267,25 @@ export const defaultCourse: CourseData = {
             {
               id: "2b-reading",
               skill: "Reading",
-              topics: ["True / False / Not Given"],
+              topics: [
+                "Before you read: tiger, bee, bush baby",
+                "True / False / Not Given 1–5",
+                "Short answers 6–9",
+              ],
               pages: "pp. 34–35",
+              trainers: [
+                {
+                  id: "lead-in-insect-empire",
+                  label: "Before you read (p. 34)",
+                },
+                {
+                  id: "reading-m2b-flow",
+                  label: "The Insect Empire · Exam 1–9",
+                },
+              ],
+              trainerLabel:
+                "The Insect Empire · Before you read → текст + TFNG 1–5 + short 6–9",
+              nextTrainerId: "reading-m2b-flow",
             },
             {
               id: "2b-writing",

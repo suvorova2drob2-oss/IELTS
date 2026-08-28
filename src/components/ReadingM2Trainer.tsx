@@ -5,6 +5,7 @@ import {
   LEARN_STEP_NEXT_M2,
   LEARN_STEPS_M2,
   readingM2,
+  type ReadingM2Data,
 } from "../data/readingM2";
 import type { TfngValue } from "../data/practiceReadingTest1";
 import { READING_MODE_KEY, READING_STEP_KEY } from "../hooks/useCourseData";
@@ -13,7 +14,18 @@ type TrackMode = "exam" | "learn";
 type SplitBias = "balanced" | "passage" | "tasks";
 
 const TFNG_OPTIONS: TfngValue[] = ["TRUE", "FALSE", "NOT GIVEN"];
-const ALL_IDS = [...readingM2.tfng.map((q) => q.id), ...readingM2.short.map((q) => q.id)];
+
+function questionIds(data: ReadingM2Data): number[] {
+  return [...data.tfng.map((q) => q.id), ...data.short.map((q) => q.id)];
+}
+
+function learnStepsFor(data: ReadingM2Data): readonly string[] {
+  return data.learnSteps ?? LEARN_STEPS_M2;
+}
+
+function learnStepNextFor(data: ReadingM2Data): Record<number, string> {
+  return data.learnStepNext ?? LEARN_STEP_NEXT_M2;
+}
 
 function escapeRegex(s: string): string {
   return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -43,11 +55,17 @@ function stepStorageKey(id: string) {
   return `${READING_STEP_KEY}:${id}`;
 }
 
-function loadTrackMode(restart?: boolean, initialStep?: number): TrackMode {
+function loadTrackMode(
+  flowId: string,
+  examOnly: boolean,
+  restart?: boolean,
+  initialStep?: number,
+): TrackMode {
+  if (examOnly) return "exam";
   if (initialStep != null) return "learn";
   if (restart) return "exam";
   try {
-    const raw = sessionStorage.getItem(modeStorageKey(readingM2.id));
+    const raw = sessionStorage.getItem(modeStorageKey(flowId));
     if (raw === "learn" || raw === "exam") return raw;
   } catch {
     /* ignore */
@@ -55,14 +73,19 @@ function loadTrackMode(restart?: boolean, initialStep?: number): TrackMode {
   return "exam";
 }
 
-function loadLearnStep(restart?: boolean, initialStep?: number): number {
+function loadLearnStep(
+  flowId: string,
+  stepCount: number,
+  restart?: boolean,
+  initialStep?: number,
+): number {
   if (initialStep != null) return initialStep;
   if (restart) return 0;
   try {
-    const raw = sessionStorage.getItem(stepStorageKey(readingM2.id));
+    const raw = sessionStorage.getItem(stepStorageKey(flowId));
     if (raw != null) {
       const n = Number(raw);
-      if (!Number.isNaN(n) && n >= 0 && n < LEARN_STEPS_M2.length) return n;
+      if (!Number.isNaN(n) && n >= 0 && n < stepCount) return n;
     }
   } catch {
     /* ignore */
@@ -98,27 +121,30 @@ function highlightText(
 }
 
 function PassagePane({
+  data,
   evidenceTerms,
   showEvidence,
   highlightTopic,
   activeParagraphIndex,
   paragraphRefs,
 }: {
+  data: ReadingM2Data;
   evidenceTerms: string[];
   showEvidence: boolean;
   highlightTopic?: boolean;
   activeParagraphIndex?: number;
   paragraphRefs?: React.MutableRefObject<(HTMLParagraphElement | null)[]>;
 }) {
+  const topicSentence = data.topicSentences?.topicSentence ?? "";
   return (
     <article className="passage-reader passage-reader--compact passage-reader--single-col">
       <header className="passage-reader__header">
-        <h2>{readingM2.title}</h2>
+        <h2>{data.title}</h2>
       </header>
-      <p className="rm2-intro">{readingM2.introduction}</p>
+      <p className="rm2-intro">{data.introduction}</p>
       <div className="passage-reader__body">
-        {readingM2.passage.map((p, i) => {
-          const topic = i === 0 ? readingM2.topicSentences.topicSentence : "";
+        {data.passage.map((p, i) => {
+          const topic = i === 0 ? topicSentence : "";
           let body = p;
           let lead: ReactNode = null;
           if (highlightTopic && topic && p.startsWith(topic)) {
@@ -156,19 +182,20 @@ function PassagePane({
   );
 }
 
-function DiscussionBlock() {
-  const data = readingM2.discussion;
+function DiscussionBlock({ data }: { data: ReadingM2Data }) {
+  const discussion = data.discussion;
+  if (!discussion) return null;
   const [questionIndex, setQuestionIndex] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(data.timeSecPerQuestion);
+  const [timeLeft, setTimeLeft] = useState(discussion.timeSecPerQuestion);
   const [timerDone, setTimerDone] = useState(false);
-  const question = data.questions[questionIndex];
+  const question = discussion.questions[questionIndex];
 
   useEffect(() => {
     setTimerRunning(false);
-    setTimeLeft(data.timeSecPerQuestion);
+    setTimeLeft(discussion.timeSecPerQuestion);
     setTimerDone(false);
-  }, [questionIndex, data.timeSecPerQuestion]);
+  }, [questionIndex, discussion.timeSecPerQuestion]);
 
   useEffect(() => {
     if (!timerRunning || timeLeft <= 0) return;
@@ -197,14 +224,14 @@ function DiscussionBlock() {
         <span className="dot" />
         Discussion
       </h2>
-      <p className="article-preview__label">After reading · {readingM2.bookPages}</p>
-      <p className="question-text">{data.instruction}</p>
+      <p className="article-preview__label">After reading · {data.bookPages}</p>
+      <p className="question-text">{discussion.instruction}</p>
       <OralBanner>
         Обсуждайте в парах. Писать не нужно — включите таймер и говорите.
       </OralBanner>
       <div className="question-header">
         <span className="question-number">
-          Question {questionIndex + 1} of {data.questions.length}
+          Question {questionIndex + 1} of {discussion.questions.length}
         </span>
         <div className={timerClass}>
           ⏱ {formatTime(timeLeft)}
@@ -224,7 +251,7 @@ function DiscussionBlock() {
               className="action-btn"
               style={{ padding: "4px 10px", marginLeft: 8 }}
               onClick={() => {
-                setTimeLeft(data.timeSecPerQuestion);
+                setTimeLeft(discussion.timeSecPerQuestion);
                 setTimerDone(false);
               }}
             >
@@ -246,7 +273,7 @@ function DiscussionBlock() {
         <button
           type="button"
           className="nav-btn action-btn primary"
-          disabled={questionIndex >= data.questions.length - 1}
+          disabled={questionIndex >= discussion.questions.length - 1}
           onClick={() => setQuestionIndex((i) => i + 1)}
         >
           Next →
@@ -257,19 +284,32 @@ function DiscussionBlock() {
 }
 
 export function ReadingM2Trainer({
+  data = readingM2,
   onBack,
   restart,
   initialStep,
 }: {
+  data?: ReadingM2Data;
   onBack?: () => void;
   restart?: boolean;
   initialStep?: number;
 }) {
+  const learnSteps = learnStepsFor(data);
+  const learnStepNext = learnStepNextFor(data);
+  const allIds = questionIds(data);
+  const totalQuestions = allIds.length;
+  const tfngCount = data.tfng.length;
+  const hasShort = data.short.length > 0;
+  const examOnly = Boolean(data.examOnly);
+  const examTaskLabel = hasShort
+    ? `Exam task 1–${totalQuestions}`
+    : `Exam task 1–${tfngCount}`;
+
   const [trackMode, setTrackMode] = useState<TrackMode>(() =>
-    loadTrackMode(restart, initialStep),
+    loadTrackMode(data.id, examOnly, restart, initialStep),
   );
   const [learnStep, setLearnStep] = useState(() =>
-    loadLearnStep(restart, initialStep),
+    loadLearnStep(data.id, learnSteps.length, restart, initialStep),
   );
   const [tfngAnswers, setTfngAnswers] = useState<
     Record<number, TfngValue | undefined>
@@ -286,16 +326,18 @@ export function ReadingM2Trainer({
   );
   const [discussQ, setDiscussQ] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(readingM2.beforeYouRead.timeSec);
+  const [timeLeft, setTimeLeft] = useState(
+    data.beforeYouRead?.timeSec ?? 90,
+  );
   const paraRefs = useRef<(HTMLParagraphElement | null)[]>([]);
 
   useEffect(() => {
     if (restart) {
-      setTrackMode(initialStep != null ? "learn" : "exam");
+      setTrackMode(initialStep != null && !examOnly ? "learn" : "exam");
       setLearnStep(initialStep ?? 0);
       setChecked(false);
     }
-  }, [restart, initialStep]);
+  }, [restart, initialStep, examOnly]);
 
   useEffect(() => {
     if (initialStep != null) {
@@ -306,19 +348,19 @@ export function ReadingM2Trainer({
 
   useEffect(() => {
     try {
-      sessionStorage.setItem(modeStorageKey(readingM2.id), trackMode);
+      sessionStorage.setItem(modeStorageKey(data.id), trackMode);
       if (trackMode === "learn") {
-        sessionStorage.setItem(stepStorageKey(readingM2.id), String(learnStep));
+        sessionStorage.setItem(stepStorageKey(data.id), String(learnStep));
       }
     } catch {
       /* ignore */
     }
-  }, [trackMode, learnStep]);
+  }, [trackMode, learnStep, data.id]);
 
   useEffect(() => {
     setTimerRunning(false);
-    setTimeLeft(readingM2.beforeYouRead.timeSec);
-  }, [discussQ]);
+    setTimeLeft(data.beforeYouRead?.timeSec ?? 90);
+  }, [discussQ, data.beforeYouRead?.timeSec]);
 
   useEffect(() => {
     if (!timerRunning || timeLeft <= 0) return;
@@ -334,17 +376,20 @@ export function ReadingM2Trainer({
     return () => window.clearInterval(id);
   }, [timerRunning, timeLeft]);
 
-  const tfngScore = readingM2.tfng.filter((q) => tfngAnswers[q.id] === q.key).length;
-  const shortScore = readingM2.short.filter((q) =>
+  const tfngScore = data.tfng.filter((q) => tfngAnswers[q.id] === q.key).length;
+  const shortScore = data.short.filter((q) =>
     checkM2Short(shortAnswers[q.id] ?? "", q.answers),
   ).length;
   const score = tfngScore + shortScore;
-  const total = ALL_IDS.length;
+  const total = allIds.length;
 
   const showExamTask =
     trackMode === "exam" || (trackMode === "learn" && learnStep === 2);
 
-  const evidence = collectM2Evidence(activeQ != null ? [activeQ] : []);
+  const evidence = collectM2Evidence(
+    data,
+    activeQ != null ? [activeQ] : [],
+  );
 
   useEffect(() => {
     if (!checked || evidence.paragraphIndex == null) return;
@@ -363,17 +408,18 @@ export function ReadingM2Trainer({
 
   const activeTip =
     checked && activeQ != null
-      ? (readingM2.tfng.find((q) => q.id === activeQ)?.tip ??
-        readingM2.short.find((q) => q.id === activeQ)?.tip)
+      ? (data.tfng.find((q) => q.id === activeQ)?.tip ??
+        data.short.find((q) => q.id === activeQ)?.tip)
       : undefined;
 
   const isTfngOk = (id: number) =>
-    tfngAnswers[id] === readingM2.tfng.find((q) => q.id === id)?.key;
+    tfngAnswers[id] === data.tfng.find((q) => q.id === id)?.key;
   const isShortOk = (id: number) => {
-    const q = readingM2.short.find((s) => s.id === id);
+    const q = data.short.find((s) => s.id === id);
     return q ? checkM2Short(shortAnswers[id] ?? "", q.answers) : false;
   };
-  const isOk = (id: number) => (id <= 5 ? isTfngOk(id) : isShortOk(id));
+  const isOk = (id: number) =>
+    data.tfng.some((t) => t.id === id) ? isTfngOk(id) : isShortOk(id);
 
   const switchTrack = (mode: TrackMode) => {
     setTrackMode(mode);
@@ -392,17 +438,17 @@ export function ReadingM2Trainer({
       setChecked(true);
       return;
     }
-    if (learnStep >= LEARN_STEPS_M2.length - 1) {
+    if (learnStep >= learnSteps.length - 1) {
       onBack?.();
       return;
     }
-    setLearnStep((s) => Math.min(s + 1, LEARN_STEPS_M2.length - 1));
+    setLearnStep((s) => Math.min(s + 1, learnSteps.length - 1));
   };
 
   const learnNextLabel =
     learnStep === 2 && !checked
       ? "Check answers →"
-      : (LEARN_STEP_NEXT_M2[learnStep] ?? "Дальше →");
+      : (learnStepNext[learnStep] ?? "Дальше →");
 
   return (
     <div
@@ -419,27 +465,29 @@ export function ReadingM2Trainer({
           </button>
         )}
         <span className="badge reading-chrome__badge">
-          Reading · {readingM2.bookPages}
+          Reading · {data.bookPages}
         </span>
-        <div className="controls mode-toggle track-toggle">
-          <button
-            type="button"
-            className={trackMode === "exam" ? "active" : ""}
-            onClick={() => switchTrack("exam")}
-          >
-            Exam
-          </button>
-          <button
-            type="button"
-            className={trackMode === "learn" ? "active" : ""}
-            onClick={() => switchTrack("learn")}
-          >
-            Learn
-          </button>
-        </div>
-        {trackMode === "learn" && (
+        {!examOnly && (
+          <div className="controls mode-toggle track-toggle">
+            <button
+              type="button"
+              className={trackMode === "exam" ? "active" : ""}
+              onClick={() => switchTrack("exam")}
+            >
+              Exam
+            </button>
+            <button
+              type="button"
+              className={trackMode === "learn" ? "active" : ""}
+              onClick={() => switchTrack("learn")}
+            >
+              Learn
+            </button>
+          </div>
+        )}
+        {trackMode === "learn" && !examOnly && (
           <div className="learn-step-tabs">
-            {LEARN_STEPS_M2.map((label, i) => (
+            {learnSteps.map((label, i) => (
               <button
                 key={label}
                 type="button"
@@ -456,19 +504,19 @@ export function ReadingM2Trainer({
         )}
       </div>
 
-      {trackMode === "learn" && learnStep === 0 && (
+      {trackMode === "learn" && learnStep === 0 && data.beforeYouRead && (
         <section className="card flow-card learn-screen">
           <h2 className="card-title">
             <span className="dot" />
             Before you read
           </h2>
-          <p className="question-text">{readingM2.beforeYouRead.instruction}</p>
+          <p className="question-text">{data.beforeYouRead.instruction}</p>
           <OralBanner>
             Говорите вслух в группах. Писать не нужно.
           </OralBanner>
           <div className="question-header">
             <span className="question-number">
-              Question {discussQ + 1} of {readingM2.beforeYouRead.questions.length}
+              Question {discussQ + 1} of {data.beforeYouRead.questions.length}
             </span>
             <div className={timerRunning ? "timer running" : "timer"}>
               ⏱ {formatTime(timeLeft)}
@@ -485,7 +533,7 @@ export function ReadingM2Trainer({
             </div>
           </div>
           <p className="discussion-question">
-            {readingM2.beforeYouRead.questions[discussQ]}
+            {data.beforeYouRead.questions[discussQ]}
           </p>
           <div className="nav-row">
             <button
@@ -499,7 +547,7 @@ export function ReadingM2Trainer({
             <button
               type="button"
               className="nav-btn action-btn primary"
-              disabled={discussQ >= readingM2.beforeYouRead.questions.length - 1}
+              disabled={discussQ >= data.beforeYouRead.questions.length - 1}
               onClick={() => setDiscussQ((i) => i + 1)}
             >
               Next →
@@ -508,11 +556,12 @@ export function ReadingM2Trainer({
         </section>
       )}
 
-      {trackMode === "learn" && learnStep === 1 && (
+      {trackMode === "learn" && learnStep === 1 && data.topicSentences && (
         <section className="card flow-card learn-screen learn-scan">
           <div className="learn-scan__layout">
             <div className="learn-scan__passage">
               <PassagePane
+                data={data}
                 evidenceTerms={[]}
                 showEvidence={false}
                 highlightTopic
@@ -524,10 +573,10 @@ export function ReadingM2Trainer({
                 Topic sentences
               </h2>
               <p className="learn-screen__hint">
-                {readingM2.topicSentences.instruction}
+                {data.topicSentences.instruction}
               </p>
               <ul className="rm2-ticks">
-                {readingM2.topicSentences.details.map((d) => {
+                {data.topicSentences.details.map((d) => {
                   const on = Boolean(ticks[d.id]);
                   let mark = "";
                   if (ticksChecked) {
@@ -566,7 +615,7 @@ export function ReadingM2Trainer({
                     Usually the first sentence. Skim to check supporting details.
                   </p>
                   <ol className="scan-box__steps scan-box__steps--compact">
-                    {readingM2.topicSentences.laterTopics.map((t) => (
+                    {data.topicSentences.laterTopics.map((t) => (
                       <li key={t}>{t}</li>
                     ))}
                   </ol>
@@ -582,7 +631,7 @@ export function ReadingM2Trainer({
           <div className="exam-split__toolbar">
             <h2 className="card-title" style={{ margin: 0 }}>
               <span className="dot" />
-              {trackMode === "exam" ? "Exam task 1–10" : "Task 1–10"}
+              {trackMode === "exam" ? examTaskLabel : examTaskLabel.replace("Exam ", "Task ")}
             </h2>
             <div className="exam-split__toolbar-actions">
               <button
@@ -620,7 +669,7 @@ export function ReadingM2Trainer({
                 className={mobilePane === "tasks" ? "active" : ""}
                 onClick={() => setMobilePane("tasks")}
               >
-                Задания 1–10
+                Задания 1–{totalQuestions}
               </button>
             </div>
             <div className={`exam-split__layout ${biasClass}`}>
@@ -629,6 +678,7 @@ export function ReadingM2Trainer({
               >
                 <p className="exam-split__col-label">Passage</p>
                 <PassagePane
+                  data={data}
                   evidenceTerms={checked ? evidence.terms : []}
                   showEvidence={checked && evidence.terms.length > 0}
                   activeParagraphIndex={
@@ -640,10 +690,12 @@ export function ReadingM2Trainer({
               <aside
                 className={`exam-split__tasks ${mobilePane === "tasks" ? "exam-split__pane--show" : ""}`}
               >
-                <p className="exam-split__col-label">Questions 1–5</p>
-                <p className="rm2-q-instr">{readingM2.tfngInstruction}</p>
+                <p className="exam-split__col-label">
+                  Questions 1–{tfngCount}
+                </p>
+                <p className="rm2-q-instr">{data.tfngInstruction}</p>
                 <p className="pr-tfng__legend-line">
-                  {readingM2.tfngLegend.map((l, i) => (
+                  {data.tfngLegend.map((l, i) => (
                     <span key={l.value}>
                       {i > 0 ? " · " : ""}
                       <strong>{l.value}</strong>
@@ -651,7 +703,7 @@ export function ReadingM2Trainer({
                   ))}
                 </p>
                 <ol className="pr-tfng rm2-tfng">
-                  {readingM2.tfng.map((q) => {
+                  {data.tfng.map((q) => {
                     const selected = tfngAnswers[q.id];
                     const ok = selected === q.key;
                     return (
@@ -703,52 +755,60 @@ export function ReadingM2Trainer({
                   })}
                 </ol>
 
-                <p className="exam-split__col-label">Questions 6–10</p>
-                <p className="rm2-q-instr">{readingM2.shortInstruction}</p>
-                <ol className="rm2-sa">
-                  {readingM2.short.map((q) => {
-                    const val = shortAnswers[q.id] ?? "";
-                    const ok = checkM2Short(val, q.answers);
-                    return (
-                      <li
-                        key={q.id}
-                        className={activeQ === q.id ? "rm2-sa__item--on" : undefined}
-                        onMouseEnter={() => checked && setActiveQ(q.id)}
-                      >
-                        <span className="pr-mc__num">{q.id}</span>
-                        <p>
-                          {q.question}{" "}
-                          <input
+                {hasShort && (
+                  <>
+                    <p className="exam-split__col-label">
+                      Questions {tfngCount + 1}–{totalQuestions}
+                    </p>
+                    <p className="rm2-q-instr">{data.shortInstruction}</p>
+                    <ol className="rm2-sa">
+                      {data.short.map((q) => {
+                        const val = shortAnswers[q.id] ?? "";
+                        const ok = checkM2Short(val, q.answers);
+                        return (
+                          <li
+                            key={q.id}
                             className={
-                              checked
-                                ? ok
-                                  ? "pr-completion__input pr-completion__input--ok"
-                                  : "pr-completion__input pr-completion__input--bad"
-                                : "pr-completion__input"
+                              activeQ === q.id ? "rm2-sa__item--on" : undefined
                             }
-                            value={val}
-                            disabled={checked}
-                            placeholder="…"
-                            onFocus={() => setActiveQ(q.id)}
-                            onChange={(e) => {
-                              setActiveQ(q.id);
-                              setShortAnswers((a) => ({
-                                ...a,
-                                [q.id]: e.target.value,
-                              }));
-                            }}
-                          />
-                          {checked && !ok && (
-                            <span className="inline-gap-bad">
-                              {" "}
-                              → {q.answers[0]}
-                            </span>
-                          )}
-                        </p>
-                      </li>
-                    );
-                  })}
-                </ol>
+                            onMouseEnter={() => checked && setActiveQ(q.id)}
+                          >
+                            <span className="pr-mc__num">{q.id}</span>
+                            <p>
+                              {q.question}{" "}
+                              <input
+                                className={
+                                  checked
+                                    ? ok
+                                      ? "pr-completion__input pr-completion__input--ok"
+                                      : "pr-completion__input pr-completion__input--bad"
+                                    : "pr-completion__input"
+                                }
+                                value={val}
+                                disabled={checked}
+                                placeholder="…"
+                                onFocus={() => setActiveQ(q.id)}
+                                onChange={(e) => {
+                                  setActiveQ(q.id);
+                                  setShortAnswers((a) => ({
+                                    ...a,
+                                    [q.id]: e.target.value,
+                                  }));
+                                }}
+                              />
+                              {checked && !ok && (
+                                <span className="inline-gap-bad">
+                                  {" "}
+                                  → {q.answers[0]}
+                                </span>
+                              )}
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ol>
+                  </>
+                )}
                 {checked && activeTip && (
                   <p className="pr-endings-panel__tip">{activeTip}</p>
                 )}
@@ -758,7 +818,7 @@ export function ReadingM2Trainer({
         </section>
       )}
 
-      {trackMode === "learn" && learnStep === 3 && (
+      {trackMode === "learn" && learnStep === 3 && data.taskAnalysis && (
         <div className="learn-screen learn-discussion rm2-discuss">
           <section className="card flow-card">
             <h2 className="card-title">
@@ -769,7 +829,7 @@ export function ReadingM2Trainer({
               How useful were the test strategies? Agree or disagree.
             </p>
             <ul className="rm2-agree">
-              {readingM2.taskAnalysis.map((s, i) => (
+              {data.taskAnalysis.map((s, i) => (
                 <li key={s}>
                   <p>{s}</p>
                   <div className="pr-tfng__choices">
@@ -790,7 +850,7 @@ export function ReadingM2Trainer({
               ))}
             </ul>
           </section>
-          <DiscussionBlock />
+          <DiscussionBlock data={data} />
         </div>
       )}
 
@@ -806,7 +866,7 @@ export function ReadingM2Trainer({
               ← Назад
             </button>
             <span className="flow-footer__step">
-              {learnStep + 1} / {LEARN_STEPS_M2.length}
+              {learnStep + 1} / {learnSteps.length}
             </span>
             <button
               type="button"
@@ -830,7 +890,7 @@ export function ReadingM2Trainer({
                 <span className="flow-footer__ok">✓ {score} верно</span>
                 <span className="flow-footer__bad">✗ {total - score} неверно</span>
                 <div className="flow-footer__palette">
-                  {ALL_IDS.map((id) => (
+                  {allIds.map((id) => (
                     <button
                       key={id}
                       type="button"
@@ -844,7 +904,9 @@ export function ReadingM2Trainer({
                 </div>
               </div>
             ) : (
-              <span className="flow-footer__step">Вопросы 1–10</span>
+              <span className="flow-footer__step">
+                Вопросы 1–{totalQuestions}
+              </span>
             )}
             <button
               type="button"

@@ -10,12 +10,15 @@ import { VocabularyM2Trainer } from "./VocabularyM2Trainer";
 import { beforeYouReadM1 } from "../data/beforeYouReadM1";
 import { readingFlowM1 } from "../data/readingFlowM1";
 import { readingFlowM1b } from "../data/readingFlowM1b";
+import { readingM2 } from "../data/readingM2";
+import { readingM2b } from "../data/readingM2b";
 import { vocabularyM1 } from "../data/vocabularyM1";
 
 export const trainerRegistry: Record<string, true> = {
   "reading-m1-flow": true,
   "reading-m1b-flow": true,
   "reading-m2-flow": true,
+  "reading-m2b-flow": true,
   "vocabulary-m2-flow": true,
   "writing-m1b-flow": true,
   "language-m1b-flow": true,
@@ -24,6 +27,7 @@ export const trainerRegistry: Record<string, true> = {
   "before-you-read-m1": true,
   "lead-in-intelligence": true,
   "lead-in-development": true,
+  "lead-in-insect-empire": true,
   "reading-completion-m1": true,
 };
 
@@ -59,6 +63,18 @@ export function TrainerView({
   if (trainerId === "reading-m2-flow") {
     return (
       <ReadingM2Trainer
+        data={readingM2}
+        onBack={onBack}
+        restart={restart}
+        initialStep={initialStep}
+      />
+    );
+  }
+
+  if (trainerId === "reading-m2b-flow") {
+    return (
+      <ReadingM2Trainer
+        data={readingM2b}
         onBack={onBack}
         restart={restart}
         initialStep={initialStep}

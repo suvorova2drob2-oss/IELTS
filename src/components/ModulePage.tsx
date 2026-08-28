@@ -107,19 +107,32 @@ function ActivityPanel({
 }) {
   const trainers = getBlockTrainers(block);
   const trainerId = trainers[0]?.id;
-  const isReadingM2 = trainerId === "reading-m2-flow";
+  const examTrainerId =
+    trainers.find(
+      (t) => t.id === "reading-m2b-flow" || t.id === "reading-m2-flow",
+    )?.id ?? trainerId;
+  const leadInTrainerId = trainers.find(
+    (t) => t.id === "lead-in-insect-empire",
+  )?.id;
+  const isReadingM2bBlock =
+    block.id === "2b-reading" || examTrainerId === "reading-m2b-flow";
+  const isReadingM2Full = examTrainerId === "reading-m2-flow";
+  const isReadingM2ExamOnly = isReadingM2bBlock;
   const isReadingFlow =
     trainerId === "reading-m1-flow" ||
     trainerId === "reading-m1b-flow" ||
-    isReadingM2;
+    examTrainerId === "reading-m2-flow" ||
+    examTrainerId === "reading-m2b-flow";
   const isWritingFlow = trainerId === "writing-m1b-flow";
   const isVocabularyFlow = trainerId === "vocabulary-m1-flow";
   const isVocabularyM2 = trainerId === "vocabulary-m2-flow";
   const isLanguageFlow = trainerId === "language-m1b-flow";
-  const isExamLearn = isReadingFlow || isWritingFlow;
+  const isExamLearn =
+    (isReadingFlow || isWritingFlow) && !isReadingM2ExamOnly;
 
-  const startAt = (step?: number) => {
-    if (trainerId && onStartTrainer) onStartTrainer(trainerId, step);
+  const startAt = (step?: number, overrideTrainerId?: string) => {
+    const id = overrideTrainerId ?? examTrainerId ?? trainerId;
+    if (id && onStartTrainer) onStartTrainer(id, step);
   };
 
   const writingLearnSteps = [
@@ -129,19 +142,24 @@ function ActivityPanel({
     { label: "Write 150 words", step: 3 },
   ] as const;
 
-  const readingLearnSteps = isReadingM2
+  const readingLearnSteps = isReadingM2Full
     ? ([
         { label: "Before you read", step: 0 },
         { label: "Topic sentences", step: 1 },
         { label: "Exam task 1–10", step: 2 },
         { label: "Discussion", step: 3 },
       ] as const)
-    : ([
-        { label: "Warm-up: predict", step: 0 },
-        { label: "Scan focus", step: 1 },
-        { label: "Exam task 1–9", step: 2 },
-        { label: "Discussion", step: 3 },
-      ] as const);
+    : isReadingM2ExamOnly
+      ? ([
+          { label: "Before you read", step: 0, trainerId: leadInTrainerId },
+          { label: "Exam task 1–9", step: 0, trainerId: examTrainerId },
+        ] as const)
+      : ([
+          { label: "Warm-up: predict", step: 0 },
+          { label: "Scan focus", step: 1 },
+          { label: "Exam task 1–9", step: 2 },
+          { label: "Discussion", step: 3 },
+        ] as const);
 
   const learnSteps = isWritingFlow ? writingLearnSteps : readingLearnSteps;
 
@@ -168,9 +186,11 @@ function ActivityPanel({
 
         {isReadingFlow ? (
           <p className="activity-panel__intro">
-            {isReadingM2
-              ? "Текст и вопросы 1–10 рядом. Learn — discuss, topic sentences, задание, discussion."
-              : "Текст и вопросы 1–9 рядом. Learn — с разминкой и discussion."}
+            {isReadingM2ExamOnly
+              ? "The Insect Empire · Текст и вопросы 1–9 рядом (Testing skills)."
+              : isReadingM2Full
+                ? "Текст и вопросы 1–10 рядом. Learn — discuss, topic sentences, задание, discussion."
+                : "Текст и вопросы 1–9 рядом. Learn — с разминкой и discussion."}
           </p>
         ) : isWritingFlow ? (
           <p className="activity-panel__intro">
@@ -182,6 +202,27 @@ function ActivityPanel({
           )
         )}
 
+        {isReadingM2ExamOnly && onStartTrainer && examTrainerId && (
+          <div className="activity-panel__mode-entry">
+            {leadInTrainerId && (
+              <button
+                type="button"
+                className="btn-start btn-start--secondary"
+                onClick={() => onStartTrainer(leadInTrainerId)}
+              >
+                Before you read (p. 34) →
+              </button>
+            )}
+            <button
+              type="button"
+              className="btn-start"
+              onClick={() => onStartTrainer(examTrainerId)}
+            >
+              Экзамен · The Insect Empire 1–9 →
+            </button>
+          </div>
+        )}
+
         {isExamLearn && onStartTrainer && trainerId && (
           <div className="activity-panel__mode-entry">
             <button
@@ -191,7 +232,7 @@ function ActivityPanel({
             >
               {isWritingFlow
                 ? "Экзамен (график + письмо) →"
-                : isReadingM2
+                : isReadingM2Full
                   ? "Экзамен (текст + 1–10) →"
                   : "Экзамен (текст + 1–9) →"}
             </button>
@@ -230,7 +271,14 @@ function ActivityPanel({
                     <button
                       type="button"
                       className="topic-entry__main"
-                      disabled={!onStartTrainer || !trainerId}
+                      disabled={
+                        !onStartTrainer ||
+                        !(isReadingM2ExamOnly
+                          ? i === 0
+                            ? leadInTrainerId
+                            : examTrainerId
+                          : trainerId)
+                      }
                       onClick={() => {
                         if (isVocabularyFlow) {
                           if (i === 0) startAt(0);
@@ -246,6 +294,13 @@ function ActivityPanel({
                         }
                         if (isLanguageFlow) {
                           startAt(i === 0 ? 0 : 1);
+                          return;
+                        }
+                        if (isReadingM2ExamOnly && leadInTrainerId) {
+                          startAt(
+                            undefined,
+                            i === 0 ? leadInTrainerId : examTrainerId,
+                          );
                           return;
                         }
                         startAt();

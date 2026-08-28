@@ -12,6 +12,8 @@ export interface Photo {
   intelligenceType: string;
   hint: string;
   objectPosition?: string;
+  /** Default cover; use contain for one full textbook scan. */
+  objectFit?: "cover" | "contain";
 }
 
 export interface Question {
@@ -36,6 +38,9 @@ export interface LeadInData {
   photos: Photo[];
   questions: Question[];
   globalVocab: string[];
+  /** stack = one image, all questions listed below (Before you read). */
+  layout?: "interactive" | "stack";
+  stackInstruction?: string;
 }
 
 export const leadInIntelligence: LeadInData = {

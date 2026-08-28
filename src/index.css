@@ -216,6 +216,152 @@ button {
   grid-template-columns: repeat(3, 1fr);
 }
 
+.photo-grid--single {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+}
+
+.photo-grid--single .photo-card img {
+  aspect-ratio: auto;
+  max-height: min(52vh, 420px);
+  object-fit: contain;
+  background: #f5f0e6;
+}
+
+.photo-card--contain img {
+  object-fit: contain;
+}
+
+.lead-in-stack-shell {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 16px 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.lead-in-stack__chrome {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.lead-in-stack__header {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.lead-in-stack__header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.lead-in-stack {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+  padding: 12px 14px;
+}
+
+.lead-in-stack__photos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.lead-in-stack__shot {
+  margin: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #11161c;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+.lead-in-stack__shot img {
+  display: block;
+  width: 100%;
+  height: 148px;
+  object-fit: contain;
+  object-position: center top;
+  background: #11161c;
+}
+
+.lead-in-stack__shot figcaption {
+  padding: 6px 8px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #15202b;
+  background: #f3eee6;
+  text-align: center;
+}
+
+.lead-in-stack__instr {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.lead-in-stack__questions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+  justify-content: space-evenly;
+}
+
+.lead-in-stack__questions li {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 0.88rem;
+  line-height: 1.4;
+}
+
+.lead-in-stack__num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+.lead-in-stack .trainer-chain {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+@media (max-width: 640px) {
+  .lead-in-stack__photos {
+    grid-template-columns: 1fr;
+  }
+
+  .lead-in-stack__shot img {
+    height: 130px;
+  }
+}
+
 @media (max-width: 640px) {
   .photo-grid,
   .photo-grid--3 {

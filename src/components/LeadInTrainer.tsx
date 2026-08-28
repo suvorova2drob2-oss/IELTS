@@ -7,6 +7,7 @@ import {
   type Question,
 } from "../data/leadInIntelligence";
 import { leadInDevelopment } from "../data/leadInDevelopment";
+import { leadInInsectEmpire } from "../data/leadInInsectEmpire";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -29,24 +30,42 @@ function PhotoGrid({
     <section className="card">
       <h2 className="card-title">
         <span className="dot" />
-        Photos — click for hints
+        {photos.length === 1 ? "Photos" : "Photos — click for hints"}
       </h2>
-      <div className={`photo-grid ${photos.length === 3 ? "photo-grid--3" : ""}`}>
+      <div
+        className={[
+          "photo-grid",
+          photos.length === 1
+            ? "photo-grid--single"
+            : photos.length === 3
+              ? "photo-grid--3"
+              : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
         {photos.map((photo) => (
           <button
             key={photo.id}
             type="button"
-            className={`photo-card ${selectedId === photo.id ? "selected" : ""}`}
+            className={[
+              "photo-card",
+              photo.objectFit === "contain" ? "photo-card--contain" : "",
+              selectedId === photo.id ? "selected" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
             onClick={() => onSelect(photo)}
           >
             <img
               src={photo.src}
               alt={photo.label}
-              style={
-                photo.objectPosition
+              style={{
+                ...(photo.objectPosition
                   ? { objectPosition: photo.objectPosition }
-                  : undefined
-              }
+                  : {}),
+                ...(photo.objectFit ? { objectFit: photo.objectFit } : {}),
+              }}
             />
             <div className="caption">
               <strong>{photo.label}</strong>
@@ -309,6 +328,47 @@ function QuestionCard({
   );
 }
 
+function StackLeadIn({
+  data,
+  onContinue,
+  continueLabel,
+}: {
+  data: LeadInData;
+  onContinue?: () => void;
+  continueLabel?: string;
+}) {
+  return (
+    <section className="card flow-card lead-in-stack">
+      <div className="lead-in-stack__photos">
+        {data.photos.map((photo) => (
+          <figure key={photo.id} className="lead-in-stack__shot">
+            <img src={photo.src} alt={photo.label} />
+            <figcaption>{photo.label}</figcaption>
+          </figure>
+        ))}
+      </div>
+      {data.stackInstruction && (
+        <p className="lead-in-stack__instr">{data.stackInstruction}</p>
+      )}
+      <ol className="lead-in-stack__questions">
+        {data.questions.map((q, i) => (
+          <li key={q.id}>
+            <span className="lead-in-stack__num">{i + 1}</span>
+            <span>{q.text}</span>
+          </li>
+        ))}
+      </ol>
+      {onContinue && (
+        <div className="trainer-chain">
+          <button type="button" className="btn-start" onClick={onContinue}>
+            {continueLabel ?? "Reading (pp. 34–35) →"}
+          </button>
+        </div>
+      )}
+    </section>
+  );
+}
+
 export function LeadInTrainer({
   data,
   onBack,
@@ -342,6 +402,29 @@ export function LeadInTrainer({
     () => data.globalVocab.length,
     [data.globalVocab],
   );
+
+  if (data.layout === "stack") {
+    return (
+      <div className="app-shell lead-in-stack-shell">
+        <div className="lead-in-stack__chrome">
+          {onBack && (
+            <button type="button" className="back-link" onClick={onBack}>
+              ← Модуль
+            </button>
+          )}
+          <span className="badge">{data.topic}</span>
+        </div>
+        <header className="lead-in-stack__header">
+          <h1>{data.title}</h1>
+        </header>
+        <StackLeadIn
+          data={data}
+          onContinue={onContinue}
+          continueLabel={continueLabel}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="app-shell">
@@ -450,4 +533,5 @@ export function LeadInTrainer({
 export const trainers: Record<string, LeadInData> = {
   "lead-in-intelligence": leadInIntelligence,
   "lead-in-development": leadInDevelopment,
+  "lead-in-insect-empire": leadInInsectEmpire,
 };

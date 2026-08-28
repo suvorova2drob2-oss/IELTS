@@ -56,7 +56,43 @@ export function checkM2Short(input: string, accepted: string[]): boolean {
   return accepted.some((a) => normalize(a) === n);
 }
 
-export const readingM2 = {
+export type ReadingM2Data = {
+  id: string;
+  module: number;
+  bookPages: string;
+  title: string;
+  introduction: string;
+  passage: string[];
+  /** Testing-skills sections: exam mode only, no Learn track. */
+  examOnly?: boolean;
+  beforeYouRead?: {
+    instruction: string;
+    timeSec: number;
+    questions: string[];
+  };
+  topicSentences?: {
+    instruction: string;
+    topicSentence: string;
+    details: M2DetailTick[];
+    laterTopics: string[];
+  };
+  tfngInstruction: string;
+  tfngLegend: { value: TfngValue; meaning: string }[];
+  tfng: M2TfngQ[];
+  shortInstruction?: string;
+  short: M2ShortQ[];
+  examTips: string[];
+  taskAnalysis?: string[];
+  discussion?: {
+    instruction: string;
+    timeSecPerQuestion: number;
+    questions: string[];
+  };
+  learnSteps?: readonly string[];
+  learnStepNext?: Record<number, string>;
+};
+
+export const readingM2: ReadingM2Data = {
   id: "reading-m2-flow",
   module: 2,
   bookPages: "pp. 24–25 in your coursebook",
@@ -254,14 +290,15 @@ export const readingM2 = {
 };
 
 export function collectM2Evidence(
+  data: ReadingM2Data,
   ids: number[],
 ): { terms: string[]; paragraphIndex: number | undefined } {
   const terms: string[] = [];
   let paragraphIndex: number | undefined;
   for (const id of ids) {
     const q =
-      readingM2.tfng.find((t) => t.id === id) ??
-      readingM2.short.find((s) => s.id === id);
+      data.tfng.find((t) => t.id === id) ??
+      data.short.find((s) => s.id === id);
     if (!q) continue;
     if (paragraphIndex == null) paragraphIndex = q.paragraphIndex;
     for (const e of q.evidence) {

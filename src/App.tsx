@@ -143,7 +143,11 @@ export default function App() {
                 continueLabel={
                   view.trainerId === "lead-in-intelligence"
                     ? "Reading (pp. 8–9) →"
-                    : undefined
+                    : view.trainerId === "lead-in-development"
+                      ? "Reading (pp. 24–25) →"
+                      : view.trainerId === "lead-in-insect-empire"
+                        ? "Reading (pp. 34–35) →"
+                        : undefined
                 }
               />
             ) : (
