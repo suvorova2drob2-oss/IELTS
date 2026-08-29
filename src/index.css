@@ -7223,9 +7223,9 @@ button {
 }
 
 .pr-hub--fill .pr-hub__task {
-  min-height: 168px;
+  min-height: 0;
   height: auto;
-  padding: 20px 18px;
+  padding: 14px 16px;
 }
 
 .pr-hub--fill.pr-hub--models {
@@ -7384,8 +7384,8 @@ button {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  min-height: 140px;
-  padding: 18px 18px;
+  min-height: 0;
+  padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: 14px;
   background: linear-gradient(
@@ -10490,26 +10490,42 @@ button {
   overflow: auto;
 }
 
-.ms-map-pair {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 8px 0 12px;
+.ms-book-map {
+  margin: 4px 0 8px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 100%;
 }
 
-.ms-map {
-  margin: 6px 0 10px;
-  flex-shrink: 0;
+.ms-book-map__caption {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(247, 243, 234, 0.78);
 }
 
-.ms-map .pw-graph__title {
-  color: #1a2430;
-}
-
-.ms-map .pw-graph__svg {
-  background: #f7f1e6;
+.ms-book-map__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(42vh, 360px);
+  object-fit: contain;
+  object-position: top center;
   border-radius: 8px;
+  border: 1px solid rgba(244, 239, 230, 0.18);
+  background: #f7f1e6;
+}
+
+.ms-book-map--fosbury .ms-book-map__img {
+  max-height: min(48vh, 420px);
+}
+
+.ms-book-map--plan .ms-book-map__img,
+.ms-book-map--holloway .ms-book-map__img {
+  max-height: min(38vh, 320px);
 }
 
 .pw-graph {
@@ -19713,33 +19729,71 @@ button {
   gap: 6px;
 }
 
-/* Maps / charts ? visual aid, not a second page */
-.ms-map-pair {
-  gap: 6px;
-  margin: 4px 0 8px;
+/* Book map scans ? fit viewport, no chart scrollbar */
+.ms-book-map {
+  margin: 4px 0 6px;
 }
 
-.ms-map .pw-graph {
-  padding: 6px 8px 4px;
-}
-
-.ms-map .pw-graph__title {
-  font-size: 0.72rem;
-  margin: 0 0 2px;
-}
-
-.ms-map .pw-graph__svg {
-  display: block;
-  width: 100%;
-  max-height: 150px;
-  height: auto;
-}
-
-.ms-map-pair .ms-map .pw-graph__svg {
-  max-height: 132px;
+.ms-book-map__img {
+  max-height: min(40vh, 340px);
 }
 
 .reading-flow--viewport .pw-graph.ms-bar-graph .pw-graph__svg,
 .reading-flow--viewport .ms-pie-wrap svg {
   max-height: 200px;
+}
+
+/* Hub layout pass @ ~1280?800 ? fit without empty-space scroll */
+@media (min-width: 1100px) and (min-height: 720px) {
+  .pr-hub {
+    padding: 40px 16px 18px;
+    overflow: hidden;
+  }
+
+  .pr-hub__tasks {
+    overflow: hidden;
+  }
+
+  .pr-hub__task {
+    min-height: 0;
+    padding: 12px 14px;
+    gap: 4px;
+  }
+
+  .pr-hub__task strong {
+    font-size: 1.05rem;
+  }
+
+  .pr-hub--modes .pr-hub__mode {
+    min-height: 0;
+    padding: 14px 16px;
+  }
+
+  .pr-hub__chrome {
+    margin-bottom: 6px;
+  }
+
+  .pr-hub__chrome h1 {
+    font-size: 1.35rem;
+  }
+
+  .pr-hub__chrome p {
+    font-size: 0.78rem;
+  }
+
+  .home-page__content {
+    padding: 36px 16px 10px;
+  }
+
+  .home-hero--compact {
+    margin-bottom: 6px;
+  }
+
+  .home-hero__brand {
+    font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  }
+
+  .modules-grid {
+    gap: 8px;
+  }
 }
