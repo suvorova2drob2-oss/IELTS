@@ -1,4 +1,5 @@
 import type { MindsetFlowData } from "./flowTypes";
+import { PASSAGE_U7_MEDIA } from "./readingPassages";
 
 export const MS_U7_READ_STEPS = [
   "Vocab match",
@@ -32,6 +33,7 @@ export const readingU7: MindsetFlowData = {
       kind: "match",
       badge: "1–2",
       instruction: "Media vocabulary — match items 1–7 with A–G.",
+      passage: PASSAGE_U7_MEDIA,
       bank: [
         { id: "A", text: "a camera" },
         { id: "B", text: "Ohmynews!" },
@@ -55,6 +57,7 @@ export const readingU7: MindsetFlowData = {
       kind: "match",
       badge: "8",
       instruction: "Paragraph matching / information — place letters for items 1–6.",
+      passage: PASSAGE_U7_MEDIA,
       bank: [
         { id: "F", text: "F" },
         { id: "G", text: "G" },
@@ -75,6 +78,7 @@ export const readingU7: MindsetFlowData = {
       kind: "gaps",
       badge: "10",
       instruction: "Short-answer questions — place answers from the bank (word limit).",
+      passage: PASSAGE_U7_MEDIA,
       bank: [
         "eyewitness",
         "space shuttle Columbia",
@@ -92,6 +96,7 @@ export const readingU7: MindsetFlowData = {
       kind: "mc",
       badge: "11",
       instruction: "Choose the correct option for each exam-style item (keys from answer key).",
+      passage: PASSAGE_U7_MEDIA,
       items: [
         {
           id: "7",

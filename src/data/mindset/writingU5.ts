@@ -137,6 +137,7 @@ export const writingU5: MindsetFlowData = {
       tableNote:
         "Categories: agriculture & fishing · energy & water · manufacturing · construction · services · years 1841 and 2011",
       minWords: 150,
+      chart: "u5-workforce-bars",
       sample: `The bar charts divide the UK workforce into five categories based on the type of industry they work in for the years 1841 and 2011.
 
 The overall trend shown in the data is a steep rise in the proportion of employees engaged in the service industry, coupled with a decline in manufacturing. The most salient feature is that in 2011 81% of the workforce were involved in providing services, which contrasts sharply with the figure of 33% in 1841. In contrast, we observe a huge drop in the manufacturing industry from over a third in the mid nineteenth century to just 9% by the early twenty-first century.

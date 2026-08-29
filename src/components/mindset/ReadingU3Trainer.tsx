@@ -203,12 +203,14 @@ export function ReadingU3Trainer({
 
       {s?.kind === "intro" && (
         <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <h2 className="read-m3__h">In this unit you will learn how to</h2>
-          <ul className="read-m3__qs">
+          <div className="ms-unit-goals">
+          <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+          <ul className="ms-unit-goals__list">
             {data.unitGoals.map((g) => (
               <li key={g}>{g}</li>
             ))}
           </ul>
+        </div>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -280,126 +282,162 @@ export function ReadingU3Trainer({
       )}
 
       {s?.kind === "match" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{s.badge}</span>
-            {s.instruction}
-          </p>
+        <section
+          className={
+            s.passage
+              ? "read-m3__split read-m3__split--exam"
+              : "read-m3__panel"
+          }
+          style={s.passage ? undefined : { overflow: "auto" }}
+        >
           {s.passage && (
-            <article className="read-m3__passage read-m3__passage--solo">
-              <p>{s.passage}</p>
+            <article className="read-m3__passage">
+              <header className="read-m3__hero read-m3__hero--compact">
+                <div>
+                  <h2>Passage</h2>
+                </div>
+              </header>
+              <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{s.passage}</p>
             </article>
           )}
-          <div className="pr-chip-row" style={{ marginBottom: 8 }}>
-            {bank.map((b) => {
-              const used = usedMatch.has(b);
-              return (
-                <button
-                  key={b}
-                  type="button"
-                  className={`pr-chip ${pickedMatch === b ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
-                  disabled={checked || used}
-                  onClick={() => setPickedMatch(b)}
-                >
-                  {b}
-                </button>
-              );
-            })}
-          </div>
-          <ul className="read-m3__qs">
-            {items.map((it) => {
-              const val = match[it.id];
-              let cls = "inline-gap";
-              if (checked) cls += val === it.key ? " inline-gap--ok" : " inline-gap--bad";
-              return (
-                <li key={it.id}>
-                  <span>
-                    {it.id}. {it.stem ?? ""}{" "}
-                  </span>
+          <aside
+            className={s.passage ? "read-m3__side read-m3__side--exam" : undefined}
+            style={s.passage ? undefined : { display: "contents" }}
+          >
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">{s.badge}</span>
+              {s.instruction}
+            </p>
+            <div className="pr-chip-row" style={{ marginBottom: 8 }}>
+              {bank.map((b) => {
+                const used = usedMatch.has(b);
+                return (
                   <button
+                    key={b}
                     type="button"
-                    className={cls}
-                    disabled={checked}
-                    onClick={() => placeMatch(it.id)}
+                    className={`pr-chip ${pickedMatch === b ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
+                    disabled={checked || used}
+                    onClick={() => setPickedMatch(b)}
                   >
-                    {val ?? "—"}
+                    {b}
                   </button>
-                  {checked && val !== it.key && (
-                    <span className="inline-gap-bad"> → {it.key}</span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          {s.tip && <p className="write-m2a__cue">{s.tip}</p>}
+                );
+              })}
+            </div>
+            <ul className="read-m3__qs">
+              {items.map((it) => {
+                const val = match[it.id];
+                let cls = "inline-gap";
+                if (checked)
+                  cls +=
+                    val === it.key ? " inline-gap--ok" : " inline-gap--bad";
+                return (
+                  <li key={it.id}>
+                    <span>
+                      {it.id}. {it.stem ?? ""}{" "}
+                    </span>
+                    <button
+                      type="button"
+                      className={cls}
+                      disabled={checked}
+                      onClick={() => placeMatch(it.id)}
+                    >
+                      {val ?? "—"}
+                    </button>
+                    {checked && val !== it.key && (
+                      <span className="inline-gap-bad"> → {it.key}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {s.tip && <p className="write-m2a__cue">{s.tip}</p>}
+          </aside>
         </section>
       )}
 
       {s?.kind === "gaps" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{s.badge}</span>
-            {s.instruction}
-          </p>
+        <section
+          className={
+            s.passage
+              ? "read-m3__split read-m3__split--exam"
+              : "read-m3__panel"
+          }
+          style={s.passage ? undefined : { overflow: "auto" }}
+        >
           {s.passage && (
-            <article className="read-m3__passage read-m3__passage--solo">
-              <p>{s.passage}</p>
+            <article className="read-m3__passage">
+              <header className="read-m3__hero read-m3__hero--compact">
+                <div>
+                  <h2>Passage</h2>
+                </div>
+              </header>
+              <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{s.passage}</p>
             </article>
           )}
-          <div className="pr-chip-row" style={{ marginBottom: 8 }}>
-            {bank.map((b) => {
-              const used = usedGaps.has(b);
-              return (
-                <button
-                  key={b}
-                  type="button"
-                  className={`pr-chip ${picked === b ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
-                  disabled={checked || used}
-                  onClick={() => setPicked(b)}
-                >
-                  {b}
-                </button>
-              );
-            })}
-          </div>
-          <ul className="read-m3__qs">
-            {items.map((it) => {
-              const val = gaps[it.id];
-              const ok = matches(val ?? "", it.key, it.alts);
-              let cls = "inline-gap";
-              if (checked) cls += ok ? " inline-gap--ok" : " inline-gap--bad";
-              return (
-                <li key={it.id}>
-                  <span>
-                    {it.id}. {it.stem ?? ""}{" "}
-                  </span>
+          <aside
+            className={s.passage ? "read-m3__side read-m3__side--exam" : undefined}
+            style={s.passage ? undefined : { display: "contents" }}
+          >
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">{s.badge}</span>
+              {s.instruction}
+            </p>
+            <div className="pr-chip-row" style={{ marginBottom: 8 }}>
+              {bank.map((b) => {
+                const used = usedGaps.has(b);
+                return (
                   <button
+                    key={b}
                     type="button"
-                    className={cls}
-                    disabled={checked}
-                    onClick={() => placeGap(it.id)}
+                    className={`pr-chip ${picked === b ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
+                    disabled={checked || used}
+                    onClick={() => setPicked(b)}
                   >
-                    {val ?? "—"}
+                    {b}
                   </button>
-                  {checked && !ok && (
-                    <span className="inline-gap-bad"> → {it.key}</span>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          {s.tip && (
-            <>
-              <button
-                type="button"
-                className="pr-chip"
-                onClick={() => setShowTip((v) => !v)}
-              >
-                {showTip ? "Hide tip" : "Show tip"}
-              </button>
-              {showTip && <p className="write-m2a__cue">{s.tip}</p>}
-            </>
-          )}
+                );
+              })}
+            </div>
+            <ul className="read-m3__qs">
+              {items.map((it) => {
+                const val = gaps[it.id];
+                const ok = matches(val ?? "", it.key, it.alts);
+                let cls = "inline-gap";
+                if (checked) cls += ok ? " inline-gap--ok" : " inline-gap--bad";
+                return (
+                  <li key={it.id}>
+                    <span>
+                      {it.id}. {it.stem ?? ""}{" "}
+                    </span>
+                    <button
+                      type="button"
+                      className={cls}
+                      disabled={checked}
+                      onClick={() => placeGap(it.id)}
+                    >
+                      {val ?? "—"}
+                    </button>
+                    {checked && !ok && (
+                      <span className="inline-gap-bad"> → {it.key}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {s.tip && (
+              <>
+                <button
+                  type="button"
+                  className="pr-chip"
+                  onClick={() => setShowTip((v) => !v)}
+                >
+                  {showTip ? "Hide tip" : "Show tip"}
+                </button>
+                {showTip && <p className="write-m2a__cue">{s.tip}</p>}
+              </>
+            )}
+          </aside>
         </section>
       )}
 

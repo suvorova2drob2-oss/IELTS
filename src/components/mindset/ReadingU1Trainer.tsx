@@ -253,12 +253,14 @@ export function ReadingU1Trainer({
 
       {step === 0 && (
         <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <h2 className="read-m3__h">In this unit you will learn how to</h2>
-          <ul className="read-m3__qs">
+          <div className="ms-unit-goals">
+          <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+          <ul className="ms-unit-goals__list">
             {data.unitGoals.map((g) => (
               <li key={g}>{g}</li>
             ))}
           </ul>
+        </div>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.leadIn.badge}</span>
             {data.leadIn.instruction}
@@ -724,9 +726,9 @@ export function ReadingU1Trainer({
       )}
 
       {step === 6 && (
-        <section className="read-m3__panel">
+        <section className="read-m3__panel" style={{ overflow: "auto" }}>
           <h2 className="read-m3__h">{data.discussion.heading}</h2>
-          <ol className="read-m3__qs">
+          <ol className="read-m3__qs read-m3__qs--compact">
             {data.discussion.prompts.map((q) => (
               <li key={q}>{q}</li>
             ))}

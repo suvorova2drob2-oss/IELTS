@@ -1,3 +1,4 @@
+import { PASSAGE_U3_WARHOL, PASSAGE_U3_SCULPTURE_EXAM } from "./readingPassages";
 export const MS_U3_READ_STEPS = [
   "Lead-in · synonyms",
   "TFNG practice",
@@ -58,6 +59,7 @@ export const readingU3 = {
       badge: "3–5",
       instruction:
         "Which statement matches the structure of the Rauschenberg / Warhol text? Then answer TFNG on Paragraph B.",
+      passage: PASSAGE_U3_WARHOL,
       items: [
         {
           id: "3",
@@ -107,6 +109,7 @@ export const readingU3 = {
       kind: "match" as const,
       badge: "4",
       instruction: "Which paragraph contains the following information?",
+      passage: PASSAGE_U3_WARHOL,
       bank: ["A", "B", "C", "D", "E", "F"],
       items: [
         { id: "1", stem: "The materials Rauschenberg worked with", key: "C" },
@@ -142,6 +145,7 @@ export const readingU3 = {
       kind: "mcq" as const,
       badge: "EXAM 16",
       instruction: "Exam skills — True / False / Not Given and multiple choice (AK).",
+      passage: PASSAGE_U3_SCULPTURE_EXAM,
       items: [
         { id: "1", stem: "Q1", options: [{ id: "T", text: "True" }, { id: "F", text: "False" }, { id: "NG", text: "Not Given" }], key: "F" },
         { id: "2", stem: "Q2", options: [{ id: "T", text: "True" }, { id: "F", text: "False" }, { id: "NG", text: "Not Given" }], key: "T" },

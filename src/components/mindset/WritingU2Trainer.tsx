@@ -177,12 +177,14 @@ export function WritingU2Trainer({
 
       {s?.kind === "intro" && (
         <section className="write-m2a__panel" style={{ overflow: "auto" }}>
-          <h2 className="write-m2a__h">In this unit you will learn how to</h2>
-          <ul className="write-m2a__list">
+          <div className="ms-unit-goals">
+          <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+          <ul className="ms-unit-goals__list">
             {data.unitGoals.map((g) => (
               <li key={g}>{g}</li>
             ))}
           </ul>
+        </div>
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}

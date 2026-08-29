@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type {
   FlowStep,
   GapItem,
@@ -9,6 +9,12 @@ import type {
   YnngItem,
 } from "../../data/mindset/flowTypes";
 import { WordCountMeter, countWords } from "../WordCountMeter";
+import {
+  MsBarPairGraph,
+  MsPiePairGraph,
+  MS_U5_WORKFORCE_BARS,
+  MS_U7_NEWS_PIES,
+} from "./MsTask1Charts";
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/\s+/g, " ").trim();
@@ -231,10 +237,10 @@ export function MindsetFlowTrainer({
     picks: Record<string, string>,
     set: (id: string, v: string) => void,
   ) => (
-    <ul className="read-m3__qs">
+    <div className="ms-mc-grid">
       {items.map((it) => (
-        <li key={it.id}>
-          <p className="read-m3__instr">
+        <div key={it.id} className="ms-mc-card">
+          <p className="ms-mc-card__stem">
             <strong>{it.id}.</strong> {it.stem}
           </p>
           <ul className="read-m3__opts">
@@ -258,10 +264,14 @@ export function MindsetFlowTrainer({
               );
             })}
           </ul>
-          {checked && it.tip && <p className="read-m3__hint">{it.tip}</p>}
-        </li>
+          {checked && it.tip && (
+            <p className="ms-mc-card__stem" style={{ marginTop: 6, opacity: 0.9 }}>
+              {it.tip}
+            </p>
+          )}
+        </div>
       ))}
-    </ul>
+    </div>
   );
 
   const ynngList = (items: YnngItem[], labels: string[]) => (
@@ -390,6 +400,33 @@ export function MindsetFlowTrainer({
     </>
   );
 
+  const examShell = (
+    passage: string | undefined,
+    title: string | undefined,
+    body: ReactNode,
+  ) => {
+    if (!passage) {
+      return (
+        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          {body}
+        </section>
+      );
+    }
+    return (
+      <section className="read-m3__split read-m3__split--exam">
+        <article className="read-m3__passage">
+          <header className="read-m3__hero read-m3__hero--compact">
+            <div>
+              <h2>{title ?? "Passage"}</h2>
+            </div>
+          </header>
+          <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{passage}</p>
+        </article>
+        <aside className="read-m3__side read-m3__side--exam">{body}</aside>
+      </section>
+    );
+  };
+
   const renderPanel = (p: FlowStep) => {
     switch (p.kind) {
       case "intro":
@@ -397,12 +434,14 @@ export function MindsetFlowTrainer({
           <section className="read-m3__panel" style={{ overflow: "auto" }}>
             {(p.goals ?? data.unitGoals).length > 0 && (
               <>
-                <h2 className="read-m3__h">In this unit you will learn how to</h2>
-                <ul className="read-m3__qs">
+                <div className="ms-unit-goals">
+                <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+                <ul className="ms-unit-goals__list">
                   {(p.goals ?? data.unitGoals).map((g) => (
                     <li key={g}>{g}</li>
                   ))}
                 </ul>
+              </div>
               </>
             )}
             {p.instruction && (
@@ -446,8 +485,10 @@ export function MindsetFlowTrainer({
           </section>
         );
       case "mc":
-        return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        return examShell(
+          p.passage,
+          p.badge,
+          <>
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -461,8 +502,8 @@ export function MindsetFlowTrainer({
                 const keys = new Set(multiKeys);
                 const chosen = new Set(multiPick[it.id] ?? []);
                 return (
-                  <div key={it.id}>
-                    <p className="read-m3__instr">
+                  <div key={it.id} className="ms-mc-card" style={{ marginBottom: 8 }}>
+                    <p className="ms-mc-card__stem">
                       <strong>{it.id}.</strong> {it.stem}
                     </p>
                     <ul className="read-m3__opts">
@@ -499,7 +540,7 @@ export function MindsetFlowTrainer({
                       })}
                     </ul>
                     {checked && (
-                      <p className="read-m3__hint">
+                      <p className="ms-mc-card__stem" style={{ marginTop: 6 }}>
                         Keys: {[...keys].join(", ")}
                       </p>
                     )}
@@ -514,11 +555,13 @@ export function MindsetFlowTrainer({
                 </div>
               );
             })}
-          </section>
+          </>,
         );
       case "ynng":
-        return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        return examShell(
+          p.passage,
+          p.badge,
+          <>
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -530,11 +573,13 @@ export function MindsetFlowTrainer({
               p.items,
               p.labels ?? ["Yes", "No", "Not Given"],
             )}
-          </section>
+          </>,
         );
       case "match":
-        return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        return examShell(
+          p.passage,
+          p.badge,
+          <>
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -543,11 +588,13 @@ export function MindsetFlowTrainer({
             </p>
             {p.tip && <p className="write-m2a__cue">{p.tip}</p>}
             {matchBlock(p.bank, p.items)}
-          </section>
+          </>,
         );
       case "gaps":
-        return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        return examShell(
+          p.passage,
+          p.badge,
+          <>
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -556,7 +603,7 @@ export function MindsetFlowTrainer({
             </p>
             {p.tip && <p className="write-m2a__cue">{p.tip}</p>}
             {gapsBlock(p.bank, p.items)}
-          </section>
+          </>,
         );
       case "oddOut":
         return (
@@ -607,50 +654,52 @@ export function MindsetFlowTrainer({
         );
       case "passageExam":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
-            <p className="read-m3__instr">
-              {p.badge && (
-                <span className="write-m2a__badge">{p.badge}</span>
-              )}
-              {p.instruction}
-            </p>
-            <article className="read-m3__passage read-m3__passage--solo">
-              <p style={{ whiteSpace: "pre-wrap" }}>{p.passage}</p>
+          <section className="read-m3__split read-m3__split--exam">
+            <article className="read-m3__passage">
+              <header className="read-m3__hero read-m3__hero--compact">
+                <div>
+                  <h2>{p.badge ?? "Reading passage"}</h2>
+                </div>
+              </header>
+              <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{p.passage}</p>
             </article>
-            {p.ynng && (
-              <>
-                <p className="read-m3__instr read-m3__instr--mt">
-                  {p.ynng.instruction}
-                </p>
-                {ynngList(p.ynng.items, ["Yes", "No", "Not Given"])}
-              </>
-            )}
-            {p.match && (
-              <>
-                <p className="read-m3__instr read-m3__instr--mt">
-                  {p.match.instruction}
-                </p>
-                {matchBlock(p.match.bank, p.match.items)}
-              </>
-            )}
-            {p.mc && (
-              <>
-                <p className="read-m3__instr read-m3__instr--mt">
-                  {p.mc.instruction}
-                </p>
-                {mcList(p.mc.items, mcPick, (id, v) =>
-                  setMcPick((m) => ({ ...m, [id]: v })),
-                )}
-              </>
-            )}
-            {p.gaps && (
-              <>
-                <p className="read-m3__instr read-m3__instr--mt">
-                  {p.gaps.instruction}
-                </p>
-                {gapsBlock(p.gaps.bank, p.gaps.items)}
-              </>
-            )}
+            <aside className="read-m3__side read-m3__side--exam">
+              <p className="read-m3__instr">{p.instruction}</p>
+              {p.ynng && (
+                <>
+                  <p className="read-m3__instr read-m3__instr--mt">
+                    {p.ynng.instruction}
+                  </p>
+                  {ynngList(p.ynng.items, ["Yes", "No", "Not Given"])}
+                </>
+              )}
+              {p.match && (
+                <>
+                  <p className="read-m3__instr read-m3__instr--mt">
+                    {p.match.instruction}
+                  </p>
+                  {matchBlock(p.match.bank, p.match.items)}
+                </>
+              )}
+              {p.mc && (
+                <>
+                  <p className="read-m3__instr read-m3__instr--mt">
+                    {p.mc.instruction}
+                  </p>
+                  {mcList(p.mc.items, mcPick, (id, v) =>
+                    setMcPick((m) => ({ ...m, [id]: v })),
+                  )}
+                </>
+              )}
+              {p.gaps && (
+                <>
+                  <p className="read-m3__instr read-m3__instr--mt">
+                    {p.gaps.instruction}
+                  </p>
+                  {gapsBlock(p.gaps.bank, p.gaps.items)}
+                </>
+              )}
+            </aside>
           </section>
         );
       case "writing":
@@ -665,6 +714,20 @@ export function MindsetFlowTrainer({
             {p.cue && <p className="write-m2a__cue">{p.cue}</p>}
             <article className="read-m3__passage read-m3__passage--solo">
               <p style={{ whiteSpace: "pre-wrap" }}>{p.prompt}</p>
+              {p.chart === "u5-workforce-bars" && (
+                <MsBarPairGraph
+                  title={MS_U5_WORKFORCE_BARS.title}
+                  groups={MS_U5_WORKFORCE_BARS.groups}
+                  series={MS_U5_WORKFORCE_BARS.series}
+                />
+              )}
+              {p.chart === "u7-news-pies" && (
+                <MsPiePairGraph
+                  title={MS_U7_NEWS_PIES.title}
+                  left={MS_U7_NEWS_PIES.left}
+                  right={MS_U7_NEWS_PIES.right}
+                />
+              )}
               {p.tableNote && (
                 <p className="write-m2a__cue">{p.tableNote}</p>
               )}

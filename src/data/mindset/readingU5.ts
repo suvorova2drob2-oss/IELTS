@@ -1,4 +1,5 @@
 import type { MindsetFlowData } from "./flowTypes";
+import { PASSAGE_U5_ECCENTRIC_RULERS } from "./readingPassages";
 
 export const MS_U5_READ_STEPS = [
   "Lead-in",
@@ -86,6 +87,7 @@ export const readingU5: MindsetFlowData = {
       badge: "4",
       instruction:
         "Skim the text on eccentric rulers quickly and answer the questions. Give reasons for your answers.",
+      passage: PASSAGE_U5_ECCENTRIC_RULERS,
       items: [
         {
           id: "1",
@@ -115,6 +117,7 @@ export const readingU5: MindsetFlowData = {
       badge: "5–9",
       instruction:
         "Find these sentences in the text. For each, decide if the author is making a claim or expressing a view. Then match statements 1–4 with people A–D.",
+      passage: PASSAGE_U5_ECCENTRIC_RULERS,
       tip: "Claims = author's interpretation of facts; views = subjective personal opinions.",
       bank: [
         { id: "claim", text: "claim" },
@@ -176,6 +179,7 @@ export const readingU5: MindsetFlowData = {
       badge: "13",
       instruction:
         "Are the following claims made by the writer? Write Yes, No or Not Given.",
+      passage: PASSAGE_U5_ECCENTRIC_RULERS,
       items: [
         {
           id: "1",

@@ -87,6 +87,7 @@ export const writingU7: MindsetFlowData = {
       prompt:
         "The pie charts show the principal ways of finding out the news in the UK and Brazil.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
       minWords: 150,
+      chart: "u7-news-pies",
       sample: `The pie charts show the principal ways of finding out the news in two different countries, the UK and Brazil.
 
 The two nations show broadly similar patterns, though there are some differences, both significant and minor. In Brazil, more than half of people access news online (53%), compared with over a third in the UK. Television is popular in both countries. By contrast, print and radio are used much more in the UK: over twice as many people use print, and radio reaches about three times more of the UK population than in Brazil, where only 3% listen to the news on the radio.

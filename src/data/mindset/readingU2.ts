@@ -1,3 +1,4 @@
+import { PASSAGE_U2_JUNK_FOOD, PASSAGE_U2_ANTIBIOTICS } from "./readingPassages";
 export const MS_U2_READ_STEPS = [
   "Lead-in · suffixes",
   "Skimming",
@@ -51,6 +52,7 @@ export const readingU2 = {
       badge: "5",
       instruction:
         "Without reading a full sentence in any of the paragraphs, skim read the text. Then match the main ideas/functions (1–6) with each paragraph (A–F).",
+      passage: PASSAGE_U2_JUNK_FOOD,
       bank: ["A", "B", "C", "D", "E", "F"],
       items: [
         { id: "1", stem: "Provides an explanation for the way people act", key: "C" },
@@ -61,14 +63,13 @@ export const readingU2 = {
         { id: "6", stem: "Relates a problem to a specific group of people", key: "E" },
       ],
       tip: "Aim to 'blank out' the grammar words and concentrate on noticing the content words (nouns, verbs, adjectives).",
-      passage:
-        "Paragraph A: rise of junk food / takeaways rose by 45% / dietary disaster. B: world doesn't want to listen / measures vs personal choice. C: evolutionary reason / compulsively overeat / dopamine. D: sodium / kidneys / heart / three days. E: young people / maturity / urge / restraint. F: stylish / aspirational / obesity crisis cannot be halted.",
     },
     {
       kind: "gaps" as const,
       badge: "9",
       instruction:
         "For each question, choose NO MORE THAN TWO WORDS from the text to complete the flow-chart: The effects of fast food on the body.",
+      passage: PASSAGE_U2_JUNK_FOOD,
       bank: [
         "processed food",
         "the brain",
@@ -94,6 +95,7 @@ export const readingU2 = {
       badge: "11–15",
       instruction:
         "Complete the table and sentences. Choose ONE WORD ONLY for 8–10; NO MORE THAN TWO WORDS for sentence completion.",
+      passage: PASSAGE_U2_JUNK_FOOD,
       bank: [
         "maturity",
         "urge",
@@ -162,6 +164,7 @@ export const readingU2 = {
       badge: "EXAM 1–14",
       instruction:
         "Read the antibiotics passage and answer questions 1–14. Choose NO MORE THAN TWO WORDS from the passage for each answer. (Keys only — no audio.)",
+      passage: PASSAGE_U2_ANTIBIOTICS,
       bank: [
         "the gut",
         "medical assistance",

@@ -5,6 +5,11 @@ import {
   writingU1,
 } from "../../data/mindset/writingU1";
 import { WordCountMeter, countWords } from "../WordCountMeter";
+import {
+  MsLineGraph,
+  MS_U1_CAPITAL_GRAPH,
+  MS_U1_COUNTRY_GRAPH,
+} from "./MsLineGraph";
 
 const data = writingU1;
 
@@ -253,12 +258,14 @@ export function WritingU1Trainer({
 
       {step === 0 && (
         <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <h2 className="read-m3__h">In this unit you will learn how to</h2>
-          <ul className="read-m3__qs">
+          <div className="ms-unit-goals">
+          <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+          <ul className="ms-unit-goals__list">
             {data.unitGoals.map((g) => (
               <li key={g}>{g}</li>
             ))}
           </ul>
+        </div>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.leadIn.badge}</span>
             {data.leadIn.instruction}
@@ -364,10 +371,12 @@ export function WritingU1Trainer({
             <p style={{ whiteSpace: "pre-wrap" }}>
               {data.taskAchievement.prompt}
             </p>
-            <p className="write-m2a__cue">
-              Categories: {data.taskAchievement.categories.join(" · ")} · Years:{" "}
-              {data.taskAchievement.years.join(", ")}
-            </p>
+            <MsLineGraph
+              title={MS_U1_COUNTRY_GRAPH.title}
+              years={MS_U1_COUNTRY_GRAPH.years}
+              series={MS_U1_COUNTRY_GRAPH.series}
+              yMax={MS_U1_COUNTRY_GRAPH.yMax}
+            />
           </article>
           <h3 className="read-m3__h">As you look at a graph for the first time</h3>
           <ul className="read-m3__qs">
@@ -428,6 +437,12 @@ export function WritingU1Trainer({
               <span className="write-m2a__badge">{data.critique.badge}</span>
               {data.critique.instruction}
             </p>
+            <MsLineGraph
+              title={MS_U1_COUNTRY_GRAPH.title}
+              years={MS_U1_COUNTRY_GRAPH.years}
+              series={MS_U1_COUNTRY_GRAPH.series}
+              yMax={MS_U1_COUNTRY_GRAPH.yMax}
+            />
             <h3 className="read-m3__h">Answer 2</h3>
             <p style={{ whiteSpace: "pre-wrap", fontSize: "0.92em" }}>
               {data.critique.answer2}
@@ -674,10 +689,12 @@ export function WritingU1Trainer({
           <p className="write-m2a__cue">{data.exam.timeNote}</p>
           <article className="read-m3__passage read-m3__passage--solo">
             <p style={{ whiteSpace: "pre-wrap" }}>{data.exam.prompt}</p>
-            <p className="write-m2a__cue">
-              Survey results · {data.exam.categories.join(" · ")} ·{" "}
-              {data.exam.years.join("–")}
-            </p>
+            <MsLineGraph
+              title={MS_U1_CAPITAL_GRAPH.title}
+              years={MS_U1_CAPITAL_GRAPH.years}
+              series={MS_U1_CAPITAL_GRAPH.series}
+              yMax={MS_U1_CAPITAL_GRAPH.yMax}
+            />
           </article>
           <WordCountMeter
             words={countWords(draft)}

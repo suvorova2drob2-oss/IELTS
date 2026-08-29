@@ -1,4 +1,5 @@
 import type { MindsetFlowData } from "./flowTypes";
+import { PASSAGE_U6_VR } from "./readingPassages";
 
 export const MS_U6_READ_STEPS = [
   "Word formation",
@@ -33,6 +34,7 @@ export const readingU6: MindsetFlowData = {
       badge: "1–2",
       instruction:
         "Correct the word-formation errors in the paragraph. Place the correct form for each numbered error.",
+      passage: PASSAGE_U6_VR,
       tip: "All answers are from the answer key (incorrect → correct).",
       bank: [
         "research",
@@ -62,6 +64,7 @@ export const readingU6: MindsetFlowData = {
       badge: "4",
       instruction:
         "Summary completion with options — VR passage. Match gaps 1–5 with options A–G (distractors included).",
+      passage: PASSAGE_U6_VR,
       tip: "4 1 A · 2 I · 3 E · 4 G · 5 D (answer key).",
       bank: [
         { id: "A", text: "A" },
@@ -85,6 +88,7 @@ export const readingU6: MindsetFlowData = {
       badge: "9",
       instruction:
         "Summary completion WITHOUT options — no more than two words from the text for each gap.",
+      passage: PASSAGE_U6_VR,
       bank: [
         "far-reaching",
         "field / industry",
@@ -110,6 +114,7 @@ export const readingU6: MindsetFlowData = {
       kind: "gaps",
       badge: "11",
       instruction: "Diagram / short-answer style completions (paragraphs B–C).",
+      passage: PASSAGE_U6_VR,
       bank: ["computer", "natural differences", "tailored picture", "aircraft flight"],
       items: [
         { id: "1", stem: "1", key: "computer" },
@@ -123,6 +128,7 @@ export const readingU6: MindsetFlowData = {
       badge: "EXAM",
       instruction:
         "Exam skills — predictions / futures language matching (answer key 1 G 2 D 3 F 4 J 5 A) and note completion.",
+      passage: PASSAGE_U6_VR,
       bank: [
         { id: "G", text: "G" },
         { id: "D", text: "D" },

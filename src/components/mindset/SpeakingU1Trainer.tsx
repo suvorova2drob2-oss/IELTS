@@ -224,12 +224,14 @@ export function SpeakingU1Trainer({
 
       {step === 0 && (
         <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <h2 className="read-m3__h">In this unit you will learn how to</h2>
-          <ul className="read-m3__qs">
+          <div className="ms-unit-goals">
+          <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+          <ul className="ms-unit-goals__list">
             {data.unitGoals.map((g) => (
               <li key={g}>{g}</li>
             ))}
           </ul>
+        </div>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.quiz.badge}</span>
             {data.quiz.instruction}
@@ -242,8 +244,8 @@ export function SpeakingU1Trainer({
             }}
           >
             {data.quiz.items.map((it) => (
-              <div key={it.id} className="read-m3__passage" style={{ padding: 8 }}>
-                <p className="read-m3__instr">
+              <div key={it.id} className="ms-mc-card">
+                <p className="ms-mc-card__stem">
                   <strong>{it.id}.</strong> {it.stem}
                 </p>
                 <ul className="read-m3__opts">

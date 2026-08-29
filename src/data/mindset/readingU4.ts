@@ -1,3 +1,4 @@
+import { PASSAGE_U4_CRASH, PASSAGE_U4_WORKING_LIFE } from "./readingPassages";
 export const MS_U4_READ_STEPS = [
   "Lead-in · finance vocab",
   "Matching features",
@@ -44,6 +45,7 @@ export const readingU4 = {
       badge: "5–6",
       instruction:
         "Match each statement with the correct person: A Alicia Pillory · B Dr Alfred Moran · C Charles Vane.",
+      passage: PASSAGE_U4_CRASH,
       bank: ["A", "B", "C"],
       items: [
         { id: "1", stem: "The plan to make more people wealthy from mortgage repayments was foolish.", key: "A" },
@@ -59,6 +61,7 @@ export const readingU4 = {
       kind: "mcq" as const,
       badge: "8–10",
       instruction: "Global multiple-choice — main idea, paragraph purpose, best title.",
+      passage: PASSAGE_U4_CRASH,
       items: [
         {
           id: "8",
@@ -118,6 +121,7 @@ export const readingU4 = {
       kind: "mcq" as const,
       badge: "EXAM 13",
       instruction: "Exam matching / MCQ keys on the changing face of working life.",
+      passage: PASSAGE_U4_WORKING_LIFE,
       items: [
         { id: "1", stem: "Q1", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "C" },
         { id: "2", stem: "Q2", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "B" },

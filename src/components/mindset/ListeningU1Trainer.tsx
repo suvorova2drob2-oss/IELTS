@@ -67,7 +67,7 @@ export function ListeningU1Trainer({
     setShowSamples(false);
   }, [restart, initialStep]);
 
-  const needsCheck = step !== 1; // step 1 has optional predict + checkable fill
+  const needsCheck = true;
 
   const synScore = data.leadIn.items.filter((it) => {
     const p = synPick[it.id];
@@ -212,10 +212,10 @@ export function ListeningU1Trainer({
     picks: Record<string, string>,
     setPick: (id: string, v: string) => void,
   ) => (
-    <ul className="read-m3__qs" style={{ display: "grid", gap: 10 }}>
+    <div className="ms-mc-grid">
       {items.map((it) => (
-        <li key={it.id}>
-          <p className="read-m3__instr">
+        <div key={it.id} className="ms-mc-card">
+          <p className="ms-mc-card__stem">
             <strong>{it.id}.</strong> {it.stem}
           </p>
           <ul className="read-m3__opts">
@@ -243,13 +243,13 @@ export function ListeningU1Trainer({
               );
             })}
           </ul>
-        </li>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 
   return (
-    <div className="app-shell reading-flow reading-flow--viewport read-m3">
+    <div className="app-shell reading-flow reading-flow--viewport read-m3 ms-listen-u1">
       <div className="reading-chrome">
         {onBack && (
           <button
@@ -281,23 +281,29 @@ export function ListeningU1Trainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <h2 className="read-m3__h">In this unit you will learn how to</h2>
-          <ul className="read-m3__qs">
-            {data.unitGoals.map((g) => (
-              <li key={g}>{g}</li>
-            ))}
-          </ul>
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.leadIn.badge}</span>
-            {data.leadIn.discuss}
-          </p>
-          <ul className="read-m3__qs">
-            {data.leadIn.options.map((o) => (
-              <li key={o}>{o}</li>
-            ))}
-          </ul>
-          <p className="read-m3__instr read-m3__instr--mt">
+        <section className="read-m3__panel ms-listen-lead">
+          <div className="ms-listen-lead__top">
+            <div className="ms-listen-lead__intro">
+              <div className="ms-unit-goals">
+              <p className="ms-unit-goals__title">In this unit you will learn how to</p>
+              <ul className="ms-unit-goals__list">
+                {data.unitGoals.map((g) => (
+                  <li key={g}>{g}</li>
+                ))}
+              </ul>
+            </div>
+              <p className="read-m3__instr">
+                <span className="write-m2a__badge">{data.leadIn.badge}</span>
+                {data.leadIn.discuss}
+              </p>
+              <ul className="read-m3__qs read-m3__qs--compact ms-listen-lead__opts">
+                {data.leadIn.options.map((o) => (
+                  <li key={o}>{o}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <p className="read-m3__instr ms-listen-lead__instr">
             <span className="write-m2a__badge">{data.leadIn.badge2}</span>
             {data.leadIn.instruction}
           </p>
@@ -305,27 +311,17 @@ export function ListeningU1Trainer({
             Tap the word that is NOT a synonym (or &quot;no synonyms&quot; for
             item 3).
           </p>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 10,
-            }}
-          >
+          <div className="ms-listen-syn-grid">
             {data.leadIn.items.map((it) => {
               const pick = synPick[it.id];
-              const ok =
-                it.notSynonym === "ALL"
-                  ? pick === "ALL"
-                  : pick === it.notSynonym;
               return (
-                <div key={it.id} className="read-m3__passage" style={{ padding: 8 }}>
+                <div key={it.id} className="read-m3__passage ms-listen-syn-card">
                   <p className="read-m3__hint">
                     <strong>({it.id})</strong> {it.context}
                   </p>
                   <div className="pr-chip-bank">
                     {it.words.map((w) => {
-                      let cls = pick === w ? "pr-chip--on" : "";
+                      let cls = pick === w ? "pr-chip--picked" : "";
                       if (checked) {
                         if (it.notSynonym === w && pick === w)
                           cls = "pr-chip--ok";
@@ -354,7 +350,7 @@ export function ListeningU1Trainer({
                           pick === "ALL"
                             ? checked
                               ? "pr-chip--ok"
-                              : "pr-chip--on"
+                              : "pr-chip--picked"
                             : ""
                         }`}
                         disabled={checked}
@@ -366,9 +362,7 @@ export function ListeningU1Trainer({
                       </button>
                     )}
                   </div>
-                  {checked && (
-                    <p className={`read-m3__tip ${ok ? "" : ""}`}>{it.tip}</p>
-                  )}
+                  {checked && <p className="read-m3__tip">{it.tip}</p>}
                 </div>
               );
             })}
@@ -410,7 +404,7 @@ export function ListeningU1Trainer({
                 <button
                   key={w}
                   type="button"
-                  className={`pr-chip ${pickedPredict === w ? "pr-chip--on" : ""} ${used ? "pr-chip--used" : ""}`}
+                  className={`pr-chip ${pickedPredict === w ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
                   disabled={checked || used}
                   onClick={() => setPickedPredict(w)}
                 >
@@ -481,7 +475,7 @@ export function ListeningU1Trainer({
                 <button
                   key={w}
                   type="button"
-                  className={`pr-chip ${pickedForm === w ? "pr-chip--on" : ""} ${used ? "pr-chip--used" : ""}`}
+                  className={`pr-chip ${pickedForm === w ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
                   disabled={checked || used}
                   onClick={() => setPickedForm(w)}
                 >
@@ -540,8 +534,8 @@ export function ListeningU1Trainer({
               const sel = new Set(notHear[it.id] ?? []);
               const keys = new Set(it.keys);
               return (
-                <div key={it.id} className="read-m3__passage" style={{ padding: 8 }}>
-                  <p className="read-m3__instr">
+                <div key={it.id} className="ms-mc-card">
+                  <p className="ms-mc-card__stem">
                     <strong>{it.id}.</strong> {it.stem}
                   </p>
                   <ul className="read-m3__opts">
@@ -570,7 +564,7 @@ export function ListeningU1Trainer({
                     })}
                   </ul>
                   {checked && (
-                    <p className="read-m3__hint">
+                    <p className="ms-mc-card__stem" style={{ marginTop: 6, opacity: 0.9 }}>
                       NOT hear: {it.keys.join(", ")}
                     </p>
                   )}
@@ -592,32 +586,29 @@ export function ListeningU1Trainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">
-              {data.conditionals.badge}
-            </span>
-            {data.conditionals.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.conditionals.sentences.map((s) => (
-              <li key={s.id}>{s.text}</li>
-            ))}
-          </ol>
-          <p className="read-m3__instr read-m3__instr--mt">
-            <span className="write-m2a__badge">
-              {data.conditionals.badge13}
-            </span>
-            {data.conditionals.instruction13}
-          </p>
-          <div className="pr-chip-bank">
+        <section className="read-m3__panel ms-listen-cond">
+          <div className="ms-listen-cond__head">
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">
+                {data.conditionals.badge}
+              </span>
+              {data.conditionals.instruction}
+            </p>
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">
+                {data.conditionals.badge13}
+              </span>
+              {data.conditionals.instruction13}
+            </p>
+          </div>
+          <div className="pr-chip-bank ms-listen-cond__bank">
             {data.conditionals.bank.map((w) => {
               const used = usedCond.has(w);
               return (
                 <button
                   key={w}
                   type="button"
-                  className={`pr-chip ${pickedCond === w ? "pr-chip--on" : ""} ${used ? "pr-chip--used" : ""}`}
+                  className={`pr-chip ${pickedCond === w ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
                   disabled={checked || used}
                   onClick={() => setPickedCond(w)}
                 >
@@ -626,58 +617,69 @@ export function ListeningU1Trainer({
               );
             })}
           </div>
-          <ul className="read-m3__qs">
+          <div className="ms-listen-cond__grid">
             {data.conditionals.sentences.map((s) => {
               const ok = condGaps[s.id] === data.conditionals.keys[s.id];
               return (
-                <li key={s.id}>
-                  Sentence {s.id} condition word:{" "}
-                  {gapBtn(
-                    condGaps[s.id],
-                    () =>
-                      placeGap(
-                        condGaps,
-                        setCondGaps,
-                        pickedCond,
-                        setPickedCond,
-                        s.id,
-                      ),
-                    ok,
-                  )}
-                  {checked && !ok && (
-                    <span className="inline-gap-bad">
-                      {" "}
-                      → {data.conditionals.keys[s.id]}
-                    </span>
-                  )}
-                </li>
+                <div key={s.id} className="read-m3__passage ms-listen-cond__card">
+                  <p className="read-m3__hint">
+                    <strong>({s.id})</strong> {s.text}
+                  </p>
+                  <p className="ms-listen-cond__gap-row">
+                    Condition word:{" "}
+                    {gapBtn(
+                      condGaps[s.id],
+                      () =>
+                        placeGap(
+                          condGaps,
+                          setCondGaps,
+                          pickedCond,
+                          setPickedCond,
+                          s.id,
+                        ),
+                      ok,
+                    )}
+                    {checked && !ok && (
+                      <span className="inline-gap-bad">
+                        {" "}
+                        → {data.conditionals.keys[s.id]}
+                      </span>
+                    )}
+                  </p>
+                </div>
               );
             })}
-          </ul>
-          {checked && (
-            <p className="read-m3__tip">{data.conditionals.replaceTip}</p>
-          )}
-          <p className="write-m2a__expert">{data.conditionals.rule}</p>
-          <p className="read-m3__instr read-m3__instr--mt">
-            <span className="write-m2a__badge">
-              {data.conditionals.badge15}
-            </span>
-            {data.conditionals.instruction15}
-          </p>
-          <button
-            type="button"
-            className="pr-chip"
-            onClick={() => setShowSamples((v) => !v)}
-          >
-            {showSamples ? "Hide sample sentences" : "Show sample sentences"}
-          </button>
-          {showSamples && (
-            <ol className="read-m3__qs" style={{ marginTop: 8 }}>
-              {data.conditionals.samples.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ol>
-          )}
+          </div>
+          <div className="ms-listen-cond__foot">
+            {checked && (
+              <p className="read-m3__tip">{data.conditionals.replaceTip}</p>
+            )}
+            <p className="write-m2a__expert ms-listen-cond__rule">
+              {data.conditionals.rule}
+            </p>
+            <div className="ms-listen-cond__samples-row">
+              <p className="read-m3__instr">
+                <span className="write-m2a__badge">
+                  {data.conditionals.badge15}
+                </span>
+                {data.conditionals.instruction15}
+              </p>
+              <button
+                type="button"
+                className="pr-chip"
+                onClick={() => setShowSamples((v) => !v)}
+              >
+                {showSamples ? "Hide samples" : "Show sample sentences"}
+              </button>
+            </div>
+            {showSamples && (
+              <ol className="ms-listen-cond__samples">
+                {data.conditionals.samples.map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ol>
+            )}
+          </div>
         </section>
       )}
 
@@ -695,7 +697,7 @@ export function ListeningU1Trainer({
                 <button
                   key={w}
                   type="button"
-                  className={`pr-chip ${pickedExam === w ? "pr-chip--on" : ""} ${used ? "pr-chip--used" : ""}`}
+                  className={`pr-chip ${pickedExam === w ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
                   disabled={checked || used}
                   onClick={() => setPickedExam(w)}
                 >

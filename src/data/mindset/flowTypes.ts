@@ -55,6 +55,7 @@ export type FlowStep =
       badge?: string;
       instruction: string;
       tip?: string;
+      passage?: string;
       items: McItem[];
       /** When true, several answers may be selected (multi-select). */
       multi?: boolean;
@@ -66,6 +67,7 @@ export type FlowStep =
       badge?: string;
       instruction: string;
       tip?: string;
+      passage?: string;
       labels?: string[];
       items: YnngItem[];
     }
@@ -74,6 +76,7 @@ export type FlowStep =
       badge?: string;
       instruction: string;
       tip?: string;
+      passage?: string;
       bank: { id: string; text: string }[];
       items: MatchItem[];
     }
@@ -82,6 +85,7 @@ export type FlowStep =
       badge?: string;
       instruction: string;
       tip?: string;
+      passage?: string;
       /** Chips shown in bank (click → place). */
       bank: string[];
       items: GapItem[];
@@ -131,6 +135,8 @@ export type FlowStep =
       minWords: number;
       sample: string;
       cue?: string;
+      /** Mindset Task 1 chart id rendered by MindsetFlowTrainer. */
+      chart?: "u5-workforce-bars" | "u7-news-pies";
     }
   | {
       kind: "keysOnly";

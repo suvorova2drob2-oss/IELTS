@@ -1,4 +1,5 @@
 import type { MindsetFlowData } from "./flowTypes";
+import { PASSAGE_U8_YOUTH } from "./readingPassages";
 
 export const MS_U8_READ_STEPS = [
   "Paper quiz",
@@ -88,6 +89,7 @@ export const readingU8: MindsetFlowData = {
       kind: "match",
       badge: "4",
       instruction: "Youth cultures passage — match statements 1–8 with paragraphs / options.",
+      passage: PASSAGE_U8_YOUTH,
       tip: "1 F · 2 C · 3 E · 4 A · 5 C · 6 D,G · 7 B · 8 D,E",
       bank: [
         { id: "A", text: "A" },
@@ -111,6 +113,7 @@ export const readingU8: MindsetFlowData = {
       kind: "match",
       badge: "5",
       instruction: "Matching headings — place i–x style keys for paragraphs 1–7.",
+      passage: PASSAGE_U8_YOUTH,
       bank: [
         { id: "iv", text: "iv" },
         { id: "ii", text: "ii" },
@@ -134,6 +137,7 @@ export const readingU8: MindsetFlowData = {
       kind: "ynng",
       badge: "6",
       instruction: "Yes / No / Not Given on the youth culture writer's claims.",
+      passage: PASSAGE_U8_YOUTH,
       items: [
         { id: "1", stem: "Statement 1", key: "Yes" },
         { id: "2", stem: "Statement 2", key: "No" },
@@ -145,6 +149,7 @@ export const readingU8: MindsetFlowData = {
       kind: "mc",
       badge: "EXAM",
       instruction: "Exam multiple choice (11): 1 D 2 B 3 C 4 B 5 A · 6 D",
+      passage: PASSAGE_U8_YOUTH,
       items: [
         { id: "1", stem: "Q1", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "D" },
         { id: "2", stem: "Q2", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "B" },
