@@ -163,7 +163,7 @@ export const readingU2 = {
       kind: "gaps" as const,
       badge: "EXAM 1–14",
       instruction:
-        "Read the antibiotics passage and answer questions 1–14. Choose NO MORE THAN TWO WORDS from the passage for each answer. (Keys only — no audio.)",
+        "Read the antibiotics passage and answer questions 1–14. Choose NO MORE THAN TWO WORDS from the passage for each answer.",
       passage: PASSAGE_U2_ANTIBIOTICS,
       bank: [
         "the gut",

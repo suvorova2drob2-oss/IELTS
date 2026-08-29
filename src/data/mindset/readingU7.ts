@@ -32,8 +32,10 @@ export const readingU7: MindsetFlowData = {
     {
       kind: "match",
       badge: "1–2",
-      instruction: "Media vocabulary — match items 1–7 with A–G.",
+      instruction:
+        "Scan each paragraph and find the following information. Match each locating prompt with the correct answer from the bank.",
       passage: PASSAGE_U7_MEDIA,
+      tip: "1 E · 2 G · 3 A · 4 C · 5 F · 6 B · 7 D",
       bank: [
         { id: "A", text: "a camera" },
         { id: "B", text: "Ohmynews!" },
@@ -44,40 +46,98 @@ export const readingU7: MindsetFlowData = {
         { id: "G", text: "their critical faculties" },
       ],
       items: [
-        { id: "1", stem: "1", key: "E" },
-        { id: "2", stem: "2", key: "G" },
-        { id: "3", stem: "3", key: "A" },
-        { id: "4", stem: "4", key: "C" },
-        { id: "5", stem: "5", key: "F" },
-        { id: "6", stem: "6", key: "B" },
-        { id: "7", stem: "7", key: "D" },
+        {
+          id: "1",
+          stem: "Paragraph E: four types of obstacles to participation in society",
+          key: "E",
+        },
+        {
+          id: "2",
+          stem: "Paragraph G: something audiences need to sharpen or improve",
+          key: "G",
+        },
+        {
+          id: "3",
+          stem: "Paragraph A: something a journalist traditionally possessed",
+          key: "A",
+        },
+        {
+          id: "4",
+          stem: "Paragraph C: two well-known media outlets",
+          key: "C",
+        },
+        {
+          id: "5",
+          stem: "Paragraph F: two types of criminals",
+          key: "F",
+        },
+        {
+          id: "6",
+          stem: "Paragraph B: the name of a Korean news site",
+          key: "B",
+        },
+        {
+          id: "7",
+          stem: "Paragraph D: the year in which half of the news may be produced by amateurs",
+          key: "D",
+        },
       ],
     },
     {
       kind: "match",
       badge: "8",
-      instruction: "Paragraph matching / information — place letters for items 1–6.",
+      instruction:
+        "The text has seven paragraphs, A–G. Which paragraph contains the following information? Write the correct letter, A–G. NB You may use any letter more than once.",
       passage: PASSAGE_U7_MEDIA,
+      tip: "1 D · 2 F · 3 G · 4 A · 5 B · 6 E",
+      bankReuse: true,
       bank: [
-        { id: "F", text: "F" },
-        { id: "G", text: "G" },
         { id: "A", text: "A" },
         { id: "B", text: "B" },
+        { id: "C", text: "C" },
+        { id: "D", text: "D" },
         { id: "E", text: "E" },
+        { id: "F", text: "F" },
+        { id: "G", text: "G" },
       ],
       items: [
-        { id: "2", stem: "2", key: "F" },
-        { id: "3", stem: "3", key: "G" },
-        { id: "4", stem: "4", key: "A" },
-        { id: "5", stem: "5", key: "B" },
-        { id: "6", stem: "6", key: "E" },
+        {
+          id: "1",
+          stem: "Why some journalists fear the new trends",
+          key: "D",
+        },
+        {
+          id: "2",
+          stem: "Details of civil unrest in a major city",
+          key: "F",
+        },
+        {
+          id: "3",
+          stem: "Why education is needed in the context of this change in the media",
+          key: "G",
+        },
+        {
+          id: "4",
+          stem: "Subjects journalists traditionally study at university",
+          key: "A",
+        },
+        {
+          id: "5",
+          stem: "How the story of a spaceship disaster broke",
+          key: "B",
+        },
+        {
+          id: "6",
+          stem: "Why participatory journalism is good for disadvantaged groups",
+          key: "E",
+        },
       ],
-      tip: "Key: 2 F · 3 G · 4 A · 5 B · 6 E (item 1 = own / 10 in some keys)",
     },
     {
       kind: "gaps",
       badge: "10",
-      instruction: "Short-answer questions — place answers from the bank (word limit).",
+      instruction:
+        "Answer the questions below. Choose NO MORE THAN THREE WORDS from the text for each answer.",
       passage: PASSAGE_U7_MEDIA,
       bank: [
         "eyewitness",
@@ -86,45 +146,62 @@ export const readingU7: MindsetFlowData = {
         "gatekeepers",
       ],
       items: [
-        { id: "1", stem: "1", key: "eyewitness" },
-        { id: "2", stem: "2", key: "space shuttle Columbia" },
-        { id: "3", stem: "3", key: "(amateur) (news) bloggers", altKeys: ["amateur news bloggers", "amateur bloggers", "bloggers"] },
-        { id: "4", stem: "4", key: "gatekeepers" },
+        {
+          id: "1",
+          stem: "In the past, what role would a member of the public who saw a newsworthy event be expected to play?",
+          key: "eyewitness",
+        },
+        {
+          id: "2",
+          stem: "What was the subject of the story given as an example of an amateur journalist scoop before it was reported by a major news agency?",
+          key: "space shuttle Columbia",
+        },
+        {
+          id: "3",
+          stem: "From which group of people have the media establishment begun to hire staff?",
+          key: "(amateur) (news) bloggers",
+          altKeys: ["amateur news bloggers", "amateur bloggers", "news bloggers", "bloggers"],
+        },
+        {
+          id: "4",
+          stem: "What had mainstream media traditionally seen their role in news reporting as being?",
+          key: "gatekeepers",
+        },
       ],
     },
     {
       kind: "mc",
       badge: "11",
-      instruction: "Choose the correct option for each exam-style item (keys from answer key).",
+      instruction: "Choose the correct letter, A, B or C.",
       passage: PASSAGE_U7_MEDIA,
       items: [
         {
           id: "7",
-          stem: "Critical thinking in the text is presented as…",
+          stem: "What has amateur journalism been accused of increasing the risk of?",
           options: [
-            { id: "A", text: "desirable (correct)" },
-            { id: "B", text: "a 'risk' (incorrect paraphrase)" },
-            { id: "C", text: "not mentioned (incorrect)" },
+            { id: "A", text: "fake news" },
+            { id: "B", text: "critical thinking" },
+            { id: "C", text: "untrue stories" },
           ],
           key: "A",
         },
         {
           id: "8",
-          stem: "Best paraphrase / option for authorities item",
+          stem: "What did citizen journalists help police to do during the London riots?",
           options: [
-            { id: "A", text: "too many words (incorrect)" },
-            { id: "B", text: "correct option" },
-            { id: "C", text: "authorities = police only (incorrect)" },
+            { id: "A", text: "play a positive role" },
+            { id: "B", text: "identify offenders" },
+            { id: "C", text: "alert the authorities" },
           ],
           key: "B",
         },
         {
           id: "9",
-          stem: "Mainstream media role / We media",
+          stem: "According to the text what is the 'new model' of broadcasting?",
           options: [
-            { id: "A", text: "old model (incorrect)" },
-            { id: "B", text: "correct option" },
-            { id: "C", text: "We media is a 'm…' (incorrect)" },
+            { id: "A", text: "filter then publish" },
+            { id: "B", text: "publish then filter" },
+            { id: "C", text: "We media" },
           ],
           key: "B",
         },
@@ -146,6 +223,5 @@ export const readingU7: MindsetFlowData = {
         "Eyewitness saw events; source provides information.",
       ],
     },
-
   ],
 };

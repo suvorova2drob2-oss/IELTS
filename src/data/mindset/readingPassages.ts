@@ -1,134 +1,27 @@
 /** Full textbook reading passages for Mindset L3 (Students' Book). */
 
-export const PASSAGE_U2_JUNK_FOOD = `It is astonishing to contemplate how popular junk
-food has become, given that the 'first fast food 
-restaurant in the US only opened its doors a mere 
-century ago. Since then, high-calorie processed meals 
-have taken over the world, with multinational 
-restaurant chains aggressively chasing levels of growth 
-that show no signs of slowing down. Much of this 
-expansion is currently taking place in less developed 
-parts of the world, where potential for customer loyalty 
-is seen as easier to develop, but it is not just in these 
-areas where such growth is visible. Indeed, a recent 
-study from the University of Cambridge found that the 
-number of takeaways in the United Kingdom rose by 
-45 per cent between 1997 and 2015. This explosion in 
-the takeaway trade is not an inevitable outcome of 
-what we call 'progress'. On the contrary, it comes in the 
-face of an increasing body of evidence that we are 
-heading for dietary disaster. 
- 
-B
-Yet, despite nutrition experts' best efforts to educate people
-about the dangers of a diet filled with processed food, it 
-appears that the world doesn't want to listen. Medical specialists 
-point out that, although eating too much unhealthy food is likely to 
-be as dangerous in the long-term as smoking, regular consumption 
-of high-calorie food has somehow become more socially 
-acceptable than ever. While local authorities in some towns and 
-cities have taken measures to combat the rise in this trend by 
-limiting the number of fast food outlets permitted to be open 
-simultaneously, critics argue that people have every right to make 
-their own decisions about what they eat and how they choose to 
-live. However, the way in which we have come to binge on 
-takeaways isn't only a personal issue of weight gain, or of buying 
-larger clothes. The consequences of mass overconsumption 
-should strike fear into the hearts of everyone. 
- .. . 
- 
-/ . .
-C 
-Research suggests that there is an evolutionary reason
-as to why people compulsively overeat - it is simply part 
-of our innate behaviour. When humans evolved, we did not 
-have the abundant supply of food that we enjoy today, and 
-so eating was more about survival than pleasure. We 
-became more likely to opt for high-calorie foods, with high 
-fat content, that could sustain us through cold winters when 
-the supply of nourishment became sparse. This explains 
-why a 600-calorie burger seems so attractive: it awakens 
-our primal side, makes us feel well fed, inspires 
-contentment. Processed food stimulates the reward 
-response in our brains, so we feel compelled to overeat, and 
-not necessarily in a healthy way. Junk food acts as a trigger 
-for chemicals such as the 'feel-good' dopamine to flood 
-through the brain and induce a sensation of happiness. 
-Meanwhile, high amounts of sugar and sodium (one of the 
-chemicals in salt and other ingredients of fast food) cause a 
-huge surge in blood sugar, pushing it to unnatural levels. 
-E
-A number of studies have shown how young people 
-can become even more addicted to junk food than 
-adults. When a child eats a burger, the same neurological 
-processes occur as in their parents: their brain's reward 
-system is awoken, dopamine is released, a spontaneous 
-feeling of excitement results, their blood sugar rockets, 
-and so on. An adult can apply their maturity to understand 
-that this thrill is not entirely without drawbacks, and that 
-they need to control their urge to eat more. However, a 
-child cannot necessarily see any negative consequences 
-to this urge and the potential effects of their lack of 
-self-control, so they find it far more difficult to exercise 
-restraint and moderate their food consumption. 
-. ' ' ' · :
-D This occurs within the first few moments of eating a
-high-calorie meal. From there, routinely processing such high 
-levels of sodium is impossible, and the body's organs are pushed 
-beyond their natural working capacity in trying to do so. The 
-kidneys cannot remove all the excess salt from the blood, and thus 
-an overdose of sodium causes the heart to pump faster while 
-transporting blood through the veins. There are multiple dangers of 
-high blood pressure, especially for the elderly and in the long-term. 
-Sodium taken on in such quantities can lead to dehydration, a 
-condition whose symptoms are extremely similar to hunger, and 
-this leads to a painful truth: as soon you have finished your junk 
-food meal, you immediately start to crave another. Thereafter, the 
-body starts to digest the food. Usually, this takes between four and 
-12 hours, but with fast food, where the fat content is so much 
-higher, the same process lasts at least three days. 
-, __ , . 
-F lt is common to read or to hear criticism of the junk
-food industry that does so much to promote the 
-overconsumption of its products. But it does not appear 
-that any of this criticism is changing widespread dietary 
-habits in any substantial way. What is more, the humble 
-burger has been elevated to such a point that many 
-people no longer see it as simple, on-the-go food. It has 
-arguably become a stylish and aspirational part of one's 
-daily diet. Consider, for example, how some television 
-companies recently made several series of programmes 
-encouraging unnecessary overeating, in which the host 
-devours dish after dish ofunhealthy, fatty meals until they 
-are full - and then far, far beyond. While such 
-glamorisation exists, it is difficult to see how our collective 
-march towards a global obesity crisis can ever be halted . "- .-
- -
-32 
- -.. . 
-I SCANNING I 
-You will need to use different scanning skills in the Reading test. Sometimes, you will be looking 
-for a name, number or title, for example. This is the least difficult task to do successfully, as you 
-will be able to use capital letters, numbers, and italicised words. Long, technical words such as 
-'cardiovascular' are also easier to find. 
-Candidates aiming at a higher score should be able to scan a passage for synonyms or full 
-paraphrases of the key words or ideas in a question. It could be that you need to find a single 
-word, but the more difficult questions require you to search for a phrase, or a sentence, that 
-corresponds with those key words or ideas. This requires a greater range of vocabulary and 
-understanding of meaning and suggestion. 
-Discuss with a partner which of the following techniques will help you to find specific information 
-when you scan a passage. 
-a Moving your eyes from left to right along each line 
-b Moving from the bottom of the page to the top, quickly moving your eyes left and right 
-c Breaking a paragraph into four sections (top right, top left, bottom right, bottom left) and moving 
-your eyes around each one 
-d Moving your eyes in a 'zig-zag' pattern from top to bottom, or bottom to top, of the passage 
-[QI:za Scan the passage on pages 31-32 for the following information.
-3 a unit of measurement 1 the names of two chemicals 
-2 a proportional increase 4 five parts of the human body 
-COMPLETING`;
+export const PASSAGE_U2_JUNK_FOOD = `
+A
+It is astonishing to contemplate how popular junk food has become, given that the first fast food restaurant in the US only opened its doors a mere century ago. Since then, high-calorie processed meals have taken over the world, with multinational restaurant chains aggressively chasing levels of growth that show no signs of slowing down. Much of this expansion is currently taking place in less developed parts of the world, where potential for customer loyalty is seen as easier to develop, but it is not just in these areas where such growth is visible. Indeed, a recent study from the University of Cambridge found that the number of takeaways in the United Kingdom rose by 45 per cent between 1997 and 2015. This explosion in the takeaway trade is not an inevitable outcome of what we call 'progress'. On the contrary, it comes in the face of an increasing body of evidence that we are heading for dietary disaster.
 
-export const PASSAGE_U2_ANTIBIOTICS = `Antibiotics have been one of humanity's success stories for 
+B
+Yet, despite nutrition experts' best efforts to educate people about the dangers of a diet filled with processed food, it appears that the world doesn't want to listen. Medical specialists point out that, although eating too much unhealthy food is likely to be as dangerous in the long-term as smoking, regular consumption of high-calorie food has somehow become more socially acceptable than ever. While local authorities in some towns and cities have taken measures to combat the rise in this trend by limiting the number of outlets permitted to be open simultaneously, critics argue that people have every right to make their own decisions about what they eat and how they choose to live. However, the way in which we have come to binge on takeaways isn't only a personal issue of weight gain, or of buying larger clothes. The consequences of mass overconsumption should strike fear into the hearts of everyone.
+
+C
+Research suggests that there is an evolutionary reason as to why people compulsively overeat - it is simply part of our innate behaviour. When humans evolved, we did not have the abundant supply of food that we enjoy today, and so eating was more about survival than pleasure. We became more likely to opt for high-calorie foods, with high fat content, that could sustain us through cold winters when the supply of nourishment became sparse. This explains why a 600-calorie burger seems so attractive: it awakens our primal side, makes us feel well fed, inspires contentment. Processed food stimulates the reward response in our brains, so we feel compelled to overeat, and not necessarily in a healthy way. Junk food acts as a trigger for chemicals such as the 'feel-good' dopamine to flood through the brain and induce a sensation of happiness. Meanwhile, high amounts of sugar and sodium (one of the chemicals in salt and other ingredients of fast food) cause a huge surge in blood sugar, pushing it to unnatural levels.
+
+D
+This occurs within the first few moments of eating a high-calorie meal. From there, routinely processing such high levels of sodium is impossible, and the body's organs are pushed beyond their natural working capacity in trying to do so. The kidneys cannot remove all the excess salt from the blood, and thus an overdose of sodium causes the heart to pump faster while transporting blood through the veins. There are multiple dangers of high blood pressure, especially for the elderly and in the long-term. Sodium taken on in such quantities can lead to dehydration, a condition whose symptoms are extremely similar to hunger, and this leads to a painful truth: as soon as you have finished your junk food meal, you immediately start to crave another. Thereafter, the body starts to digest the food. Usually, this takes between four and 12 hours, but with fast food, where the fat content is so much higher, the same process lasts at least three days.
+
+E
+A number of studies have shown how young people can become even more addicted to junk food than adults. When a child eats a burger, the same neurological processes occur as in their parents: their brain's reward system is awoken, dopamine is released, a spontaneous feeling of excitement results, their blood sugar rockets, and so on. An adult can apply their maturity to understand that this thrill is not entirely without drawbacks, and that they need to control their urge to eat more. However, a child cannot necessarily see any negative consequences to this urge and the potential effects of their lack of self-control, so they find it far more difficult to exercise restraint and moderate their food consumption.
+
+F
+It is common to read or to hear criticism of the junk food industry that does so much to promote the overconsumption of its products. But it does not appear that any of this criticism is changing widespread dietary habits in any substantial way. What is more, the humble burger has been elevated to such a point that many people no longer see it as simple, on-the-go food. It has arguably become a stylish and aspirational part of one's daily diet. Consider, for example, how some television companies recently made several series of programmes encouraging unnecessary overeating, in which the host devours dish after dish of unhealthy, fatty meals until they are full - and then far, far beyond. While such glamorisation exists, it is difficult to see how our collective march towards a global obesity crisis can ever be halted.
+`;
+
+export const PASSAGE_U2_ANTIBIOTICS = `
+Antibiotics have been one of humanity's success stories for 
 hundreds of years, being responsible both for saving the 
 lives of millions of patients and for helping scientists to 
 take enormous steps in the fields of medical and surgical 
@@ -234,71 +127,14 @@ primarily driven by profit and see little benefit in researching
 and creating new antibiotics. It simply does not work on the 
 balance sheet, and so it falls to governments and individuals 
 around the world to find ways to manage the crisis. 
-Coordinating such efforts will not be easy. 
-Questions 1-7 
-Complete the flow-chart below. 
-Choose NO MORE THAN TWO WORDS from the passage for each answer. 
-How antibiotic resistance spreads 
-Infected bacteria become established in l ______ _ 
-Human Animal 
-i 
-Patient opts for 2 ______ _ 
-Bacteria survive on carcasses 
-following 
-5 ______ _ 
-Bacteria multiply due to 
-an absence of 
-l 
-Humans consume 
+Coordinating such efforts will not be easy.
+`;
 
-4 
-3 is infected, 
-contamination spreads 
-Questions 8-11 
-Complete the table below. 
-6 _____ _ 
-l 
-Bacteria enter our 
-7 -------
-Choose NO MORE THAN TWO WORDS from the passage for each answer. 
-Recommendations from World Health Organization 
-Medical professionals General public ------------
-• Only prescribe antibiotics when there is no
-alternative.
-• Only take antibiotics prescribed by a doctor.
-• Take the complete 8
-• Prescribe or dispense correct treatment on a
-case-by-case basis.
-• Avoid 9 _______ purchase of medication.
-Governments/Policymakers Pharmaceutical industry 
-• Give money towards increasing • Co-operate with policymakers to fund new kinds of
-10 with which to monitor the research in order to find 11 with 
-continuing development of resistance to antibiotics. which to fight the threat of antibiotic resistance. 
-Questions 12-14 
-Complete the sentences below. 
-Choose NO MORE THAN TWO WORDS from the passage for each answer. 
-12 The rapid emergence of antibiotic-resistant bacteria.could put a stop to the 
-_______ that have been enjoyed by humanity. 
-13 Owing to its , antibiotic treatment of people with illnesses is 
-becoming dangerously less effective. 
-14 With pharmaceutical companies preoccupied with profit, responsible governments 
-and individuals must take steps to tackle the themselves.`;
-
-export const PASSAGE_U3_WARHOL = `Robert Rauschenberg and Andy Warhol. Arguably, they both had an 
+export const PASSAGE_U3_WARHOL = `
+Robert Rauschenberg and Andy Warhol. Arguably, they both had an 
 important influence on art as we know it today, but whereas Warhol became a household 
 name, Rauschenberg is remembered only by those in the artistic community. 
-Not Given statements are often 
-based on information you 
-might expect to be in the text 
-but isn't, and often use words 
-that do appear in the text 
-itself. Read each statement 
-and the relevant part of the 
-text very carefully before 
-deciding whether the ideas are 
-given or not. Make sure you are 
-clear who is being referred to 
-in the text. 
+
 B Milton Ernest Rauschenberg, who later became known as 
 Robert Rauschenberg, was born in Port Arthur, Texas in 
 1925, while 1Andrew Warhola -Andy Warhol -was born in
@@ -442,10 +278,11 @@ In what way are the artists' backgrounds similar?
 A Their mothers were the most important influence on them. 
 B They were born in America to families with ancestry in Europe. 
 C Their families pushed them to go to Art School. 
-D Their families moved to New York. 
-UNIT03 READING`;
+D Their families moved to New York.
+`;
 
-export const PASSAGE_U3_SCULPTURE_EXAM = `Sculptures typically left little to the imagination. Figures tended to be idealised in some way 
+export const PASSAGE_U3_SCULPTURE_EXAM = `
+Sculptures typically left little to the imagination. Figures tended to be idealised in some way 
 to avoid any imperfections of the model. Rodin can be considered a realist in that he refused 
 to improve on what he saw in front of him. He considered all of nature beautiful and if a model 
 was old and wrinkled, he would be portrayed as such. Moreover, like much of the art that he 
@@ -518,88 +355,7 @@ were able to walk up and inside the modules.
 G In fact, these days sculpture increasingly involves the public. 
 *distortion - twisting out of shape
 **abstraction - depicting ideas, not actual objects
-Questions 1-6 
-Do the following statements agree with the information given 
-in the reading passage above? 
-Write 
-TRUE if the statement agrees with the information 
-FALSE if the statement contradicts the information 
-NOT GIVEN if there is no information on this 
-1 Before Rodin, sculpture was very realistic. 
-The use of digital technology has further increased the 
-possibilities of creating art that reaches everyone. Digital 
-installations allow artists to 'play' with the boundary between 
-the real world and virtual reality and give new opportunities 
-for active participation in the artwork by the spectator. Touch, 
-physical participation and social interaction are now common 
-features of the experience of going to see art. Modern 
-sculpture has come a long way since Rodin got the 
-ball rolling in the 1860s, and the future promises 
-limitless possibilities. 
-2 Rodin expected people to interpret his sculptures in their 
-own way. 
-3 Rodin studied the sculpture techniques of the Greeks and 
-Romans. 
-4 Rodin felt that incomplete figures were still artistic works. 
-5 His Large Hand of a Pianist tries to convey music being played. 
-6 Rodin believed the surfaces of sculptures should be smooth. 
-Questions 7-9
-Choose the correct letter, A, B, C or D. 
-7 Assemblage 
-A was first used by Pablo Picasso. 
-B uses only three basic forms. 
-C involves several artists working on the same theme. 
-D creates a single composition from a number of versions 
-of an individual. 
-8 What is the purpose of paragraph E? 
-A to explain the meaning of Earth Art 
-B to explain how kinetic sculpture has evolved 
-C to introduce the idea of outdoor sculpture 
-D to show examples of innovative forms of Modern sculpture 
-9 Art installations 
-A always use mixed media. 
-B are always outdoors. 
-C usua\\\\y a\\\\ow viewers to interact with them. 
-D typically last a long time. 
-IN THIS UNIT YOU WILL 
-LEARN HOW TO 
-• describe changes on a map, including
-which tenses to use 
-• summarise information with appropriate
-discourse markers 
-• ensure good Coherence and
-Cohesion in your answer. 
-I LEAD-IN I 
-Put the verbs into the correct category. 
-demolish 
-modernise 
-relocate 
-extend 
-replace 
-expand 
-Build 
-knock down 
-tear down 
-renovate 
-enlarge 
-develop 
-convert 
-put up alter 
-flatten erect 
-construct 
-Change 
-demolish 
- For each of the verbs in exercise 1, what are the nouns? Use a dictionary if necessary. 
-Example: demolish (v) - demolition (n) extend (v) - extension (n) 
-Ask and answer the questions in pairs. Include as many words from 
-exercises 1 and 2 as possible. 
-1 Describe where you live. What kind of housing/ facilities/ features 
-does your area have? 
-2 How has your home town changed since you were little? What are 
-the key changes? 
-3 If you could change anything about the architecture and design of 
-your home town, what would you change and why? 
-Remove`;
+`;
 
 export const PASSAGE_U4_CRASH = `At the end of the 20th century, the general financial climate 
 was stable and healthy. Commercial banks and investment 
@@ -707,7 +463,8 @@ export const PASSAGE_U4_WORKING_LIFE = `
 The accepted concept of a career path followed a similar pattern for decades. After completing their education, people would enter the adult world of work, settling down to a job in which they would likely remain from that point onward. Not only would this occupation provide their income for their entire working life, it would also allow them a healthy pension when they retired and moved into old age. Over the past twenty years, however, the relationship between a wage earner and their chosen profession has changed enormously. Today, the idea of a 'job-for-life' has all but disappeared, to be replaced by an unforgiving world of unstable employment. Some observers even argue that current society appears to pit old against young in a constant battle to find work of some description, all against a backdrop of increasing debt and economic difficulties. At the same time, the government regularly releases figures that suggest that the economy is prospering, evidencing this claim with the fact that the unemployment rate continues to fall annually. Given this claim, logic would seem to dictate that, since there are fewer people out of work, an increasing number of people are enjoying a regular income. To dispute this, Frank Thomas's 2016 study on the nature of work, Employment as a Myth, revealed an interesting and contradictory interpretation. There are indeed more jobs available. However, a huge number of these are casual, temporary or short-term positions, all of which are low-paid and create little in the way of tax income for the government. This has a number of debilitating long-term effects, not least because this assurance of a growing economy is based more in myth than fact. Thomas explains, 'Without tax income, the economy cannot grow; if the economy stays weak, new jobs will not be created.' He also illustrates how, around the world, increases in life expectancy have created a problem for a huge number of retired workers, who are starting to find that the sum of money they have saved for their retirement does not stretch far enough to provide the financial security that they had expected. As a result, there has been a widespread return of these workers to the job market, very often in search of the type of casual employment that was once the preserve of people in their late teens and early 20s. Lois Lawrence expands on this view in Unfair Returns: 'Older people are taking opportunities away from their grandchildren. Post-education, those new to the world of work are not able to earn any sort of living wage, nor are they getting the opportunity to develop the soft skills, e.g. social intelligence, that will enable them to flourish in the job market.' For Lawrence, the days of the salaried worker - comfortable, assured, financially secure - are coming to an end, and are being replaced by a new model: the exploited worker. Instead, these are the days of the 'zero-hours' contract, where an employee is told by an employer to be available for work, but is not necessarily given any, and so earns nothing for their time simply spent waiting. She argues that this is causing even more inequality in the employment market, as business leaders realise that they have no obligation to provide their staff with a full- or part-time contract, and can therefore avoid additional expenditure. The 'zero-hours' worker receives no holiday or sick pay, and is considered to be self employed, so has to pay their own taxes. They also have no hope of stability, and can be instantly dismissed without any hope of recourse. Employment laws, written decades ago at a time when the vast majority of the country's workforce benefitted from permanent positions, do not protect the new breed of worker from being unfairly dismissed at a moment's notice by their manager. Less pessimistic interpretations of today's employment market do exist elsewhere. A 2015 study by William Haroldson, How the Market Adjusts to Opportunity, advocated a definition of a new type of multi-skilled worker: the model employee who not only refuses to age, but also does not want to work in the same office every day, or even to be an employee in the first place. In such a progressive, forward-looking environment, young and old are supposed to collaborate extensively, sharing the benefits of each other's talents and prior knowledge. Furthermore, although younger people are traditionally thought to be more willing to try any number of routes into work before deciding on an industry in which they want to develop, such an approach to employment no longer excludes workers of a more advanced age. Thomas agrees: 'Most of today's self-starters believe that the job market offers a vast array of potential opportunities from which they can learn and gain experience. Whether they have a wide range of existing experience, or none at all, is irrelevant to them.' Moving from job to job is no longer seen in a negative way, he goes on to argue. In the past, anyone with a series of short-term positions on their CV was seen as unreliable or disloyal. Most of today's self-starters, however, approach the job market as a vast source of possibilities, while employers themselves are more likely to be entrepreneurs who are willing to accept job mobility without question, and less likely to punish potential staff for doing so. One positive result of this development is that soft skills such as social intelligence can therefore be learnt in a new way, and through a greater number of person-to-person encounters than used to be available. This has been made possible through the fact that so much of human contact today now takes place in one enormous meeting room - the internet. Even if it means that the people in contact are not actually present together in the same room, the encounter still happens.
 `;
 
-export const PASSAGE_U5_ECCENTRIC_RULERS = `When we think of kings, queens, emperors or any kind of royal leader, what usually comes to everyone's
+export const PASSAGE_U5_ECCENTRIC_RULERS = `
+A When we think of kings, queens, emperors or any kind of royal leader, what usually comes to everyone's
 mind is dignity, power, ornate dress or majestic figures sitting elegantly on their thrones dispensing 
 favours or wisdom to their subjects. Although many monarchs have done justice to this vision, throughout 
 the world and throughout history there have also been a number of bizarre, frankly eccentric, rulers. 
@@ -748,7 +505,7 @@ Troubles'. Had he left an heir,
 Russian history might well 
 have gone in a different 
 direction. 
-England too can boast of at least one peculiar monarch, George Ill, 
+D England too can boast of at least one peculiar monarch, George Ill, 
 who reigned from 1760 to 1820. One of his most evident quirks was his 
 speech and famously he once produced a sentence containing 400 words 
 with only 8 of them being verbs! He once purportedly shook hands with a 
@@ -761,7 +518,7 @@ according to the standards of the day, George was subjected to some
 bizarre and inhumane treatments in an attempt to cure them. 
 Interestingly, there is some speculation from historians that had it not 
 been for these treatments, he would not have been quite so unstable. 
-Roman emperors are also said to have had some bizarre characters 
+E Roman emperors are also said to have had some bizarre characters 
 among their number, and Caligula, who ruled from 37-41 AD, probably 
 has the worst reputation. Amongst other things, he was reported to have 
 been an insomniac, roaming his palace all night and engaging in lengthy 
@@ -793,119 +550,11 @@ ruin someone's reputation with gossip and hearsay. Perhaps we should keep this
 in mind when we read about these colourful historical characters and remember 
 that some of them may have been unfairly judged. After all, we all have our own 
 strange habits and quirks. I for one think we should celebrate royal eccentricity. 
-It certainly makes reading history much more interesting. 
-05 
-@ 
-[o 6
-08 
-09 
-Find these sentences in the text. For each, decide if the author is making a claim 
-or expressing a view. 
-1 Although many monarchs have done justice to this vision, throughout the world 
-and throughout history there have also been a number of bizarre, frankly 
-eccentric rulers. 
-2 Happily for him,
-[ ] his subjects saw his childlike simplicity as being divinely inspired. 
-3 He was the first English king to study the sciences 
-4 I for one think we should celebrate royal eccentricity. It certainly makes reading 
-history much more interesting. 
-SELECT FROM A LIST ] 
-This task tests your ability to match statements with something from the text, often a person. 
-You don't need to focus on the whole text to do this task - just find the sections that mention the 
-options in the list. Some of the options may be mentioned in various places in the text. The 
-instructions will tell you if each option may be used more than once. 
-Look at the exam task. Focus on the four options A-0. Scan the text and say in which 
-paragraphs they are mentioned in the text. Do not try to answer the questions yet. 
-Look at the following statements and the list of people below. 
-Match each statement with the correct person, A-D. 
-Write the correct letter A, B, C or D next to each statement. 
-1 He believed himself to be very fragile. 
-2 He didn't really want to be the ruler. 
-3 It is claimed he talked to celestial bodies. 
-4 He supported the advancement of scientific research. 
-I ust of people 
-A Caligula 
-J B George Ill 
-C Charles VI 
-D Fyodor I 
-Read the section of the text on Caligula again and then read the statements a-d about him. 
-Which one of them is a paraphrase of one of the statements (1-4) in exercise 6? 
-a He ruled from 37 to 41 AD. b He was a poor sleeper. 
-c He had conversations with the Moon and Jupiter. d He made his horse a senator. 
-Complete the missing information about Charles VI. Then decide 
-which statement in exercise 6 relates to Charles VI. 
-'Claims' are the author's 
-interpretation of the facts of 
-a situation; in this case, this 
-is what happened in the 
-lives of these rulers. Views 
-are subjective, expressions 
-of the author's personal 
-opinion on the situation. 
-He reigned from 1368 to 1422. 
-He forgot 
-He believed ______ _ 
-His son-in-law _______ _ 
-He ran around the palace grounds, howling _______ _ 
-The questions in this task type 
-may relate to the views/claims 
-of people mentioned in the 
-text. Remember that the 
-statements will be paraphrases 
-of the words in the text. 
-Statement --------
-Now read the sections about Fyodor I and George Ill. Then decide which of the 
-remaining statements in exercise 6 corresponds to each of them. 
-Fyodor I: statement ______ _ 
-George Ill: statement ______ _ 
- 
-@ 
-YES, NO, NOT GIVEN ] 
-This task is similar to True/ False/ Not Given. 
-However, the focus is not based on factual 
-information but rather on interpreting the 
-writer's views or claims. This task type is 
-often used with more complex 
-argumentative texts in the exam. 
- These views and claims (1-4) are made in the text (Yes statements). Match them with 
-the words from the text (a-d) which state the view. 
-1 Most people probably have a favourable view of royalty. 
-2 George Ill's condition was made worse by the therapies he was given. 
-3 Caligula was probably not the most bizarre ruler that his empire had. 
-4 Joanna of Castile may have been the victim of political intrigue. 
-a if we compared his supposed behaviour to that of many of the other Roman 
-emperors, quite a few of them would almost certainly be regarded as even more 
-eccentric. 
-b what usually comes to everyone's mind is dignity, power, ornate dress or 
-majestic figures sitting elegantly on their thrones dispensing favours or wi:>dom to 
-their subjects. 
-c The fact that both her father and her own son declared her mad and unfit to rule so 
-that they could reign in her stead raises the question of whether the accusations 
-were actually motivated by political ambition. 
-d had it not been for these treatments, he would not have been quite so unstable. · 
-illia These statements contradict the views and claims of the writer. Locate the part of the 
-text where they are found. Which words or phrases help you to realise the statements 
-contradict the views of the writer? 
-1 Fyodor I was disliked by his people. 
-2 Joanna of Castile showed no capacity as a ruler. 
-3 The stories about Caligula's behaviour are completely trustworthy. 
-Read the statement and then re-read paragraphs A and G. Why is this answer Not
-Given? 
-History shows that the majority of rulers ore eccentric. 
- Are the following claims made by the writer? Write Yes, No or Not Given.
-1 Countries should be ashamed of their eccentric monarchs. 
-2 All of the rulers were replaced by close relatives. 
-3 Russian history might have been different if Fyodor had had children. 
-'Not Given' answers often 
-partially relate to ideas 
-mentioned in the text, but which 
-are neither confirmed nor 
-contradicted, or they relate to 
-information you would expect to 
-see in the text but which isn't 
-actually there.`;
+It certainly makes reading history much more interesting.
+`;
 
-export const PASSAGE_U6_VR = `Virtual Reality 
+export const PASSAGE_U6_VR = `
+Virtual Reality 
 (VR) technology moves towards fully operational and 
 interactive implementation of its potential. To what extent VR 
 establishes itself as an integral part of our lives, and how 
@@ -931,14 +580,7 @@ LCD displays, are necessary to counteract
 the natural differences between 
 what one human eye and the 
 other simultaneously see. 
-Some of the options you 
-choose from come directly 
-from the text but others 
-will be synonyms that 
-paraphrase the ideas in the 
-text, so be careful not to 
-choose words just because 
-they appear in the passage. 
+
 C 
 These lenses enable two 20 images of the display to be
 viewed, thus creating a tailored picture for each eye. 
@@ -1021,88 +663,8 @@ is that latency issues - when what the viewer sees on the
 display fails to catch up with the movement of their head 
 can cause motion sickness in the HMD wearer. Even the most 
 devoted VR enthusiast may be unwilling to accept this as the 
-consequence of their interest in new technologies. 
------
-@ 
-[o 6 
-SUMMARY COMPLETION WITHOUT OPTIONS ] 
-For this version of the task, you need to use exact words from the 
-text to fill the gaps. The gaps can require more than one word 
-and must fit grammatically, and, as with the other summary 
-task, they can come from anywhere in the passage and will not 
-necessarily be found in the same order as they appear in the text. 
-Read the summary completion task, which is based on the text on pages 116-117, 
-and answer the questions below. Do not try to complete the task yet. 
-Complete the summary below. 
-Choose NO MORE THAN TWO WORDS from the passage for each answer. 
-I---------------:---
-[o
-[019 
-OF 
-The influenc and effects of VR technology will be 1 . This will be most 
-noticeable in one particular 2 - Video Games. Since games designers and 
-developers are increasingly able to use their 3 in new ways, the conventional 
-mechanics and concerns of game playing may become 4 . Further changes are 
-likely to happen away from this field as well: teachers will be able to enter an 5 ______ _ 
-that enables learning to take place away from the typical classroom setting; Music students could 
-theoretically listen to their latest 6 being played in the Sydney Opera House, 
-while students of Medicine will be able to understand how so many parts of the human body are 
-7 . Furthermore, differing approaches to travel may mean that fewer flights are 
-taken, as people 'virtually' visit the destinations of their choice. This development is likely to please 
-environmentalists as well as 8 ______ _ 
-1 Which parts of the text contain the information you need? 
-2 Are the answers you need all individual words? 
-Look at a candidate's answers for questions 1 and 2 of this summary. Why are they 
-grammatically incorrect? 
-1 extensively 
-2 sectors 
-With a partner, discuss what part of speech you will probably need to look for to 
-complete each of the remaining gaps. 
-Complete the summary in exercise 6. 
-[1 0 
-DIAGRAM LABELLING] 
-Scan the passage quickly and decide in which paragraph(s) you are most 
-likely to read about the diagram below. 
-Label the diagram below. 
-Choose NO MORE THAN TWO WORDS from the passage for each answer. 
-How a VR headset works 
-y 
-@ 
-Each eye views a 
-3 ______ _ 
-r 
-Creates the feeling of 
-movement, based on motions 
-of4 --------
-Lenses accommodate the 
-2 ___ _ in 
-human vision 
-Transmission of data from 
-l ______ _ 
-1 1 Label the diagram in exercise 10. 
-I GRAMMAR FOCUS: FUTURE TENSES I 
-12 With a partner, discuss how the meaning of the sentences changes when options 
-A, Band Care used in the gaps. 
-1 Expert opinion suggests that, in 2030, an entirely new form of non-physical 
-communication that will make today's social media appear 
-positively prehistoric. 
-A will be developed B will have been 
-developed 
-C will develop 
-2 Many inventors look at what they have created and think to themselves, 'I'm going 
-to be rich soon because I know this--- ---------
-A works B will work C could work 
-3 Educators seem to be in broad agreement that Coding the 
-most important and popular subject in schools, colleges and universities around 
-the world. 
-A might become B may well become C is about to 
-become 
-Diagram-labelling tasks 
-normally require single- or 
-multiple-word answers from 
-the text. They usually relate 
-only to a specific part of 
-the text.`;
+consequence of their interest in new technologies.
+`;
 
 export const PASSAGE_U7_MEDIA = `A It used to be easy to define what a journalist was. They had a degree in English or Journalism, 
 usually owned a camera and were employed full time by a news outlet, TV or radio station or 
@@ -1177,7 +739,8 @@ sharing them. This will be a positive trend if it develops the thinking skills o
 the population as a whole. An educated citizenry who do not believe what 
 they read without question is surely an asset to any society.`;
 
-export const PASSAGE_U8_YOUTH = `Ask anyone British in their 50s, 60s and 70s to
+export const PASSAGE_U8_YOUTH = `
+Ask anyone British in their 50s, 60s and 70s to
 look back at their youth and they will
 doubtless name a plethora of different
 subcultures. There were the Mods (Modernists)
@@ -1258,53 +821,34 @@ Rockers, the Punks and Teddy Boys, will always feel a slight regret at their pas
 162 
 * Ice Bucket Challenge - a charity action that involved filming yourself pouring ice cold
 water over your head in order to raise money for charities related to Motor Neurone Disease
-\\f 
-REVIEWING READING TASK TYPES ] 
-The reading passage has seven paragraphs, A-G. Choose the correct heading for each 
-paragraph from the list of headings. Write the correct number, i-x. There are three 
-headings you won't need. 
-List of headings 
-Out with the old and in with the 
-new and improved 
-ii The decline of youth subcultures 
-iii Regret for a lost era 
-iv Youth subcultures in the second 
-half of the 20th century 
-v The ice bucket challenge raises 
-millions 
-vi Why young people formed their 
-own social groups 
-1 Paragraph A 
-2 Paragraph B 
-3 Paragraph C 
-4 Paragraph D 
-5 Paragraph E 
-6 Paragraph F 
-7 Paragraph G 
-vii Identity-less youth of today 
-viii A different type of identity 
-ix Survivors of a lost age 
-@ 
-x Fighting for change in new ways 
-Do the following statements agree with the claims of the writer in the text? 
-Write 
-YES if the statement agrees with the claims of the writer 
-NO if the statement contradicts the claims of the writer 
-NOT GIVEN if it is impossible to say what the writer thinks about this 
-1 20th-century youth movements had their own distinct way of dressing. 
-2 Today's youth are less effective at changing society than their predecessors. 
-3 Young people waste too much time on social media. 
-4 It is unfortunate that many of the sub-cultures are disappearing. 
-Relative clauses provide extra information about a noun or noun phrase. There are two types: 
-defining and non-defining. Defining relative clauses give information that is essential to the 
-meaning of the sentence. Non-defining relative clauses give extra but non-essential information, 
-meaning that the clause can be removed, and the sentence will still make sense. Relative clauses 
-usually begin with relative pronouns (that, who, which, whose, where, when, why), though these 
-can be omitted in some defining relative clauses. 
-Look at the sentences from the text with underlined relative clauses. Which is 
-defining and which non-defining? How do you know? 
-1 There is one subculture that seems to have endured better than the others: the bikers. 
-2 Elvis Presley and the advent of Rock and Roll generated the Teddy Boys in the UK, 
-who in turn influenced both Mods and Rockers. 
-0 8 Find another example each of defining and non-defining relative clauses in the text.`;
+\\f
+`;
+
+export const PASSAGE_U6_HOLOGRAM = `For hundreds of years, the more forward-thinking elements of science and technology have stoked imaginations in the world of entertainment. For example, a huge number of science fiction movies were produced over the 20th century, a period during which space exploration became first a possibility, then a reality. Many such films depict situations in which one character (in full bodily form) interacts with a 3D, holographic image of another. Despite the optimism in some quarters, genuine interaction with holograms in the real world is still as far from becoming a reality as ever. Additionally, there is some doubt as to whether the existing, limited holographic technology is even worth exploring any further. However, what is currently available has begun to be used for entertainment purposes in a wide range of industries.
+
+The music industry is one. It has sought to take advantage of this technology since its infancy. There have been numerous examples – concerts and events – during which audiences have been able to watch modern vocalists sharing the stage with holographic images of performers who departed this world some time ago. In fact, the technology has been developed to such an advanced stage that it is almost possible to stage an entire concert 'performed' by dead rock stars. Critics have argued that this is exploitative of both audience and musician, pointing out the questionable morality of putting on stage an artist who has no way of refusing to be there.
+
+On the other hand, it might be argued that, to modern audiences so accustomed to a daily intake of entertainment viewed almost entirely on 2D screens, on-stage animation allows people once again to embrace the excitement of the 3D, live arena. Such shows, its advocates argue, are likely to become commonplace as the world of entertainment expands its horizons. (Great actors could also be resurrected to take their place on the theatre stage, for example.) This is due in no small part to the fact that the on-stage technology making this possible is actually less complex than one might expect, certainly if, rather than a true holographic performance, reflective technology is used instead.
+
+To achieve this, a laser projector shoots down an image beam that is set up to be exactly perpendicular to the floor. If the angle of projection is greater or less than 90 degrees, even by the tiniest amount, the projection will fail. As the song is being played, the animated image is projected onto a mirrored surface which has been set into the stage floor. This set up means that a 'suspension of disbelief' can be created within the onlooking audience, as it collectively sees the moving image while, at the same time, the transparent foil used to make the screen is invisible, stretched back as it is at an angle of 45 degrees. There is no maximum or minimum height at which projection fails to work, and, after a series of relatively simple calculations, the laser projector can be simply fixed to a lighting rig set up high above the stage.
+
+The future of holographic performance does appear rather limited, however, particularly in the context of bringing musicians back to life in this way. For one thing, it is impossible to create a new performance from old videotape, and there is a limited amount of original footage of these icons that was shot while they were alive. It is unlikely that a great deal more will be found. Following on from this, the only way to generate an entirely new show would be through Computer-Generated Imagery (CGI) and this, for most fans, would defeat the object of the exercise entirely. Finally, most of this past footage was shot on acetate film, which cannot come close to the modern ultra HD technology that is the bare minimum required for a truly lifelike reanimation. Consumers would soon grow tired of these limitations, however much of a novelty the experience might once have been.
+
+Away from the revival of past performers, it is now possible to film and project ultra HD holographic visuals in real time, in just the same way as they might appear on a 2D screen. In this way, the individual musicians in a group could 'perform' together on the same stage, even though they may be in completely different locations at that moment in time. This has led some people inside the music industry to predict a future of bands touring without needing to leave the rehearsal studio, but any investment of either time or money into this area does seem risky. It would be highly unlikely for any fan to buy a ticket to watch their favourite artists, knowing that the performance they have paid to see is not technically a live show, and the musicians they admire do not wish to be present in the same room as they are.
+
+Essentially, then, stage projection of deceased stars of entertainment is a straightforward endeavour, but one limited both in visual appeal and available source material. Real-time, 3D representations of artists are becoming ever more accurate, but have less appeal for audiences than authentic performances do. As is often the case, the will to create something new and exciting for consumers of entertainment is hindered by the technology currently available to it.`;
+
+export const PASSAGE_U8_NOMADS = `Out of a world population of 7.5 billion, around 30 million people currently lead a migratory lifestyle. Every continent has nomadic groups, leading a life very different from the sedentary communities they come into contact with. Almost all migratory communities are in steady decline for a wide range of reasons: climate change, political unrest, forced resettlement and armed conflict have all impacted on these traditional communities, diminishing their numbers year on year. However, the lure of the travelling lifestyle is as strong as ever. The 'gypsy lifestyle' continues to inspire people – especially the young – who crave the freedom of unstructured movement. Backpacking has become almost a rite of passage for the young. 'Gap years' between school and university often stretch to two years, or even more, as young people become addicted to the culture of travelling light and moving on.
+
+Traditional nomads may be seen as 'wanderers', but their movement is not as unstructured as it may appear. Most nomadic communities are, or were, herdsmen, leading their animals across fixed routes based on pastures and water sources. Their societies were based on strong bonds of kinship. According to 14th-century social historian Ibn Khaldun, the Bedouin community owed their success in battle to asabiyya or 'group feeling', which enhanced their ability to protect the group from outsiders. This, along with excellent horsemanship and the rigours of a harsh lifestyle, based around constant alertness needed to protect livestock, made them formidable adversaries in war when compared to their more settled counterparts.
+
+Far from the desert-dwelling Bedouin live a different kind of nomad: the Moken, or sea gypsies, of the Mergui Archipelago between Myanmar and the islands of Thailand's North Andaman coast. During the dry season, they live on traditional houseboats, and during the monsoon season they build temporary villages on sheltered stretches of beach. Theirs is a culture of sharing and giving, to the extent that their language contains no words for individual possessions. This indigenous people has a great understanding of and respect for their environment, making use of over 80 plant species for food and more than 100 for shelter, handicrafts and other purposes. However, the Moken's lifestyle has more recently been affected by government restrictions on their hunter-gathering activities, and legal disputes over ownership of their traditional lands. Somewhat inevitably, they have become a focus for tourism in the area, which they have embraced to some extent as they try to adapt to the modern world.
+
+Nomadic communities exist in Europe too. In the tundras and taigas of northern Scandinavia live a reindeer-herding community, the Sami. Originally travelling freely across the areas which now belong to Norway, Sweden, Finland and Russia, this subculture has had its traditional lifestyle curtailed by the creation of national borders. In contrast to the Bedouin, the Sami's culture stresses the importance of knowledge and acceptance of the Sami language and traditions over bloodlines. It is an open and egalitarian society that welcomes outsiders. Marked by its rich storytelling and musical traditions, Sami culture has enjoyed something of a renaissance in recent years. Like many traditional cultures, it has both suffered and benefitted from a growing tourist industry as well as from government regulations. Norway now has a specific, protected reindeer-herding region, but the activity is prohibited elsewhere in the country.
+
+Perhaps a better known travelling culture in Europe is the Roma, or Romany, of Central, Eastern and South-eastern Europe. The group is now spread across Western Europe too due to permanent migration. While their defining characteristic is the nomadic lifestyle, there have always been settled Roma, and the proportion has continued to grow, largely due to state intervention. However, there are some communities that have managed to retain a semi-nomadic way of life, such as the Thracian Kalajdzii (tinsmiths) in Bulgaria and Kortorari in Romania. The Roma tend to function as 'carriers of tradition' in the countries where they live. Cultural change does not happen as fast as it does in mainstream society, so traditions that have all but died out elsewhere are preserved and adapted by the Roma community. An example of this is the Dodola, a 'ritual for rain' in the Balkans, which used to be widespread, but is now limited to the Roma.
+
+In the UK, the term 'gypsy' covers both Roma and Irish travellers, two diverse groups united by a common nomadic heritage. Irish travellers traditionally move in groups of two to four families, which would typically include married sons and their wives and children. Like many other migratory communities, Irish travellers have strong kinship ties due to the practice of arranged marriages as well as their isolation from settled society. In common with other nomads, their traditional way of life has faced many threats. In particular, the crafts, trades and services they practise, once in high demand, have been made redundant by declining rural populations, the mechanisation of farming, improved rural transport systems and the mass production of cheap plastic goods. Life expectancy for Irish travellers is often well below the national average.
+
+In spite of the many obstacles faced by travelling communities all over the world, the world's fascination with the mobile lifestyle has not diminished. Mainstream culture seems to have a confused and contradictory relationship with travellers. On the one hand, the settled majority have a tendency to look down on those who refuse to adopt the sedentary lifestyle. On the other hand, they hold a romantic view of the horse-drawn caravans and campfires of the gypsy or the camel trains and tents of the Bedouin. What is clear is that travelling communities around the world, though reduced in number, are still alive and well and their contribution to world culture is indisputable.`;
 

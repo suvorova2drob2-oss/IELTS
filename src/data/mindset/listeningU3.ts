@@ -3,7 +3,8 @@ export const MS_U3_LISTEN_STEPS = [
   "Room vocab",
   "Map labels",
   "Castle features",
-  "Exam keys",
+  "Exam map",
+  "Exam MCQ",
   "Review",
 ] as const;
 
@@ -11,7 +12,8 @@ export const MS_U3_LISTEN_NEXT = [
   "Rooms →",
   "Labels →",
   "Castle →",
-  "Exam →",
+  "Exam map →",
+  "Exam MCQ →",
   "Review →",
   "← Back to unit",
 ] as const;
@@ -63,14 +65,52 @@ export const listeningU3 = {
     {
       kind: "mcq" as const,
       badge: "3–8",
-      instruction: "Map / plan practice keys.",
+      instruction:
+        "Map / plan practice. Match directions to places A–C, then label rooms A–D.",
       items: [
-        { id: "1", stem: "Q1 correct option", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "C" },
-        { id: "2", stem: "Q2", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "B" },
-        { id: "3", stem: "Q3", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "A" },
+        {
+          id: "1",
+          stem: "From the main entrance, go past the library on your right, enter the Exhibition Room and turn right.",
+          options: [
+            { id: "A", text: "Place A" },
+            { id: "B", text: "Place B" },
+            { id: "C", text: "Place C" },
+          ],
+          key: "C",
+        },
+        {
+          id: "2",
+          stem: "Pass the Grand Hall on your left and go straight ahead. Go into the Exhibition Room and turn left. You have to walk through another small room to get to this place.",
+          options: [
+            { id: "A", text: "Place A" },
+            { id: "B", text: "Place B" },
+            { id: "C", text: "Place C" },
+          ],
+          key: "B",
+        },
+        {
+          id: "3",
+          stem: "As you enter the building, you will find the Grand Hall on your left. You will find this place in the corner of the Hall.",
+          options: [
+            { id: "A", text: "Place A" },
+            { id: "B", text: "Place B" },
+            { id: "C", text: "Place C" },
+          ],
+          key: "A",
+        },
         {
           id: "5",
-          stem: "Label B on the plan",
+          stem: "Room A is",
+          options: [
+            { id: "A", text: "Lord Westchester's bedroom." },
+            { id: "B", text: "the gift shop." },
+            { id: "C", text: "the aviary." },
+          ],
+          key: "C",
+        },
+        {
+          id: "6",
+          stem: "Room B is",
           options: [
             { id: "A", text: "Anteroom" },
             { id: "B", text: "Portrait gallery" },
@@ -81,14 +121,20 @@ export const listeningU3 = {
         },
         {
           id: "8c",
-          stem: "Label C",
-          options: [{ id: "C", text: "sewing room" }, { id: "D", text: "dining room" }],
+          stem: "Room C is",
+          options: [
+            { id: "C", text: "sewing room" },
+            { id: "D", text: "dining room" },
+          ],
           key: "C",
         },
         {
           id: "8d",
-          stem: "Label D",
-          options: [{ id: "C", text: "sewing room" }, { id: "D", text: "dining room" }],
+          stem: "Room D is",
+          options: [
+            { id: "C", text: "sewing room" },
+            { id: "D", text: "dining room" },
+          ],
           key: "D",
         },
       ],
@@ -107,20 +153,65 @@ export const listeningU3 = {
       tip: "Q10 B — living quarters not until 12th century. Q12 C — drawbridge gone; moat now dry. Q14 A.",
     },
     {
-      kind: "mcq" as const,
-      badge: "EXAM 15",
-      instruction: "Exam matching keys 1–10 (AK).",
+      kind: "match" as const,
+      badge: "EXAM 15 · 1–6",
+      instruction:
+        "Questions 1–6. Label the map. Write the correct letter, A–I, next to questions 1–6.",
+      bank: ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
       items: [
-        { id: "1", stem: "Q1 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "E" },
-        { id: "2", stem: "Q2 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "G" },
-        { id: "3", stem: "Q3 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "A" },
-        { id: "4", stem: "Q4 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "C" },
-        { id: "5", stem: "Q5 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "B" },
-        { id: "6", stem: "Q6 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "I" },
-        { id: "7", stem: "Q7 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "A" },
-        { id: "8", stem: "Q8 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "B" },
-        { id: "9", stem: "Q9 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "B" },
-        { id: "10", stem: "Q10 →", options: [{ id: "E", text: "E" }, { id: "G", text: "G" }, { id: "A", text: "A" }, { id: "C", text: "C" }, { id: "B", text: "B" }, { id: "I", text: "I" }], key: "A" },
+        { id: "1", stem: "gift shop", key: "E" },
+        { id: "2", stem: "beehives", key: "G" },
+        { id: "3", stem: "holiday cottages", key: "A" },
+        { id: "4", stem: "dairy", key: "C" },
+        { id: "5", stem: "museum", key: "B" },
+        { id: "6", stem: "estate office", key: "I" },
+      ],
+    },
+    {
+      kind: "mcq" as const,
+      badge: "EXAM 15 · 7–10",
+      instruction: "Questions 7–10. Choose the correct letter, A, B or C.",
+      items: [
+        {
+          id: "7",
+          stem: "How many unpaid helpers does the National Trust have?",
+          options: [
+            { id: "A", text: "about 62,000" },
+            { id: "B", text: "about 5,899" },
+            { id: "C", text: "about 4.24 million" },
+          ],
+          key: "A",
+        },
+        {
+          id: "8",
+          stem: "The main aim of the National Trust is",
+          options: [
+            { id: "A", text: "to make money from its properties." },
+            { id: "B", text: "to preserve historical properties." },
+            { id: "C", text: "to donate money to property owners in financial difficulties." },
+          ],
+          key: "B",
+        },
+        {
+          id: "9",
+          stem: "A couple can join the National Trust for a year for",
+          options: [
+            { id: "A", text: "£64." },
+            { id: "B", text: "£108." },
+            { id: "C", text: "£114." },
+          ],
+          key: "B",
+        },
+        {
+          id: "10",
+          stem: "Paying membership fees by direct debit also gets you",
+          options: [
+            { id: "A", text: "a pair of binoculars." },
+            { id: "B", text: "a National Trust handbook." },
+            { id: "C", text: "three copies of the National Trust magazine per year." },
+          ],
+          key: "A",
+        },
       ],
     },
     {

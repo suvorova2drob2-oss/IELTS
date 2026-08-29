@@ -79,6 +79,8 @@ export type FlowStep =
       passage?: string;
       bank: { id: string; text: string }[];
       items: MatchItem[];
+      /** When true, bank chips stay available (e.g. claim/view used several times). */
+      bankReuse?: boolean;
     }
   | {
       kind: "gaps";

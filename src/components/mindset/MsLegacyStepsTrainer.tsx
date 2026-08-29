@@ -1,3 +1,4 @@
+import { chipExhausted, gapChipExhausted } from "./bankChipUse";
 /* Shared renderer for Mindset U2–U4 step arrays (intro/mcq/match/gaps/discuss/sort/exam). */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
@@ -99,8 +100,6 @@ export function MsLegacyStepsTrainer({
     setPickedMatch(null);
   };
 
-  const usedGaps = new Set(Object.values(gaps));
-  const usedMatch = new Set(Object.values(match));
 
   const scoreFor = (): { score: number; total: number } => {
     if (!s) return { score: 0, total: 0 };
@@ -293,10 +292,9 @@ export function MsLegacyStepsTrainer({
         >
           {s.passage && (
             <article className="read-m3__passage">
-              <header className="read-m3__hero read-m3__hero--compact">
-                <div>
-                  <h2>Passage</h2>
-                </div>
+              <header className="read-m3__passage-label">
+                <h2>Reading passage</h2>
+                <p>Use this text to answer the questions on the right.</p>
               </header>
               <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{s.passage}</p>
             </article>
@@ -315,7 +313,7 @@ export function MsLegacyStepsTrainer({
             </p>
             <div className="pr-chip-bank" style={{ marginBottom: 8 }}>
               {bank.map((b) => {
-                const used = usedMatch.has(b);
+                const used = chipExhausted(b, items.map((it) => it.key), Object.values(match));
                 return (
                   <button
                     key={b}
@@ -369,10 +367,9 @@ export function MsLegacyStepsTrainer({
         >
           {s.passage && (
             <article className="read-m3__passage">
-              <header className="read-m3__hero read-m3__hero--compact">
-                <div>
-                  <h2>Passage</h2>
-                </div>
+              <header className="read-m3__passage-label">
+                <h2>Reading passage</h2>
+                <p>Use this text to answer the questions on the right.</p>
               </header>
               <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{s.passage}</p>
             </article>
@@ -391,7 +388,12 @@ export function MsLegacyStepsTrainer({
             </p>
             <div className="pr-chip-bank" style={{ marginBottom: 8 }}>
               {bank.map((b) => {
-                const used = [...usedGaps].some((u) => norm(u) === norm(b));
+                const used = gapChipExhausted(
+                  b,
+                  items,
+                  Object.values(gaps),
+                  norm,
+                );
                 return (
                   <button
                     key={b}

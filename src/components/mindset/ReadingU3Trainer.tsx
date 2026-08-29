@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { chipExhausted } from "./bankChipUse";
 import {
   MS_U3_READ_STEPS,
   MS_U3_READ_NEXT,
@@ -112,8 +113,6 @@ export function ReadingU3Trainer({
     setPickedMatch(null);
   };
 
-  const usedGaps = new Set(Object.values(gaps));
-  const usedMatch = new Set(Object.values(match));
 
   const scoreFor = (): { score: number; total: number } => {
     const cur = data.steps[step] as StepView;
@@ -292,10 +291,9 @@ export function ReadingU3Trainer({
         >
           {s.passage && (
             <article className="read-m3__passage">
-              <header className="read-m3__hero read-m3__hero--compact">
-                <div>
-                  <h2>Passage</h2>
-                </div>
+              <header className="read-m3__passage-label">
+                <h2>Reading passage</h2>
+                <p>Use this text to answer the questions on the right.</p>
               </header>
               <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{s.passage}</p>
             </article>
@@ -310,7 +308,7 @@ export function ReadingU3Trainer({
             </p>
             <div className="pr-chip-row" style={{ marginBottom: 8 }}>
               {bank.map((b) => {
-                const used = usedMatch.has(b);
+                const used = chipExhausted(b, items.map((it) => it.key), Object.values(match));
                 return (
                   <button
                     key={b}
@@ -367,10 +365,9 @@ export function ReadingU3Trainer({
         >
           {s.passage && (
             <article className="read-m3__passage">
-              <header className="read-m3__hero read-m3__hero--compact">
-                <div>
-                  <h2>Passage</h2>
-                </div>
+              <header className="read-m3__passage-label">
+                <h2>Reading passage</h2>
+                <p>Use this text to answer the questions on the right.</p>
               </header>
               <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{s.passage}</p>
             </article>
@@ -385,7 +382,7 @@ export function ReadingU3Trainer({
             </p>
             <div className="pr-chip-row" style={{ marginBottom: 8 }}>
               {bank.map((b) => {
-                const used = usedGaps.has(b);
+                const used = chipExhausted(b, items.map((it) => it.key), Object.values(gaps));
                 return (
                   <button
                     key={b}

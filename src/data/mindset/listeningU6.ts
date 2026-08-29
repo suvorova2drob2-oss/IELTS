@@ -61,12 +61,36 @@ export const listeningU6: MindsetFlowData = {
         "That's absolutely true",
       ],
       items: [
-        { id: "1", stem: "1", key: "My biggest worry is" },
-        { id: "2", stem: "2", key: "You've got a point" },
-        { id: "3", stem: "3", key: "The real issue we've got" },
-        { id: "4", stem: "4", key: "I quite agree" },
-        { id: "5", stem: "5", key: "I'm not exactly confident" },
-        { id: "6", stem: "6", key: "That's absolutely true" },
+        {
+          id: "1",
+          stem: "Tanya: My biggest worry is ______ that there won't be anything related to my studies.",
+          key: "My biggest worry is",
+        },
+        {
+          id: "2",
+          stem: "Dylan: ______, but it's not so much that I'm worried about it being a waste of time…",
+          key: "You've got a point",
+        },
+        {
+          id: "3",
+          stem: "Dylan: ______ is how to pick which ones to go to.",
+          key: "The real issue we've got",
+        },
+        {
+          id: "4",
+          stem: "Tanya: ______ — there are so many interesting speakers…",
+          key: "I quite agree",
+        },
+        {
+          id: "5",
+          stem: "Tanya: … so ______ we'll be able to make it to each venue in time.",
+          key: "I'm not exactly confident",
+        },
+        {
+          id: "6",
+          stem: "Dylan: ______, neither am I.",
+          key: "That's absolutely true",
+        },
       ],
     },
     {

@@ -647,11 +647,10 @@ export function ReadingU1Trainer({
             className="read-m3__passage"
             style={{ overflow: "auto" }}
           >
-            <header className="read-m3__hero read-m3__hero--compact">
-              <div>
-                <h2>{data.exam.title}</h2>
-              </div>
-            </header>
+            <header className="read-m3__passage-label">
+                <h2>Reading passage</h2>
+                <p>Use this text to answer the questions on the right.</p>
+              </header>
             {data.exam.passage.map((p) => (
               <p key={p.id}>
                 <strong className="read-m3__para-id">{p.id}</strong> {p.text}

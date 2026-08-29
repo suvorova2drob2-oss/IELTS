@@ -16696,6 +16696,33 @@ button {
   margin-right: 4px;
 }
 
+.read-m3__passage-label {
+  flex-shrink: 0;
+  margin: 0 0 10px;
+  padding: 0 0 8px;
+  border-bottom: 1px solid rgba(12, 18, 24, 0.14);
+}
+.read-m3__passage-label h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0c1218;
+  letter-spacing: 0.01em;
+}
+.read-m3__passage-label p {
+  margin: 2px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #3a4550 !important;
+  opacity: 1;
+}
+.read-m3__passage .read-m3__passage-label h2 {
+  color: #0c1218 !important;
+}
+.read-m3__passage .read-m3__passage-label p {
+  color: #3a4550 !important;
+}
+
 .read-m3__hero {
   flex-shrink: 0;
   margin: -12px -14px 10px;
@@ -19386,6 +19413,20 @@ button {
 .read-m3__passage *:not(svg):not(path):not(circle):not(rect) {
   color: #0c1218 !important;
 }
+.read-m3__passage .pw-graph {
+  background: #f7f1e6 !important;
+  border: 1px solid rgba(12, 18, 24, 0.2);
+  border-radius: 10px;
+  padding: 8px 10px;
+  margin-top: 8px;
+}
+.read-m3__passage .pw-graph,
+.read-m3__passage .pw-graph .pw-graph__title,
+.read-m3__passage .pw-graph .pw-graph__hint,
+.read-m3__passage .pw-graph .pw-graph__legend,
+.read-m3__passage .pw-graph .pw-graph__legend li {
+  color: #0c1218 !important;
+}
 .read-m3__passage .write-m2a__badge {
   color: #0c1218 !important;
   background: #e2c06a !important;
@@ -19438,21 +19479,13 @@ button {
   color: #0f5c38 !important;
 }
 
-.write-m2a__card,
 .listen-m3a__quote--cream,
 .listen-m3b__quote--cream {
   color: #0c1218 !important;
 }
-.write-m2a__card *,
 .listen-m3a__quote--cream *,
 .listen-m3b__quote--cream * {
   color: #0c1218 !important;
-}
-.write-m2a__card .read-m3__opt,
-.write-m2a__card button {
-  color: #0c1218 !important;
-  background: #fff !important;
-  border-color: rgba(12, 18, 24, 0.4) !important;
 }
 
 /* Dark MC cards (Speaking quiz etc.) - readable on dark shell */

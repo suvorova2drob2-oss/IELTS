@@ -4,7 +4,8 @@ export const MS_U4_READ_STEPS = [
   "Matching features",
   "Global MCQ",
   "Modals",
-  "Exam · work",
+  "Exam · match",
+  "Exam · title",
   "Discussion",
 ] as const;
 
@@ -12,7 +13,8 @@ export const MS_U4_READ_NEXT = [
   "Matching →",
   "Global →",
   "Modals →",
-  "Exam →",
+  "Exam match →",
+  "Exam title →",
   "Discussion →",
   "← Back to unit",
 ] as const;
@@ -118,26 +120,68 @@ export const readingU4 = {
       ],
     },
     {
-      kind: "mcq" as const,
+      kind: "match" as const,
       badge: "EXAM 13",
-      instruction: "Exam matching / MCQ keys on the changing face of working life.",
+      instruction:
+        "Look at the following statements and the list of studies below. Match each statement with the correct study, A–C. A Employment as a Myth · B Unfair Returns · C How the Market Adjusts to Opportunity",
+      passage: PASSAGE_U4_WORKING_LIFE,
+      bank: [
+        "A Employment as a Myth",
+        "B Unfair Returns",
+        "C How the Market Adjusts to Opportunity",
+      ],
+      items: [
+        {
+          id: "1",
+          stem: "Unlike in previous years, a willingness to experiment with a wide range of possible roles is visible in all groups of job-seekers.",
+          key: "C How the Market Adjusts to Opportunity",
+        },
+        {
+          id: "2",
+          stem: "Younger people are being denied the chance to develop the social skills necessary for the modern office environment.",
+          key: "B Unfair Returns",
+        },
+        {
+          id: "3",
+          stem: "Many modern positions can be more easily terminated than ever before.",
+          key: "B Unfair Returns",
+        },
+        {
+          id: "4",
+          stem: "Claims of economic expansion are demonstrably incorrect.",
+          key: "A Employment as a Myth",
+        },
+        {
+          id: "5",
+          stem: "An unforeseen problem has led to an increase in the number of people available to work.",
+          key: "A Employment as a Myth",
+        },
+        {
+          id: "6",
+          stem: "Much of today's workforce do not feel constrained by a lack of familiarity with a new position.",
+          key: "A Employment as a Myth",
+        },
+        {
+          id: "7",
+          stem: "Refusal to conform to traditional behaviour models at work is a positive step.",
+          key: "C How the Market Adjusts to Opportunity",
+        },
+      ],
+    },
+    {
+      kind: "mcq" as const,
+      badge: "EXAM 13 · Q8",
+      instruction: "What is the best title for this passage?",
       passage: PASSAGE_U4_WORKING_LIFE,
       items: [
-        { id: "1", stem: "Q1", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "C" },
-        { id: "2", stem: "Q2", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "B" },
-        { id: "3", stem: "Q3", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "B" },
-        { id: "4", stem: "Q4", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "A" },
-        { id: "5", stem: "Q5", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "A" },
-        { id: "6", stem: "Q6", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "A" },
-        { id: "7", stem: "Q7", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }], key: "C" },
         {
           id: "8",
-          stem: "Best title for the passage?",
+          stem: "What is the best title for this passage?",
           options: [
-            { id: "A", text: "Conflict between young and old workers" },
-            { id: "B", text: "Adaptability always prevents exploitation" },
+            { id: "A", text: "The Conflict between Young and Old in the Workplace" },
+            { id: "B", text: "Modern Employment: the Need for Adaptability" },
             { id: "C", text: "The Changing Face of Working Life" },
-            { id: "D", text: "What workers want (not need)" },
+            { id: "D", text: "What Today's Workforce Really Wants" },
           ],
           key: "C",
         },

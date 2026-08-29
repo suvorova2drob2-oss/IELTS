@@ -5,18 +5,22 @@ export const MS_U5_READ_STEPS = [
   "Lead-in",
   "Odd one out",
   "Skim views",
-  "Claims & list",
+  "Claim or view",
+  "Select from a list",
   "Yes / No / NG",
-  "Conditionals",
+  "Conditionals table",
+  "Conditional types",
   "Exam · Pharaohs",
 ] as const;
 
 export const MS_U5_READ_NEXT = [
   "Odd one out →",
   "Skim →",
-  "Claims →",
+  "Claim / view →",
+  "Select list →",
   "Y/N/NG →",
   "Conditionals →",
+  "Types →",
   "Exam →",
   "← Back to unit",
 ] as const;
@@ -114,40 +118,53 @@ export const readingU5: MindsetFlowData = {
     },
     {
       kind: "match",
-      badge: "5–9",
+      badge: "5",
       instruction:
-        "Find these sentences in the text. For each, decide if the author is making a claim or expressing a view. Then match statements 1–4 with people A–D.",
+        "Find these sentences in the text. For each, decide if the author is making a claim or expressing a view.",
       passage: PASSAGE_U5_ECCENTRIC_RULERS,
-      tip: "Claims = author's interpretation of facts; views = subjective personal opinions.",
+      tip: "Claims = the author's interpretation of the facts. Views = subjective personal opinions.",
       bank: [
         { id: "claim", text: "claim" },
         { id: "view", text: "view" },
+      ],
+      bankReuse: true,
+      items: [
+        {
+          id: "1",
+          stem: "Although many monarchs have done justice to this vision … there have also been a number of bizarre, frankly eccentric rulers.",
+          key: "claim",
+        },
+        {
+          id: "2",
+          stem: "Happily for him, […] his subjects saw his childlike simplicity as being divinely inspired.",
+          key: "claim",
+        },
+        {
+          id: "3",
+          stem: "He was the first English king to study the sciences …",
+          key: "claim",
+        },
+        {
+          id: "4",
+          stem: "I for one think we should celebrate royal eccentricity. It certainly makes reading history much more interesting.",
+          key: "view",
+        },
+      ],
+    },
+    {
+      kind: "match",
+      badge: "6–9",
+      instruction:
+        "Look at the following statements and the list of people below. Match each statement with the correct person, A–D. Write the correct letter A, B, C or D next to each statement.",
+      passage: PASSAGE_U5_ECCENTRIC_RULERS,
+      tip: "Scan for the names A–D first, then match each paraphrased statement to the right person.",
+      bank: [
         { id: "A", text: "Caligula" },
         { id: "B", text: "George III" },
         { id: "C", text: "Charles VI" },
         { id: "D", text: "Fyodor I" },
       ],
       items: [
-        {
-          id: "c1",
-          stem: "Although many monarchs have done justice to this vision … there have also been a number of bizarre, frankly eccentric rulers.",
-          key: "claim",
-        },
-        {
-          id: "c2",
-          stem: "Happily for him, […] his subjects saw his childlike simplicity as being divinely inspired.",
-          key: "claim",
-        },
-        {
-          id: "c3",
-          stem: "He was the first English king to study the sciences …",
-          key: "claim",
-        },
-        {
-          id: "c4",
-          stem: "I for one think we should celebrate royal eccentricity.",
-          key: "view",
-        },
         {
           id: "1",
           stem: "He believed himself to be very fragile.",
@@ -203,40 +220,54 @@ export const readingU5: MindsetFlowData = {
     },
     {
       kind: "match",
-      badge: "14–15",
+      badge: "14",
       instruction:
-        "Complete the conditionals table: match structures A–D to slots 1–4. Then identify the conditional type of each sentence from the text.",
+        "Complete the conditionals table: match structures A–D to the table slots.",
+      tip: "Second = hypothetical present → present/future result. Third = hypothetical past → past result.",
       bank: [
         { id: "A", text: "would + verb" },
         { id: "B", text: "would have + past participle" },
         { id: "C", text: "If + past simple / past continuous" },
         { id: "D", text: "If + past perfect / past perfect continuous" },
+      ],
+      items: [
+        { id: "1", stem: "Second — If clause structure →", key: "C" },
+        { id: "2", stem: "Second — Result clause →", key: "A" },
+        { id: "3", stem: "Third — If clause structure →", key: "D" },
+        { id: "4", stem: "Third — Result clause →", key: "B" },
+      ],
+    },
+    {
+      kind: "match",
+      badge: "15",
+      instruction:
+        "Look at these conditionals from the text. Which type is each one — second, third, or mixed 1?",
+      passage: PASSAGE_U5_ECCENTRIC_RULERS,
+      tip: "Mixed 1 = hypothetical past situation with a present result (often without a full if-clause, e.g. Without them…).",
+      bank: [
         { id: "second", text: "second" },
         { id: "third", text: "third" },
         { id: "mixed 1", text: "mixed 1" },
       ],
+      bankReuse: true,
       items: [
-        { id: "t1", stem: "Second — If clause structure →", key: "C" },
-        { id: "t2", stem: "Second — Result clause →", key: "A" },
-        { id: "t3", stem: "Third — If clause structure →", key: "D" },
-        { id: "t4", stem: "Third — Result clause →", key: "B" },
         {
-          id: "s1",
+          id: "1",
           stem: "… if we compared his supposed behaviour … would almost certainly be regarded as even more eccentric.",
           key: "second",
         },
         {
-          id: "s2",
+          id: "2",
           stem: "… had it not been for these treatments, he would not have been quite so unstable.",
           key: "third",
         },
         {
-          id: "s3",
+          id: "3",
           stem: "Had he left an heir, Russian history might well have gone in a different direction.",
           key: "third",
         },
         {
-          id: "s4",
+          id: "4",
           stem: "Without them, history would be a lot less interesting.",
           key: "mixed 1",
         },

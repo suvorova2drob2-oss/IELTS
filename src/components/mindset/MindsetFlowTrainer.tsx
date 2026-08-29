@@ -15,6 +15,7 @@ import {
   MS_U5_WORKFORCE_BARS,
   MS_U7_NEWS_PIES,
 } from "./MsTask1Charts";
+import { chipExhausted, gapChipExhausted } from "./bankChipUse";
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/\s+/g, " ").trim();
@@ -202,8 +203,8 @@ export function MindsetFlowTrainer({
     setPickedGap(null);
   };
 
-  const usedMatch = new Set(Object.values(matchPick));
-  const usedGaps = new Set(Object.values(gapPick).map(norm));
+  const matchKeysNeeded = (items: MatchItem[]) => items.map((it) => it.key);
+  const matchPlaced = () => Object.values(matchPick);
 
   const goPrev = () => {
     if (step === 0) {
@@ -312,11 +313,16 @@ export function MindsetFlowTrainer({
   const matchBlock = (
     bank: { id: string; text: string }[],
     items: MatchItem[],
+    _bankReuse = false,
   ) => (
     <>
       <div className="pr-chip-bank">
         {bank.map((b) => {
-          const used = usedMatch.has(b.id);
+          const used = chipExhausted(
+            b.id,
+            matchKeysNeeded(items),
+            matchPlaced(),
+          );
           return (
             <button
               key={b.id}
@@ -325,7 +331,13 @@ export function MindsetFlowTrainer({
               disabled={checked || used}
               onClick={() => setPickedMatch(b.id)}
             >
-              <strong>{b.id}</strong> {b.text}
+              {b.text === b.id ? (
+                <strong>{b.id}</strong>
+              ) : (
+                <>
+                  <strong>{b.id}</strong> {b.text}
+                </>
+              )}
             </button>
           );
         })}
@@ -333,6 +345,13 @@ export function MindsetFlowTrainer({
       <ul className="read-m3__qs">
         {items.map((it) => {
           const ok = matchPick[it.id] === it.key;
+          const picked = matchPick[it.id];
+          const bankItem = bank.find((b) => b.id === picked);
+          const gapLabel = !picked
+            ? "___"
+            : bankItem && bankItem.text !== bankItem.id
+              ? `${bankItem.id} · ${bankItem.text}`
+              : picked;
           return (
             <li key={it.id}>
               <strong>{it.id}.</strong> {it.stem}{" "}
@@ -342,7 +361,7 @@ export function MindsetFlowTrainer({
                 disabled={checked}
                 onClick={() => placeMatch(it.id)}
               >
-                {matchPick[it.id] ?? "___"}
+                {gapLabel}
               </button>
               {checked && !ok && (
                 <span className="inline-gap-bad"> → {it.key}</span>
@@ -361,7 +380,12 @@ export function MindsetFlowTrainer({
     <>
       <div className="pr-chip-bank">
         {bank.map((w) => {
-          const used = usedGaps.has(norm(w));
+          const used = gapChipExhausted(
+            w,
+            items,
+            Object.values(gapPick),
+            norm,
+          );
           return (
             <button
               key={w}
@@ -402,7 +426,7 @@ export function MindsetFlowTrainer({
 
   const examShell = (
     passage: string | undefined,
-    title: string | undefined,
+    _title: string | undefined,
     body: ReactNode,
   ) => {
     if (!passage) {
@@ -415,10 +439,9 @@ export function MindsetFlowTrainer({
     return (
       <section className="read-m3__split read-m3__split--exam">
         <article className="read-m3__passage">
-          <header className="read-m3__hero read-m3__hero--compact">
-            <div>
-              <h2>{title ?? "Passage"}</h2>
-            </div>
+          <header className="read-m3__passage-label">
+            <h2>Reading passage</h2>
+            <p>Use this text to answer the questions on the right.</p>
           </header>
           <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{passage}</p>
         </article>
@@ -587,7 +610,7 @@ export function MindsetFlowTrainer({
               {p.instruction}
             </p>
             {p.tip && <p className="write-m2a__cue">{p.tip}</p>}
-            {matchBlock(p.bank, p.items)}
+            {matchBlock(p.bank, p.items, Boolean(p.bankReuse))}
           </>,
         );
       case "gaps":
@@ -656,10 +679,9 @@ export function MindsetFlowTrainer({
         return (
           <section className="read-m3__split read-m3__split--exam">
             <article className="read-m3__passage">
-              <header className="read-m3__hero read-m3__hero--compact">
-                <div>
-                  <h2>{p.badge ?? "Reading passage"}</h2>
-                </div>
+              <header className="read-m3__passage-label">
+                <h2>Reading passage</h2>
+                <p>Use this text to answer the questions on the right.</p>
               </header>
               <p style={{ whiteSpace: "pre-wrap", margin: 0 }}>{p.passage}</p>
             </article>

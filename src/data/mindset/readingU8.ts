@@ -1,17 +1,15 @@
 import type { MindsetFlowData } from "./flowTypes";
-import { PASSAGE_U8_YOUTH } from "./readingPassages";
+import { PASSAGE_U8_NOMADS, PASSAGE_U8_YOUTH } from "./readingPassages";
 
 export const MS_U8_READ_STEPS = [
   "Paper quiz",
-  "TF quiz",
   "Info match",
   "Headings",
   "Y/N/NG",
-  "Exam MC",
+  "Exam · nomads",
 ] as const;
 
 export const MS_U8_READ_NEXT = [
-  "TF →",
   "Info →",
   "Headings →",
   "Y/N/NG →",
@@ -32,20 +30,9 @@ export const readingU8: MindsetFlowData = {
   nextLabels: [...MS_U8_READ_NEXT],
   panels: [
     {
-      kind: "ynng",
-      badge: "1",
-      instruction: "Reading test facts — True / False (about the IELTS Reading paper).",
-      labels: ["True", "False"],
-      items: [
-        { id: "1", stem: "You get 60 minutes only — no transfer time is given.", key: "True", tip: "F in some keys means False for 'transfer time exists' — statement as worded: 60 minutes only, no transfer → True for Academic timing fact; answer key: 1 F (60 minutes only - no transfer time is given) referring to a false claim elsewhere. Treat key as False if the stem claimed transfer time exists. Stem here matches AK explanation → mark False for 'there is transfer time'." },
-        { id: "2", stem: "The texts are from a variety of sources but all written for a non-specialist audience.", key: "True" },
-        { id: "3", stem: "Each question is worth one mark.", key: "True" },
-      ],
-    },
-    {
       kind: "mc",
-      badge: "1 corrected",
-      instruction: "Quiz about IELTS Reading (answer key 1 F 2 T 3 F 4 F 5 T).",
+      badge: "1",
+      instruction: "Quiz about the IELTS Reading paper. Choose True or False.",
       items: [
         {
           id: "1",
@@ -88,9 +75,11 @@ export const readingU8: MindsetFlowData = {
     {
       kind: "match",
       badge: "4",
-      instruction: "Youth cultures passage — match statements 1–8 with paragraphs / options.",
+      instruction:
+        "Which paragraph contains the following information? Match each statement with the correct paragraph letter A–G. You may use any letter more than once.",
       passage: PASSAGE_U8_YOUTH,
-      tip: "1 F · 2 C · 3 E · 4 A · 5 C · 6 D,G · 7 B · 8 D,E",
+      tip: "1 F · 2 C · 3 E · 4 A · 5 C · 6 D · 7 B · 8 E (multi-paragraph items use the primary paragraph from the key).",
+      bankReuse: true,
       bank: [
         { id: "A", text: "A" },
         { id: "B", text: "B" },
@@ -101,74 +90,154 @@ export const readingU8: MindsetFlowData = {
         { id: "G", text: "G" },
       ],
       items: [
-        { id: "1", stem: "One subculture that endured better: the bikers.", key: "F" },
-        { id: "2", stem: "Conventional values questioned; American culture fuelled Britain's youth.", key: "C" },
-        { id: "3", stem: "Internet / social media / charity events raise awareness.", key: "E" },
-        { id: "4", stem: "Whole-paragraph main idea (intro overview).", key: "A" },
-        { id: "5", stem: "Elvis / Rock and Roll → Teddy Boys → Mods and Rockers.", key: "C" },
-        { id: "7", stem: "1990s commentators: youth movements lost their fire.", key: "B" },
+        { id: "1", stem: "a subculture that has passed the test of time", key: "F" },
+        { id: "2", stem: "an explanation for the rise of youth subcultures", key: "C" },
+        {
+          id: "3",
+          stem: "an example of the internet being used to raise money and inform people",
+          key: "E",
+        },
+        {
+          id: "4",
+          stem: "descriptions of various youth groups' fashion and music preferences",
+          key: "A",
+        },
+        { id: "5", stem: "the influence of the US on youth culture in Britain", key: "C" },
+        { id: "6", stem: "a discussion of the identity of today's young people", key: "D" },
+        {
+          id: "7",
+          stem: "the decade in which the older generation began to think youth subcultures were declining",
+          key: "B",
+        },
+        { id: "8", stem: "the causes of a broader outlook in today's young people", key: "E" },
       ],
     },
     {
       kind: "match",
       badge: "5",
-      instruction: "Matching headings — place i–x style keys for paragraphs 1–7.",
+      instruction:
+        "The reading passage has seven paragraphs, A–G. Choose the correct heading for each paragraph from the list of headings. Write the correct number, i–x. There are three headings you won't need.",
       passage: PASSAGE_U8_YOUTH,
+      tip: "1 iv · 2 ii · 3 vi · 4 viii · 5 x · 6 ix · 7 i",
       bank: [
-        { id: "iv", text: "iv" },
-        { id: "ii", text: "ii" },
-        { id: "vi", text: "vi" },
-        { id: "viii", text: "viii" },
-        { id: "x", text: "x" },
-        { id: "ix", text: "ix" },
-        { id: "i", text: "i" },
+        { id: "i", text: "Out with the old and in with the new and improved" },
+        { id: "ii", text: "The decline of youth subcultures" },
+        { id: "iii", text: "Regret for a lost era" },
+        { id: "iv", text: "Youth subcultures in the second half of the 20th century" },
+        { id: "v", text: "The ice bucket challenge raises millions" },
+        { id: "vi", text: "Why young people formed their own social groups" },
+        { id: "vii", text: "Identity-less youth of today" },
+        { id: "viii", text: "A different type of identity" },
+        { id: "ix", text: "Survivors of a lost age" },
+        { id: "x", text: "Fighting for change in new ways" },
       ],
       items: [
-        { id: "1", stem: "Paragraph 1", key: "iv" },
-        { id: "2", stem: "Paragraph 2", key: "ii" },
-        { id: "3", stem: "Paragraph 3", key: "vi" },
-        { id: "4", stem: "Paragraph 4", key: "viii" },
-        { id: "5", stem: "Paragraph 5", key: "x" },
-        { id: "6", stem: "Paragraph 6", key: "ix" },
-        { id: "7", stem: "Paragraph 7", key: "i" },
+        { id: "1", stem: "Paragraph A", key: "iv" },
+        { id: "2", stem: "Paragraph B", key: "ii" },
+        { id: "3", stem: "Paragraph C", key: "vi" },
+        { id: "4", stem: "Paragraph D", key: "viii" },
+        { id: "5", stem: "Paragraph E", key: "x" },
+        { id: "6", stem: "Paragraph F", key: "ix" },
+        { id: "7", stem: "Paragraph G", key: "i" },
       ],
     },
     {
       kind: "ynng",
       badge: "6",
-      instruction: "Yes / No / Not Given on the youth culture writer's claims.",
+      instruction:
+        "Do the following statements agree with the claims of the writer in the text? Write YES if the statement agrees with the claims of the writer, NO if the statement contradicts the claims of the writer, NOT GIVEN if it is impossible to say what the writer thinks about this.",
       passage: PASSAGE_U8_YOUTH,
       items: [
-        { id: "1", stem: "Statement 1", key: "Yes" },
-        { id: "2", stem: "Statement 2", key: "No" },
-        { id: "3", stem: "Statement 3", key: "Not Given" },
-        { id: "4", stem: "Statement 4", key: "Yes" },
-      ],
-    },
-    {
-      kind: "mc",
-      badge: "EXAM",
-      instruction: "Exam multiple choice (11): 1 D 2 B 3 C 4 B 5 A · 6 D",
-      passage: PASSAGE_U8_YOUTH,
-      items: [
-        { id: "1", stem: "Q1", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "D" },
-        { id: "2", stem: "Q2", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "B" },
-        { id: "3", stem: "Q3", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "C" },
-        { id: "4", stem: "Q4", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "B" },
-        { id: "5", stem: "Q5", options: [{ id: "A", text: "A" }, { id: "B", text: "B" }, { id: "C", text: "C" }, { id: "D", text: "D" }], key: "A" },
         {
-          id: "6",
-          stem: "Q6 (travellers / backpacking attitude)",
-          options: [
-            { id: "A", text: "compares success (wrong)" },
-            { id: "B", text: "backpacking as only modern example (wrong)" },
-            { id: "C", text: "criticises a particular attitude (wrong)" },
-            { id: "D", text: "correct option" },
-          ],
-          key: "D",
+          id: "1",
+          stem: "20th-century youth movements had their own distinct way of dressing.",
+          key: "Yes",
+        },
+        {
+          id: "2",
+          stem: "Today's youth are less effective at changing society than their predecessors.",
+          key: "No",
+        },
+        {
+          id: "3",
+          stem: "Young people waste too much time on social media.",
+          key: "Not Given",
+        },
+        {
+          id: "4",
+          stem: "It is unfortunate that many of the sub-cultures are disappearing.",
+          key: "Yes",
         },
       ],
     },
-
+    {
+      kind: "passageExam",
+      badge: "EXAM",
+      instruction: "Read the passage and answer questions 1–6.",
+      passage: PASSAGE_U8_NOMADS,
+      match: {
+        instruction:
+          "Questions 1–5 — Look at the following statements and the list of traveller communities below. Match each statement with the correct community, A–E. You may use any letter more than once.",
+        bank: [
+          { id: "A", text: "The Bedouin" },
+          { id: "B", text: "The Moken" },
+          { id: "C", text: "The Sami" },
+          { id: "D", text: "The Roma" },
+          { id: "E", text: "Irish travellers" },
+        ],
+        items: [
+          {
+            id: "1",
+            stem: "They tend to protect a version of traditions inherited from wider society.",
+            key: "D",
+          },
+          {
+            id: "2",
+            stem: "Where they live is very dependent on weather conditions and the time of the year.",
+            key: "B",
+          },
+          {
+            id: "3",
+            stem: "They do not focus heavily on kinship ties.",
+            key: "C",
+          },
+          {
+            id: "4",
+            stem: "They fully exploit the natural resources available to them.",
+            key: "B",
+          },
+          {
+            id: "5",
+            stem: "Their success in combat was partly due to the demands of their lifestyle.",
+            key: "A",
+          },
+        ],
+      },
+      mc: {
+        instruction: "Question 6 — Choose the correct letter, A, B, C or D.",
+        items: [
+          {
+            id: "6",
+            stem: "What is the writer's purpose in the Reading Passage?",
+            options: [
+              {
+                id: "A",
+                text: "to compare how successful different nomadic groups are in the modern world",
+              },
+              { id: "B", text: "to explain the origins of backpacking culture" },
+              {
+                id: "C",
+                text: "to criticise the lack of tolerance for travelling communities",
+              },
+              {
+                id: "D",
+                text: "to highlight the current state of traditional travelling cultures in the modern world",
+              },
+            ],
+            key: "D",
+          },
+        ],
+      },
+    },
   ],
 };
