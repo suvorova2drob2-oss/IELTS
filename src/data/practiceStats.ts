@@ -1,5 +1,6 @@
 import { practiceListeningCatalog } from "./practiceListeningCatalog";
 import { practiceReadingCatalog } from "./practiceReadingCatalog";
+import { practiceSpeakingCatalog } from "./practiceSpeakingCatalog";
 import { practiceWritingCatalog } from "./practiceWritingCatalog";
 
 const STATS_KEY = "ielts-practice-stats-v1";
@@ -186,7 +187,8 @@ export function computeSmartStats(
   const testsReady =
     practiceReadingCatalog.filter((t) => t.ready).length +
     practiceListeningCatalog.filter((t) => t.ready).length +
-    practiceWritingCatalog.filter((t) => t.ready).length;
+    practiceWritingCatalog.filter((t) => t.ready).length +
+    practiceSpeakingCatalog.filter((t) => t.ready).length;
   const touched = new Set(attempts.map((a) => a.testId));
   const testsTouched = touched.size;
   const progressPct = Math.round((testsTouched / Math.max(testsReady, 1)) * 100);

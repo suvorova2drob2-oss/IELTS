@@ -7,7 +7,7 @@ const COMPLETED_KEY = "ielts-completed-blocks-v1";
 const PRACTICE_SKILLS = [
   { id: "reading", label: "Reading", hint: "3 practice tests", ready: true },
   { id: "listening", label: "Listening", hint: "3 practice tests", ready: true },
-  { id: "speaking", label: "Speaking", hint: "Parts 1–3", ready: false },
+  { id: "speaking", label: "Speaking", hint: "Expert speaking · Parts 1–3", ready: true },
   { id: "writing", label: "Writing", hint: "4 practice tests · Task 1–2", ready: true },
 ] as const;
 
@@ -111,11 +111,13 @@ export function CourseHome({
   onOpenModule,
   onOpenPractice,
   onOpenStats,
+  onOpenMindset,
 }: {
   course: CourseData;
   onOpenModule: (moduleId: string) => void;
   onOpenPractice?: (skill: PracticeSkillId) => void;
   onOpenStats?: () => void;
+  onOpenMindset?: () => void;
 }) {
   const completed = useMemo(() => loadCompleted(), []);
   const practice = useMemo(() => computeSmartStats(), []);
@@ -144,6 +146,15 @@ export function CourseHome({
 
   return (
     <div className="home-page">
+      <button
+        type="button"
+        className="course-edge-tab"
+        onClick={() => onOpenMindset?.()}
+        title="Open Mindset for IELTS Level 3"
+      >
+        Mindset L3
+      </button>
+
       <div className="home-page__content">
         <header className="home-hero home-hero--compact">
           <div className="home-hero__row">

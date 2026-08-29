@@ -43,24 +43,29 @@ export interface CourseData {
   modules: CourseModule[];
 }
 
+export type TrainerViewState = {
+  trainerId: string;
+  moduleId: string;
+  blockId?: string;
+  blockLabel?: string;
+  restart?: boolean;
+  initialStep?: number;
+  /** New value each open so trainer remounts clean for the next student. */
+  openKey?: number;
+};
+
 export type View =
   | { name: "home" }
   | { name: "module"; moduleId: string }
   | { name: "practice-reading" }
   | { name: "practice-listening" }
   | { name: "practice-writing" }
+  | { name: "practice-speaking" }
   | { name: "stats" }
-  | {
-      name: "trainer";
-      trainerId: string;
-      moduleId: string;
-      blockId?: string;
-      blockLabel?: string;
-      restart?: boolean;
-      initialStep?: number;
-      /** New value each open so trainer remounts clean for the next student. */
-      openKey?: number;
-    };
+  | ({ name: "trainer" } & TrainerViewState)
+  | { name: "mindset-home" }
+  | { name: "mindset-module"; moduleId: string }
+  | ({ name: "mindset-trainer" } & TrainerViewState);
 
 export const skillIcons: Record<string, string> = {
   "Lead-in": "💬",

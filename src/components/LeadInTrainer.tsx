@@ -10,6 +10,13 @@ import { leadInDevelopment } from "../data/leadInDevelopment";
 import { leadInInsectEmpire } from "../data/leadInInsectEmpire";
 import { leadInLibrariesM1 } from "../data/leadInLibrariesM1";
 import { leadInTeenagers } from "../data/leadInTeenagers";
+import { leadInConsumer } from "../data/leadInConsumer";
+import { leadInHomes } from "../data/leadInHomes";
+import { leadInCrime } from "../data/leadInCrime";
+import { leadInUrban } from "../data/leadInUrban";
+import { leadInCommunity } from "../data/leadInCommunity";
+import { leadInSuccess } from "../data/leadInSuccess";
+import { leadInCutting } from "../data/leadInCutting";
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -551,4 +558,11 @@ export const trainers: Record<string, LeadInData> = {
   "lead-in-insect-empire": leadInInsectEmpire,
   "lead-in-libraries-m1": leadInLibrariesM1,
   "lead-in-teenagers": leadInTeenagers,
+  "lead-in-consumer": leadInConsumer,
+  "lead-in-homes": leadInHomes,
+  "lead-in-crime": leadInCrime,
+  "lead-in-urban": leadInUrban,
+  "lead-in-community": leadInCommunity,
+  "lead-in-success": leadInSuccess,
+  "lead-in-cutting": leadInCutting,
 };

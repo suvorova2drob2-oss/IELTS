@@ -130,18 +130,109 @@ function ActivityPanel({
   const isLanguageFlow = trainerId === "language-m1b-flow";
   const isLanguageM1a = trainerId === "language-m1a-flow";
   const isLanguageM2a = trainerId === "language-m2a-flow";
+  const isLanguageM3a = trainerId === "language-m3a-flow";
+  const isLanguageM3b = trainerId === "language-m3b-flow";
   const isWritingM1a = trainerId === "writing-m1a-flow";
   const isWritingM2a = trainerId === "writing-m2a-flow";
   const isWritingM2b = trainerId === "writing-m2b-flow";
+  const isWritingM3a = trainerId === "writing-m3a-flow";
   const isListeningM1 = trainerId === "listening-m1-flow";
   const isListeningM1b = trainerId === "listening-m1b-flow";
   const isListeningM2a = trainerId === "listening-m2a-flow";
   const isListeningM2b = trainerId === "listening-m2b-flow";
+  const isListeningM3a = trainerId === "listening-m3a-flow";
+  const isListeningM3b = trainerId === "listening-m3b-flow";
   const isSpeakingM1b = trainerId === "speaking-m1b-flow";
   const isSpeakingM2a = trainerId === "speaking-m2a-flow";
   const isSpeakingM2b = trainerId === "speaking-m2b-flow";
   const isSpeakingM3a = trainerId === "speaking-m3a-flow";
+  const isSpeakingM3b = trainerId === "speaking-m3b-flow";
+  const isSpeakingM4a = trainerId === "speaking-m4a-flow";
+  const isSpeakingM4b = trainerId === "speaking-m4b-flow";
+  const isSpeakingM5a = trainerId === "speaking-m5a-flow";
+  const isSpeakingM5b = trainerId === "speaking-m5b-flow";
+  const isSpeakingM6a = trainerId === "speaking-m6a-flow";
+  const isSpeakingM6b = trainerId === "speaking-m6b-flow";
+  const isSpeakingM7a = trainerId === "speaking-m7a-flow";
+  const isSpeakingM7b = trainerId === "speaking-m7b-flow";
+  const isSpeakingM8a = trainerId === "speaking-m8a-flow";
+  const isSpeakingM8b = trainerId === "speaking-m8b-flow";
+  const isSpeakingM9a = trainerId === "speaking-m9a-flow";
+  const isSpeakingM9b = trainerId === "speaking-m9b-flow";
+  const isSpeakingM10a = trainerId === "speaking-m10a-flow";
+  const isSpeakingM10b = trainerId === "speaking-m10b-flow";
   const isReadingM3Flow = trainerId === "reading-m3-flow";
+  const isReadingM3bFlow = trainerId === "reading-m3b-flow";
+  const isReadingM4aFlow = trainerId === "reading-m4a-flow";
+  const isReadingM4bFlow = trainerId === "reading-m4b-flow";
+  const isReadingM5aFlow = trainerId === "reading-m5a-flow";
+  const isReadingM5bFlow = trainerId === "reading-m5b-flow";
+  const isReadingM6aFlow = trainerId === "reading-m6a-flow";
+  const isReadingM6bFlow = trainerId === "reading-m6b-flow";
+  const isReadingM7aFlow = trainerId === "reading-m7a-flow";
+  const isReadingM7bFlow = trainerId === "reading-m7b-flow";
+  const isReadingM8aFlow = trainerId === "reading-m8a-flow";
+  const isReadingM8bFlow = trainerId === "reading-m8b-flow";
+  const isReadingM9aFlow = trainerId === "reading-m9a-flow";
+  const isReadingM9bFlow = trainerId === "reading-m9b-flow";
+  const isReadingM10aFlow = trainerId === "reading-m10a-flow";
+  const isReadingM10bFlow = trainerId === "reading-m10b-flow";
+  const isWritingM3b = trainerId === "writing-m3b-flow";
+  const isWritingM4a = trainerId === "writing-m4a-flow";
+  const isWritingM4b = trainerId === "writing-m4b-flow";
+  const isWritingM5a = trainerId === "writing-m5a-flow";
+  const isWritingM5b = trainerId === "writing-m5b-flow";
+  const isWritingM6a = trainerId === "writing-m6a-flow";
+  const isWritingM6b = trainerId === "writing-m6b-flow";
+  const isWritingM7a = trainerId === "writing-m7a-flow";
+  const isWritingM7b = trainerId === "writing-m7b-flow";
+  const isWritingM8a = trainerId === "writing-m8a-flow";
+  const isWritingM8b = trainerId === "writing-m8b-flow";
+  const isWritingM9a = trainerId === "writing-m9a-flow";
+  const isWritingM9b = trainerId === "writing-m9b-flow";
+  const isWritingM10a = trainerId === "writing-m10a-flow";
+  const isWritingM10b = trainerId === "writing-m10b-flow";
+  const isVocabularyM4 = trainerId === "vocabulary-m4-flow";
+  const isVocabularyM5 = trainerId === "vocabulary-m5-flow";
+  const isVocabularyM6 = trainerId === "vocabulary-m6-flow";
+  const isVocabularyM7 = trainerId === "vocabulary-m7-flow";
+  const isVocabularyM8 = trainerId === "vocabulary-m8-flow";
+  const isVocabularyM9 = trainerId === "vocabulary-m9-flow";
+  const isVocabularyM10 = trainerId === "vocabulary-m10-flow";
+  const isListeningM4a = trainerId === "listening-m4a-flow";
+  const isListeningM4b = trainerId === "listening-m4b-flow";
+  const isListeningM5a = trainerId === "listening-m5a-flow";
+  const isListeningM5b = trainerId === "listening-m5b-flow";
+  const isListeningM6a = trainerId === "listening-m6a-flow";
+  const isListeningM6b = trainerId === "listening-m6b-flow";
+  const isListeningM7a = trainerId === "listening-m7a-flow";
+  const isListeningM7b = trainerId === "listening-m7b-flow";
+  const isListeningM8a = trainerId === "listening-m8a-flow";
+  const isListeningM8b = trainerId === "listening-m8b-flow";
+  const isListeningM9a = trainerId === "listening-m9a-flow";
+  const isListeningM9b = trainerId === "listening-m9b-flow";
+  const isListeningM10a = trainerId === "listening-m10a-flow";
+  const isListeningM10b = trainerId === "listening-m10b-flow";
+  const isLanguageM4a = trainerId === "language-m4a-flow";
+  const isLanguageM4b = trainerId === "language-m4b-flow";
+  const isLanguageM5a = trainerId === "language-m5a-flow";
+  const isLanguageM5b = trainerId === "language-m5b-flow";
+  const isLanguageM6a = trainerId === "language-m6a-flow";
+  const isLanguageM6b = trainerId === "language-m6b-flow";
+  const isLanguageM7a = trainerId === "language-m7a-flow";
+  const isLanguageM7b = trainerId === "language-m7b-flow";
+  const isLanguageM8a = trainerId === "language-m8a-flow";
+  const isLanguageM8b = trainerId === "language-m8b-flow";
+  const isLanguageM9a = trainerId === "language-m9a-flow";
+  const isLanguageM9b = trainerId === "language-m9b-flow";
+  const isLanguageM10a = trainerId === "language-m10a-flow";
+  const isLanguageM10b = trainerId === "language-m10b-flow";
+  const isReviewM5 = trainerId === "review-m5-flow";
+  const isReviewM6 = trainerId === "review-m6-flow";
+  const isReviewM7 = trainerId === "review-m7-flow";
+  const isReviewM8 = trainerId === "review-m8-flow";
+  const isReviewM9 = trainerId === "review-m9-flow";
+  const isReviewM10 = trainerId === "review-m10-flow";
   const isExamLearn =
     (isReadingFlow || isWritingFlow) && !isReadingM2ExamOnly;
 
@@ -335,6 +426,14 @@ function ActivityPanel({
                           startAt(Math.min(i, 3));
                           return;
                         }
+                        if (isLanguageM3a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isLanguageM3b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
                         if (isWritingM1a) {
                           startAt(Math.min(i, 6));
                           return;
@@ -345,6 +444,10 @@ function ActivityPanel({
                         }
                         if (isWritingM2b) {
                           startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isWritingM3a) {
+                          startAt(Math.min(i, 7));
                           return;
                         }
                         if (isListeningM1) {
@@ -363,6 +466,14 @@ function ActivityPanel({
                           startAt(Math.min(i, 5));
                           return;
                         }
+                        if (isListeningM3a) {
+                          startAt(Math.min(i, 6));
+                          return;
+                        }
+                        if (isListeningM3b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
                         if (isSpeakingM1b) {
                           startAt(Math.min(i, 4));
                           return;
@@ -379,7 +490,351 @@ function ActivityPanel({
                           startAt(Math.min(i, 6));
                           return;
                         }
+                        if (isSpeakingM3b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM4a) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM4b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
                         if (isReadingM3Flow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM3bFlow) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isReadingM4aFlow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM4bFlow) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM3b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isWritingM4a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM4b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM4) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM4a) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isListeningM4b) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isLanguageM4a) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM4b) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isSpeakingM5a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM5b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM5aFlow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM5bFlow) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isWritingM5a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isWritingM5b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM5) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM5a) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isListeningM5b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM5a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isLanguageM5b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isReviewM5) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM6aFlow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM6bFlow) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM6a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM6b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM6) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM6a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM6b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM6a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isLanguageM6b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM6a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM6b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isReviewM6) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM7aFlow) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isReadingM7bFlow) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isWritingM7a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isWritingM7b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM7) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isListeningM7a) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isListeningM7b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM7a) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM7b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM7a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM7b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReviewM7) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM8aFlow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM8bFlow) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM8a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM8b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM8) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM8a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM8b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM8a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isLanguageM8b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM8a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM8b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isReviewM8) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM9aFlow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM9bFlow) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM9a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM9b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM9) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM9a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM9b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM9a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isLanguageM9b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM9a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM9b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isReviewM9) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM10aFlow) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isReadingM10bFlow) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM10a) {
+                          startAt(Math.min(i, 3));
+                          return;
+                        }
+                        if (isWritingM10b) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isVocabularyM10) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM10a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isListeningM10b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isLanguageM10a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isLanguageM10b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isSpeakingM10a) {
+                          startAt(Math.min(i, 5));
+                          return;
+                        }
+                        if (isSpeakingM10b) {
+                          startAt(Math.min(i, 4));
+                          return;
+                        }
+                        if (isReviewM10) {
                           startAt(Math.min(i, 5));
                           return;
                         }

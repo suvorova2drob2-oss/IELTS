@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { defaultCourse } from "../data/defaultModules";
 import type { CourseData, CourseModule, SkillBlock } from "../types/module";
 
-const STORAGE_KEY = "ielts-expert-course-v44";
+const STORAGE_KEY = "ielts-expert-course-v64";
 const READING_STEP_KEY = "ielts-reading-m1-step";
 const READING_MODE_KEY = "ielts-reading-m1-mode";
 const VOCABULARY_STEP_KEY = "ielts-vocabulary-m1-step";
@@ -24,6 +24,77 @@ function migrateCourse(data: CourseData): CourseData {
         mod.sections = structuredClone(defaultMod.sections);
         mod.review = structuredClone(defaultMod.review);
       }
+      mod.review.trainerId = "review-m3-flow";
+    }
+    if (mod.id === "module-4") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-4");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m4-flow";
+    }
+    if (mod.id === "module-5") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-5");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m5-flow";
+    }
+    if (mod.id === "module-6") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-6");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m6-flow";
+    }
+    if (mod.id === "module-7") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-7");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m7-flow";
+    }
+    if (mod.id === "module-8") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-8");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m8-flow";
+    }
+    if (mod.id === "module-9") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-9");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m9-flow";
+    }
+    if (mod.id === "module-10") {
+      const defaultMod = defaultCourse.modules.find((m) => m.id === "module-10");
+      if (defaultMod) {
+        mod.title = defaultMod.title;
+        mod.startPage = defaultMod.startPage;
+        mod.sections = structuredClone(defaultMod.sections);
+        mod.review = structuredClone(defaultMod.review);
+      }
+      mod.review.trainerId = "review-m10-flow";
     }
     for (const sec of mod.sections) {
       if (sec.id === "2a") sec.subtitle = "Development";

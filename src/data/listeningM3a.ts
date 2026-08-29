@@ -1,0 +1,260 @@
+export const LISTEN_M3A_STEPS = [
+  "1 Quotes",
+  "2a Preview",
+  "2b Analyse Qs",
+  "2c Match",
+  "3 Exam task",
+  "4 Task analysis",
+  "5 Discussion",
+] as const;
+
+export const LISTEN_M3A_NEXT = [
+  "2a Preview →",
+  "2b Analyse →",
+  "2c Match →",
+  "3 Exam →",
+  "4 Analysis →",
+  "5 Discussion →",
+  "← К модулю",
+] as const;
+
+export const listeningM3a = {
+  id: "listening-m3a-flow",
+  bookPages: "p. 44 in your coursebook",
+  sectionTitle: "Listening · Section 4",
+  noAudioNote:
+    "Аудио пока нет — можно пройти подготовку и matching. Ответы 1–9 появятся с треками 3.4 / 3.5.",
+  quotes: {
+    badge: "1",
+    heading: "Before you listen",
+    instruction:
+      "Read the quotes. Which ideas do you agree with? Which quote best matches how you relax?",
+    items: [
+      {
+        id: "q1",
+        color: "cream",
+        text: "‘Tension is who you think you should be. Relaxation is who you are.’",
+        attribution: "Chinese proverb",
+      },
+      {
+        id: "q2",
+        color: "green",
+        text: "‘What you’re supposed to do when you don’t like a thing is change it. If you can’t change it, change the way you think about it. Don’t complain.’",
+        attribution: "Maya Angelou",
+      },
+      {
+        id: "q3",
+        color: "blue",
+        text: "‘There is more to life than increasing its speed.’",
+        attribution: "Mahatma Gandhi",
+      },
+      {
+        id: "q4",
+        color: "grey",
+        text: "‘He is richest who is content with the least, for content is the wealth of nature.’",
+        attribution: "Socrates",
+      },
+    ],
+  },
+  preview: {
+    badge: "2a",
+    heading: "Identify specific information required",
+    instruction:
+      "Read the questions. What do you think the main subject of the lecture will be?",
+    predictCue: "Main subject: meditation (and its benefits)",
+  },
+  questions: [
+    {
+      id: 1,
+      group: "1–2",
+      limit: "NO MORE THAN TWO WORDS AND/OR A NUMBER",
+      kind: "completion" as const,
+      before: "There are ",
+      underlineBefore: "few",
+      gap: true,
+      after: " on the ",
+      underlineAfter: "benefits",
+      end: " of meditation.",
+    },
+    {
+      id: 2,
+      group: "1–2",
+      limit: "NO MORE THAN TWO WORDS AND/OR A NUMBER",
+      kind: "completion" as const,
+      before: "There is ",
+      underlineBefore: "some indication",
+      mid: " that meditation ",
+      underlineMid: "may be able to",
+      mid2: " ",
+      underlineMid2: "increase our",
+      gap: true,
+      after: ".",
+    },
+    {
+      id: 3,
+      group: "3–4",
+      limit: "NO MORE THAN THREE WORDS AND/OR A NUMBER",
+      kind: "short" as const,
+      promptBefore: "",
+      underlinePrompt: "In what ways",
+      promptMid: " can meditation help us ",
+      underlinePrompt2: "physically",
+      promptAfter: "?",
+      sharedPrompt: true,
+    },
+    {
+      id: 4,
+      group: "3–4",
+      limit: "NO MORE THAN THREE WORDS AND/OR A NUMBER",
+      kind: "short" as const,
+      sharedWith: 3,
+    },
+    {
+      id: 5,
+      group: "5–6",
+      limit: "NO MORE THAN THREE WORDS AND/OR A NUMBER",
+      kind: "short" as const,
+      prompt: "What are two indirect benefits of meditation?",
+      sharedPrompt: true,
+    },
+    {
+      id: 6,
+      group: "5–6",
+      limit: "NO MORE THAN THREE WORDS AND/OR A NUMBER",
+      kind: "short" as const,
+      sharedWith: 5,
+    },
+    {
+      id: 7,
+      group: "7–9",
+      limit: "NO MORE THAN TWO WORDS AND/OR A NUMBER",
+      kind: "completion" as const,
+      before: "A lot of research has been done in the area of meditation and ",
+      gap: true,
+      after: ".",
+    },
+    {
+      id: 8,
+      group: "7–9",
+      limit: "NO MORE THAN TWO WORDS AND/OR A NUMBER",
+      kind: "completion" as const,
+      gap: true,
+      after: " of daily meditation can improve a person’s mental well-being.",
+    },
+    {
+      id: 9,
+      group: "7–9",
+      limit: "NO MORE THAN TWO WORDS AND/OR A NUMBER",
+      kind: "completion" as const,
+      before: "In most cases, meditation should not be a replacement for ",
+      gap: true,
+      after: ".",
+    },
+  ],
+  analyse: {
+    badge: "2b",
+    instruction:
+      "Answer the following questions about the questions in Exercise 2a.",
+    items: [
+      "What kind of word or words should go in each space? A noun, adjective or verb?",
+      "Can more than one word go in any spaces? How many?",
+      "Which answers require a singular or plural noun?",
+      "What spaces definitely require more than one word? How do you know?",
+      "Which questions are asking for examples?",
+    ],
+    tips: [
+      "Mostly nouns (studies/research; abilities; examples of benefits; topic areas).",
+      "Yes — up to two words (1–2, 7–9) or three words (3–6).",
+      "Likely plural for Q1 (few ___); Q3–6 examples may be singular or plural depending on the recording.",
+      "Look at the word limit and grammar around the gap (e.g. ‘few ___’ → plural noun phrase).",
+      "Questions 3–4 and 5–6 ask for examples / two benefits.",
+    ],
+  },
+  match: {
+    badge: "c",
+    instruction:
+      "Match the phrases below with the underlined words/phrases in Exercise 2a. Can you think of any others?",
+    bank: [
+      "a few signs",
+      "advantages",
+      "boost",
+      "could possibly",
+      "enhance",
+      "in a more physical sense",
+      "in some manners",
+      "might even",
+      "not many",
+      "positive points",
+      "preliminary evidence",
+    ],
+    targets: [
+      { id: "few", label: "few", key: "not many", also: [] as string[] },
+      {
+        id: "benefits",
+        label: "benefits",
+        key: "advantages",
+        also: ["positive points"],
+      },
+      {
+        id: "indication",
+        label: "some indication",
+        key: "preliminary evidence",
+        also: ["a few signs"],
+      },
+      {
+        id: "may",
+        label: "may be able to",
+        key: "could possibly",
+        also: ["might even"],
+      },
+      {
+        id: "increase",
+        label: "increase our",
+        key: "enhance",
+        also: ["boost"],
+      },
+      {
+        id: "ways",
+        label: "In what ways",
+        key: "in some manners",
+        also: [] as string[],
+      },
+      {
+        id: "physically",
+        label: "physically",
+        key: "in a more physical sense",
+        also: [] as string[],
+      },
+    ],
+  },
+  exam: {
+    badge: "3",
+    heading: "Test practice",
+    strategies: "TEST STRATEGIES page 168",
+    instruction:
+      "Read the questions and complete the rest of the test task. Use the ideas in Exercises 2a–2c to prepare before you listen.",
+    audioNote: "Tracks 3.4 / 3.5 — audio will be added later.",
+  },
+  analysis: {
+    badge: "4a",
+    heading: "Task analysis",
+    a: "Read audio script 3.5 on page 203 and underline the sections with the answers.",
+    b: {
+      badge: "4b",
+      instruction: "Analyse your answers using the questions.",
+      items: [
+        "Did you choose the correct part of speech?",
+        "Did you write the correct number of words?",
+        "Did you write singular and plural words correctly?",
+      ],
+    },
+  },
+  discussion: {
+    badge: "5",
+    heading: "Discussion",
+    instruction:
+      "Have you ever tried meditating? Why/Why not? To what extent do you believe that doing things like meditating can make mental or physical changes within a person?",
+  },
+};
+
+export type ListeningM3aData = typeof listeningM3a;

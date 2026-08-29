@@ -14,3 +14,19 @@ Expert_IELTS_7_5_TEACHER 2/
 
 # Temp OCR / extract scripts
 _tmp_*
+# Large media / books (keep local)
+*.pdf
+Expert_IELTS_7_5_Coursebook_Audio/
+Expert_IELTS_7_5_Coursebook_Audio 2/
+Expert_IELTS_7_5_Coursebook_Audio 3/
+Expert_IELTS_7_5_Students_Audio/
+Teaching notes and photocopiables/
+
+# Temp OCR / TB extracts / scaffolds
+_ocr_*
+_tb_*
+_ms_*
+_gen_*
+_thumb_*
+_wire_*
+_tmp_*

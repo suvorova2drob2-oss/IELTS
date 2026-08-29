@@ -1,18 +1,33 @@
 import { useState } from "react";
 import { CourseHome } from "./components/CourseHome";
+import { MindsetHome } from "./components/MindsetHome";
+import {
+  hasMindsetTrainer,
+  MindsetTrainerView,
+} from "./components/MindsetTrainerRouter";
 import { PracticeListeningHub } from "./components/PracticeListeningHub";
 import { PracticeReadingHub } from "./components/PracticeReadingHub";
+import { PracticeSpeakingHub } from "./components/PracticeSpeakingHub";
 import { PracticeWritingHub } from "./components/PracticeWritingHub";
 import { StatsPage } from "./components/StatsPage";
 import { hasTrainer, TrainerView } from "./components/TrainerRouter";
 import { ModulePage } from "./components/ModulePage";
 import { useCourseData } from "./hooks/useCourseData";
+import { useMindsetCourseData } from "./hooks/useMindsetCourseData";
 import type { View } from "./types/module";
 import {
   findBlockByTrainerId,
   getBlockNextTrainerId,
 } from "./types/module";
 import "./index.css";
+
+function isMindsetView(view: View): boolean {
+  return (
+    view.name === "mindset-home" ||
+    view.name === "mindset-module" ||
+    view.name === "mindset-trainer"
+  );
+}
 
 export default function App() {
   const [view, setView] = useState<View>({ name: "home" });
@@ -24,10 +39,26 @@ export default function App() {
     updateSectionSubtitle,
   } = useCourseData();
 
+  const {
+    course: mindsetCourse,
+    updateBlock: updateMindsetBlock,
+    updateModuleMeta: updateMindsetMeta,
+    updateSectionSubtitle: updateMindsetSection,
+  } = useMindsetCourseData();
+
   const currentModule =
     view.name === "module" || view.name === "trainer"
       ? course.modules.find((m) => m.id === view.moduleId)
       : undefined;
+
+  const mindsetModule =
+    view.name === "mindset-module" || view.name === "mindset-trainer"
+      ? mindsetCourse.modules.find((m) => m.id === view.moduleId)
+      : undefined;
+
+  const brandLabel = isMindsetView(view)
+    ? "Mindset L3"
+    : "IELTS Expert";
 
   return (
     <div className={`app-frame app-frame--${view.name}`}>
@@ -40,9 +71,15 @@ export default function App() {
         <button
           type="button"
           className="nav-brand"
-          onClick={() => setView({ name: "home" })}
+          onClick={() =>
+            setView(
+              isMindsetView(view)
+                ? { name: "mindset-home" }
+                : { name: "home" },
+            )
+          }
         >
-          IELTS Expert
+          {brandLabel}
         </button>
       </nav>
 
@@ -61,8 +98,22 @@ export default function App() {
               if (skill === "writing") {
                 setView({ name: "practice-writing" });
               }
+              if (skill === "speaking") {
+                setView({ name: "practice-speaking" });
+              }
             }}
             onOpenStats={() => setView({ name: "stats" })}
+            onOpenMindset={() => setView({ name: "mindset-home" })}
+          />
+        )}
+
+        {view.name === "mindset-home" && (
+          <MindsetHome
+            course={mindsetCourse}
+            onOpenModule={(moduleId) =>
+              setView({ name: "mindset-module", moduleId })
+            }
+            onOpenExpert={() => setView({ name: "home" })}
           />
         )}
 
@@ -80,6 +131,10 @@ export default function App() {
 
         {view.name === "practice-writing" && (
           <PracticeWritingHub onBack={() => setView({ name: "home" })} />
+        )}
+
+        {view.name === "practice-speaking" && (
+          <PracticeSpeakingHub onBack={() => setView({ name: "home" })} />
         )}
 
         {view.name === "module" && currentModule && (
@@ -109,11 +164,43 @@ export default function App() {
           />
         )}
 
+        {view.name === "mindset-module" && mindsetModule && (
+          <ModulePage
+            module={mindsetModule}
+            editMode={false}
+            onBack={() => setView({ name: "mindset-home" })}
+            onEditBlock={(blockId, patch) =>
+              updateMindsetBlock(mindsetModule.id, blockId, patch)
+            }
+            onOpenTrainer={(trainerId, block, initialStep) =>
+              setView({
+                name: "mindset-trainer",
+                trainerId,
+                moduleId: mindsetModule.id,
+                blockId: block.id,
+                blockLabel: `${block.skill} · ${block.pages}`,
+                initialStep,
+                restart: true,
+                openKey: Date.now(),
+              })
+            }
+            onUpdateMeta={(patch) =>
+              updateMindsetMeta(mindsetModule.id, patch)
+            }
+            onUpdateSection={(sectionId, subtitle) =>
+              updateMindsetSection(mindsetModule.id, sectionId, subtitle)
+            }
+          />
+        )}
+
         {view.name === "trainer" && currentModule && (
           <>
             {hasTrainer(view.trainerId) ? (
               <TrainerView
-                key={view.openKey ?? `${view.trainerId}-${view.initialStep ?? "all"}`}
+                key={
+                  view.openKey ??
+                  `${view.trainerId}-${view.initialStep ?? "all"}`
+                }
                 trainerId={view.trainerId}
                 restart={view.restart}
                 initialStep={view.initialStep}
@@ -130,7 +217,10 @@ export default function App() {
                     setView({ name: "module", moduleId: view.moduleId });
                     return;
                   }
-                  const nextBlock = findBlockByTrainerId(currentModule, nextId);
+                  const nextBlock = findBlockByTrainerId(
+                    currentModule,
+                    nextId,
+                  );
                   setView({
                     name: "trainer",
                     trainerId: nextId,
@@ -169,6 +259,48 @@ export default function App() {
                 <div className="card">
                   <h2>Тренажёр «{view.trainerId}»</h2>
                   <p>Пока не создан. Контент можно добавить позже.</p>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {view.name === "mindset-trainer" && mindsetModule && (
+          <>
+            {hasMindsetTrainer(view.trainerId) ? (
+              <MindsetTrainerView
+                key={
+                  view.openKey ??
+                  `${view.trainerId}-${view.initialStep ?? "all"}`
+                }
+                trainerId={view.trainerId}
+                restart={view.restart}
+                initialStep={view.initialStep}
+                onBack={() =>
+                  setView({
+                    name: "mindset-module",
+                    moduleId: view.moduleId,
+                  })
+                }
+                contextLabel={view.blockLabel}
+              />
+            ) : (
+              <div className="app-shell">
+                <button
+                  type="button"
+                  className="back-link"
+                  onClick={() =>
+                    setView({
+                      name: "mindset-module",
+                      moduleId: view.moduleId,
+                    })
+                  }
+                >
+                  ← Back
+                </button>
+                <div className="card">
+                  <h2>Trainer «{view.trainerId}»</h2>
+                  <p>Not created yet.</p>
                 </div>
               </div>
             )}
