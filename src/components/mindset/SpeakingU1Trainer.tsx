@@ -223,7 +223,7 @@ export function SpeakingU1Trainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -284,7 +284,7 @@ export function SpeakingU1Trainer({
       )}
 
       {step === 1 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.part1.badge}</span>
             {data.part1.instruction}
@@ -350,7 +350,7 @@ export function SpeakingU1Trainer({
       )}
 
       {step === 2 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.part2.badge}</span>
             {data.part2.instruction}
@@ -414,7 +414,7 @@ export function SpeakingU1Trainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.part3.badge}</span>
             {data.part3.matchInstruction}
@@ -560,7 +560,7 @@ export function SpeakingU1Trainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.future.badge}</span>
             {data.future.instruction}
@@ -636,7 +636,7 @@ export function SpeakingU1Trainer({
       )}
 
       {step === 5 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.exam.badge}</span>
             {data.exam.part1.instruction}

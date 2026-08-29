@@ -110,13 +110,14 @@ export const writingU4 = {
     },
     {
       kind: "exam" as const,
-      instruction: "Write a Task 2 essay on finance / financial responsibility.",
+      instruction:
+        "You should spend about 40 minutes on this task. Write at least 250 words.",
       prompt:
-        "Some people believe that learning how to manage personal finances should be a compulsory subject in secondary schools. To what extent do you agree or disagree? Write at least 250 words.",
+        "The most important consideration when choosing any career or job is having a high income. To what extent do you agree or disagree?",
       minWords: 250,
       wcLabel: "Task 2 · exam minimum",
       sample:
-        "Plan arguments about consumer pressure on young adults, lack of school teaching on credit/mortgages, and bank incentives to create debt — then weigh personal responsibility. State a clear position in the introduction and restate it in the conclusion.",
+        "It is widely accepted that, for most people, their daily working lives will not be spent in their dream jobs. Despite this, I do not feel that people should instead prioritise becoming a high earner above all other concerns. To begin with, I strongly believe that people need stimulation in their daily working lives in order to feel a sense of reward. Very few of us can go through an entire career staying in a position or an industry that we find boring purely for the financial incentive. Secondly, there are so many people who see their working life as a search for fulfilment and contentment in helping others, rather than a search for wealth. It seems unlikely that the priority for, say, every nurse or teacher in the world is to become well-off, and jobs such as these are rarely extremely well-paid. Despite this, some would argue that those people who have families to support should always prioritise earning a high income; after all, it means securing their children's future. Others point out that, as the job market becomes increasingly unstable across the globe, it is vital to earn more and therefore save more. However, I do not agree that a good salary should necessarily be the number one concern for everyone. Too many people become preoccupied with the next pay rise or career move, and eventually become unhappy or even depressed, neither of which helps them to save or to provide for their family. In summary, earning as much money as is humanly possible should not be anyone's main concern. Granted, it arguably brings financial stability, for individuals and for their families, but it is simply not worth tolerating a lifetime of unhappiness at work purely for the money. (291 words)",
     },
   ],
 };

@@ -1,18 +1,20 @@
 import type { MindsetFlowData } from "./flowTypes";
 
 export const MS_U6_LISTEN_STEPS = [
-  "Map questions",
+  "Concern phrases",
   "Attitude phrases",
   "Note keys",
   "Purpose linkers",
-  "Exam keys",
+  "Exam MC",
+  "Exam flow",
 ] as const;
 
 export const MS_U6_LISTEN_NEXT = [
   "Attitude →",
   "Notes →",
   "Linkers →",
-  "Exam →",
+  "Exam MC →",
+  "Exam flow →",
   "← Back to unit",
 ] as const;
 
@@ -31,22 +33,45 @@ export const listeningU6: MindsetFlowData = {
     {
       kind: "match",
       badge: "3",
-      instruction: "Match speakers/sections A–E with question numbers (keys only).",
+      instruction:
+        "Which TWO concerns do Dylan and Tanya agree are the most important about the Science and Technology Festival? First match each option A–E with the related phrases (1–10).",
+      tip: "Match each paraphrase to its option first, then decide which TWO concerns both speakers treat as most important.",
       bank: [
-        { id: "A", text: "3, 6" },
-        { id: "B", text: "4, 8" },
-        { id: "C", text: "1, 7" },
-        { id: "D", text: "5, 10" },
-        { id: "E", text: "2, 9" },
+        { id: "A", text: "A cost of entry" },
+        { id: "B", text: "B distance between venues" },
+        { id: "C", text: "C choosing between talks" },
+        { id: "D", text: "D scheduled times of the talks" },
+        { id: "E", text: "E relevance to their course" },
       ],
+      bankReuse: true,
       items: [
-        { id: "A", stem: "Group A maps to questions", key: "A" },
-        { id: "B", stem: "Group B maps to questions", key: "B" },
-        { id: "C", stem: "Group C maps to questions", key: "C" },
-        { id: "D", stem: "Group D maps to questions", key: "D" },
-        { id: "E", stem: "Group E maps to questions", key: "E" },
+        { id: "1", stem: "1 pick which ones to go to →", key: "C" },
+        { id: "2", stem: "2 a waste of time for our courses →", key: "E" },
+        { id: "3", stem: "3 ticket prices →", key: "A" },
+        { id: "4", stem: "4 run from one talk to another →", key: "B" },
+        {
+          id: "5",
+          stem: "5 the schedule must be really tricky to plan →",
+          key: "D",
+        },
+        { id: "6", stem: "6 pay a lot on the door →", key: "A" },
+        {
+          id: "7",
+          stem: "7 it's almost impossible to decide who to see →",
+          key: "C",
+        },
+        {
+          id: "8",
+          stem: "8 the lecture rooms around campus are pretty spread out →",
+          key: "B",
+        },
+        {
+          id: "9",
+          stem: "9 not going to be related to my studies →",
+          key: "E",
+        },
+        { id: "10", stem: "10 timings in the programme →", key: "D" },
       ],
-      tip: "Answer key: A 3,6 · B 4,8 · C 1,7 · D 5,10 · E 2,9",
     },
     {
       kind: "gaps",
@@ -96,8 +121,9 @@ export const listeningU6: MindsetFlowData = {
     {
       kind: "keysOnly",
       badge: "12",
-      instruction: "Note completion — place the keys (no audio).",
-      note: "keys",
+      instruction:
+        "Lecture summary plan — complete the flow-chart. Write NO MORE THAN TWO WORDS for each answer.",
+      note: "Lecture summary plan",
       bank: [
         "bullet points",
         "initial impressions",
@@ -106,11 +132,31 @@ export const listeningU6: MindsetFlowData = {
         "feedback",
       ],
       items: [
-        { id: "1", label: "1", key: "bullet points" },
-        { id: "2", label: "2", key: "initial impressions" },
-        { id: "3", label: "3", key: "leave out" },
-        { id: "4", label: "4", key: "edited version" },
-        { id: "5", label: "5", key: "feedback" },
+        {
+          id: "1",
+          label: "Take lecture notes using ______",
+          key: "bullet points",
+        },
+        {
+          id: "2",
+          label: "Come together to discuss ______",
+          key: "initial impressions",
+        },
+        {
+          id: "3",
+          label: "Agree what information to ______ of summary.",
+          key: "leave out",
+        },
+        {
+          id: "4",
+          label: "Produce ______ of main themes, ideas, points.",
+          key: "edited version",
+        },
+        {
+          id: "5",
+          label: "Email summary to tutor for further ______",
+          key: "feedback",
+        },
       ],
     },
     {
@@ -130,30 +176,157 @@ export const listeningU6: MindsetFlowData = {
         { id: "1", stem: "use bullet points → easier to compare notes →", key: "That way" },
         { id: "2", stem: "agree themes → edited version →", key: "By doing so" },
         { id: "3", stem: "contact tutor → get feedback →", key: "In order for us to" },
-        { id: "4a", stem: "Incorrect 'In order so to' → correct purpose phrase →", key: "In order that she could", altKeys: ["so as to"] },
-        { id: "4b", stem: "Incorrect 'The way' →", key: "That way", altKeys: ["This way"] },
-        { id: "4c", stem: "Incorrect 'For doing so' →", key: "By doing so", altKeys: ["After doing so"] },
+        {
+          id: "4a",
+          stem: "Incorrect 'In order so to' → correct purpose phrase →",
+          key: "In order that she could",
+          altKeys: ["so as to"],
+        },
+        {
+          id: "4b",
+          stem: "Incorrect 'The way' →",
+          key: "That way",
+          altKeys: ["This way"],
+        },
+        {
+          id: "4c",
+          stem: "Incorrect 'For doing so' →",
+          key: "By doing so",
+          altKeys: ["After doing so"],
+        },
       ],
     },
     {
-      kind: "keysOnly",
-      badge: "EXAM",
-      instruction: "Exam section keys (15): place letters / answers.",
-      note: "keys",
-      bank: ["B", "D", "A", "C", "F", "G"],
+      kind: "mc",
+      badge: "EXAM 1–6",
+      instruction:
+        "Exam skills: listen and answer questions 1–6 (keys only — no audio).",
+      multi: true,
+      multiKeys: {
+        "1-2": ["B", "D"],
+      },
       items: [
-        { id: "1", label: "1/2 (two answers)", key: "B", altKeys: ["D"] },
-        { id: "3", label: "3", key: "A" },
-        { id: "4", label: "4", key: "B" },
-        { id: "5", label: "5", key: "C" },
-        { id: "6", label: "6", key: "C" },
-        { id: "7", label: "7", key: "F" },
-        { id: "8", label: "8", key: "G" },
-        { id: "9", label: "9", key: "D" },
-        { id: "10", label: "10", key: "A" },
+        {
+          id: "1-2",
+          stem: "Which TWO elements of the Science and Technology Festival do Dylan and Tanya agree were most beneficial?",
+          options: [
+            { id: "A", text: "They were able to meet new people." },
+            { id: "B", text: "They improved their study skills." },
+            {
+              id: "C",
+              text: "It helped to prepare them for their course.",
+            },
+            {
+              id: "D",
+              text: "It allowed them to become familiar with the university campus.",
+            },
+            {
+              id: "E",
+              text: "It introduced them to new areas of study.",
+            },
+          ],
+          key: "B",
+        },
+        {
+          id: "3",
+          stem: "The professor believes that the main role of the festival is to",
+          options: [
+            {
+              id: "A",
+              text: "make the general public more aware of science and technology.",
+            },
+            { id: "B", text: "have a different focus each year." },
+            {
+              id: "C",
+              text: "show how both fields of study are equally important.",
+            },
+          ],
+          key: "A",
+        },
+        {
+          id: "4",
+          stem: "The university information stands were there to",
+          options: [
+            { id: "A", text: "help people who were lost." },
+            {
+              id: "B",
+              text: "generate more interest in current research.",
+            },
+            {
+              id: "C",
+              text: "allow the people who attended the festival to meet the lecturers.",
+            },
+          ],
+          key: "B",
+        },
+        {
+          id: "5",
+          stem: "What does Tanya say about the festival guidebook?",
+          options: [
+            { id: "A", text: "The map was confusing." },
+            { id: "B", text: "There were too many advertisements." },
+            {
+              id: "C",
+              text: "The schedules for some lectures were wrong.",
+            },
+          ],
+          key: "C",
+        },
+        {
+          id: "6",
+          stem: "Dylan says that nowadays festivals",
+          options: [
+            {
+              id: "A",
+              text: "have to increase the entry charge every year.",
+            },
+            {
+              id: "B",
+              text: "make a lot of money from the admission fee.",
+            },
+            {
+              id: "C",
+              text: "are mostly paid for through advertising.",
+            },
+          ],
+          key: "C",
+        },
       ],
-      tip: "Full key: 1/2 B,D · 3 A · 4 B · 5 C · 6 C · 7 F · 8 G · 9 D · 10 A",
     },
-
+    {
+      kind: "match",
+      badge: "EXAM 7–10",
+      instruction:
+        "Complete the flow-chart. Choose FOUR answers from the list below and write the correct letter, A–H, next to questions 7–10. Advice for posting summary on department website.",
+      tip: "Follow the flow-chart order; each letter A–H is used at most once. Listen for what the advice step is about before choosing.",
+      bank: [
+        { id: "A", text: "A deadline" },
+        { id: "B", text: "B timetable" },
+        { id: "C", text: "C styles" },
+        { id: "D", text: "D workload" },
+        { id: "E", text: "E information" },
+        { id: "F", text: "F theories" },
+        { id: "G", text: "G posts" },
+        { id: "H", text: "H ideas" },
+      ],
+      items: [
+        { id: "7", stem: "Choose four main ______ to summarise.", key: "F" },
+        {
+          id: "8",
+          stem: "Refer to previous ______ for guidance on how to write them.",
+          key: "G",
+        },
+        {
+          id: "9",
+          stem: "Agree on how ______ is to be shared.",
+          key: "D",
+        },
+        {
+          id: "10",
+          stem: "Set a ______ and keep to it.",
+          key: "A",
+        },
+      ],
+    },
   ],
 };

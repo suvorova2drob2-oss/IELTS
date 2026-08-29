@@ -202,7 +202,7 @@ export function ListeningU4Trainer({
       </div>
 
       {s?.kind === "intro" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -232,7 +232,7 @@ export function ListeningU4Trainer({
       )}
 
       {s?.kind === "mcq" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -282,7 +282,7 @@ export function ListeningU4Trainer({
       )}
 
       {s?.kind === "match" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -338,7 +338,7 @@ export function ListeningU4Trainer({
       )}
 
       {s?.kind === "gaps" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -406,7 +406,7 @@ export function ListeningU4Trainer({
       )}
 
       {s?.kind === "discuss" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <h2 className="read-m3__h">{s.heading}</h2>
           <ol className="read-m3__qs">
             {prompts.map((q) => (

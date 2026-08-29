@@ -5,6 +5,7 @@ import {
   writingU3,
 } from "../../data/mindset/writingU3";
 import { WordCountMeter, countWords } from "../WordCountMeter";
+import { MsFosburyMaps } from "./MsMaps";
 
 const data = writingU3;
 
@@ -176,7 +177,7 @@ export function WritingU3Trainer({
       </div>
 
       {s?.kind === "intro" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -194,7 +195,7 @@ export function WritingU3Trainer({
       )}
 
       {s?.kind === "sort" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -230,7 +231,7 @@ export function WritingU3Trainer({
       )}
 
       {s?.kind === "mcq" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -270,7 +271,7 @@ export function WritingU3Trainer({
       )}
 
       {(s?.kind === "gaps" || s?.kind === "match") && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -312,12 +313,13 @@ export function WritingU3Trainer({
       )}
 
       {s?.kind === "exam" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">EXAM</span>
             {s.instruction}
           </p>
           <p className="write-m2a__cue">{s.prompt}</p>
+          <MsFosburyMaps />
           <WordCountMeter words={countWords(draft)} minWords={s.minWords ?? 150} label={s.wcLabel ?? "Task minimum"} />
           <textarea
             className="write-m2a__draft"

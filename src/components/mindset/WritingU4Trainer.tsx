@@ -176,7 +176,7 @@ export function WritingU4Trainer({
       </div>
 
       {s?.kind === "intro" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -194,7 +194,7 @@ export function WritingU4Trainer({
       )}
 
       {s?.kind === "sort" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -230,7 +230,7 @@ export function WritingU4Trainer({
       )}
 
       {s?.kind === "mcq" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -270,7 +270,7 @@ export function WritingU4Trainer({
       )}
 
       {(s?.kind === "gaps" || s?.kind === "match") && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -312,7 +312,7 @@ export function WritingU4Trainer({
       )}
 
       {s?.kind === "exam" && (
-        <section className="write-m2a__panel" style={{ overflow: "auto" }}>
+        <section className="write-m2a__panel">
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">EXAM</span>
             {s.instruction}

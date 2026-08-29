@@ -235,7 +235,7 @@ export function PracticeSpeakingTest1Session({
       </div>
 
       {step === 0 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.part1.facts.badge}</span>
             {test.part1.facts.instruction}
@@ -273,7 +273,7 @@ export function PracticeSpeakingTest1Session({
       )}
 
       {step === 1 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.part1.grammar.badge}</span>
             {test.part1.grammar.instruction}
@@ -309,7 +309,7 @@ export function PracticeSpeakingTest1Session({
       )}
 
       {step === 2 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.part2.stages.badge}</span>
             {test.part2.stages.instruction}
@@ -347,7 +347,7 @@ export function PracticeSpeakingTest1Session({
       )}
 
       {step === 3 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.part2.advice.badge}</span>
             {test.part2.advice.instruction}
@@ -388,7 +388,7 @@ export function PracticeSpeakingTest1Session({
       )}
 
       {step === 4 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.part3.needs.badge}</span>
             {test.part3.needs.instruction}
@@ -424,7 +424,7 @@ export function PracticeSpeakingTest1Session({
       )}
 
       {step === 5 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.part3.extend.badge}</span>
             {test.part3.extend.instruction}
@@ -460,7 +460,7 @@ export function PracticeSpeakingTest1Session({
       )}
 
       {step === 6 && (
-        <section className="speak-m3a__panel" style={{ overflow: "auto" }}>
+        <section className="speak-m3a__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{test.practice.badge}</span>
             {test.practice.instruction}

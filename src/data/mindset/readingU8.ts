@@ -78,7 +78,7 @@ export const readingU8: MindsetFlowData = {
       instruction:
         "Which paragraph contains the following information? Match each statement with the correct paragraph letter A–G. You may use any letter more than once.",
       passage: PASSAGE_U8_YOUTH,
-      tip: "1 F · 2 C · 3 E · 4 A · 5 C · 6 D · 7 B · 8 E (multi-paragraph items use the primary paragraph from the key).",
+      tip: "Which paragraph contains each piece of information? Some paragraphs may be used more than once.",
       bankReuse: true,
       bank: [
         { id: "A", text: "A" },

@@ -195,7 +195,7 @@ export function MsLegacyStepsTrainer({
       </div>
 
       {kind === "intro" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -227,7 +227,7 @@ export function MsLegacyStepsTrainer({
       )}
 
       {kind === "mcq" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             {s.badge && (
               <span className="write-m2a__badge">{s.badge}</span>
@@ -436,7 +436,7 @@ export function MsLegacyStepsTrainer({
       )}
 
       {kind === "discuss" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             {s.badge && (
               <span className="write-m2a__badge">{s.badge}</span>
@@ -463,7 +463,7 @@ export function MsLegacyStepsTrainer({
       )}
 
       {kind === "exam" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             {s.badge && (
               <span className="write-m2a__badge">{s.badge}</span>

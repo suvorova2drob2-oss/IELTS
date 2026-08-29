@@ -391,7 +391,7 @@ export const defaultMindsetCourse: CourseData = {
               pages: "pp. 127–132",
               trainerId: "ms-u6-listening-flow",
               trainerLabel:
-                "Map questions → attitude → notes → purpose linkers → exam (keys only).",
+                "Concern phrases → attitude → notes → purpose linkers → exam MC + flow.",
             },
             {
               id: "u6-speaking",
@@ -459,7 +459,7 @@ export const defaultMindsetCourse: CourseData = {
               pages: "pp. 150–154",
               trainerId: "ms-u7-listening-flow",
               trainerLabel:
-                "Lead-in → note keys → strategy → exam (keys only).",
+                "Lead-in → TV report flow → strategy → exam sentences + newspaper flow.",
             },
             {
               id: "u7-speaking",
@@ -527,7 +527,7 @@ export const defaultMindsetCourse: CourseData = {
               pages: "pp. 173–177",
               trainerId: "ms-u8-listening-flow",
               trainerLabel:
-                "Lead-in → outline keys → tip → exam (keys only).",
+                "Lead-in → outline headings → tip → Papua New Guinea exam.",
             },
             {
               id: "u8-speaking",

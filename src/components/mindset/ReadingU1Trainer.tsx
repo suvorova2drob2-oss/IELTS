@@ -252,7 +252,7 @@ export function ReadingU1Trainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -310,7 +310,6 @@ export function ReadingU1Trainer({
         <section className="read-m3__split">
           <article
             className="read-m3__passage"
-            style={{ overflow: "auto" }}
           >
             <p className="read-m3__instr">
               <span className="write-m2a__badge">{data.auroville.badge}</span>
@@ -325,7 +324,7 @@ export function ReadingU1Trainer({
             </p>
             <p>{data.auroville.fullParagraph}</p>
           </article>
-          <aside className="read-m3__side" style={{ overflow: "auto" }}>
+          <aside className="read-m3__side">
             <h2 className="read-m3__h">Auroville · headings</h2>
             <p className="read-m3__instr">{data.auroville.instruction}</p>
             {mcBtn(
@@ -354,7 +353,6 @@ export function ReadingU1Trainer({
         <section className="read-m3__split">
           <article
             className="read-m3__passage"
-            style={{ overflow: "auto" }}
           >
             <p className="read-m3__instr">
               <span className="write-m2a__badge">
@@ -376,7 +374,7 @@ export function ReadingU1Trainer({
               </p>
             )}
           </article>
-          <aside className="read-m3__side" style={{ overflow: "auto" }}>
+          <aside className="read-m3__side">
             <h2 className="read-m3__h">Longyearbyen</h2>
             <p className="read-m3__instr">
               {data.longyearbyen.instruction}
@@ -412,7 +410,6 @@ export function ReadingU1Trainer({
         <section className="read-m3__split">
           <article
             className="read-m3__passage"
-            style={{ overflow: "auto" }}
           >
             <p className="read-m3__instr">
               <span className="write-m2a__badge">{data.marloth.badge}</span>
@@ -440,7 +437,7 @@ export function ReadingU1Trainer({
             <p>{data.hallstatt.paragraph}</p>
             <p className="read-m3__hint">{data.hallstatt.footnote}</p>
           </article>
-          <aside className="read-m3__side" style={{ overflow: "auto" }}>
+          <aside className="read-m3__side">
             <h2 className="read-m3__h">Marloth Park</h2>
             <p className="read-m3__instr">{data.marloth.instruction}</p>
             <p className="write-m2a__expert">{data.marloth.tip}</p>
@@ -498,7 +495,7 @@ export function ReadingU1Trainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">
               {data.prefixes.identify.badge}
@@ -645,7 +642,6 @@ export function ReadingU1Trainer({
         <section className="read-m3__split read-m3__split--exam">
           <article
             className="read-m3__passage"
-            style={{ overflow: "auto" }}
           >
             <header className="read-m3__passage-label">
                 <h2>Reading passage</h2>
@@ -659,7 +655,6 @@ export function ReadingU1Trainer({
           </article>
           <aside
             className="read-m3__side read-m3__side--exam"
-            style={{ overflow: "auto" }}
           >
             <h2 className="read-m3__h">{data.exam.badge}</h2>
             <p className="read-m3__instr">{data.exam.instruction}</p>
@@ -725,7 +720,7 @@ export function ReadingU1Trainer({
       )}
 
       {step === 6 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <h2 className="read-m3__h">{data.discussion.heading}</h2>
           <ol className="read-m3__qs read-m3__qs--compact">
             {data.discussion.prompts.map((q) => (

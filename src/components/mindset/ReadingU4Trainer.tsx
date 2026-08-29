@@ -201,7 +201,7 @@ export function ReadingU4Trainer({
       </div>
 
       {s?.kind === "intro" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -231,7 +231,7 @@ export function ReadingU4Trainer({
       )}
 
       {s?.kind === "mcq" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -439,7 +439,7 @@ export function ReadingU4Trainer({
       )}
 
       {s?.kind === "discuss" && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <h2 className="read-m3__h">{s.heading}</h2>
           <ol className="read-m3__qs">
             {prompts.map((q) => (

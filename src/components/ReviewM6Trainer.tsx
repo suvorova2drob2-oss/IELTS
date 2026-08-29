@@ -206,7 +206,7 @@ export function ReviewM6Trainer({
                 disabled={checked || used.has(b.id)}
                 onClick={() => setPicked(b.id)}
               >
-                {b.id}
+                {b.id}. {b.text}
               </button>
             ))}
           </div>

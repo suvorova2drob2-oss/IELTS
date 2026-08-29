@@ -5678,9 +5678,8 @@ button {
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-gutter: stable;
   scrollbar-width: thin;
-  scrollbar-color: var(--accent) #e8e8e8;
+  scrollbar-color: rgba(196, 163, 90, 0.55) transparent;
 }
 
 .exam-split__passage {
@@ -6134,28 +6133,26 @@ button {
 .passage-table-split__sidebar {
   min-height: 0;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-gutter: stable;
   scrollbar-width: thin;
-  scrollbar-color: var(--accent) #e8e8e8;
+  scrollbar-color: rgba(196, 163, 90, 0.55) transparent;
 }
 
 .passage-table-split__passage::-webkit-scrollbar,
 .passage-table-split__sidebar::-webkit-scrollbar {
-  width: 12px;
+  width: 6px;
 }
 
 .passage-table-split__passage::-webkit-scrollbar-track,
 .passage-table-split__sidebar::-webkit-scrollbar-track {
-  background: #eee;
+  background: transparent;
 }
 
 .passage-table-split__passage::-webkit-scrollbar-thumb,
 .passage-table-split__sidebar::-webkit-scrollbar-thumb {
-  background: var(--accent);
-  border-radius: 6px;
-  border: 2px solid #eee;
+  background: rgba(196, 163, 90, 0.55);
+  border-radius: 999px;
 }
 
 .passage-table-split__passage {
@@ -10491,6 +10488,28 @@ button {
 
 .pw-split--fill .pw-panel {
   overflow: auto;
+}
+
+.ms-map-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 8px 0 12px;
+  flex-shrink: 0;
+}
+
+.ms-map {
+  margin: 6px 0 10px;
+  flex-shrink: 0;
+}
+
+.ms-map .pw-graph__title {
+  color: #1a2430;
+}
+
+.ms-map .pw-graph__svg {
+  background: #f7f1e6;
+  border-radius: 8px;
 }
 
 .pw-graph {
@@ -19582,4 +19601,145 @@ button {
 .reading-flow--viewport .learn-step-tabs__btn {
   padding: 3px 8px;
   font-size: 0.72rem;
+}
+
+/* ?? Smart flow scroll (Expert + Mindset) ?????????????????
+   Shell never scrolls. One content panel scrolls only when
+   needed. Secondary chrome (tips, goals, badges) stays compact
+   so short tasks fit without a Windows track beside empty space.
+*/
+.app-shell.reading-flow--viewport {
+  padding: 32px 12px 60px;
+}
+
+.reading-flow--viewport .read-m3__panel,
+.reading-flow--viewport .write-m2a__panel,
+.reading-flow--viewport .listen-m3b__panel,
+.reading-flow--viewport .speak-m3a__panel {
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 163, 90, 0.5) transparent;
+}
+
+.reading-flow--viewport .read-m3__panel::-webkit-scrollbar,
+.reading-flow--viewport .write-m2a__panel::-webkit-scrollbar,
+.reading-flow--viewport .listen-m3b__panel::-webkit-scrollbar,
+.reading-flow--viewport .speak-m3a__panel::-webkit-scrollbar,
+.reading-flow--viewport .read-m3__split > .read-m3__passage::-webkit-scrollbar,
+.reading-flow--viewport .read-m3__split > .read-m3__side::-webkit-scrollbar,
+.exam-split__passage::-webkit-scrollbar,
+.exam-split__tasks::-webkit-scrollbar {
+  width: 6px;
+}
+
+.reading-flow--viewport .read-m3__panel::-webkit-scrollbar-track,
+.reading-flow--viewport .write-m2a__panel::-webkit-scrollbar-track,
+.reading-flow--viewport .listen-m3b__panel::-webkit-scrollbar-track,
+.reading-flow--viewport .speak-m3a__panel::-webkit-scrollbar-track,
+.reading-flow--viewport .read-m3__split > .read-m3__passage::-webkit-scrollbar-track,
+.reading-flow--viewport .read-m3__split > .read-m3__side::-webkit-scrollbar-track,
+.exam-split__passage::-webkit-scrollbar-track,
+.exam-split__tasks::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.reading-flow--viewport .read-m3__panel::-webkit-scrollbar-thumb,
+.reading-flow--viewport .write-m2a__panel::-webkit-scrollbar-thumb,
+.reading-flow--viewport .listen-m3b__panel::-webkit-scrollbar-thumb,
+.reading-flow--viewport .speak-m3a__panel::-webkit-scrollbar-thumb,
+.reading-flow--viewport .read-m3__split > .read-m3__passage::-webkit-scrollbar-thumb,
+.reading-flow--viewport .read-m3__split > .read-m3__side::-webkit-scrollbar-thumb,
+.exam-split__passage::-webkit-scrollbar-thumb,
+.exam-split__tasks::-webkit-scrollbar-thumb {
+  background: rgba(196, 163, 90, 0.5);
+  border-radius: 999px;
+}
+
+.reading-flow--viewport .read-m3__split > .read-m3__passage,
+.reading-flow--viewport .read-m3__split > .read-m3__side {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 163, 90, 0.5) transparent;
+}
+
+/* Don?t nest a second scroller inside the panel */
+.reading-flow--viewport .speak-m3a__panel > .speak-m3a__cue {
+  flex: 0 0 auto;
+  overflow: visible;
+  min-height: 0;
+  max-height: none;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  padding: 8px 10px;
+}
+
+/* Secondary / chrome text ? shrink so tasks fit */
+.reading-flow--viewport .write-m2a__cue,
+.reading-flow--viewport .read-m3__tip,
+.reading-flow--viewport .read-m3__hint,
+.reading-flow--viewport .write-m2a__expert {
+  font-size: 0.68rem;
+  line-height: 1.25;
+  padding: 4px 7px;
+  font-weight: 600;
+}
+
+.reading-flow--viewport .write-m2a__instr,
+.reading-flow--viewport .read-m3__instr {
+  font-size: 0.86rem;
+  line-height: 1.3;
+  gap: 8px;
+}
+
+.reading-flow--viewport .ms-unit-goals {
+  padding: 4px 8px;
+}
+
+.reading-flow--viewport .ms-unit-goals__title {
+  font-size: 0.62rem;
+  margin-bottom: 2px;
+}
+
+.reading-flow--viewport .ms-unit-goals__list {
+  font-size: 0.68rem;
+  line-height: 1.2;
+  gap: 0 12px;
+}
+
+.reading-flow--viewport .write-m2a__panel,
+.reading-flow--viewport .listen-m3b__panel,
+.reading-flow--viewport .speak-m3a__panel {
+  gap: 6px;
+}
+
+/* Maps / charts ? visual aid, not a second page */
+.ms-map-pair {
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+
+.ms-map .pw-graph {
+  padding: 6px 8px 4px;
+}
+
+.ms-map .pw-graph__title {
+  font-size: 0.72rem;
+  margin: 0 0 2px;
+}
+
+.ms-map .pw-graph__svg {
+  display: block;
+  width: 100%;
+  max-height: 150px;
+  height: auto;
+}
+
+.ms-map-pair .ms-map .pw-graph__svg {
+  max-height: 132px;
+}
+
+.reading-flow--viewport .pw-graph.ms-bar-graph .pw-graph__svg,
+.reading-flow--viewport .ms-pie-wrap svg {
+  max-height: 200px;
 }

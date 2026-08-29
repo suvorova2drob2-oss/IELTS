@@ -4,6 +4,7 @@ import {
   MS_U3_LISTEN_NEXT,
   listeningU3,
 } from "../../data/mindset/listeningU3";
+import { MsHollowayEstateMap, MsStatelyHomePlan } from "./MsMaps";
 
 const data = listeningU3;
 
@@ -202,7 +203,7 @@ export function ListeningU3Trainer({
       </div>
 
       {s?.kind === "intro" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -232,11 +233,12 @@ export function ListeningU3Trainer({
       )}
 
       {s?.kind === "mcq" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
           </p>
+          {s.badge === "3–8" && <MsStatelyHomePlan />}
           {s.passage && (
             <article className="read-m3__passage read-m3__passage--solo">
               <p>{s.passage}</p>
@@ -282,11 +284,12 @@ export function ListeningU3Trainer({
       )}
 
       {s?.kind === "match" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
           </p>
+          {String(s.badge ?? "").includes("EXAM 15") && <MsHollowayEstateMap />}
           {s.passage && (
             <article className="read-m3__passage read-m3__passage--solo">
               <p>{s.passage}</p>
@@ -338,7 +341,7 @@ export function ListeningU3Trainer({
       )}
 
       {s?.kind === "gaps" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{s.badge}</span>
             {s.instruction}
@@ -406,7 +409,7 @@ export function ListeningU3Trainer({
       )}
 
       {s?.kind === "discuss" && (
-        <section className="listen-m3b__panel" style={{ overflow: "auto" }}>
+        <section className="listen-m3b__panel">
           <h2 className="read-m3__h">{s.heading}</h2>
           <ol className="read-m3__qs">
             {prompts.map((q) => (

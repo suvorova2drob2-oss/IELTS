@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   READ_M7A_NEXT,
   READ_M7A_STEPS,
@@ -121,7 +121,7 @@ export function ReadingM7aTrainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.beforeYouRead.badge}</span>
             {data.beforeYouRead.instruction}
@@ -131,7 +131,7 @@ export function ReadingM7aTrainer({
       )}
 
       {step === 1 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.paraphrase.badge}</span>
             {data.paraphrase.instruction}
@@ -149,7 +149,7 @@ export function ReadingM7aTrainer({
 
       {step === 2 && (
         <div className="read-m3__split">
-          <article className="read-m3__passage" style={{ overflow: "auto" }}>
+          <article className="read-m3__passage">
             <header className="read-m3__hero read-m3__hero--compact">
               <div>
                 <h2>{data.title}</h2>
@@ -162,7 +162,7 @@ export function ReadingM7aTrainer({
               </p>
             ))}
           </article>
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             <p className="read-m3__instr">
               <span className="write-m2a__badge">{data.matching.badge}</span>
               {data.matching.instruction}
@@ -217,7 +217,7 @@ export function ReadingM7aTrainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.summary.badge}</span>
             {data.summary.instruction}
@@ -280,7 +280,7 @@ export function ReadingM7aTrainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.discussion.badge}</span>
             {data.discussion.instruction}

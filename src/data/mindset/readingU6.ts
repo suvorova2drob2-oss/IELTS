@@ -37,7 +37,7 @@ export const readingU6: MindsetFlowData = {
       instruction:
         "Correct the word-formation errors in the paragraph. Place the correct form for each numbered error.",
       passage: PASSAGE_U6_VR,
-      tip: "All answers are from the answer key (incorrect → correct).",
+      tip: "Find ten wrong parts of speech in the lead-in paragraph. Place the correct form of each marked word.",
       bank: [
         "research",
         "particular",
@@ -50,15 +50,51 @@ export const readingU6: MindsetFlowData = {
         "employed",
       ],
       items: [
-        { id: "2", stem: "researches →", key: "research" },
-        { id: "3", stem: "(in) particularly →", key: "particular" },
-        { id: "4", stem: "imaginable (wrong polarity) →", key: "unimaginable" },
-        { id: "5", stem: "developed →", key: "development" },
-        { id: "6", stem: "popularly →", key: "popular" },
-        { id: "7", stem: "innocence →", key: "innocent" },
-        { id: "8", stem: "noticeably →", key: "noticeable" },
-        { id: "9", stem: "substituted →", key: "substitute" },
-        { id: "10", stem: "employment (is …) →", key: "employed" },
+        {
+          id: "2",
+          stem: "… according to a considerable amount of researches that has been conducted… →",
+          key: "research",
+        },
+        {
+          id: "3",
+          stem: "The use of the internet in particularly has become so widespread… →",
+          key: "particular",
+        },
+        {
+          id: "4",
+          stem: "… our daily existence would now be imaginable without it. →",
+          key: "unimaginable",
+        },
+        {
+          id: "5",
+          stem: "This is not necessarily a positive developed. →",
+          key: "development",
+        },
+        {
+          id: "6",
+          stem: "… when social media first started to become popularly, … →",
+          key: "popular",
+        },
+        {
+          id: "7",
+          stem: "… it was an innocence extension of the standard types of interaction… →",
+          key: "innocent",
+        },
+        {
+          id: "8",
+          stem: "These days, however, there are two noticeably extremes, both negative. →",
+          key: "noticeable",
+        },
+        {
+          id: "9",
+          stem: "One is where the platform is used as a substituted for human-to-human contact. →",
+          key: "substitute",
+        },
+        {
+          id: "10",
+          stem: "The second is where it is employment as a way to bully… →",
+          key: "employed",
+        },
       ],
     },
     {
@@ -67,7 +103,7 @@ export const readingU6: MindsetFlowData = {
       instruction:
         "Complete the summary using the list of words, A–J, below. Write the correct letter, A–J.",
       passage: PASSAGE_U6_VR,
-      tip: "1 A · 2 I · 3 E · 4 G · 5 D",
+      tip: "Match summary paraphrases to list words A–J — some options are distractors.",
       bank: [
         { id: "A", text: "mainstream" },
         { id: "B", text: "interactive" },
@@ -205,7 +241,7 @@ export const readingU6: MindsetFlowData = {
       instruction:
         "Questions 1–5 — Complete the summary using the list of words, A–J, below. Write the correct letter, A–J.",
       passage: PASSAGE_U6_HOLOGRAM,
-      tip: "1 G · 2 D · 3 F · 4 J · 5 A",
+      tip: "Choose the correct letter A–J for each summary gap — not every option is used.",
       bank: [
         { id: "A", text: "appeal" },
         { id: "B", text: "event" },

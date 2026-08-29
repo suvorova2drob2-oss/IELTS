@@ -35,7 +35,7 @@ export const readingU7: MindsetFlowData = {
       instruction:
         "Scan each paragraph and find the following information. Match each locating prompt with the correct answer from the bank.",
       passage: PASSAGE_U7_MEDIA,
-      tip: "1 E · 2 G · 3 A · 4 C · 5 F · 6 B · 7 D",
+      tip: "Match each feature to the list person — one person may not be used.",
       bank: [
         { id: "A", text: "a camera" },
         { id: "B", text: "Ohmynews!" },
@@ -89,7 +89,7 @@ export const readingU7: MindsetFlowData = {
       instruction:
         "The text has seven paragraphs, A–G. Which paragraph contains the following information? Write the correct letter, A–G. NB You may use any letter more than once.",
       passage: PASSAGE_U7_MEDIA,
-      tip: "1 D · 2 F · 3 G · 4 A · 5 B · 6 E",
+      tip: "Which paragraph contains each piece of information? Letters may be used more than once.",
       bankReuse: true,
       bank: [
         { id: "A", text: "A" },

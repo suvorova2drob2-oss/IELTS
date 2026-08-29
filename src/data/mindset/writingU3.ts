@@ -104,7 +104,7 @@ export const writingU3 = {
       minWords: 150,
       wcLabel: "Task 1 · exam minimum",
       sample:
-        "The two maps show the outskirts of the town of Fosbury in 1980 and 2015. The 35-year period saw changes to the road layout, and to the residential, recreational and commercial facilities… In summary, the area of Fosbury shown on the maps modernised and developed between 1980 and 2015. (191 words)",
+        "The two maps show the outskirts of the town of Fosbury in 1980 and 2015. The 35-year period saw changes to the road layout, and to the residential, recreational and commercial facilities. In terms of the road layout, the main change was the addition of a roundabout in the centre of this area, which necessitated the demolition of a block of flats and a grocer's shop. The residential accommodation underwent further changes with the removal of a street of terraced houses on the right side of the map and the construction of additional housing on the left side. New houses replaced the park, which was relocated to the other side of the road and decreased in size. By 2015 a supermarket with a car park had been erected on the site of the terraced houses. The area industrialised further during the 35-year period, with warehouses being put up where fields had been earlier. The area's sporting facilities had also been developed, with a new sports centre taking the place of the old tennis courts. In summary, the area of Fosbury shown on the maps modernised and developed between 1980 and 2015. (191 words)",
     },
   ],
 };

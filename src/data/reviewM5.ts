@@ -141,19 +141,21 @@ export const reviewM5 = {
   },
   match1d: {
     badge: "d",
-    instruction: "Match 1–4 with A–D.",
+    instruction:
+      "Match the percentages (1–4) with the phrases with the same meanings (A–D).",
     items: [
-      { id: 1, text: "Item / idea 1", key: "C" },
-      { id: 2, text: "Item / idea 2", key: "D" },
-      { id: 3, text: "Item / idea 3", key: "A" },
-      { id: 4, text: "Item / idea 4", key: "B" },
+      { id: 1, text: "25 percent", key: "C" },
+      { id: 2, text: "9 percent", key: "D" },
+      { id: 3, text: "68 percent", key: "A" },
+      { id: 4, text: "53 percent", key: "B" },
     ],
     options: [
-      { id: "A", text: "Option A" },
-      { id: "B", text: "Option B" },
-      { id: "C", text: "Option C" },
-      { id: "D", text: "Option D" },
+      { id: "A", text: "just over two-thirds" },
+      { id: "B", text: "approximately half" },
+      { id: "C", text: "exactly a quarter" },
+      { id: "D", text: "a little less than a tenth" },
     ],
+    tip: "Convert fractions to percentages: a quarter = 25%, half ≈ 50%, two-thirds ≈ 67%, a tenth = 10%.",
   },
   reported2a: {
     badge: "2a",

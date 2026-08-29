@@ -431,7 +431,7 @@ export function MindsetFlowTrainer({
   ) => {
     if (!passage) {
       return (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           {body}
         </section>
       );
@@ -454,7 +454,7 @@ export function MindsetFlowTrainer({
     switch (p.kind) {
       case "intro":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             {(p.goals ?? data.unitGoals).length > 0 && (
               <>
                 <div className="ms-unit-goals">
@@ -630,7 +630,7 @@ export function MindsetFlowTrainer({
         );
       case "oddOut":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -726,7 +726,7 @@ export function MindsetFlowTrainer({
         );
       case "writing":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -785,7 +785,7 @@ export function MindsetFlowTrainer({
         );
       case "keysOnly":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -807,7 +807,7 @@ export function MindsetFlowTrainer({
         );
       case "speak":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>
@@ -855,7 +855,7 @@ export function MindsetFlowTrainer({
         );
       case "reveal":
         return (
-          <section className="read-m3__panel" style={{ overflow: "auto" }}>
+          <section className="read-m3__panel">
             <p className="read-m3__instr">
               {p.badge && (
                 <span className="write-m2a__badge">{p.badge}</span>

@@ -245,19 +245,19 @@ export function ReviewM5Trainer({
             {data.match1d.instruction}
           </p>
           <div className="read-m3__bank">
-            {["A", "B", "C", "D"].map((L) => (
+            {data.match1d.options.map((o) => (
               <button
-                key={L}
+                key={o.id}
                 type="button"
-                className={`pr-chip ${picked === L ? "pr-chip--picked" : ""}`}
-                disabled={checked}
-                onClick={() => setPicked(L)}
+                className={`pr-chip ${picked === o.id ? "pr-chip--picked" : ""} ${used.has(o.id) ? "pr-chip--used" : ""}`}
+                disabled={checked || used.has(o.id)}
+                onClick={() => setPicked(o.id)}
               >
-                {L}
+                {o.id}. {o.text}
               </button>
             ))}
           </div>
-          <ul className="read-m3__para-slots">
+          <ul className="read-m3__para-slots listen-m3b__grid">
             {data.match1d.items.map((it) => {
               const val = answers[it.id] ?? "";
               const ok = val === it.key;
@@ -265,7 +265,7 @@ export function ReviewM5Trainer({
                 <li key={it.id}>
                   <span>
                     {it.id}. {it.text}
-                  </span>
+                  </span>{" "}
                   <button
                     type="button"
                     className={`read-m3__slot ${val ? "read-m3__slot--filled" : ""} ${checked ? (ok ? "read-m3__slot--ok" : "read-m3__slot--bad") : ""}`}
@@ -274,10 +274,16 @@ export function ReviewM5Trainer({
                   >
                     {val || "—"}
                   </button>
+                  {checked && !ok && (
+                    <span className="inline-gap-bad"> → {it.key}</span>
+                  )}
                 </li>
               );
             })}
           </ul>
+          {checked && data.match1d.tip && (
+            <p className="read-m3__tip">{data.match1d.tip}</p>
+          )}
         </section>
       )}
       {step === 4 && (

@@ -257,7 +257,7 @@ export function WritingU1Trainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <div className="ms-unit-goals">
           <p className="ms-unit-goals__title">In this unit you will learn how to</p>
           <ul className="ms-unit-goals__list">
@@ -349,7 +349,7 @@ export function WritingU1Trainer({
       )}
 
       {step === 1 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">
               {data.taskAchievement.badge}
@@ -431,7 +431,6 @@ export function WritingU1Trainer({
         <section className="read-m3__split">
           <article
             className="read-m3__passage"
-            style={{ overflow: "auto" }}
           >
             <p className="read-m3__instr">
               <span className="write-m2a__badge">{data.critique.badge}</span>
@@ -448,7 +447,7 @@ export function WritingU1Trainer({
               {data.critique.answer2}
             </p>
           </article>
-          <aside className="read-m3__side" style={{ overflow: "auto" }}>
+          <aside className="read-m3__side">
             <h2 className="read-m3__h">Match comments A–D</h2>
             <p className="write-m2a__cue">Click a comment, then a section (1–4).</p>
             <div className="pr-chip-bank">
@@ -496,7 +495,7 @@ export function WritingU1Trainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">
               {data.conclusions.badge}
@@ -540,7 +539,7 @@ export function WritingU1Trainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <h2 className="read-m3__h">{data.adjAdv.title}</h2>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.adjAdv.badge}</span>
@@ -681,7 +680,7 @@ export function WritingU1Trainer({
       )}
 
       {step === 5 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.exam.badge}</span>
             {data.exam.instruction}

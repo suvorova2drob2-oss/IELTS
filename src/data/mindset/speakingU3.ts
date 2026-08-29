@@ -24,18 +24,108 @@ export const speakingU3 = {
       kind: "mcq" as const,
       badge: "1",
       instruction:
-        "Yes / No / Not Sure quiz on Speaking strategies (AK). Tip: Part 2 notes should be key words only (e.g. Salvador Dalí — Catalunya, Surrealist, Persistence of Memory, proud).",
+        "Read these reactions to works of art. Do you think the person liked the art he/she was reacting to? Write Yes, No or Not Sure next to each one.",
       items: [
-        { id: "1", stem: "Item 1", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "NS" },
-        { id: "2", stem: "Item 2", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "Y" },
-        { id: "3", stem: "Item 3", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "Y" },
-        { id: "4", stem: "Item 4", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "NS" },
-        { id: "5", stem: "Item 5", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "Y" },
-        { id: "6", stem: "Item 6", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "N" },
-        { id: "7", stem: "Item 7", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "NS" },
-        { id: "8", stem: "Item 8", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "Y" },
-        { id: "9", stem: "Item 9", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "N" },
-        { id: "10", stem: "Item 10", options: [{ id: "Y", text: "Y" }, { id: "N", text: "N" }, { id: "NS", text: "NS" }], key: "N" },
+        {
+          id: "1",
+          stem: "I'm not sure what to make of this one.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "NS",
+        },
+        {
+          id: "2",
+          stem: "I can really relate to this.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "Y",
+        },
+        {
+          id: "3",
+          stem: "This is very powerful.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "Y",
+        },
+        {
+          id: "4",
+          stem: "I'm not sure what the artist is trying to convey.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "NS",
+        },
+        {
+          id: "5",
+          stem: "I like the simplicity of this.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "Y",
+        },
+        {
+          id: "6",
+          stem: "There's a bit too much going on.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "N",
+        },
+        {
+          id: "7",
+          stem: "I don't quite get the point of it.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "NS",
+        },
+        {
+          id: "8",
+          stem: "It evokes strong feelings of nostalgia/empathy/sadness.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "Y",
+        },
+        {
+          id: "9",
+          stem: "I wouldn't hang it on my wall. To be honest, it leaves me cold.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "N",
+        },
+        {
+          id: "10",
+          stem: "It's too abstract for my taste.",
+          options: [
+            { id: "Y", text: "Yes" },
+            { id: "N", text: "No" },
+            { id: "NS", text: "Not Sure" },
+          ],
+          key: "N",
+        },
       ],
     },
     {

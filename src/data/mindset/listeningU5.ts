@@ -6,7 +6,9 @@ export const MS_U5_LISTEN_STEPS = [
   "Select from list",
   "Attitude words",
   "Opinion MC",
-  "Exam matching",
+  "Tourist match",
+  "Petra topics",
+  "Petra water",
 ] as const;
 
 export const MS_U5_LISTEN_NEXT = [
@@ -14,7 +16,9 @@ export const MS_U5_LISTEN_NEXT = [
   "Select →",
   "Attitude →",
   "Opinion →",
-  "Exam →",
+  "Tourist →",
+  "Petra →",
+  "Water →",
   "← Back to unit",
 ] as const;
 
@@ -223,21 +227,132 @@ export const listeningU5: MindsetFlowData = {
       ],
     },
     {
-      kind: "keysOnly",
-      badge: "EXAM",
+      kind: "match",
+      badge: "12",
       instruction:
-        "Multiple matching — tourist attractions (1–5) and further keys (exam practice). Keys only.",
-      note: "keys",
-      bank: ["C", "A", "G", "E", "D", "B"],
-      items: [
-        { id: "1", label: "Madame Tussauds", key: "C" },
-        { id: "2", label: "Buckingham Palace", key: "A" },
-        { id: "3", label: "Westminster Abbey", key: "G" },
-        { id: "4", label: "The London Eye", key: "E" },
-        { id: "5", label: "The British Museum", key: "D" },
+        "What comments do the speakers make about the tourist attractions? Choose FIVE answers from the box and write the correct letter, A–G, next to questions 1–5. (Keys only — no audio.)",
+      tip: "Before you listen, think of different ways of paraphrasing each comment so you recognise it when speakers use other wording.",
+      bank: [
+        {
+          id: "A",
+          text: "It had previously had a display of real royal clothes.",
+        },
+        {
+          id: "B",
+          text: "Many famous artists are buried there.",
+        },
+        {
+          id: "C",
+          text: "It updates its exhibits from time to time.",
+        },
+        {
+          id: "D",
+          text: "It lived up to its reputation.",
+        },
+        {
+          id: "E",
+          text: "The queues were too long to get in.",
+        },
+        {
+          id: "F",
+          text: "It always has beautiful flower displays.",
+        },
+        {
+          id: "G",
+          text: "It has hosted many royal weddings.",
+        },
       ],
-      tip: "Answer key 12: 1 C 2 A 3 G 4 E 5 D · further 13: 1 C 2 E 3 B 4 D 5 G · 6/7 B, D",
+      items: [
+        { id: "1", stem: "Madame Tussauds", key: "C" },
+        { id: "2", stem: "Buckingham Palace", key: "A" },
+        { id: "3", stem: "Westminster Abbey", key: "G" },
+        { id: "4", stem: "The Tower of London", key: "E" },
+        { id: "5", stem: "The London Bridge Experience", key: "D" },
+      ],
     },
-
+    {
+      kind: "match",
+      badge: "EXAM 1–5",
+      instruction:
+        "What problem is associated with each of the topics Adrian is considering? Choose FIVE answers from the box and write the correct letter, A–G, next to questions 1–5.",
+      tip: "Underline key words in each problem option, then listen for paraphrases linked to History, Trade routes, Conflicts, Architecture and Modern life.",
+      bank: [
+        {
+          id: "A",
+          text: "Most people are not aware of this aspect.",
+        },
+        {
+          id: "B",
+          text: "It would involve too much investigative work.",
+        },
+        {
+          id: "C",
+          text: "It is too large a topic.",
+        },
+        {
+          id: "D",
+          text: "It could be too technical.",
+        },
+        {
+          id: "E",
+          text: "It might take the focus off Petra.",
+        },
+        {
+          id: "F",
+          text: "Most people would not be interested in this aspect.",
+        },
+        {
+          id: "G",
+          text: "Academically, it is an inappropriate topic.",
+        },
+      ],
+      items: [
+        { id: "1", stem: "History", key: "C" },
+        { id: "2", stem: "Trade routes", key: "E" },
+        { id: "3", stem: "Conflicts", key: "B" },
+        { id: "4", stem: "Architecture", key: "D" },
+        { id: "5", stem: "Modern life", key: "G" },
+      ],
+    },
+    {
+      kind: "mc",
+      badge: "EXAM 6–7",
+      instruction:
+        "Questions 6 and 7: Which TWO points about water management are NOT made by the speakers?",
+      tip: "Select the two points the speakers do not make — ignore options that are mentioned, even if paraphrased.",
+      multi: true,
+      multiKeys: {
+        "6": ["B", "D"],
+      },
+      items: [
+        {
+          id: "6",
+          stem: "Which TWO points about water management are NOT made by the speakers?",
+          options: [
+            {
+              id: "A",
+              text: "Petra's water management was more advanced than that in other comparable areas.",
+            },
+            {
+              id: "B",
+              text: "The topic of water management systems is very complex to understand.",
+            },
+            {
+              id: "C",
+              text: "In Petra the people knew how to get the most out of all the sources of water available to them.",
+            },
+            {
+              id: "D",
+              text: "The advantages of water management were enjoyed by all levels of society equally.",
+            },
+            {
+              id: "E",
+              text: "Watering crops was a top priority.",
+            },
+          ],
+          key: "B",
+        },
+      ],
+    },
   ],
 };

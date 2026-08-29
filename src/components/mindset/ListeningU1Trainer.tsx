@@ -371,7 +371,7 @@ export function ListeningU1Trainer({
       )}
 
       {step === 1 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="write-m2a__expert">{data.predict.tip}</p>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.predict.badge3}</span>
@@ -460,7 +460,7 @@ export function ListeningU1Trainer({
       )}
 
       {step === 2 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="write-m2a__expert">{data.form.tip}</p>
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.form.badge}</span>
@@ -514,7 +514,7 @@ export function ListeningU1Trainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.notHear.badge}</span>
             {data.notHear.instruction}
@@ -684,7 +684,7 @@ export function ListeningU1Trainer({
       )}
 
       {step === 5 && (
-        <section className="read-m3__panel" style={{ overflow: "auto" }}>
+        <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.exam.badge}</span>
             {data.exam.instruction}
