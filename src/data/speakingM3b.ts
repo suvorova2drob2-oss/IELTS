@@ -50,6 +50,20 @@ export const speakingM3b = {
     badge: "1",
     instruction:
       "What social problem does this photo show? To what extent do you think it can cause health problems? What other social problems have negative effects on people's health?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "The photo appears to show social isolation or loneliness, which is an increasingly common issue in modern cities. People who lack regular social contact may feel anxious or depressed, and over time this can harm both mental and physical health.",
+      "To a large extent, isolation can contribute to poor sleep, weaker immune function and unhealthy habits such as overeating or inactivity. Other social problems that damage health include poverty, long-term unemployment, overcrowded housing and limited access to healthcare.",
+      "Addressing these issues requires community support, affordable housing and public health policies that help people stay connected and get medical advice early.",
+    ],
+    languageFocus: [
+      "To a large extent",
+      "contribute to",
+      "social isolation",
+      "mental and physical health",
+      "public health policies",
+      "stay connected",
+    ],
   },
   gapFill: {
     badge: "2",
@@ -126,6 +140,20 @@ export const speakingM3b = {
       "How can these health issues be addressed?",
       "Do richer countries have a responsibility to help poorer countries in terms of health? Why/Why not?",
       "How do you think health issues have changed over time?",
+    ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "The most important health issues today include mental health, obesity and unequal access to treatment. These problems affect productivity and quality of life across society.",
+      "They can be addressed through prevention campaigns, better funding for primary care and education about diet and exercise. Richer countries do have some responsibility to support poorer nations, for example by sharing vaccines and medical training, because infectious disease does not stop at borders.",
+      "Over time, health issues have shifted from mainly infectious diseases towards chronic and lifestyle-related conditions, so long-term prevention is now more important than ever.",
+    ],
+    languageFocus: [
+      "unequal access",
+      "quality of life",
+      "prevention campaigns",
+      "primary care",
+      "chronic",
+      "lifestyle-related",
     ],
   },
   part3b: {

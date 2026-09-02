@@ -28,6 +28,20 @@ export const writingM3b = {
     badge: "1",
     instruction:
       "What do you think the statement above means? How can we teach people to avoid illness?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "The statement suggests that prevention is more powerful than treatment. In other words, if people learn healthy habits, they may need far less medical intervention later.",
+      "We can teach people to avoid illness through school health education, clear public campaigns and affordable access to exercise and nutritious food. Regular check-ups and early advice also help people notice problems before they become serious.",
+      "Ultimately, the goal is to make healthy choices the easy option, so individuals take responsibility for their wellbeing rather than relying only on doctors to ‘fix’ every problem.",
+    ],
+    languageFocus: [
+      "In other words",
+      "Ultimately",
+      "prevention",
+      "medical intervention",
+      "public campaigns",
+      "take responsibility",
+    ],
   },
   understand: {
     badge: "2a",

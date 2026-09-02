@@ -7,6 +7,7 @@ import {
   speakingM3b,
   type SpeakGapBit,
 } from "../data/speakingM3b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM3b;
 const GAP_IDS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
@@ -158,13 +159,15 @@ export function SpeakingM3bTrainer({
           <figure className="speak-m3a__hero">
             <img src={data.image} alt={data.imageAlt} />
           </figure>
-          <div className="speak-m3a__quiz">
-            <p className="speak-m3a__instr">
-              <span className="write-m2a__badge">{data.leadIn.badge}</span>
-              {data.leadIn.instruction}
-            </p>
-            <p className="write-m2a__cue">Discuss with a partner</p>
-          </div>
+          <ExpertDiscussPanel
+            key="lead-in"
+            variant="panel"
+            badge={data.leadIn.badge}
+            instruction={data.leadIn.instruction}
+            suggestedTitle={data.leadIn.suggestedTitle}
+            suggestedAnswer={data.leadIn.suggestedAnswer}
+            languageFocus={data.leadIn.languageFocus}
+          />
         </section>
       )}
 
@@ -206,18 +209,15 @@ export function SpeakingM3bTrainer({
       )}
 
       {step === 2 && (
-        <section className="speak-m3a__panel">
-          <p className="speak-m3a__instr">
-            <span className="write-m2a__badge">{data.part3a.badge}</span>
-            {data.part3a.instruction}
-          </p>
-          <ol className="speak-m3a__tech">
-            {data.part3a.list1.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <p className="write-m2a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="part3a"
+          badge={data.part3a.badge}
+          instruction={data.part3a.instruction}
+          questions={data.part3a.list1}
+          suggestedTitle={data.part3a.suggestedTitle}
+          suggestedAnswer={data.part3a.suggestedAnswer}
+          languageFocus={data.part3a.languageFocus}
+        />
       )}
 
       {step === 3 && (

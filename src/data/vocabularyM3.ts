@@ -199,6 +199,21 @@ export const vocabularyM3 = {
       "Which aspects of healthcare should be a priority in society? Why?",
       "What are the main challenges in our everyday lives?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "In developing nations, the biggest threats often include infectious disease, limited access to clean water and insufficient medical facilities. Poverty can also make healthy food and treatment hard to afford.",
+      "By contrast, developed countries tend to face more lifestyle-related problems such as obesity, stress and chronic illness. Healthcare systems may be better funded, yet inequality and long waiting times still exist.",
+      "I would prioritise prevention: vaccination, health education and early screening. In everyday life, people also struggle with poor sleep, work pressure and unbalanced diets, so practical support for healthy routines is essential.",
+    ],
+    languageFocus: [
+      "By contrast",
+      "tend to",
+      "lifestyle-related",
+      "I would prioritise",
+      "infectious disease",
+      "chronic illness",
+      "prevention",
+    ],
   },
   idioms: {
     badge: "4a",

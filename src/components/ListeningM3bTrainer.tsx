@@ -5,6 +5,7 @@ import {
   LISTEN_M3B_STEPS,
   listeningM3b,
 } from "../data/listeningM3b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = listeningM3b;
 
@@ -207,21 +208,17 @@ export function ListeningM3bTrainer({
           <figure className="listen-m3b__hero">
             <img src={data.before.image} alt={data.before.imageAlt} />
           </figure>
-          <div className="listen-m3b__lead-main">
-            <h2 className="listen-m3b__h">{data.before.heading}</h2>
-            <p className="listen-m3b__instr">
-              <span className="write-m2a__badge">{data.before.badge}</span>
-              {data.before.instruction}
-            </p>
-            <div className="listen-m3b__bank">
-              {data.before.treatments.map((t) => (
-                <span key={t} className="listen-m3b__tag">
-                  {t}
-                </span>
-              ))}
-            </div>
-            <p className="listen-m3b__cue">Discuss with a partner</p>
-          </div>
+          <ExpertDiscussPanel
+            key="before-listen"
+            variant="panel"
+            heading={data.before.heading}
+            badge={data.before.badge}
+            instruction={data.before.instruction}
+            options={data.before.treatments}
+            suggestedTitle={data.before.suggestedTitle}
+            suggestedAnswer={data.before.suggestedAnswer}
+            languageFocus={data.before.languageFocus}
+          />
         </section>
       )}
 

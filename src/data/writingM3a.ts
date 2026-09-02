@@ -34,6 +34,21 @@ export const writingM3a = {
       "What activities do you do that make you happy?",
       "Why might being part of a community make people feel happier? Why might it not?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Personally, I feel happiest when I am outdoors — walking in a park, cycling or meeting friends for coffee. These activities help me switch off from work and restore my energy.",
+      "Being part of a community can increase happiness because it gives people a sense of belonging and mutual support. For example, neighbours who know each other can share advice and reduce loneliness.",
+      "On the other hand, community life may not suit everyone. Some people find group expectations stressful, or they may prefer quieter, more private routines. Overall, community support helps many people, but personal preference still matters.",
+    ],
+    languageFocus: [
+      "Personally",
+      "For example",
+      "On the other hand",
+      "Overall",
+      "sense of belonging",
+      "mutual support",
+      "restore my energy",
+    ],
   },
   structures: {
     badge: "2",

@@ -4,6 +4,7 @@ import {
   WRITE_M3A_STEPS,
   writingM3a,
 } from "../data/writingM3a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 import { WordCountMeter, countWords } from "./WordCountMeter";
 
 const data = writingM3a;
@@ -238,21 +239,16 @@ export function WritingM3aTrainer({
       </div>
 
       {step === 0 && (
-        <section className="write-m3a__panel write-m3a__panel--lead">
-          <p className="write-m3a__instr">
-            <span className="write-m3a__badge">{data.leadIn.badge}</span>
-            <strong>{data.leadIn.heading}</strong> — {data.leadIn.instruction}
-          </p>
-          <ol className="write-m3a__qlist">
-            {data.leadIn.questions.map((q, i) => (
-              <li key={i}>
-                <span className="write-m3a__qn">{i + 1}</span>
-                <span>{q}</span>
-              </li>
-            ))}
-          </ol>
-          <p className="write-m3a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="lead-in"
+          heading={data.leadIn.heading}
+          badge={data.leadIn.badge}
+          instruction={data.leadIn.instruction}
+          questions={data.leadIn.questions}
+          suggestedTitle={data.leadIn.suggestedTitle}
+          suggestedAnswer={data.leadIn.suggestedAnswer}
+          languageFocus={data.leadIn.languageFocus}
+        />
       )}
 
       {step === 1 && (

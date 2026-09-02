@@ -28,6 +28,23 @@ export const readingM3b = {
       "To what extent do you follow these guidelines, and why?",
       "What other advice and support is available to help you look after your health? Think about regular medical checks, access to advice on improving your diet, availability of preventive medicine, exercise classes and sports clubs, etc.",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Yes — in my country there are official guidelines such as recommended portions of fruit and vegetables, limits on sugar and salt, and advice to reduce processed food. Broadly speaking, these recommendations are widely promoted in schools and on public-health websites.",
+      "I try to follow them to a reasonable extent, especially by eating more vegetables and cutting back on sugary drinks. However, I do not follow every rule strictly, because busy days make convenience food tempting and some guidelines can feel hard to apply in everyday life.",
+      "Apart from diet advice, people can get support through regular medical check-ups, pharmacy consultations, preventive vaccines, gyms and community exercise classes. In addition, online resources and sports clubs make it easier to stay active and get practical health tips.",
+    ],
+    languageFocus: [
+      "Broadly speaking",
+      "to a reasonable extent",
+      "However",
+      "Apart from",
+      "In addition",
+      "public-health",
+      "processed food",
+      "preventive",
+      "convenience food",
+    ],
   },
   passage: [
     {

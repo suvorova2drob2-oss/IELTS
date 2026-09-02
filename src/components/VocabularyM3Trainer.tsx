@@ -5,6 +5,7 @@ import {
   VOCAB_M3_STEPS,
   vocabularyM3,
 } from "../data/vocabularyM3";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = vocabularyM3;
 
@@ -368,18 +369,15 @@ export function VocabularyM3Trainer({
       )}
 
       {step === 3 && (
-        <section className="vocab-m3__panel">
-          <p className="vocab-m3__instr">
-            <span className="write-m2a__badge">{data.discuss.badge}</span>
-            {data.discuss.instruction}
-          </p>
-          <ol className="vocab-m3__qs">
-            {data.discuss.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <p className="write-m2a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss"
+          badge={data.discuss.badge}
+          instruction={data.discuss.instruction}
+          questions={data.discuss.questions}
+          suggestedTitle={data.discuss.suggestedTitle}
+          suggestedAnswer={data.discuss.suggestedAnswer}
+          languageFocus={data.discuss.languageFocus}
+        />
       )}
 
       {step === 4 && (

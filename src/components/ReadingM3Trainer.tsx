@@ -170,19 +170,16 @@ export function ReadingM3Trainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel">
-          <h2 className="read-m3__h">{data.beforeYouRead.heading}</h2>
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.beforeYouRead.badge}</span>
-            {data.beforeYouRead.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.beforeYouRead.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <p className="write-m2a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="before-you-read"
+          heading={data.beforeYouRead.heading}
+          badge={data.beforeYouRead.badge}
+          instruction={data.beforeYouRead.instruction}
+          questions={data.beforeYouRead.questions}
+          suggestedTitle={data.beforeYouRead.suggestedTitle}
+          suggestedAnswer={data.beforeYouRead.suggestedAnswer}
+          languageFocus={data.beforeYouRead.languageFocus}
+        />
       )}
 
       {step === 1 && (
@@ -311,56 +308,62 @@ export function ReadingM3Trainer({
               Questions 1–4
             </p>
             <p className="read-m3__hint">{data.exam.headingsInstr}</p>
-            <div className="read-m3__bank">
-              {data.headings.map((h) => {
-                const used = usedHeads.has(h.id);
-                return (
-                  <button
-                    key={h.id}
-                    type="button"
-                    className={`pr-chip ${pickedHead === h.id ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
-                    disabled={checked || used}
-                    onClick={() => setPickedHead(h.id)}
-                    title={h.text}
-                  >
-                    {h.id}
-                  </button>
-                );
-              })}
-            </div>
-            <ul className="read-m3__head-full">
-              {data.headings.map((h) => (
-                <li key={h.id}>
-                  <strong>{h.id}</strong> {h.text}
-                </li>
-              ))}
-            </ul>
-            <ul className="read-m3__para-slots">
+            <p className="read-m3__place-hint">
+              {pickedHead
+                ? `Selected ${pickedHead} — now click Paragraph A, B, C or D`
+                : "Click a heading (i–vii), then click a paragraph gap below. Click a filled gap to undo."}
+            </p>
+            <ul className="read-m3__para-slots read-m3__para-slots--match">
               {PARAS.map((p, i) => {
                 const val = paraHeads[p];
                 const ok = val === data.exam.paragraphKeys[p];
-                let cls = "read-m3__slot";
-                if (val) cls += " read-m3__slot--filled";
-                if (pickedHead && !val) cls += " read-m3__slot--ready";
-                if (checked) cls += ok ? " read-m3__slot--ok" : " read-m3__slot--bad";
+                const headText = data.headings.find((h) => h.id === val)?.text;
+                let cls = "read-m3__para-gap";
+                if (val) cls += " read-m3__para-gap--filled";
+                if (pickedHead && !val) cls += " read-m3__para-gap--ready";
+                if (checked)
+                  cls += ok ? " read-m3__para-gap--ok" : " read-m3__para-gap--bad";
                 return (
                   <li key={p}>
-                    <span>
-                      {i + 1}. Paragraph {p}
-                    </span>
                     <button
                       type="button"
                       className={cls}
                       disabled={checked}
                       onClick={() => placeHead(p)}
+                      title={headText}
                     >
-                      {val ?? "—"}
-                    </button>
-                    {checked && !ok && (
-                      <span className="inline-gap-bad">
-                        → {data.exam.paragraphKeys[p]}
+                      <span className="read-m3__para-gap-label">
+                        {i + 1}. Paragraph {p}
                       </span>
-                    )}
+                      <span className="read-m3__para-gap-val">
+                        {val ?? "—"}
+                      </span>
+                      {checked && !ok && (
+                        <span className="read-m3__para-gap-key">
+                          → {data.exam.paragraphKeys[p]}
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="read-m3__subhead">List of headings</p>
+            <ul className="read-m3__head-pick">
+              {data.headings.map((h) => {
+                const used = usedHeads.has(h.id);
+                const picked = pickedHead === h.id;
+                return (
+                  <li key={h.id}>
+                    <button
+                      type="button"
+                      className={`read-m3__head-pick-btn ${picked ? "read-m3__head-pick-btn--picked" : ""} ${used ? "read-m3__head-pick-btn--used" : ""}`}
+                      disabled={checked || used}
+                      onClick={() => setPickedHead(picked ? null : h.id)}
+                    >
+                      <strong>{h.id}</strong>
+                      <span>{h.text}</span>
+                    </button>
                   </li>
                 );
               })}

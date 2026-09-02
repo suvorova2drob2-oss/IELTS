@@ -4,6 +4,7 @@ import {
   WRITE_M3B_STEPS,
   writingM3b,
 } from "../data/writingM3b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 import { WordCountMeter, countWords } from "./WordCountMeter";
 
 const data = writingM3b;
@@ -188,14 +189,16 @@ export function WritingM3bTrainer({
       </div>
 
       {step === 0 && (
-        <section className="write-m3a__panel write-m3a__panel--lead">
-          <blockquote className="write-m3a__title-box">{data.quote}</blockquote>
-          <p className="write-m3a__instr">
-            <span className="write-m3a__badge">{data.leadIn.badge}</span>
-            {data.leadIn.instruction}
-          </p>
-          <p className="write-m3a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="lead-in"
+          badge={data.leadIn.badge}
+          instruction={data.leadIn.instruction}
+          suggestedTitle={data.leadIn.suggestedTitle}
+          suggestedAnswer={data.leadIn.suggestedAnswer}
+          languageFocus={data.leadIn.languageFocus}
+        >
+          <blockquote className="ex-discuss__quote">{data.quote}</blockquote>
+        </ExpertDiscussPanel>
       )}
 
       {step === 1 && (

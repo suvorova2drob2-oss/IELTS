@@ -52,6 +52,22 @@ export const listeningM3b = {
     image: headacheImg,
     imageAlt:
       "Woman holding her temples with her eyes closed, as if she has a headache.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I would argue that conventional medicine is often the most effective option for serious illness because treatments are tested through clinical research. A clear advantage is reliability; the main drawback is that some medicines have side effects.",
+      "Herbs, acupuncture and dietary changes can be useful for milder conditions or as complementary approaches. They may feel more natural and have fewer side effects, but the evidence is sometimes weaker and results can vary from person to person.",
+      "Homeopathy is more controversial: some people report benefits, yet many scientists question whether it works beyond a placebo effect. Overall, I would combine evidence-based medicine with lifestyle improvements such as diet and stress management.",
+    ],
+    languageFocus: [
+      "I would argue that",
+      "A clear advantage",
+      "complementary approaches",
+      "more controversial",
+      "Overall",
+      "evidence-based medicine",
+      "side effects",
+      "placebo effect",
+    ],
   },
   wrongAnswers: {
     badge: "2",
