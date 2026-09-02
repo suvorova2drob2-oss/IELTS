@@ -1,24 +1,20 @@
 import campImg from "../assets/listen-m2b-camp.png";
-
-const AUDIO_02_04 =
-  "https://storage.yandexcloud.net/cpeaudio/IELTS/unit%201/Expert%20IELTS_Cbk_7_5%20Track%2002_04.mp3";
+import { EXPERT_M2_AUDIO } from "./expertAudio";
 
 export const LEARN_STEPS_L2B = [
   "Before you listen",
   "2a Script",
   "2b Correct errors",
-  "3 Form 1–5",
-  "3 Map 6–10",
+  "3 Test practice 1–10",
   "5 Discussion",
 ] as const;
 
 export const LEARN_STEP_NEXT_L2B: Record<number, string> = {
   0: "2a Script →",
   1: "2b Correct errors →",
-  2: "3 Form →",
-  3: "3 Map →",
-  4: "5 Discussion →",
-  5: "← К модулю",
+  2: "3 Test →",
+  3: "5 Discussion →",
+  4: "← К модулю",
 };
 
 function normalize(s: string): string {
@@ -52,6 +48,24 @@ export const listeningM2b = {
       "Breeding programmes",
       "Reducing human contact",
       "Controlling invasive species",
+    ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "From my perspective, creating national parks is the most effective option because habitat preservation tackles the underlying cause of species decline. To begin with, a protected area safeguards an entire ecosystem, so numerous species can recover rather than just one animal being protected in isolation.",
+      "Moreover, controlling invasive species should form part of the same strategy. Non-native predators and plants can seriously disrupt biodiversity, even in a protected habitat; therefore, active monitoring and removal programmes are essential.",
+      "By contrast, captive-breeding programmes are valuable in emergencies, but they are expensive and do not solve habitat loss. Reducing human contact may also help, although it is difficult to enforce. Overall, I would prioritise national parks together with invasive-species control as the most viable long-term approach.",
+    ],
+    languageFocus: [
+      "From my perspective",
+      "To begin with",
+      "Moreover",
+      "therefore",
+      "By contrast",
+      "Overall",
+      "habitat preservation",
+      "underlying cause",
+      "biodiversity",
+      "viable long-term approach",
     ],
   },
   script: {
@@ -153,7 +167,7 @@ export const listeningM2b = {
   test: {
     badge: "3",
     instruction: "Listen and complete the test task.",
-    audio: AUDIO_02_04,
+    audio: EXPERT_M2_AUDIO.track02_04,
     audioLabel: "Track 02_04",
     formTitle: "Turtle Bay Safari Camp · Customer registration form",
     formInstr:
@@ -222,6 +236,12 @@ export const listeningM2b = {
     heading: "Discussion",
     instruction:
       "Do you think conservation efforts are making a positive change? Why/Why not?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "On balance, I’d say yes — conservation efforts are making a positive change, even if progress is slower than we’d like.",
+      "National parks and breeding programmes have clearly helped some endangered species recover. For example, protected areas reduce hunting and habitat destruction, and captive breeding has brought animals like the giant panda back from the brink.",
+      "That said, climate change and invasive species are still serious threats, so we can’t afford to be complacent. Overall, though, the situation would almost certainly be worse without these initiatives.",
+    ],
   },
 };
 

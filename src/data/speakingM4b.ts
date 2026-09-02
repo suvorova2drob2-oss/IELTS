@@ -136,11 +136,10 @@ export const speakingM4b = {
       "Is the world becoming more materialistic? Why?",
       "In what ways might materialism be beneficial, and in what ways is it negative?",
     ],
-    suggested: [
-      "People may spend more money than they intended to or could afford to. Buying brand names drives the idea of competing with others for status but could lead people into debt.",
-      "No, I think people are successful because they are happy rather than because of their possessions. Many people with lots of possessions are deeply unhappy in life.",
-      "I think the entire world is becoming more materialistic because the opportunities for consumption have risen everywhere in recent years.",
-      "Materialism might be beneficial because it creates employment. However, it is negative because it is not the most important aspect of life and may bring out the worst in people.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Materialism can cause serious problems for individuals and society. People may spend more money than they intended or could afford, driven by the desire to compete with others for status through brand names — and this can lead to debt and anxiety. I do not think people are successful because of their possessions; many wealthy individuals are deeply unhappy, whereas contentment often comes from relationships and purpose rather than ownership.",
+      "I believe the world is becoming more materialistic because opportunities for consumption have risen everywhere — advertising, online shopping and social media constantly encourage us to want more. Materialism can be beneficial in that it creates employment and drives innovation, but it is negative when it becomes the most important aspect of life and brings out competitiveness and dissatisfaction in people.",
     ],
   },
   pronunciation4: {

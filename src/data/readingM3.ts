@@ -185,6 +185,12 @@ export const readingM3 = {
       "What are the advantages and disadvantages of living in the city and the countryside?",
       "What aspects of modern life can cause stress? What strategies are useful for managing it?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Being in the countryside can help people feel better because the air is cleaner, noise levels are lower, and green spaces have a calming effect. I'd recommend walking, cycling, or simply sitting outside — activities that let you slow down and notice nature rather than rushing through a schedule.",
+      "Cities offer convenience: better transport, more jobs, and richer cultural life. However, they can feel crowded, expensive, and stressful. The countryside is quieter and often healthier, but access to services and employment can be limited, and some people find it isolating.",
+      "Modern life creates stress through long working hours, constant digital notifications, financial pressure, and the feeling that we must always be productive. Useful strategies include regular exercise, setting boundaries on phone use, talking problems through with friends, and making time for hobbies that are genuinely relaxing.",
+    ],
   },
 };
 

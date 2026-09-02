@@ -142,6 +142,10 @@ export const readingM10b = {
     questions: [
       "In which areas do you think we are most likely to see scientific progress over the next 50 years?",
     ],
-    tip: "Suggested: In the areas of space/astronomy and medicine.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I think we are most likely to see major progress in medicine and space exploration. Advances in genetics and personalised treatment could extend healthy lifespans, while improved telescopes and missions may reveal more about other planets.",
+      "Astronomy and medical research both benefit from international cooperation and heavy investment, which makes breakthroughs more probable. Artificial intelligence may also accelerate discoveries by analysing vast datasets that humans alone could not process.",
+    ],
   },
 };

@@ -1,6 +1,7 @@
 import bungeeImg from "../assets/listen-m2a-bungee.png";
 import mapImg from "../assets/listen-m2a-map.png";
 import campImg from "../assets/listen-m2a-camp.png";
+import { EXPERT_M2_AUDIO } from "./expertAudio";
 
 export const LEARN_STEPS_L2A = [
   "Before you listen",
@@ -22,11 +23,8 @@ export const LEARN_STEP_NEXT_L2A: Record<number, string> = {
   6: "← К модулю",
 };
 
-const AUDIO_02_02 =
-  "https://storage.yandexcloud.net/cpeaudio/IELTS/unit%201/SRB_7_5_Tr02_02.mp3";
-
-const AUDIO_02_03 =
-  "https://storage.yandexcloud.net/cpeaudio/IELTS/unit%201/SRB_7_5_Tr02_03.mp3";
+const AUDIO_02_02 = EXPERT_M2_AUDIO.track02_02;
+const AUDIO_02_03 = EXPERT_M2_AUDIO.track02_03;
 
 function normalizePlace(s: string): string {
   return s
@@ -112,7 +110,7 @@ export const listeningM2a = {
     instruction:
       "Listen to two people describing their walks. Where do they go? Write the names of places they walk to.",
     audio: AUDIO_02_02,
-    audioLabel: "SRB Track 02_02",
+    audioLabel: "Track 02_02",
     columns: [
       {
         name: "Robert",
@@ -196,7 +194,7 @@ export const listeningM2a = {
     badge: "6b",
     instruction: "Listen and complete the test task.",
     audio: AUDIO_02_03,
-    audioLabel: "SRB Track 02_03",
+    audioLabel: "Track 02_03",
     taskHeader: "Questions 1–4",
     taskInstr:
       "Label the map below. Write the correct letter, A–E, next to questions 1–4.",

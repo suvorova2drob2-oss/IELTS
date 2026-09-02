@@ -55,6 +55,12 @@ export const speakingM1b = {
   step1c: {
     instruction:
       "What big decisions have you had to make in your life? Choose ONE and describe the decision-making process to your partner. Use the vocabulary in Exercise 1b.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "One of the biggest decisions I've had to make was choosing which university to attend. I had to draw up a list of criteria — course quality, location and cost — and consider each option carefully.",
+      "I took my time rather than rushing into a choice. I talked to teachers, came to a shortlist of three universities and finally reached a decision after visiting two campuses.",
+      "Looking back, I'm glad I resolved to prioritise the course content over the city lifestyle. It was stressful at the time, but the structured process helped me feel confident about the outcome.",
+    ],
   },
   stepTest: {
     heading: "Test practice",

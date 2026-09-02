@@ -157,5 +157,11 @@ export const readingM4b = {
       "Our belongings play an important role in bolstering our sense of identity.",
       "Our materialistic desires are usually dictated not by what we need, but by what those around us possess.",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I largely agree with the first statement. When someone buys a new phone or designer bag, they often hope it will signal success or taste, not just function. In my experience, social media has intensified this — people post purchases partly to impress others.",
+      "The second statement also rings true. The excitement of a new gadget fades quickly, and daily life feels much the same afterwards. We adapt to what we own, so the promised transformation rarely lasts.",
+      "I would agree that belongings can reinforce identity — clothes, books, and hobbies all say something about who we are. However, I think character and relationships matter more in the long run than possessions alone.",
+    ],
   },
 };

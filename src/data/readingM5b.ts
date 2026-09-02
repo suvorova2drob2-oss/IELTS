@@ -157,5 +157,11 @@ export const readingM5b = {
       "In what other kinds of places might people make their homes in the future?",
       "Do you think there might be a move towards living in communities rather than in separate houses? What could be the benefits of this way of living?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I'd find living under the sea fascinating but also claustrophobic. The views would be unique, yet I'd worry about safety, limited sunlight, and feeling cut off from normal outdoor life.",
+      "People might build homes in extreme environments such as deserts, polar regions, or even on other planets if technology advances. Floating cities and high-rise urban pods could also become more common as land becomes scarce.",
+      "There may well be a shift towards communal living, especially among young professionals who cannot afford separate houses. Benefits include lower costs, shared facilities, and stronger social networks, though privacy could suffer.",
+    ],
   },
 };

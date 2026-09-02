@@ -247,5 +247,11 @@ export const readingM8a = {
       "How might society prevent crime if some risk factors are biological?",
       "Do you think free will is compatible with brain science? Why / Why not?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Biological evidence might reduce a sentence when it shows the offender had impaired control through no fault of their own, such as a brain injury. However, it should not become an excuse for all violent crime — courts still need to protect the public.",
+      "Society could focus on early intervention: better nutrition, mental-health support, and programmes for at-risk young people. Prevention through education and rehabilitation may be more effective than relying on punishment alone.",
+      "Brain science suggests our choices are influenced by biology, yet we still experience ourselves as making decisions. I think free will is partly compatible — we have responsibility within limits, even if those limits are shaped by the brain.",
+    ],
   },
 };

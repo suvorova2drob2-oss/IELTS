@@ -4,6 +4,7 @@ import {
   SPEAK_M6A_STEPS,
   speakingM6a,
 } from "../data/speakingM6a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM6a;
 
@@ -73,7 +74,7 @@ export function SpeakingM6aTrainer({
   };
 
   const goNext = () => {
-    if ((step === 0 || step === 2 || step === 4 || step === 5) && !showTip) {
+    if ((step === 0 || step === 4 || step === 5) && !showTip) {
       setShowTip(true);
       return;
     }
@@ -92,7 +93,7 @@ export function SpeakingM6aTrainer({
   };
 
   const nextLabel =
-    (step === 0 || step === 2 || step === 4 || step === 5) && !showTip
+    (step === 0 || step === 4 || step === 5) && !showTip
       ? "Show tip →"
       : needsCheck && !checked
         ? "Check →"
@@ -188,18 +189,14 @@ export function SpeakingM6aTrainer({
       )}
 
       {step === 2 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discuss2b.badge}</span>
-            {data.discuss2b.instruction}
-          </p>
-          <ul className="read-m3__qs">
-            {data.discuss2b.topics.map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-          {showTip && <p className="read-m3__tip">{data.discuss2b.tip}</p>}
-        </section>
+        <ExpertDiscussPanel
+          key="discuss2b"
+          badge={data.discuss2b.badge}
+          instruction={data.discuss2b.instruction}
+          topics={data.discuss2b.topics}
+          suggestedTitle={data.discuss2b.suggestedTitle}
+          suggestedAnswer={data.discuss2b.suggestedAnswer}
+        />
       )}
 
       {step === 3 && (

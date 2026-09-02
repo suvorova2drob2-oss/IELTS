@@ -160,5 +160,10 @@ export const readingM4a = {
       "How do you think people might be persuaded to change their mindsets and be convinced to be part of a 'sharing' system?",
       "What problems or drawbacks might occur with a 'sharing' economy and how might they be resolved?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "People might be persuaded if sharing is shown to save money and reduce waste. Clear apps, insurance, and good reviews could build trust, and campaigns that highlight environmental benefits may appeal to younger consumers who already value sustainability.",
+      "Drawbacks include unreliable service, damage to shared items, and privacy concerns when strangers use your belongings. These could be resolved through verified user profiles, deposit systems, and strict quality standards enforced by the platform.",
+    ],
   },
 };

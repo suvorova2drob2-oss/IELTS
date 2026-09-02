@@ -48,6 +48,12 @@ export const writingM2a = {
     badge: "1",
     instruction:
       "What do you think is the greatest invention in your lifetime? Why?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I'd say the smartphone is probably the greatest invention in my lifetime, mainly because it has transformed the way we communicate, work and access information.",
+      "Before smartphones, you couldn't video-call family abroad, manage your bank account or find directions instantly from one device. That level of convenience has changed everyday life for millions of people.",
+      "Of course, there are downsides like distraction and privacy concerns, but overall I think the benefits — especially for education and staying connected — outweigh the negatives.",
+    ],
   },
   diagram: {
     badge: "2a",
@@ -196,6 +202,13 @@ export const writingM2a = {
     badge: "c",
     instruction:
       "Work in pairs. Think of a process that you are familiar with and describe it using the active and/or passive.",
+    cue: "Use active and/or passive",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "One process I'm very familiar with is making a cup of tea. First, the kettle is filled with water and switched on.",
+      "While the water is being heated, a teabag is placed in a mug. When the water has boiled, it is poured over the teabag and the tea is left to brew for two or three minutes.",
+      "Finally, the teabag is removed and milk or sugar can be added if desired. The whole process takes about five minutes from start to finish.",
+    ],
   },
   write: {
     badge: "4a–4b",

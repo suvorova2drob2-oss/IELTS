@@ -6,6 +6,7 @@ import {
   LANG_M2A_STEPS,
   languageM2a,
 } from "../data/languageM2a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = languageM2a;
 
@@ -296,21 +297,16 @@ export function LanguageM2aTrainer({
             <img src={data.discuss.image} alt={data.discuss.imageAlt} />
           </figure>
           <div className="lang-m2a__discuss-prompt">
-            <p className="lang-m2a__instr">
-              <span className="lang-m2a__badge">{data.discuss.badge}</span>
-              {data.discuss.instruction}
-            </p>
-            <ol className="lang-m2a__discuss-topics">
-              {data.discuss.topics.map((t, i) => (
-                <li key={i}>
-                  <span className="lang-m2a__discuss-n">{i + 1}</span>
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ol>
-            <p className="lang-m2a__discuss-cue">
-              Use the passive where appropriate
-            </p>
+            <ExpertDiscussPanel
+              key="discuss"
+              variant="panel"
+              badge={data.discuss.badge}
+              instruction={data.discuss.instruction}
+              topics={data.discuss.topics}
+              cue={data.discuss.cue}
+              suggestedTitle={data.discuss.suggestedTitle}
+              suggestedAnswer={data.discuss.suggestedAnswer}
+            />
           </div>
         </section>
       )}

@@ -306,11 +306,11 @@ export const readingM2: ReadingM2Data = {
       id: 8,
       question:
         "What physical problem resulted from the gruelling physical work of early farmers?",
-      answers: ["bone damage", "spinal conditions"],
+      answers: ["spinal conditions"],
       evidence: [
         "a rise in degenerative spinal conditions was the result of the gruelling physical work",
       ],
-      tip: "TB: bone damage (degenerative spinal conditions from hard physical work).",
+      tip: "spinal conditions — from the passage (degenerative spinal conditions). Max two words.",
       paragraphIndex: 6,
     },
     {

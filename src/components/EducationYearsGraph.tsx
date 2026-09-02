@@ -67,6 +67,7 @@ export function EducationYearsGraph({
         role="img"
         aria-label={title}
       >
+        <rect x={0} y={0} width={W} height={H} fill="#f7f1e6" />
         <rect
           x={pad.l}
           y={pad.t}

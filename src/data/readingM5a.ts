@@ -170,6 +170,12 @@ export const readingM5a = {
       "It is predicted that humanoid robots 'with a heart', which have already been introduced into some households in Japan, will soon become popular, in the same way as pets are in many places. How likely is it that they would become popular in your country?",
       "If humanoid robots were introduced into care homes for older people, what tasks might they be able to undertake? What might be the benefits and drawbacks of having such robots?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I enjoy science-fiction films when they explore ethical dilemmas rather than just action. I've seen films featuring robots such as Ex Machina and Wall-E, which raise questions about consciousness and dependence on technology.",
+      "In my country, companion robots might appeal to some elderly people living alone, but I doubt they would become as popular as pets. Many families still prefer real animals or human contact, and the cost could limit adoption.",
+      "Robots could remind residents to take medicine, serve meals, or provide basic conversation. Benefits include round-the-clock support and reduced loneliness; drawbacks include loss of human warmth, high maintenance costs, and concerns about privacy and reliability.",
+    ],
   },
   analyse: {
     tip: "For note completion: check how many words to write and that they are spelt correctly.",

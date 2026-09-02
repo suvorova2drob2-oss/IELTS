@@ -5,6 +5,7 @@ import {
   READ_M4B_STEPS,
   readingM4b,
 } from "../data/readingM4b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = readingM4b;
 const LETTERS = ["A", "B", "C", "D", "E", "F"] as const;
@@ -250,17 +251,14 @@ export function ReadingM4bTrainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.discussion.statements.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ol>
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          statements={data.discussion.statements}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <div

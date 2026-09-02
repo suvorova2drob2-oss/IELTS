@@ -140,5 +140,10 @@ export const readingM3b = {
       "What advice would you give to someone who wanted to become healthier?",
       "Do you think it is an individual's responsibility to look after their own health or should the government have a role in this? Give reasons to support your opinion.",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I'd advise them to start with small, sustainable changes rather than an extreme diet. They could gradually increase physical activity, eat more fruit and vegetables, and probably cut down on processed food. Getting enough sleep and drinking enough water might also make a noticeable difference.",
+      "Individuals must certainly take responsibility — no government can force someone to exercise or eat well. However, governments should create conditions that make healthy choices easier, such as safe cycling lanes, clear food labelling, and affordable healthcare. In my view, it has to be a shared effort.",
+    ],
   },
 };

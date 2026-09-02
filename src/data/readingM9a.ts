@@ -227,5 +227,11 @@ export const readingM9a = {
       "When is deep focus essential, and when might porous attention help creativity?",
       "How could workplaces reduce unnecessary distractions without stopping collaboration?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Multitasking is often a harmful habit disguised as productivity. Switching between tasks reduces accuracy and increases stress, even though it can feel efficient in the moment.",
+      "Deep focus is essential for surgery, proofreading, and any work where a single error has serious consequences. Porous attention may help creativity when brainstorming or making unexpected connections between ideas.",
+      "Workplaces could introduce quiet zones, limit unnecessary meetings, and encourage employees to turn off non-urgent notifications. Collaboration could be scheduled at set times rather than interrupting focused work throughout the day.",
+    ],
   },
 };

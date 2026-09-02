@@ -4,6 +4,7 @@ import {
   READ_M3_STEPS,
   readingM3,
 } from "../data/readingM3";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = readingM3;
 const PARAS = ["A", "B", "C", "D"] as const;
@@ -466,18 +467,15 @@ export function ReadingM3Trainer({
       )}
 
       {step === 5 && (
-        <section className="read-m3__panel">
-          <h2 className="read-m3__h">{data.discussion.heading}</h2>
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.discussion.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          heading={data.discussion.heading}
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          questions={data.discussion.questions}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <div

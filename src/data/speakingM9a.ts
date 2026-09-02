@@ -92,7 +92,12 @@ export const speakingM9a = {
       "What have you gone to great lengths to achieve?",
       "What can you achieve by putting your mind to it?",
     ],
-    tip: "Use rising intonation and slower pace when you need thinking time. Example: Mmm, that’s quite a difficult question…",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I was often creative as a child because I loved to collect objects from the natural world and turn them into pictures. I would use my vivid imagination to arrange leaves, stones and feathers, then add paint or writing to give the result a bit more artistic flair.",
+      "One hidden talent I had was making up stories — I could think laterally and solve problems in unusual ways, such as building a fort from furniture when we had no proper toys. As an adult, I try not to stifle creativity by sticking rigidly to routines.",
+      "When discussing these topics, use rising intonation and a slower pace when you need thinking time — phrases like ‘Mmm, that's quite a difficult question…' give you a moment to gather your ideas before answering fully.",
+    ],
   },
   structure3: {
     badge: "3a–3c",

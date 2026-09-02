@@ -4,6 +4,7 @@ import {
   READ_M7A_STEPS,
   readingM7a,
 } from "../data/readingM7a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = readingM7a;
 
@@ -37,7 +38,7 @@ export function ReadingM7aTrainer({
   }, [restart, initialStep]);
 
   const used = new Set(Object.values(answers));
-  const tipSteps = new Set([0, 1, 4]);
+  const tipSteps = new Set([0, 1]);
   const checkSteps = new Set([2, 3]);
 
   const place = (id: number) => {
@@ -280,20 +281,14 @@ export function ReadingM7aTrainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.discussion.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          {showTip && data.discussion.questions && (
-            <ol className="read-m3__qs">{data.discussion.questions.map((q) => <li key={q}>{q}</li>)}</ol>
-          )}
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          questions={data.discussion.questions}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <div className={`flow-footer ${checked && checkSteps.has(step) ? "flow-footer--checked" : ""}`}>

@@ -5,6 +5,7 @@ import {
   READ_M8B_STEPS,
   readingM8b,
 } from "../data/readingM8b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = readingM8b;
 
@@ -51,7 +52,7 @@ export function ReadingM8bTrainer({
   };
 
   const goNext = () => {
-    if ((step === 0 || step === 3) && !showTip) {
+    if (step === 0 && !showTip) {
       setShowTip(true);
       return;
     }
@@ -69,7 +70,7 @@ export function ReadingM8bTrainer({
   };
 
   const nextLabel =
-    (step === 0 || step === 3) && !showTip
+    step === 0 && !showTip
       ? "Show tip →"
       : needsCheck && !checked
         ? "Check →"
@@ -199,18 +200,14 @@ export function ReadingM8bTrainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.discussion.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          {showTip && <p className="read-m3__tip">{data.discussion.tip}</p>}
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          questions={data.discussion.questions}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <footer className="flow-footer">

@@ -163,5 +163,10 @@ export const listeningM7a = {
       "Why do people join clubs?",
       "What clubs have you been part of?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "People join clubs mainly to meet others who share the same interests and to feel part of a community. Clubs also give structure — regular meetings or training sessions — which can be motivating.",
+      "I've been part of a photography club at university and a local running group. The photography club taught me technical skills, while running helped me stay fit and make friends outside my course.",
+    ],
   },
 };

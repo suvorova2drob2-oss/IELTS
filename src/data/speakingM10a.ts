@@ -70,7 +70,12 @@ export const speakingM10a = {
       "A talent you had as a child",
       "A problem you solved in an unusual way",
     ],
-    tip: "Suggested: I was often creative as a child because I loved to collect objects from the natural world and turn them into pictures… use my vivid imagination… add paint or writing to give it a bit more artistic flair.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I was often creative as a child because I loved to collect objects from the natural world and turn them into pictures. I would use my vivid imagination to arrange leaves, stones and feathers, then add paint or writing to give the result a bit more artistic flair.",
+      "One talent I had as a child was making up elaborate stories from everyday objects — I could think laterally and solve problems in unusual ways. For example, when a school project went wrong, I redesigned it completely rather than starting over, which saved time and produced something original.",
+      "Creativity is not something you should waste — even small moments of self-expression, like doodling or rearranging a room, can stifle boredom and keep your imagination active. Discussing these experiences helps you practise the vocabulary from Exercise 2a naturally.",
+    ],
   },
   structure3: {
     badge: "3a–3c",

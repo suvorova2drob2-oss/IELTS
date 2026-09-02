@@ -4,6 +4,7 @@ import {
   SPEAK_M7A_STEPS,
   speakingM7a,
 } from "../data/speakingM7a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM7a;
 
@@ -39,13 +40,13 @@ export function SpeakingM7aTrainer({
 
   const goPrev = () => { if (step === 0) { onBack?.(); return; } setChecked(false); setShowTip(false); setStep((s) => s - 1); };
   const goNext = () => {
-    if ((step === 0 || step === 2) && !showTip) { setShowTip(true); return; }
+    if (step === 0 && !showTip) { setShowTip(true); return; }
     if (needsCheck && !checked) { setChecked(true); return; }
     if (step >= SPEAK_M7A_STEPS.length - 1) { onBack?.(); return; }
     setChecked(false); setShowTip(false); setAnswers({}); setPicked(null); setStep((s) => s + 1);
   };
   const nextLabel =
-    (step === 0 || step === 2) && !showTip ? "Show tip →" :
+    step === 0 && !showTip ? "Show tip →" :
     needsCheck && !checked ? "Check →" : SPEAK_M7A_NEXT[step];
 
   return (
@@ -97,10 +98,14 @@ export function SpeakingM7aTrainer({
       )}
 
       {step === 2 && (
-        <section className="speak-m3a__panel">
-          <p className="read-m3__instr"><span className="write-m2a__badge">{data.discuss.badge}</span>{data.discuss.instruction}</p>
-          <ol className="read-m3__qs">{data.discuss.topics.map((t) => <li key={t}>{t}</li>)}</ol>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss"
+          badge={data.discuss.badge}
+          instruction={data.discuss.instruction}
+          topics={data.discuss.topics}
+          suggestedTitle={data.discuss.suggestedTitle}
+          suggestedAnswer={data.discuss.suggestedAnswer}
+        />
       )}
 
       {step === 3 && (

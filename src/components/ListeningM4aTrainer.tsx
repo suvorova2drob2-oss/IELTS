@@ -5,6 +5,7 @@ import {
   LISTEN_M4A_STEPS,
   listeningM4a,
 } from "../data/listeningM4a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = listeningM4a;
 
@@ -278,22 +279,15 @@ export function ListeningM4aTrainer({
       )}
 
       {step === 4 && (
-        <section className="listen-m3b__panel">
-          <h2 className="listen-m3b__h">{data.discussion.heading}</h2>
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <ol className="listen-m3b__preview-list">
-            {data.discussion.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <details>
-            <summary>Tip</summary>
-            <p className="listen-m3b__tip">{data.discussion.tip}</p>
-          </details>
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          heading={data.discussion.heading}
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          questions={data.discussion.questions}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <div

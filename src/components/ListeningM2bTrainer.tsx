@@ -6,6 +6,7 @@ import {
   listeningM2b,
 } from "../data/listeningM2b";
 import { AudioPlayer } from "./AudioPlayer";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = listeningM2b;
 const STEP_KEY = "ielts-listening-m2b-step";
@@ -18,6 +19,9 @@ function loadStep(restart?: boolean, initialStep?: number): number {
     if (raw != null) {
       const n = Number(raw);
       if (n >= 0 && n < LEARN_STEPS_L2B.length) return n;
+      /* legacy: Form + Map were separate steps */
+      if (n === 4) return 3;
+      if (n === 5) return 4;
     }
   } catch {
     /* ignore */
@@ -92,8 +96,10 @@ export function ListeningM2bTrainer({
   const usedMap = new Set(Object.values(mapAns).filter(Boolean));
   const pollyOk = polly === data.script.key;
 
-  const checkSteps = new Set([1, 2, 3, 4]);
+  const checkSteps = new Set([1, 2, 3]);
   const needsCheck = checkSteps.has(step);
+  const examScore = formScore + mapScore;
+  const examTotal = formGaps.length + data.test.mapItems.length;
 
   const placeMap = (qid: number) => {
     if (checked || !mapPick) return;
@@ -136,20 +142,16 @@ export function ListeningM2bTrainer({
       : step === 2
         ? errScore
         : step === 3
-          ? formScore
-          : step === 4
-            ? mapScore
-            : 0;
+          ? examScore
+          : 0;
   const total =
     step === 1
       ? 1
       : step === 2
         ? data.errors.items.length
         : step === 3
-          ? formGaps.length
-          : step === 4
-            ? data.test.mapItems.length
-            : 0;
+          ? examTotal
+          : 0;
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport listen-m2b">
@@ -185,26 +187,17 @@ export function ListeningM2bTrainer({
       </div>
 
       {step === 0 && (
-        <section className="listen-m2b__panel">
-          <h2 className="listen-m2b__heading">
-            {data.beforeYouListen.heading}
-          </h2>
-          <p className="listen-m2b__instr">
-            <span className="listen-m2b__badge">
-              {data.beforeYouListen.badge}
-            </span>
-            {data.beforeYouListen.instruction}
-          </p>
-          <ol className="listen-m2b__opts">
-            {data.beforeYouListen.options.map((o, i) => (
-              <li key={o}>
-                <span className="listen-m2b__n">{i + 1}</span>
-                <span>{o}</span>
-              </li>
-            ))}
-          </ol>
-          <p className="listen-m2b__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="before-listen"
+          variant="centered"
+          heading={data.beforeYouListen.heading}
+          badge={data.beforeYouListen.badge}
+          instruction={data.beforeYouListen.instruction}
+          options={data.beforeYouListen.options}
+          suggestedTitle={data.beforeYouListen.suggestedTitle}
+          suggestedAnswer={data.beforeYouListen.suggestedAnswer}
+          languageFocus={data.beforeYouListen.languageFocus}
+        />
       )}
 
       {step === 1 && (
@@ -260,115 +253,134 @@ export function ListeningM2bTrainer({
       )}
 
       {step === 2 && (
-        <section className="listen-m2b__panel">
-          <p className="listen-m2b__instr">
-            <span className="listen-m2b__badge">{data.errors.badge}</span>
-            {data.errors.instruction}
-          </p>
-          <p className="listen-m2b__sub">{data.errors.formInstr}</p>
-          <div className="listen-m2b__form listen-m2b__form--errors">
-            <p>
-              <strong>Name:</strong> {data.errors.given.name}
+        <section className="listen-m2b__errors-step">
+          <header className="listen-m2b__head">
+            <p className="listen-m2b__instr">
+              <span className="listen-m2b__badge">{data.errors.badge}</span>
+              {data.errors.instruction}
             </p>
-            {data.errors.items.map((it) => {
-              const ok = checkListenM2b(errAns[it.id] ?? "", it.answers);
-              return (
-                <div key={it.id} className="listen-m2b__err-row">
-                  <p>
-                    <strong>
-                      {it.label} [{it.id}]
-                    </strong>
-                    <span className="listen-m2b__wrong">Wrong: {it.wrong}</span>
-                  </p>
-                  <div className="listen-m2b__err-fix">
-                    {it.prefix && <span>{it.prefix}</span>}
-                    <input
-                      className={`listen-m2b__input ${checked ? (ok ? "listen-m2b__input--ok" : "listen-m2b__input--bad") : ""}`}
-                      value={errAns[it.id] ?? ""}
-                      disabled={checked}
-                      placeholder="Correct answer…"
-                      onChange={(e) =>
-                        setErrAns((a) => ({ ...a, [it.id]: e.target.value }))
-                      }
-                    />
-                  </div>
-                  {checked && (
-                    <p className="listen-m2b__tip">
-                      {ok ? "✓ " : `→ ${it.answers[0]} · `}
-                      {it.errorType}
+            <p className="listen-m2b__sub">{data.errors.formInstr}</p>
+          </header>
+          <div className="listen-m2b__errors-split">
+            <div className="listen-m2b__form listen-m2b__form--errors">
+              <p>
+                <strong>Name:</strong> {data.errors.given.name}
+              </p>
+              {data.errors.items.map((it) => {
+                const ok = checkListenM2b(errAns[it.id] ?? "", it.answers);
+                return (
+                  <div key={it.id} className="listen-m2b__err-row">
+                    <p>
+                      <strong>
+                        {it.label} [{it.id}]
+                      </strong>
+                      <span className="listen-m2b__wrong">
+                        Wrong: {it.wrong}
+                      </span>
                     </p>
-                  )}
-                </div>
-              );
-            })}
-            <p>
-              <strong>Telephone number:</strong> {data.errors.given.phone}
-            </p>
-            <p>
-              <strong>Flight number:</strong> {data.errors.given.flight}
-            </p>
+                    <div className="listen-m2b__err-fix">
+                      {it.prefix && <span>{it.prefix}</span>}
+                      <input
+                        className={`listen-m2b__input ${checked ? (ok ? "listen-m2b__input--ok" : "listen-m2b__input--bad") : ""}`}
+                        value={errAns[it.id] ?? ""}
+                        disabled={checked}
+                        placeholder="Correct answer…"
+                        onChange={(e) =>
+                          setErrAns((a) => ({ ...a, [it.id]: e.target.value }))
+                        }
+                      />
+                    </div>
+                    {checked && (
+                      <p className="listen-m2b__tip">
+                        {ok ? "✓ " : `→ ${it.answers[0]} · `}
+                        {it.errorType}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+              <p>
+                <strong>Telephone number:</strong> {data.errors.given.phone}
+              </p>
+              <p>
+                <strong>Flight number:</strong> {data.errors.given.flight}
+              </p>
+            </div>
+            <aside className="listen-m2b__script-ref">
+              <p className="listen-m2b__script-ref-label">
+                {data.script.badge} · {data.script.heading}
+              </p>
+              <article className="listen-m2b__script">
+                {data.script.lines.map((line, i) => (
+                  <p key={i}>
+                    <strong>{line.who}:</strong> {line.text}
+                  </p>
+                ))}
+              </article>
+            </aside>
           </div>
         </section>
       )}
 
       {step === 3 && (
-        <section className="listen-m2b__test">
+        <section className="listen-m2b__exam-step">
           <header className="listen-m2b__head">
             <p className="listen-m2b__instr">
               <span className="listen-m2b__badge">{data.test.badge}</span>
               {data.test.instruction}
             </p>
             <AudioPlayer src={data.test.audio} label={data.test.audioLabel} />
-            <p className="listen-m2b__sub">{data.test.formInstr}</p>
-          </header>
-          <div className="listen-m2b__form">
-            <h3>{data.test.formTitle}</h3>
-            {data.test.fields.map((f, i) => {
-              if (typeof f.id !== "number" || !f.answers) {
-                return (
-                  <p key={i}>
-                    <strong>{f.label}:</strong> {"given" in f ? f.given : ""}
-                  </p>
-                );
-              }
-              const ok = checkListenM2b(formAns[f.id] ?? "", f.answers);
-              return (
-                <p key={f.id} className="listen-m2b__form-gap">
-                  <strong>
-                    {f.label}: {f.prefix ?? ""}
-                  </strong>
-                  <input
-                    className={`listen-m2b__input ${checked ? (ok ? "listen-m2b__input--ok" : "listen-m2b__input--bad") : ""}`}
-                    value={formAns[f.id] ?? ""}
-                    disabled={checked}
-                    placeholder={`${f.id}`}
-                    aria-label={`Q${f.id}`}
-                    onChange={(e) =>
-                      setFormAns((a) => ({ ...a, [f.id as number]: e.target.value }))
-                    }
-                  />
-                  {f.suffix && <strong>{f.suffix}</strong>}
-                  {checked && !ok && (
-                    <span className="listen-m2b__tip">→ {f.answers[0]}</span>
-                  )}
-                </p>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {step === 4 && (
-        <section className="listen-m2b__map-step">
-          <header className="listen-m2b__head">
-            <AudioPlayer src={data.test.audio} label={data.test.audioLabel} />
-            <p className="listen-m2b__sub">{data.test.mapInstr}</p>
+            <div className="listen-m2b__exam-instrs">
+              <p className="listen-m2b__sub">{data.test.formInstr}</p>
+              <p className="listen-m2b__sub">{data.test.mapInstr}</p>
+            </div>
             <p className="listen-m2b__hint">
-              Click a letter A–G, then a question. Click a filled gap to undo.
+              One listen only — complete Q1–5 and Q6–10. Click a letter A–G,
+              then a map question; click a filled gap to undo.
             </p>
           </header>
-          <div className="listen-m2b__map-split">
-            <div className="listen-m2b__map-task">
+          <div className="listen-m2b__exam-split">
+            <div className="listen-m2b__form listen-m2b__form--exam">
+              <h3>{data.test.formTitle}</h3>
+              {data.test.fields.map((f, i) => {
+                if (typeof f.id !== "number" || !f.answers) {
+                  return (
+                    <p key={i}>
+                      <strong>{f.label}:</strong>{" "}
+                      {"given" in f ? f.given : ""}
+                    </p>
+                  );
+                }
+                const ok = checkListenM2b(formAns[f.id] ?? "", f.answers);
+                return (
+                  <p key={f.id} className="listen-m2b__form-gap">
+                    <strong>
+                      {f.label}: {f.prefix ?? ""}
+                    </strong>
+                    <input
+                      className={`listen-m2b__input ${checked ? (ok ? "listen-m2b__input--ok" : "listen-m2b__input--bad") : ""}`}
+                      value={formAns[f.id] ?? ""}
+                      disabled={checked}
+                      placeholder={`${f.id}`}
+                      aria-label={`Q${f.id}`}
+                      onChange={(e) =>
+                        setFormAns((a) => ({
+                          ...a,
+                          [f.id as number]: e.target.value,
+                        }))
+                      }
+                    />
+                    {f.suffix && <strong>{f.suffix}</strong>}
+                    {checked && !ok && (
+                      <span className="listen-m2b__tip">
+                        → {f.answers[0]}
+                      </span>
+                    )}
+                  </p>
+                );
+              })}
+            </div>
+            <div className="listen-m2b__map-task listen-m2b__map-task--inline">
               <div className="listen-m2b__letters">
                 {data.test.letters.map((L) => {
                   const used = usedMap.has(L);
@@ -378,22 +390,22 @@ export function ListeningM2bTrainer({
                       type="button"
                       className={`pr-chip ${mapPick === L ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
                       disabled={checked || used}
-                      onClick={() =>
-                        setMapPick((p) => (p === L ? null : L))
-                      }
+                      onClick={() => setMapPick((p) => (p === L ? null : L))}
                     >
                       {L}
                     </button>
                   );
                 })}
               </div>
-              <ol className="listen-m2b__map-qs">
+              <ol className="listen-m2b__map-qs listen-m2b__map-qs--grid">
                 {data.test.mapItems.map((it) => {
                   const letter = mapAns[it.id];
                   const ok = letter === it.key;
                   let gap = "listen-m2b__gap";
                   if (checked) {
-                    gap += ok ? " listen-m2b__gap--ok" : " listen-m2b__gap--bad";
+                    gap += ok
+                      ? " listen-m2b__gap--ok"
+                      : " listen-m2b__gap--bad";
                   } else if (letter) gap += " listen-m2b__gap--filled";
                   else if (mapPick) gap += " listen-m2b__gap--ready";
                   return (
@@ -435,15 +447,15 @@ export function ListeningM2bTrainer({
         </section>
       )}
 
-      {step === 5 && (
-        <section className="listen-m2b__panel">
-          <h2 className="listen-m2b__heading">{data.discussion.heading}</h2>
-          <p className="listen-m2b__instr">
-            <span className="listen-m2b__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <p className="listen-m2b__cue">Discuss with a partner</p>
-        </section>
+      {step === 4 && (
+        <ExpertDiscussPanel
+          key="discussion"
+          badge={data.discussion.badge}
+          heading={data.discussion.heading}
+          instruction={data.discussion.instruction}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <div

@@ -5,6 +5,7 @@ import {
   SPEAK_M3A_STEPS,
   speakingM3a,
 } from "../data/speakingM3a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM3a;
 
@@ -203,16 +204,17 @@ export function SpeakingM3aTrainer({
       )}
 
       {step === 1 && (
-        <section className="speak-m3a__panel">
-          <p className="speak-m3a__instr">
-            <span className="write-m2a__badge">{data.discuss.badge}</span>
-            {data.discuss.instruction}
-          </p>
+        <ExpertDiscussPanel
+          key="discuss"
+          badge={data.discuss.badge}
+          instruction={data.discuss.instruction}
+          suggestedTitle={data.discuss.suggestedTitle}
+          suggestedAnswer={data.discuss.suggestedAnswer}
+        >
           <figure className="speak-m3a__hero speak-m3a__hero--sm">
             <img src={data.image} alt={data.imageAlt} />
           </figure>
-          <p className="write-m2a__cue">Discuss with a partner</p>
-        </section>
+        </ExpertDiscussPanel>
       )}
 
       {step === 2 && (

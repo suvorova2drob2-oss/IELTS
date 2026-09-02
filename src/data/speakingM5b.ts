@@ -93,6 +93,12 @@ export const speakingM5b = {
     badge: "b",
     instruction:
       "Talk about your local area using some of the words from Exercise 2a.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I live in a fairly dense urban neighbourhood where the streets can feel overcrowded during rush hour, especially near the metro station. Despite that, the community itself is thriving — there are independent shops, street markets and a strong sense of local identity.",
+      "The climate varies: summers can be quite arid, while heavy rain sometimes leaves lower-lying streets waterlogged for a day or two. Fresh water is abundant in the city, though I know that is not the case in every part of the country.",
+      "Overall, I enjoy the energy of living somewhere densely populated, even if it means accepting the hustle and bustle as part of daily life.",
+    ],
   },
   grammar3: {
     badge: "3",

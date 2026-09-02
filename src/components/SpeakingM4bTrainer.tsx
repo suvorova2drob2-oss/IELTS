@@ -4,6 +4,7 @@ import {
   SPEAK_M4B_STEPS,
   speakingM4b,
 } from "../data/speakingM4b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM4b;
 
@@ -109,10 +110,6 @@ export function SpeakingM4bTrainer({
       setShowWorth(true);
       return;
     }
-    if (step === 2 && !showTips) {
-      setShowTips(true);
-      return;
-    }
     if (needsCheck && !checked) {
       setChecked(true);
       return;
@@ -136,13 +133,11 @@ export function SpeakingM4bTrainer({
   const nextLabel =
     step === 0 && !showWorth
       ? "Reveal values →"
-      : step === 2 && !showTips
-        ? "Show suggested →"
-        : needsCheck && !checked
-          ? "Check →"
-          : step === 3 && checked && !showTips
-            ? "Show 4b–4c tips →"
-            : SPEAK_M4B_NEXT[step];
+      : needsCheck && !checked
+        ? "Check →"
+        : step === 3 && checked && !showTips
+          ? "Show 4b–4c tips →"
+          : SPEAK_M4B_NEXT[step];
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport speak-m3a">
@@ -257,24 +252,14 @@ export function SpeakingM4bTrainer({
       )}
 
       {step === 2 && (
-        <section className="speak-m3a__panel">
-          <p className="speak-m3a__instr">
-            <span className="write-m2a__badge">{data.discuss3.badge}</span>
-            {data.discuss3.instruction}
-          </p>
-          <div className="speak-m3a__notes-grid">
-            {data.discuss3.questions.map((q, i) => (
-              <article key={q} className="speak-m3a__note-card">
-                <p>
-                  <strong>{i + 1}.</strong> {q}
-                </p>
-                {showTips && (
-                  <p className="speak-m3a__tip">{data.discuss3.suggested[i]}</p>
-                )}
-              </article>
-            ))}
-          </div>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss3"
+          badge={data.discuss3.badge}
+          instruction={data.discuss3.instruction}
+          questions={data.discuss3.questions}
+          suggestedTitle={data.discuss3.suggestedTitle}
+          suggestedAnswer={data.discuss3.suggestedAnswer}
+        />
       )}
 
       {step === 3 && (

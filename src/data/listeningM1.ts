@@ -213,5 +213,11 @@ export const listeningM1 = {
       "Do you think people generally prefer looking information up in books or online? Why?",
       "In what ways might the internet become a threat to libraries?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I still think libraries are quite useful, especially for students who need a quiet place to study or can't afford to buy every textbook. Many libraries also offer free internet and community events, so they remain relevant.",
+      "Most people probably prefer looking things up online because it's faster and more convenient. However, books can be more reliable for in-depth research, and some learners find it easier to concentrate when reading from paper.",
+      "The internet could become a threat if libraries fail to adapt — for example, if everything moves online and funding is cut. That said, libraries that combine digital access with expert staff and study spaces can coexist with the internet rather than disappear.",
+    ],
   },
 };

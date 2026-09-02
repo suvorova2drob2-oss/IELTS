@@ -204,7 +204,11 @@ export const listeningM4a = {
       "Why is it important to look after the world's resources?",
       "To what extent do you think upcycling can make a real difference? Why?",
     ],
-    tip: "Because if we don't look after the world's resources, they may soon run out. From my perspective, upcycling won't make a huge difference because not enough people do it and it requires considerable time and effort.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "It is important to look after the world's resources because many materials, such as metals and clean water, are finite. If they are wasted or polluted, future generations will face shortages and higher costs.",
+      "Upcycling can make a difference at a local level by reducing landfill and encouraging creative reuse. However, from a global perspective, its impact is limited unless governments and large companies also change production on a mass scale.",
+    ],
   },
   answerKeys: {
     1: ["fabric repair"],

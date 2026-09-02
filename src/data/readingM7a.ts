@@ -270,6 +270,10 @@ export const readingM7a = {
       "In what ways might it be a good idea to close a part of a city to traffic? Give examples of any places you know that do this and assess how successful it has been as an initiative.",
       "To what extent is cycling in cities potentially dangerous? What could be done to encourage more people to cycle and how could accidents be prevented?",
     ],
-    tip: "Suggested: closing streets can cut pollution and make walking safer (e.g. Mexico City); cycling needs awareness training and protected lanes when trucks and narrow streets make sharing the road risky.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Closing streets to traffic can cut pollution and make walking safer and more pleasant. Cities such as Mexico City have introduced car-free days, and the initiative has generally been successful in raising awareness, though enforcement and public transport alternatives remain important.",
+      "Cycling can be dangerous where roads are narrow and drivers are not used to sharing space with bikes. Protected cycle lanes, awareness campaigns, and lower speed limits could encourage more cyclists while reducing accidents.",
+    ],
   },
 };

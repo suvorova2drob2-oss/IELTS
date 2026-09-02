@@ -58,6 +58,12 @@ export const speakingM3a = {
     badge: "1b",
     instruction:
       "What do you think ‘half full’ and ‘half empty’ in the photo means? Why do you think some people are more positive than others? Can people change how positive they are? How?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "The ‘half full’ and ‘half empty’ image is a metaphor for optimism and pessimism — whether you focus on what you have or what is missing. A positive person might see the glass as half full and feel grateful; a more negative outlook sees the same situation as half empty.",
+      "I think some people are naturally more optimistic because of personality and upbringing, while others may become pessimistic after difficult experiences. Genetics, family attitudes and life events all play a role.",
+      "People can change how positive they are, though it takes effort. Practices like gratitude journaling, cognitive therapy and surrounding yourself with supportive people can gradually shift your mindset over time.",
+    ],
   },
   wordForms: {
     badge: "2a",

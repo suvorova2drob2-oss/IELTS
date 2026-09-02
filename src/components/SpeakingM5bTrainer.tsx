@@ -4,6 +4,7 @@ import {
   SPEAK_M5B_STEPS,
   speakingM5b,
 } from "../data/speakingM5b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM5b;
 
@@ -170,12 +171,13 @@ export function SpeakingM5bTrainer({
         </section>
       )}
       {step === 2 && (
-        <section className="speak-m3a__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discuss2b.badge}</span>
-            {data.discuss2b.instruction}
-          </p>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss2b"
+          badge={data.discuss2b.badge}
+          instruction={data.discuss2b.instruction}
+          suggestedTitle={data.discuss2b.suggestedTitle}
+          suggestedAnswer={data.discuss2b.suggestedAnswer}
+        />
       )}
       {step === 3 && (
         <section className="speak-m3a__panel">

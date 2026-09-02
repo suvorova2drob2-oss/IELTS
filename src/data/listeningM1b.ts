@@ -255,8 +255,15 @@ export const listeningM1b = {
   },
   discussion: {
     /** Full coursebook item 5 — do not split/shorten. */
+    badge: "5",
     question:
       "Do you think technology benefits education? Why/Why not? In what ways can it be positive and negative?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "On balance, I think technology does benefit education, though it depends on how it's used.",
+      "On the positive side, students can access lectures, articles and interactive exercises online at any time. Tools like video conferencing also make it easier to learn from experts who aren't physically in the classroom.",
+      "However, there are clear negatives. Technology can be distracting, and not all students have equal access to devices or reliable internet. So while I'm generally in favour, schools need to use it thoughtfully rather than replacing good teaching.",
+    ],
   },
 };
 

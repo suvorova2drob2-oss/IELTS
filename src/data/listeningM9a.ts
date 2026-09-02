@@ -200,6 +200,11 @@ export const listeningM9a = {
     badge: "5–6",
     instruction:
       "Discuss why people try to break records and whether success depends more on talent, luck or hard work.",
-    tip: "Suggested: people are driven by the desire to achieve something no one else has; they practise hard and believe in their ability. For most, success is a combination of talent, luck and hard work, though the most successful often possess a special kind of talent.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "People try to break records because they want to achieve something unique and gain recognition. Records give a clear target and a sense that you've accomplished what no one else has.",
+      "Success usually depends on a combination of factors rather than just one. Talent gives you a starting advantage, but without years of hard work most gifted people never reach the top.",
+      "Luck plays a role too — being in the right place, avoiding injury, having supportive coaches. In my view, hard work is the most important because it's the factor you can actually control.",
+    ],
   },
 };

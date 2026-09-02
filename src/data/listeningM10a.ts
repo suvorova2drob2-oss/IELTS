@@ -211,6 +211,11 @@ export const listeningM10a = {
     badge: "5",
     instruction:
       "Discuss metaphors/similes you heard and whether computers can create culturally relevant music.",
-    tip: "Listeners are sponges — we take music in almost involuntarily. Great songs need a social and musical ‘recipe’.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "In the listening, music was compared to a sponge — listeners absorb songs almost without thinking. That metaphor captures how catchy melodies stay in your memory after just one hearing.",
+      "I'm sceptical that computers alone can create truly culturally relevant music. AI can imitate patterns and genres, but great songs often reflect personal experience and social context that machines don't genuinely understand.",
+      "Computers might assist composers by generating ideas, yet the emotional depth and cultural meaning usually come from human artists who draw on shared traditions and lived experience.",
+    ],
   },
 };

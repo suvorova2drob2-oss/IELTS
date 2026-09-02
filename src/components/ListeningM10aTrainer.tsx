@@ -5,6 +5,7 @@ import {
   LISTEN_M10A_STEPS,
   listeningM10a,
 } from "../data/listeningM10a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = listeningM10a;
 
@@ -75,7 +76,7 @@ export function ListeningM10aTrainer({
   };
 
   const goNext = () => {
-    if ((step === 0 || step === 5) && !showTip) {
+    if (step === 0 && !showTip) {
       setShowTip(true);
       return;
     }
@@ -94,7 +95,7 @@ export function ListeningM10aTrainer({
   };
 
   const nextLabel =
-    (step === 0 || step === 5) && !showTip
+    step === 0 && !showTip
       ? "Show tip →"
       : needsCheck && !checked
         ? "Check →"
@@ -360,13 +361,13 @@ export function ListeningM10aTrainer({
       )}
 
       {step === 5 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          {showTip && <p className="read-m3__tip">{data.discussion.tip}</p>}
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <footer className="flow-footer">

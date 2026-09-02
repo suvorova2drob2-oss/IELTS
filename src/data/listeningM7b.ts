@@ -180,5 +180,11 @@ export const listeningM7b = {
       "How could transportation companies improve the experience for their passengers?",
       "Do you think travelling will be less stressful in the future when it is more automated? Why / Why not?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Travelling can be stressful because of delays, overcrowding and uncertainty — you never know whether your train or flight will leave on time. Packing, navigating unfamiliar places and language barriers add to the pressure.",
+      "Companies could improve things by giving clearer real-time information, offering more comfortable waiting areas and training staff to handle complaints calmly. Simple gestures like free Wi‑Fi or water during long delays make a difference.",
+      "Automation may reduce some stress — self-check-in and smart ticketing can speed things up — but I don't think it will remove stress entirely. When technology fails, passengers still need helpful human support.",
+    ],
   },
 };

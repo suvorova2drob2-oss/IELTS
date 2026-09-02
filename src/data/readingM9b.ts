@@ -144,6 +144,11 @@ export const readingM9b = {
       "How should schools prepare students for jobs that do not yet exist?",
       "Is lifelong learning realistic for everyone? What barriers exist?",
     ],
-    tip: "Consider independence vs security, cost of training, and whether governments or employers should fund reskilling.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I'd prefer flexible remote work because it saves commuting time and allows a better work–life balance. However, I would miss face-to-face collaboration and the clear boundary between home and office.",
+      "Schools should teach adaptability, digital literacy, and problem-solving rather than only specific technical skills. Project-based learning and exposure to emerging fields could help students prepare for unknown future careers.",
+      "Lifelong learning is realistic in principle, but not everyone has equal access. Barriers include cost, lack of time after work, and limited internet access. Governments and employers may need to fund training to make reskilling feasible.",
+    ],
   },
 };

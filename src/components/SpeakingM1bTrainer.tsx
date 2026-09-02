@@ -4,6 +4,7 @@ import {
   SPEAK_M1B_STEPS,
   speakingM1b,
 } from "../data/speakingM1b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM1b;
 
@@ -206,22 +207,21 @@ export function SpeakingM1bTrainer({
       )}
 
       {step === 2 && (
-        <section className="speak-m1b__discuss">
-          <div className="speak-m1b__discuss-card">
-            <span className="speak-m1b__discuss-num" aria-hidden>
-              c
-            </span>
-            <p className="speak-m1b__discuss-q">{data.step1c.instruction}</p>
-            <p className="speak-m1b__cue">Discuss with a partner</p>
-            <ul className="speak-m1b__vocab-ref">
-              {data.step1b.items.map((it) => (
-                <li key={it.id}>
-                  <strong>{it.key}</strong> {it.gap}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss"
+          badge="c"
+          instruction={data.step1c.instruction}
+          suggestedTitle={data.step1c.suggestedTitle}
+          suggestedAnswer={data.step1c.suggestedAnswer}
+        >
+          <ul className="speak-m1b__vocab-ref">
+            {data.step1b.items.map((it) => (
+              <li key={it.id}>
+                <strong>{it.key}</strong> {it.gap}
+              </li>
+            ))}
+          </ul>
+        </ExpertDiscussPanel>
       )}
 
       {step === 3 && (

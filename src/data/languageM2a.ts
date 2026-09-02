@@ -234,9 +234,15 @@ export const languageM2a = {
       "A festival or celebration.",
       "The place where you now live.",
     ],
+    cue: "Use the passive where appropriate",
     image: festivalImg,
     imageAlt:
       "Crowd at an outdoor festival with hands raised against a blue sky.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "A festival I remember well is Diwali, which is celebrated by millions of people every year. Houses are decorated with lights, sweets are prepared and families gather to mark the occasion.",
+      "The place where I now live is a medium-sized city that was originally built around a textile industry. Many old factories have been converted into apartments, and the city centre is being improved with new parks and cycle lanes.",
+    ],
   },
 };
 

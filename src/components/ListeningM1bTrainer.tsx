@@ -5,6 +5,7 @@ import {
   listeningM1b,
 } from "../data/listeningM1b";
 import { AudioPlayer } from "./AudioPlayer";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const STEP_KEY = "ielts-listening-m1b-step";
 const data = listeningM1b;
@@ -382,45 +383,47 @@ export function ListeningM1bTrainer({
             />
           </div>
           <div className="listen-m1b__test-grid">
-            <div className="listen-m1b__test-col">
+            <div className="listen-m1b__test-mc">
               <p className="listen-m1__q-label">Questions 1 and 2</p>
               <p className="listen-m1b__test-sub">
                 Choose the correct letter, A, B or C.
               </p>
-              {data.stepTest.mc.map((q) => {
-                const pick = testMc[q.id];
-                return (
-                  <div key={q.id} className="listen-m1b__mc-block">
-                    <p className="listen-m1b__mc-q">
-                      <strong>{q.id}.</strong> {q.text}
-                    </p>
-                    <div className="listen-m1b__mc-opts listen-m1b__mc-opts--stack">
-                      {q.options.map((opt) => {
-                        let state = "";
-                        if (testChecked) {
-                          if (opt.id === q.key) state = "pr-chip--ok";
-                          else if (pick === opt.id) state = "pr-chip--bad";
-                        } else if (pick === opt.id) {
-                          state = "pr-chip--picked";
-                        }
-                        return (
-                          <button
-                            key={opt.id}
-                            type="button"
-                            className={`pr-chip listen-m1b__chip ${state}`}
-                            disabled={testChecked}
-                            onClick={() =>
-                              setTestMc((m) => ({ ...m, [q.id]: opt.id }))
-                            }
-                          >
-                            <strong>{opt.id}</strong> {opt.text}
-                          </button>
-                        );
-                      })}
+              <div className="listen-m1b__test-mc-pair">
+                {data.stepTest.mc.map((q) => {
+                  const pick = testMc[q.id];
+                  return (
+                    <div key={q.id} className="listen-m1b__mc-block">
+                      <p className="listen-m1b__mc-q">
+                        <strong>{q.id}.</strong> {q.text}
+                      </p>
+                      <div className="listen-m1b__mc-opts listen-m1b__mc-opts--stack">
+                        {q.options.map((opt) => {
+                          let state = "";
+                          if (testChecked) {
+                            if (opt.id === q.key) state = "pr-chip--ok";
+                            else if (pick === opt.id) state = "pr-chip--bad";
+                          } else if (pick === opt.id) {
+                            state = "pr-chip--picked";
+                          }
+                          return (
+                            <button
+                              key={opt.id}
+                              type="button"
+                              className={`pr-chip listen-m1b__chip ${state}`}
+                              disabled={testChecked}
+                              onClick={() =>
+                                setTestMc((m) => ({ ...m, [q.id]: opt.id }))
+                              }
+                            >
+                              <strong>{opt.id}</strong> {opt.text}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
             <div className="listen-m1b__test-col">
               <p className="listen-m1__q-label">Questions 3 and 4</p>
@@ -468,17 +471,13 @@ export function ListeningM1bTrainer({
             <span className="dot" />
             5 · Discussion
           </h2>
-          <div className="listen-m1b__discuss-stage">
-            <article className="listen-m1b__discuss-card">
-              <span className="listen-m1b__discuss-num" aria-hidden>
-                5
-              </span>
-              <p className="listen-m1b__discuss-q">
-                {data.discussion.question}
-              </p>
-              <p className="listen-m1b__discuss-cue">Discuss with a partner</p>
-            </article>
-          </div>
+          <ExpertDiscussPanel
+            key="discussion"
+            badge={data.discussion.badge}
+            instruction={data.discussion.question}
+            suggestedTitle={data.discussion.suggestedTitle}
+            suggestedAnswer={data.discussion.suggestedAnswer}
+          />
         </section>
       )}
 

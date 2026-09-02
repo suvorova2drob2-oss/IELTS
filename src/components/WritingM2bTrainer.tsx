@@ -227,10 +227,12 @@ export function WritingM2bTrainer({
               </aside>
               <figure className="write-m2a__fig write-m2b__fig">
                 <figcaption>{data.understand.diagramTitle}</figcaption>
-                <img
-                  src={data.understand.image}
-                  alt={data.understand.imageAlt}
-                />
+                <div className="write-m2a__fig-media">
+                  <img
+                    src={data.understand.image}
+                    alt={data.understand.imageAlt}
+                  />
+                </div>
               </figure>
             </div>
             <ol className="write-m2b__qs">
@@ -432,10 +434,12 @@ export function WritingM2bTrainer({
             </ul>
             <figure className="write-m2a__fig write-m2b__fig write-m2b__fig--mini">
               <figcaption>{data.understand.diagramTitle}</figcaption>
-              <img
-                src={data.understand.image}
-                alt={data.understand.imageAlt}
-              />
+              <div className="write-m2a__fig-media">
+                <img
+                  src={data.understand.image}
+                  alt={data.understand.imageAlt}
+                />
+              </div>
             </figure>
           </div>
           <div className="write-m2b__draft">

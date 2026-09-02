@@ -5,6 +5,7 @@ import {
   READ_M5B_STEPS,
   readingM5b,
 } from "../data/readingM5b";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = readingM5b;
 
@@ -241,17 +242,14 @@ export function ReadingM5bTrainer({
         </section>
       )}
       {step === 4 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.discussion.badge}</span>
-            {data.discussion.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.discussion.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-        </section>
+        <ExpertDiscussPanel
+          key="discussion"
+          badge={data.discussion.badge}
+          instruction={data.discussion.instruction}
+          questions={data.discussion.questions}
+          suggestedTitle={data.discussion.suggestedTitle}
+          suggestedAnswer={data.discussion.suggestedAnswer}
+        />
       )}
 
       <div

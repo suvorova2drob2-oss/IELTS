@@ -192,5 +192,11 @@ export const readingM7b = {
       "Do you think most people would want to share the road with robots? Why / Why not?",
       "What potential problems might arise from the use of completely autonomous cars?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Technology has transformed transport through faster engines, GPS navigation, online booking, and real-time traffic apps. High-speed rail and electric vehicles have also made long-distance and urban travel cleaner and more efficient.",
+      "Many people would hesitate to share the road with autonomous vehicles because they do not trust machines to react to unexpected situations. Others might welcome robots if safety statistics clearly show fewer accidents than with human drivers.",
+      "Autonomous cars could raise issues around hacking, legal liability after accidents, and job losses for professional drivers. There are also ethical dilemmas when a vehicle must choose between different types of harm in an emergency.",
+    ],
   },
 };

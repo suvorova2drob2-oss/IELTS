@@ -5,6 +5,7 @@ import {
   listeningM1,
 } from "../data/listeningM1";
 import { AudioPlayer } from "./AudioPlayer";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const STEP_KEY = "ielts-listening-m1-step";
 const data = listeningM1;
@@ -476,14 +477,13 @@ export function ListeningM1Trainer({
             <span className="dot" />
             6 · Discussion
           </h2>
-          <ol className="lead-in-stack__questions">
-            {data.discussion.questions.map((q, i) => (
-              <li key={i}>
-                <span className="lead-in-stack__num">{i + 1}</span>
-                <span>{q}</span>
-              </li>
-            ))}
-          </ol>
+          <ExpertDiscussPanel
+            key="discussion"
+            instruction={data.discussion.instruction}
+            questions={data.discussion.questions}
+            suggestedTitle={data.discussion.suggestedTitle}
+            suggestedAnswer={data.discussion.suggestedAnswer}
+          />
         </section>
       )}
 

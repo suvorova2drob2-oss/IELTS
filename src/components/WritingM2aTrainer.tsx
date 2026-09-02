@@ -6,6 +6,7 @@ import {
   writingM2a,
 } from "../data/writingM2a";
 import { WordCountMeter, countWords } from "./WordCountMeter";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = writingM2a;
 const STEP_KEY = "ielts-writing-m2a-step";
@@ -206,30 +207,33 @@ export function WritingM2aTrainer({
       </div>
 
       {step === 0 && (
-        <section className="write-m2a__discuss">
-          <p className="write-m2a__instr">
-            <span className="write-m2a__badge">{data.leadIn.badge}</span>
-            {data.leadIn.instruction}
-          </p>
-          <p className="write-m2a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="lead-in"
+          badge={data.leadIn.badge}
+          instruction={data.leadIn.instruction}
+          suggestedTitle={data.leadIn.suggestedTitle}
+          suggestedAnswer={data.leadIn.suggestedAnswer}
+        />
       )}
 
       {step === 1 && (
-        <section className="write-m2a__diagram">
-          <header className="write-m2a__head">
-            <h2 className="write-m2a__title">{data.diagram.heading}</h2>
-            <p className="write-m2a__expert">{data.diagram.expert}</p>
-            <p className="write-m2a__instr">
-              <span className="write-m2a__badge">{data.diagram.badge}</span>
-              {data.diagram.instruction}
-            </p>
-          </header>
-          <figure className="write-m2a__fig">
-            <figcaption>{data.diagram.title}</figcaption>
-            <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+        <section className="write-m2a__diagram write-m2a__diagram--split">
+          <div className="write-m2a__diagram-copy">
+            <header className="write-m2a__head">
+              <h2 className="write-m2a__title">{data.diagram.heading}</h2>
+              <p className="write-m2a__expert">{data.diagram.expert}</p>
+              <p className="write-m2a__instr">
+                <span className="write-m2a__badge">{data.diagram.badge}</span>
+                {data.diagram.instruction}
+              </p>
+            </header>
+            <p className="write-m2a__cue">Discuss with a partner</p>
+          </div>
+          <figure className="write-m2a__fig write-m2a__fig--diagram">
+            <div className="write-m2a__fig-media">
+              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+            </div>
           </figure>
-          <p className="write-m2a__cue">Discuss with a partner</p>
         </section>
       )}
 
@@ -295,72 +299,81 @@ export function WritingM2aTrainer({
             </ol>
           </div>
           <figure className="write-m2a__fig write-m2a__fig--side">
-            <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+            <div className="write-m2a__fig-media">
+              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+            </div>
           </figure>
         </section>
       )}
 
       {step === 3 && (
-        <section className="write-m2a__sents">
-          <p className="write-m2a__instr">
-            <span className="write-m2a__badge">{data.orderSentences.badge}</span>
-            {data.orderSentences.instruction}
-          </p>
-          <p className="write-m2a__hint">
-            Click a sentence letter to add it to the sequence. Click a number to
-            remove.
-          </p>
-          <div className="write-m2a__sent-grid">
-            <ol className="write-m2a__seq">
-              {sentKey.map((_, i) => {
-                const id = sentOrder[i];
-                let cls = "write-m2a__slot";
-                if (checked && id) {
-                  cls +=
-                    id === sentKey[i]
-                      ? " write-m2a__slot--ok"
-                      : " write-m2a__slot--bad";
-                } else if (id) cls += " write-m2a__slot--filled";
-                return (
-                  <li key={i}>
-                    <span className="write-m2a__slot-n">{i + 1}</span>
-                    <button
-                      type="button"
-                      className={cls}
-                      disabled={checked}
-                      onClick={() => {
-                        if (checked || !id) return;
-                        setSentOrder((o) => o.filter((_, j) => j !== i));
-                      }}
-                    >
-                      {id ?? "—"}
-                    </button>
-                    {checked && id && id !== sentKey[i] && (
-                      <span className="write-m2a__tip">→ {sentKey[i]}</span>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
-            <ul className="write-m2a__sent-list">
-              {data.orderSentences.items.map((it) => {
-                const used = sentOrder.includes(it.id);
-                return (
-                  <li key={it.id}>
-                    <button
-                      type="button"
-                      className={`pr-chip write-m2a__letter ${pickedSent === it.id ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
-                      disabled={checked || used || sentDone}
-                      onClick={() => placeSent(it.id)}
-                    >
-                      {it.id}
-                    </button>
-                    <span>{it.text}</span>
-                  </li>
-                );
-              })}
-            </ul>
+        <section className="write-m2a__sents write-m2a__sents--split">
+          <div className="write-m2a__sents-main">
+            <p className="write-m2a__instr">
+              <span className="write-m2a__badge">{data.orderSentences.badge}</span>
+              {data.orderSentences.instruction}
+            </p>
+            <p className="write-m2a__hint">
+              Click a sentence letter to add it to the sequence. Click a number to
+              remove.
+            </p>
+            <div className="write-m2a__sent-grid">
+              <ol className="write-m2a__seq">
+                {sentKey.map((_, i) => {
+                  const id = sentOrder[i];
+                  let cls = "write-m2a__slot";
+                  if (checked && id) {
+                    cls +=
+                      id === sentKey[i]
+                        ? " write-m2a__slot--ok"
+                        : " write-m2a__slot--bad";
+                  } else if (id) cls += " write-m2a__slot--filled";
+                  return (
+                    <li key={i}>
+                      <span className="write-m2a__slot-n">{i + 1}</span>
+                      <button
+                        type="button"
+                        className={cls}
+                        disabled={checked}
+                        onClick={() => {
+                          if (checked || !id) return;
+                          setSentOrder((o) => o.filter((_, j) => j !== i));
+                        }}
+                      >
+                        {id ?? "—"}
+                      </button>
+                      {checked && id && id !== sentKey[i] && (
+                        <span className="write-m2a__tip">→ {sentKey[i]}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
+              <ul className="write-m2a__sent-list">
+                {data.orderSentences.items.map((it) => {
+                  const used = sentOrder.includes(it.id);
+                  return (
+                    <li key={it.id}>
+                      <button
+                        type="button"
+                        className={`pr-chip write-m2a__letter ${pickedSent === it.id ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
+                        disabled={checked || used || sentDone}
+                        onClick={() => placeSent(it.id)}
+                      >
+                        {it.id}
+                      </button>
+                      <span>{it.text}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
+          <figure className="write-m2a__fig write-m2a__fig--side">
+            <div className="write-m2a__fig-media">
+              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+            </div>
+          </figure>
         </section>
       )}
 
@@ -442,46 +455,54 @@ export function WritingM2aTrainer({
       )}
 
       {step === 6 && (
-        <section className="write-m2a__voice">
-          <p className="write-m2a__instr">
-            <span className="write-m2a__badge">{data.changeVoice.badge}</span>
-            {data.changeVoice.instruction}
-          </p>
-          <ol className="write-m2a__voice-list">
-            {data.changeVoice.items.map((it) => {
-              const ok = checkWriteM2a(voice[it.id] ?? "", it.answers);
-              return (
-                <li key={it.id}>
-                  <p className="write-m2a__stem">
-                    <strong>{it.id}.</strong> {it.text}
-                  </p>
-                  <input
-                    className={`write-m2a__input ${checked ? (ok ? "write-m2a__input--ok" : "write-m2a__input--bad") : ""}`}
-                    value={voice[it.id] ?? ""}
-                    disabled={checked}
-                    placeholder="Rewrite…"
-                    onChange={(e) =>
-                      setVoice((v) => ({ ...v, [it.id]: e.target.value }))
-                    }
-                  />
-                  {checked && !ok && (
-                    <p className="write-m2a__tip">→ {it.answers[0]}</p>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
+        <section className="write-m2a__voice write-m2a__voice--split">
+          <div className="write-m2a__voice-main">
+            <p className="write-m2a__instr">
+              <span className="write-m2a__badge">{data.changeVoice.badge}</span>
+              {data.changeVoice.instruction}
+            </p>
+            <ol className="write-m2a__voice-list write-m2a__voice-list--grid">
+              {data.changeVoice.items.map((it) => {
+                const ok = checkWriteM2a(voice[it.id] ?? "", it.answers);
+                return (
+                  <li key={it.id}>
+                    <p className="write-m2a__stem">
+                      <strong>{it.id}.</strong> {it.text}
+                    </p>
+                    <input
+                      className={`write-m2a__input ${checked ? (ok ? "write-m2a__input--ok" : "write-m2a__input--bad") : ""}`}
+                      value={voice[it.id] ?? ""}
+                      disabled={checked}
+                      placeholder="Rewrite…"
+                      onChange={(e) =>
+                        setVoice((v) => ({ ...v, [it.id]: e.target.value }))
+                      }
+                    />
+                    {checked && !ok && (
+                      <p className="write-m2a__tip">→ {it.answers[0]}</p>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+          <figure className="write-m2a__fig write-m2a__fig--side">
+            <div className="write-m2a__fig-media">
+              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+            </div>
+          </figure>
         </section>
       )}
 
       {step === 7 && (
-        <section className="write-m2a__discuss">
-          <p className="write-m2a__instr">
-            <span className="write-m2a__badge">{data.discussProcess.badge}</span>
-            {data.discussProcess.instruction}
-          </p>
-          <p className="write-m2a__cue">Use active and/or passive</p>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss-process"
+          badge={data.discussProcess.badge}
+          instruction={data.discussProcess.instruction}
+          cue={data.discussProcess.cue}
+          suggestedTitle={data.discussProcess.suggestedTitle}
+          suggestedAnswer={data.discussProcess.suggestedAnswer}
+        />
       )}
 
       {step === 8 && (
@@ -501,7 +522,9 @@ export function WritingM2aTrainer({
             </ul>
             <figure className="write-m2a__fig write-m2a__fig--oils">
               <figcaption>{data.write.title}</figcaption>
-              <img src={data.write.image} alt={data.write.imageAlt} />
+              <div className="write-m2a__fig-media">
+                <img src={data.write.image} alt={data.write.imageAlt} />
+              </div>
             </figure>
           </div>
           <div className="write-m2a__compose">

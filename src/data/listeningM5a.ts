@@ -117,5 +117,11 @@ export const listeningM5a = {
       "Do all inventions make life easier, or can some waste time?",
       "If you could invent anything, what would it be and why?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I once saw a gadget that automatically stirs your coffee — it looked amusing but hardly essential. Some inventions solve real problems, while others seem designed mainly to grab attention.",
+      "Not every invention makes life easier. Social media apps, for example, can save time for communication but also waste hours through endless scrolling. So it really depends on how disciplined the user is.",
+      "If I could invent anything, I'd create an affordable device that purifies water using solar power for remote communities. It would address a basic need and could improve health on a large scale.",
+    ],
   },
 };

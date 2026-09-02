@@ -92,6 +92,12 @@ export const speakingM7a = {
       "The places that are a stone's throw away from where you live at the moment.",
       "What the pace of life is like where you live.",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "A place that is a home from home for me is my grandmother's village — it feels familiar and comforting even though I only visit a few times a year. The pace of life there is much slower than in the city; there is no hustle and bustle, and people do not live on top of each other.",
+      "Near where I live at the moment, the main shopping district is only a stone's throw away, which is incredibly convenient. However, the run-down side streets nearby remind me that not every part of a city centre is equally well maintained.",
+      "The pace of life where I live is fast — everyone seems to be rushing somewhere, and I thrive on that energy, though I can understand why others prefer quieter surroundings.",
+    ],
   },
   accuracy: {
     badge: "4a",

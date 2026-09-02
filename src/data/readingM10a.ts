@@ -226,5 +226,10 @@ export const readingM10a = {
       "Would you describe yourself more as a rational or a creative person? Why?",
       "Should schools create more space for arts, fantasy and imagination? How?",
     ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I'd describe myself as more rational because I tend to analyse problems logically before acting. That said, I rely on creativity when I need original ideas, so the two sides complement each other rather than excluding one another.",
+      "Schools should certainly make more room for arts and imagination, perhaps by integrating creative projects into science and language lessons rather than treating them as optional extras. Dedicated studio time, drama workshops, and open-ended assignments could nurture fantasy alongside academic skills.",
+    ],
   },
 };

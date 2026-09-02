@@ -254,6 +254,12 @@ export const listeningM3a = {
     heading: "Discussion",
     instruction:
       "Have you ever tried meditating? Why/Why not? To what extent do you believe that doing things like meditating can make mental or physical changes within a person?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I've tried meditating a few times, though not as regularly as I'd like. I was curious because several friends said it helped them manage stress during exam periods.",
+      "I do believe activities like meditation can make real changes, at least in terms of mental wellbeing. When you focus on your breathing, your heart rate often slows and you feel less anxious — that's a measurable physical effect.",
+      "That said, I'm not convinced meditation alone can cure serious health problems. I see it more as a useful complement to exercise, sleep and medical advice when needed.",
+    ],
   },
 };
 

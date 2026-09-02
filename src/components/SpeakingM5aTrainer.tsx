@@ -4,6 +4,7 @@ import {
   SPEAK_M5A_STEPS,
   speakingM5a,
 } from "../data/speakingM5a";
+import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = speakingM5a;
 
@@ -120,9 +121,13 @@ export function SpeakingM5aTrainer({
       </div>
 
       {step === 0 && (
-        <section className="speak-m3a__panel">
-          <p className="read-m3__instr"><span className="write-m2a__badge">{data.discuss1.badge}</span>{data.discuss1.instruction}</p>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss1"
+          badge={data.discuss1.badge}
+          instruction={data.discuss1.instruction}
+          suggestedTitle={data.discuss1.suggestedTitle}
+          suggestedAnswer={data.discuss1.suggestedAnswer}
+        />
       )}
       {step === 1 && (
         <section className="speak-m3a__panel">
@@ -150,10 +155,14 @@ export function SpeakingM5aTrainer({
         </section>
       )}
       {step === 2 && (
-        <section className="speak-m3a__panel">
-          <p className="read-m3__instr"><span className="write-m2a__badge">{data.discuss2b.badge}</span>{data.discuss2b.instruction}</p>
-          <ol className="read-m3__qs">{data.discuss2b.questions.map((q) => <li key={q}>{q}</li>)}</ol>
-        </section>
+        <ExpertDiscussPanel
+          key="discuss2b"
+          badge={data.discuss2b.badge}
+          instruction={data.discuss2b.instruction}
+          questions={data.discuss2b.questions}
+          suggestedTitle={data.discuss2b.suggestedTitle}
+          suggestedAnswer={data.discuss2b.suggestedAnswer}
+        />
       )}
       {step === 3 && (
         <section className="speak-m3a__panel">

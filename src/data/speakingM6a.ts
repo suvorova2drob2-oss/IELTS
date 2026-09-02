@@ -92,7 +92,12 @@ export const speakingM6a = {
       "The balance between monitoring and privacy",
       "The safety of different websites",
     ],
-    tip: "CCTV helps police track people and identify potential criminals. Careless sharing of online data could lead to identity theft. Some people think monitoring is an invasion of privacy.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "CCTV has clear benefits — it helps police track people and identify potential criminals using footage from public places. In my country, cameras are common in shops, transport hubs and city centres, though some people consider constant monitoring an invasion of privacy.",
+      "Online data is widely used by companies for marketing and by services we rely on daily, but careless sharing could lead to identity theft if personal details fall into the wrong hands. The balance between surveillance and privacy is delicate: safety measures protect customers, yet excessive monitoring can feel intrusive.",
+      "When discussing the safety of different websites, I would use collocations like safety measures and online data — sticking to well-known sites with secure payment systems reduces risk, while unfamiliar platforms require more caution.",
+    ],
   },
   structure3: {
     badge: "3a–3c",

@@ -26,7 +26,7 @@ export function WomenEmploymentGraph({
 
   const W = 640;
   const H = compact ? 260 : 300;
-  const pad = { t: 14, r: 14, b: 36, l: 42 };
+  const pad = { t: 16, r: 14, b: 44, l: 52 };
   const plotW = W - pad.l - pad.r;
   const plotH = H - pad.t - pad.b;
   const yMin = 50;
@@ -67,6 +67,7 @@ export function WomenEmploymentGraph({
         role="img"
         aria-label={writingM1a.graphTitle}
       >
+        <rect x={0} y={0} width={W} height={H} fill="#f7f1e6" />
         <rect
           x={pad.l}
           y={pad.t}
@@ -87,7 +88,7 @@ export function WomenEmploymentGraph({
               />
             )}
             <text
-              x={pad.l - 8}
+              x={pad.l - 10}
               y={yOf(tick) + 4}
               className="pw-graph__tick pw-graph__tick--book"
             >
@@ -200,7 +201,7 @@ export function WomenEmploymentGraph({
                 x="24"
                 y="4"
                 className="pw-graph__tick pw-graph__tick--book"
-                style={{ textAnchor: "start", fontSize: "11px" }}
+                style={{ textAnchor: "start", fontSize: "12px", fontWeight: 700 }}
                 opacity={focusId && focusId !== s.id ? 0.35 : 1}
               >
                 {s.label}

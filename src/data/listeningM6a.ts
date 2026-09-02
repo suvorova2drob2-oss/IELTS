@@ -174,6 +174,11 @@ export const listeningM6a = {
     badge: "5–6",
     instruction:
       "Discuss which crime-prevention measures would work best (cameras, lighting, harsher punishments). Structure your argument as in Speaking.",
-    tip: "Suggested: cameras would be successful as people would know they would get caught; lighting is less useful if nobody is around; harsher punishments may deter some offenders.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I'd argue that CCTV cameras are the most effective measure because they both deter crime and provide evidence when offences occur. If people know they might be filmed, they're less likely to break the law.",
+      "Better street lighting can help too, but only when there are people around to notice suspicious behaviour — empty well-lit streets may still be unsafe late at night.",
+      "Harsher punishments might deter some offenders, though research suggests certainty of being caught matters more than the severity of the sentence. So I'd prioritise cameras, with improved lighting as a supporting measure.",
+    ],
   },
 };

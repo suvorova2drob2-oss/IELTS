@@ -150,6 +150,11 @@ export const readingM8b = {
       "What difficulties might the job involve?",
       "Would you find this kind of work interesting? Why / Why not?",
     ],
-    tip: "Qualities: attention to detail, lateral thinking, determination, resilience, leadership, tact, sensitivity. Difficulties: unpredictable hours, unpleasant scenarios, frustration when evidence is unclear. Rewards: varied, challenging, satisfying when criminals are caught.",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "A good investigator needs attention to detail, lateral thinking, and determination. They must also show tact and sensitivity when dealing with victims' families, and resilience when evidence is slow to emerge.",
+      "The job can involve unpredictable hours, unpleasant scenes, and frustration when clues are unclear. Investigators may face pressure from the media and must stay objective despite emotionally charged cases.",
+      "I would find the work interesting because it is varied and intellectually challenging. Solving a case and helping bring criminals to justice would be deeply satisfying, though I might struggle with the grimmer aspects of the role.",
+    ],
   },
 };

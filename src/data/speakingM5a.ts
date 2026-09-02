@@ -40,6 +40,12 @@ export const speakingM5a = {
     heading: "Lead-in",
     instruction:
       "Discuss how gadgets have changed our lives. Think about mobile phones, tablets and TV streaming services. What did people do before these existed?",
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "Gadgets have transformed daily life in ways that would have seemed unimaginable a generation ago. Mobile phones mean we are always contactable; tablets have replaced books and newspapers for many people; and streaming services have changed how we watch television entirely.",
+      "Before these existed, people wrote letters, read physical newspapers and gathered around a single TV set at a fixed time. Communication was slower but arguably more deliberate, and entertainment was a shared family activity rather than an individual screen experience.",
+      "Overall, gadgets have made life more convenient and connected, though some would argue they have also made us more dependent on technology and less present in face-to-face interactions.",
+    ],
   },
   match2a: {
     badge: "2a",
@@ -95,6 +101,12 @@ export const speakingM5a = {
       "Do you value user-friendliness more than versatility in a gadget?",
       "What does a state-of-the-art gadget look like to you?",
       "Why do gadgets become outdated so quickly?",
+    ],
+    suggestedTitle: "Suggested answer",
+    suggestedAnswer: [
+      "I would say the washing machine is the most labour-saving gadget because it eliminated hours of manual work every week. Before it existed, laundry was one of the most time-consuming household tasks.",
+      "The internet has probably revolutionised the world more than any single invention — it has changed commerce, communication, education and entertainment simultaneously. As for user-friendliness versus versatility, I value user-friendliness more because a gadget I cannot operate easily is essentially useless to me.",
+      "A state-of-the-art gadget today might be a foldable smartphone with AI features, ultra-fast processing and seamless integration with other devices. Gadgets become outdated quickly because manufacturers release new models annually and software updates eventually stop supporting older hardware.",
     ],
   },
   techniques3: {
