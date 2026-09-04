@@ -4,7 +4,7 @@ import {
   MS_U4_WRITE_NEXT,
   writingU4,
 } from "../../data/mindset/writingU4";
-import { WordCountMeter, countWords } from "../WordCountMeter";
+import { WritingComposePanel } from "../WritingComposePanel";
 
 const data = writingU4;
 
@@ -318,18 +318,20 @@ export function WritingU4Trainer({
             {s.instruction}
           </p>
           <p className="write-m2a__cue">{s.prompt}</p>
-          <WordCountMeter words={countWords(draft)} minWords={s.minWords ?? 250} label={s.wcLabel ?? "Task minimum"} />
-          <textarea
-            className="write-m2a__draft"
-            rows={10}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={s.minWords ?? 250}
             placeholder="Write your answer here…"
+            rows={10}
+            modelAnswer={s.sample}
+            modelTitle="Sample answer"
+            modelOpenLabel="Show sample"
+            modelCloseLabel="Hide sample"
+            showModel={showSample}
+            onToggleModel={() => setShowSample((v) => !v)}
+            textareaClassName="write-m2a__draft write-compose__ta"
           />
-          <button type="button" className="pr-chip" onClick={() => setShowSample((v) => !v)}>
-            {showSample ? "Hide sample" : "Show sample"}
-          </button>
-          {showSample && <article className="read-m3__passage"><p>{s.sample}</p></article>}
         </section>
       )}
 

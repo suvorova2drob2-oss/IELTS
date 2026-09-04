@@ -1,5 +1,3 @@
-import glassesImg from "../assets/speak-m3a-glasses.png";
-
 export const SPEAK_M3A_STEPS = [
   "1a Quiz",
   "1b Discuss",
@@ -38,7 +36,6 @@ export const speakingM3a = {
   id: "speaking-m3a-flow",
   bookPages: "p. 43 in your coursebook",
   sectionTitle: "Speaking · Part 3",
-  image: glassesImg,
   imageAlt:
     "Two glasses of water labelled half empty and half full — Positivity Quiz.",
   quiz: {
@@ -169,10 +166,18 @@ export const speakingM3a = {
     badge: "5a",
     instruction:
       "Read the questions and make notes on how you will develop your answers.",
+    speakCue:
+      "Prepare aloud — use the techniques from Exercise 3 (examples, reasons, comparisons, alternatives, cause and effect).",
     questions: [
       "Do you think it’s more difficult for adults to be positive than children?",
       "Would you say that positivity is the key to happiness?",
       "Do you believe that some cultures are more optimistic than others?",
+    ],
+    modelLabel: "Suggested answer",
+    models: [
+      "Yes, I think it’s harder for adults. The reason is that adults have more responsibilities — work, bills, family — so they focus on problems rather than small pleasures. For example, a child might be happy simply playing outside, whereas an adult may be worrying about tomorrow’s meeting. As a result, optimism often comes less naturally with age.",
+      "I’m not sure it’s the only key, but it’s certainly important. Happiness depends on many factors — relationships, health, security — yet a positive outlook helps people cope with difficulties. Alternatively, some people are happy without being especially optimistic; they find contentment in routine. So positivity helps, but it isn’t everything.",
+      "Yes, to some extent. Compared with some Western cultures, for instance, certain societies emphasise community and gratitude more openly, which may encourage optimism. The reason may be historical or religious — for example, cultures that celebrate festivals together often seem more upbeat. Similarly, economic conditions play a role: in harder times, pessimism can spread regardless of culture.",
     ],
   },
 };

@@ -246,42 +246,107 @@ export function ReadingM3Trainer({
       )}
 
       {step === 2 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.matchHeading.badge}</span>
-            {data.matchHeading.instruction}
-          </p>
-          <p className="read-m3__hint">
-            Summary from 2a:{" "}
-            <em>
-              {
-                data.mainIdea.options.find((o) => o.id === data.mainIdea.key)
-                  ?.text
-              }
-            </em>
-          </p>
-          <ul className="read-m3__head-list">
-            {data.headings.map((h) => {
-              let state = "";
-              if (checked) {
-                if (h.id === data.matchHeading.key) state = "pr-chip--ok";
-                else if (heading2b === h.id) state = "pr-chip--bad";
-              } else if (heading2b === h.id) state = "pr-chip--picked";
-              return (
-                <li key={h.id}>
-                  <button
-                    type="button"
-                    className={`read-m3__head-btn ${state}`}
-                    disabled={checked}
-                    onClick={() => setHeading2b(h.id)}
+        <section className="read-m3__split read-m3__split--2b">
+          <aside className="read-m3__ref read-m3__side">
+            <h2 className="read-m3__h">Exercise 2a — your work</h2>
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">{data.mainIdea.badge}</span>
+              {data.mainIdea.instruction}
+            </p>
+            <p className="read-m3__subhead">Paragraph A</p>
+            <article className="read-m3__ref-passage">
+              <header className="read-m3__ref-title">
+                <strong>{data.title}</strong>
+                <span>{data.subtitle}</span>
+              </header>
+              <p>
+                <strong className="read-m3__para-id">A</strong>{" "}
+                {data.passage[0].text}
+              </p>
+            </article>
+            <p className="read-m3__q">
+              <strong>3.</strong> {data.mainIdea.q3}
+            </p>
+            {summary ? (
+              <div className="read-m3__ref-banner read-m3__ref-banner--picked">
+                <span className="read-m3__ref-banner-label">Your choice in 2a</span>
+                <p>
+                  <strong>{summary}.</strong>{" "}
+                  {
+                    data.mainIdea.options.find((o) => o.id === summary)
+                      ?.text
+                  }
+                </p>
+              </div>
+            ) : (
+              <p className="read-m3__place-hint">
+                Open tab <strong>2a Main idea</strong> to choose a summary, or
+                compare the options below.
+              </p>
+            )}
+            <p className="read-m3__subhead">Summary options from 2a</p>
+            <ul className="read-m3__ref-summaries">
+              {data.mainIdea.options.map((opt) => {
+                let state = "";
+                if (summary === opt.id) state = "read-m3__ref-sum--picked";
+                return (
+                  <li
+                    key={opt.id}
+                    className={`read-m3__ref-sum ${state}`.trim()}
                   >
-                    <strong>{h.id}</strong>
-                    <span>{h.text}</span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+                    <strong>{opt.id}</strong>
+                    <span>{opt.text}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+          <div className="read-m3__side read-m3__side--2b">
+            <h2 className="read-m3__h">Exercise 2b — match a heading</h2>
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">{data.matchHeading.badge}</span>
+              {data.matchHeading.instruction}
+            </p>
+            <p className="read-m3__place-hint">
+              Use your summary from 2a (left) to pick the best heading i–vii.
+            </p>
+            <p className="read-m3__subhead">List of headings</p>
+            <ul className="read-m3__head-list read-m3__head-list--2b">
+              {data.headings.map((h) => {
+                let state = "";
+                if (checked) {
+                  if (h.id === data.matchHeading.key) state = "pr-chip--ok";
+                  else if (heading2b === h.id) state = "pr-chip--bad";
+                } else if (heading2b === h.id) state = "pr-chip--picked";
+                return (
+                  <li key={h.id}>
+                    <button
+                      type="button"
+                      className={`read-m3__head-btn ${state}`}
+                      disabled={checked}
+                      onClick={() => setHeading2b(h.id)}
+                    >
+                      <strong>{h.id}</strong>
+                      <span>{h.text}</span>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            {checked && (
+              <p className="read-m3__tip">
+                Heading <strong>{data.matchHeading.key}</strong> best matches
+                summary <strong>{data.mainIdea.key}</strong>:{" "}
+                <em>
+                  {
+                    data.mainIdea.options.find(
+                      (o) => o.id === data.mainIdea.key,
+                    )?.text
+                  }
+                </em>
+              </p>
+            )}
+          </div>
         </section>
       )}
 
@@ -301,17 +366,14 @@ export function ReadingM3Trainer({
             ))}
           </article>
           <aside className="read-m3__side read-m3__side--exam">
-            <h2 className="read-m3__h">{data.exam.heading}</h2>
-            <p className="write-m2a__expert">{data.exam.strategies}</p>
-            <p className="read-m3__instr">
+            <p className="read-m3__instr read-m3__instr--exam-top">
               <span className="write-m2a__badge">{data.exam.badge}</span>
-              Questions 1–4
+              Questions 1–4 · {data.exam.headingsInstr}
             </p>
-            <p className="read-m3__hint">{data.exam.headingsInstr}</p>
             <p className="read-m3__place-hint">
               {pickedHead
-                ? `Selected ${pickedHead} — now click Paragraph A, B, C or D`
-                : "Click a heading (i–vii), then click a paragraph gap below. Click a filled gap to undo."}
+                ? `Selected ${pickedHead} — click Paragraph A, B, C or D`
+                : "Click a heading (i–vii), then a paragraph gap. Click a filled gap to undo."}
             </p>
             <ul className="read-m3__para-slots read-m3__para-slots--match">
               {PARAS.map((p, i) => {
@@ -370,9 +432,9 @@ export function ReadingM3Trainer({
             </ul>
 
             <p className="read-m3__instr read-m3__instr--mt">
-              Questions 5–6
+              <span className="write-m2a__badge">5–6</span>
+              {data.exam.mcInstr}
             </p>
-            <p className="read-m3__hint">{data.exam.mcInstr}</p>
             <ul className="read-m3__mc">
               {data.exam.mcOptions.map((opt) => {
                 const on = mcPick.includes(opt.id);

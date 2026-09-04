@@ -6,6 +6,7 @@ import {
   speakingM3a,
 } from "../data/speakingM3a";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { SpeakM3aGlassesVisual } from "./SpeakM3aGlassesVisual";
 
 const data = speakingM3a;
 
@@ -29,18 +30,13 @@ export function SpeakingM3aTrainer({
   const [forms, setForms] = useState<Record<number, string>>({});
   const [pickedWords, setPickedWords] = useState<string[]>([]);
   const [showModel2b, setShowModel2b] = useState(false);
-  const [techNotes, setTechNotes] = useState<Record<string, string>>({});
-  const [showTips, setShowTips] = useState(false);
+  const [techOpen, setTechOpen] = useState<Record<string, boolean>>({});
   const [notes4, setNotes4] = useState<Record<number, { brief: string; develop: string }>>({
     0: { brief: "", develop: "" },
     1: { brief: "", develop: "" },
   });
   const [showModel4, setShowModel4] = useState(false);
-  const [notes5, setNotes5] = useState<Record<number, string>>({
-    0: "",
-    1: "",
-    2: "",
-  });
+  const [model5Open, setModel5Open] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -50,11 +46,10 @@ export function SpeakingM3aTrainer({
     setForms({});
     setPickedWords([]);
     setShowModel2b(false);
-    setTechNotes({});
-    setShowTips(false);
+    setTechOpen({});
     setNotes4({ 0: { brief: "", develop: "" }, 1: { brief: "", develop: "" } });
     setShowModel4(false);
-    setNotes5({ 0: "", 1: "", 2: "" });
+    setModel5Open({});
   }, [restart, initialStep]);
 
   const formScore = data.wordForms.rows.filter((row) => {
@@ -80,8 +75,9 @@ export function SpeakingM3aTrainer({
     }
     setChecked(false);
     setShowModel2b(false);
-    setShowTips(false);
+    setTechOpen({});
     setShowModel4(false);
+    setModel5Open({});
     setStep((s) => s - 1);
   };
 
@@ -94,10 +90,6 @@ export function SpeakingM3aTrainer({
       setShowModel2b(true);
       return;
     }
-    if (step === 4 && !showTips) {
-      setShowTips(true);
-      return;
-    }
     if (step === 5 && !showModel4) {
       setShowModel4(true);
       return;
@@ -108,8 +100,9 @@ export function SpeakingM3aTrainer({
     }
     setChecked(false);
     setShowModel2b(false);
-    setShowTips(false);
+    setTechOpen({});
     setShowModel4(false);
+    setModel5Open({});
     setStep((s) => s + 1);
   };
 
@@ -118,11 +111,9 @@ export function SpeakingM3aTrainer({
       ? "Check →"
       : step === 3 && !showModel2b
         ? "Show model →"
-        : step === 4 && !showTips
-          ? "Show language tips →"
-          : step === 5 && !showModel4
-            ? "Show models →"
-            : SPEAK_M3A_NEXT[step];
+        : step === 5 && !showModel4
+          ? "Show models →"
+          : SPEAK_M3A_NEXT[step];
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport speak-m3a">
@@ -149,8 +140,9 @@ export function SpeakingM3aTrainer({
                 setStep(i);
                 setChecked(false);
                 setShowModel2b(false);
-                setShowTips(false);
+                setTechOpen({});
                 setShowModel4(false);
+                setModel5Open({});
               }}
             >
               {i + 1}. {label}
@@ -162,7 +154,7 @@ export function SpeakingM3aTrainer({
       {step === 0 && (
         <section className="speak-m3a__lead">
           <figure className="speak-m3a__hero">
-            <img src={data.image} alt={data.imageAlt} />
+            <SpeakM3aGlassesVisual alt={data.imageAlt} />
           </figure>
           <div className="speak-m3a__quiz">
             <h2 className="speak-m3a__h">{data.quiz.heading}</h2>
@@ -175,7 +167,10 @@ export function SpeakingM3aTrainer({
               <ol>
                 {data.quiz.items.map((item, i) => (
                   <li key={item}>
-                    <span>{item}</span>
+                    <span className="speak-m3a__q">
+                      <strong className="speak-m3a__q-num">{i + 1}</strong>
+                      <span className="speak-m3a__q-text">{item}</span>
+                    </span>
                     <div className="speak-m3a__yn">
                       {(["yes", "no"] as const).map((opt) => (
                         <button
@@ -212,19 +207,20 @@ export function SpeakingM3aTrainer({
           suggestedAnswer={data.discuss.suggestedAnswer}
         >
           <figure className="speak-m3a__hero speak-m3a__hero--sm">
-            <img src={data.image} alt={data.imageAlt} />
+            <SpeakM3aGlassesVisual alt={data.imageAlt} compact />
           </figure>
         </ExpertDiscussPanel>
       )}
 
       {step === 2 && (
-        <section className="speak-m3a__panel">
-          <h2 className="speak-m3a__h">{data.wordForms.heading}</h2>
-          <p className="speak-m3a__instr">
-            <span className="write-m2a__badge">{data.wordForms.badge}</span>
-            {data.wordForms.instruction}
-          </p>
-          <table className="speak-m3a__table">
+        <section className="speak-m3a__panel speak-m3a__panel--forms">
+          <div className="speak-m3a__forms-card">
+            <h2 className="speak-m3a__h">{data.wordForms.heading}</h2>
+            <p className="speak-m3a__instr">
+              <span className="write-m2a__badge">{data.wordForms.badge}</span>
+              {data.wordForms.instruction}
+            </p>
+            <table className="speak-m3a__table speak-m3a__table--forms">
             <thead>
               <tr>
                 <th>Noun</th>
@@ -301,30 +297,53 @@ export function SpeakingM3aTrainer({
               })}
             </tbody>
           </table>
+          </div>
         </section>
       )}
 
       {step === 3 && (
-        <section className="speak-m3a__panel">
+        <section
+          className={`speak-m3a__panel${showModel2b ? " speak-m3a__panel--split" : ""}`}
+        >
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">{data.relevant.badge}</span>
             {data.relevant.instruction}
           </p>
-          <aside className="speak-m3a__examiner">{data.relevant.examiner}</aside>
-          <div className="speak-m3a__bank">
-            {data.relevant.bank.map((w) => (
-              <button
-                key={w}
-                type="button"
-                className={`pr-chip ${pickedWords.includes(w) ? "pr-chip--picked" : ""}`}
-                onClick={() => toggleWord(w)}
-              >
-                {w}
-              </button>
-            ))}
+          <div className="speak-m3a__pick-main">
+            <aside className="speak-m3a__examiner speak-m3a__examiner--lg">
+              {data.relevant.examiner}
+            </aside>
+            <div className="speak-m3a__bank speak-m3a__bank--lg">
+              {data.relevant.bank.map((w) => (
+                <button
+                  key={w}
+                  type="button"
+                  className={`pr-chip ${pickedWords.includes(w) ? "pr-chip--picked" : ""}`}
+                  onClick={() => toggleWord(w)}
+                >
+                  {w}
+                </button>
+              ))}
+            </div>
+            <div className="speak-m3a__picked">
+              <strong className="speak-m3a__picked-label">Selected words</strong>
+              {pickedWords.length > 0 ? (
+                <div className="speak-m3a__picked-chips">
+                  {pickedWords.map((w) => (
+                    <span key={w} className="pr-chip pr-chip--picked">
+                      {w}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="speak-m3a__picked-empty">
+                  Tap words from the bank that fit the examiner&apos;s question.
+                </p>
+              )}
+            </div>
           </div>
           {showModel2b && (
-            <aside className="speak-m3a__model">
+            <aside className="speak-m3a__model speak-m3a__model--prominent">
               <strong>{data.relevant.modelLabel}</strong>
               <p>{data.relevant.modelAnswer}</p>
             </aside>
@@ -333,29 +352,28 @@ export function SpeakingM3aTrainer({
       )}
 
       {step === 4 && (
-        <section className="speak-m3a__panel">
-          <p className="speak-m3a__instr">
+        <section className="speak-m3a__panel speak-m3a__panel--tech">
+          <p className="speak-m3a__instr speak-m3a__instr--tech">
             <span className="write-m2a__badge">{data.techniques.badge}</span>
             {data.techniques.instruction}
           </p>
-          <ul className="speak-m3a__tech">
+          <ul className="speak-m3a__tech speak-m3a__tech--compact">
             {data.techniques.items.map((it, i) => (
-              <li key={it.id}>
-                <label>
-                  <strong>
-                    {it.id} {it.label}
-                  </strong>
-                  <input
-                    className="speak-m3a__tech-input"
-                    value={techNotes[it.id] ?? ""}
-                    placeholder="e.g. language phrases…"
-                    onChange={(e) =>
-                      setTechNotes((t) => ({ ...t, [it.id]: e.target.value }))
-                    }
-                  />
-                </label>
-                {showTips && (
-                  <p className="speak-m3a__tip">→ {data.techniques.tips[i]}</p>
+              <li key={it.id} className="speak-m3a__tech-card">
+                <strong className="speak-m3a__tech-title">
+                  {it.id} {it.label}
+                </strong>
+                <button
+                  type="button"
+                  className={`speak-m3a__tech-toggle ${techOpen[it.id] ? "speak-m3a__tech-toggle--on" : ""}`}
+                  onClick={() =>
+                    setTechOpen((t) => ({ ...t, [it.id]: !t[it.id] }))
+                  }
+                >
+                  {techOpen[it.id] ? "Hide phrases" : "Show phrases →"}
+                </button>
+                {techOpen[it.id] && (
+                  <p className="speak-m3a__tech-phrases">{data.techniques.tips[i]}</p>
                 )}
               </li>
             ))}
@@ -364,48 +382,52 @@ export function SpeakingM3aTrainer({
       )}
 
       {step === 5 && (
-        <section className="speak-m3a__panel">
+        <section
+          className={`speak-m3a__panel${showModel4 ? " speak-m3a__panel--split" : ""}`}
+        >
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">{data.notes4.badge}</span>
             {data.notes4.instruction}
           </p>
-          <div className="speak-m3a__notes-grid">
-            {data.notes4.questions.map((q, i) => (
-              <article key={q} className="speak-m3a__note-card">
-                <p>
-                  <strong>{i + 1}.</strong> {q}
-                </p>
-                <label>
-                  Brief note
-                  <textarea
-                    rows={2}
-                    value={notes4[i]?.brief ?? ""}
-                    onChange={(e) =>
-                      setNotes4((n) => ({
-                        ...n,
-                        [i]: { ...n[i], brief: e.target.value },
-                      }))
-                    }
-                  />
-                </label>
-                <label>
-                  Develop (3b techniques)
-                  <textarea
-                    rows={3}
-                    value={notes4[i]?.develop ?? ""}
-                    onChange={(e) =>
-                      setNotes4((n) => ({
-                        ...n,
-                        [i]: { ...n[i], develop: e.target.value },
-                      }))
-                    }
-                  />
-                </label>
-              </article>
-            ))}
+          <div className="speak-m3a__pick-main">
+            <div className="speak-m3a__notes-grid">
+              {data.notes4.questions.map((q, i) => (
+                <article key={q} className="speak-m3a__note-card">
+                  <p>
+                    <strong>{i + 1}.</strong> {q}
+                  </p>
+                  <label>
+                    Brief note
+                    <textarea
+                      rows={2}
+                      value={notes4[i]?.brief ?? ""}
+                      onChange={(e) =>
+                        setNotes4((n) => ({
+                          ...n,
+                          [i]: { ...n[i], brief: e.target.value },
+                        }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    Develop (3b techniques)
+                    <textarea
+                      rows={3}
+                      value={notes4[i]?.develop ?? ""}
+                      onChange={(e) =>
+                        setNotes4((n) => ({
+                          ...n,
+                          [i]: { ...n[i], develop: e.target.value },
+                        }))
+                      }
+                    />
+                  </label>
+                </article>
+              ))}
+            </div>
           </div>
           {showModel4 && (
-            <aside className="speak-m3a__model">
+            <aside className="speak-m3a__model speak-m3a__model--prominent">
               <strong>{data.notes4.modelLabel}</strong>
               {data.notes4.models.map((m, i) => (
                 <p key={i}>
@@ -418,25 +440,35 @@ export function SpeakingM3aTrainer({
       )}
 
       {step === 6 && (
-        <section className="speak-m3a__panel">
+        <section className="speak-m3a__panel speak-m3a__panel--speak">
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">{data.notes5.badge}</span>
             {data.notes5.instruction}
           </p>
-          <div className="speak-m3a__notes-grid speak-m3a__notes-grid--3">
+          <p className="speak-m3a__speak-cue">{data.notes5.speakCue}</p>
+          <div className="speak-m3a__speak-grid">
             {data.notes5.questions.map((q, i) => (
-              <article key={q} className="speak-m3a__note-card">
-                <p>
+              <article key={q} className="speak-m3a__speak-card">
+                <p className="speak-m3a__speak-q">
                   <strong>{i + 1}.</strong> {q}
                 </p>
-                <textarea
-                  rows={4}
-                  placeholder="Develop your answer…"
-                  value={notes5[i] ?? ""}
-                  onChange={(e) =>
-                    setNotes5((n) => ({ ...n, [i]: e.target.value }))
+                <button
+                  type="button"
+                  className={`speak-m3a__model-btn ${model5Open[i] ? "speak-m3a__model-btn--on" : ""}`}
+                  onClick={() =>
+                    setModel5Open((m) => ({ ...m, [i]: !m[i] }))
                   }
-                />
+                >
+                  {model5Open[i]
+                    ? "Hide suggested answer"
+                    : data.notes5.modelLabel}
+                </button>
+                {model5Open[i] && (
+                  <aside className="speak-m3a__model speak-m3a__model--prominent speak-m3a__model--inline">
+                    <strong>{data.notes5.modelLabel}</strong>
+                    <p>{data.notes5.models[i]}</p>
+                  </aside>
+                )}
               </article>
             ))}
           </div>

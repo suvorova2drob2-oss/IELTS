@@ -4,7 +4,7 @@ import {
   WRITE_M10B_STEPS,
   writingM10b,
 } from "../data/writingM10b";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM10b;
 const DRAFT_KEY = "ielts-writing-M10b-draft";
@@ -270,28 +270,18 @@ export function WritingM10bTrainer({
             {data.write5.write.instruction}
           </p>
           <p className="read-m3__hint">{data.forAgainst2a.title}</p>
-          <textarea
-            className="write-m2a__draft"
-            rows={12}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={250}
             placeholder="Write at least 250 words…"
+            rows={12}
+            modelAnswer={data.write5.modelAnswer}
+            modelTitle={data.write5.modelLabel}
+            modelOpenLabel={data.write5.modelLabel}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
           />
-          <WordCountMeter words={countWords(draft)} minWords={250} />
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => setShowModel((v) => !v)}
-          >
-            {showModel ? "Hide model" : data.write5.modelLabel}
-          </button>
-          {showModel && (
-            <article className="read-m3__passage">
-              <p style={{ whiteSpace: "pre-wrap" }}>
-                {data.write5.modelAnswer}
-              </p>
-            </article>
-          )}
         </section>
       )}
 

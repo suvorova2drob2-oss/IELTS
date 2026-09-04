@@ -1,5 +1,6 @@
 import windImg from "../assets/write-m2a-wind.png";
-import oilsImg from "../assets/write-m2a-oils.png";
+import windFullImg from "../assets/write-m2a-wind-full.png";
+import oilsFullImg from "../assets/write-m2a-oils-full.png";
 
 export const WRITE_M2A_STEPS = [
   "1 Lead-in",
@@ -62,7 +63,8 @@ export const writingM2a = {
     instruction:
       "Look at the following process. With a partner, describe what is happening. Where does the process start? What is the final stage?",
     title: "How wind turbines produce electricity",
-    image: windImg,
+    image: windFullImg,
+    imageCompact: windImg,
     imageAlt:
       "Diagram: air turns rotor blades, generator, cable, substation, then low-voltage electricity to houses.",
   },
@@ -222,7 +224,7 @@ export const writingM2a = {
       "use the passive when appropriate.",
     ],
     title: "The process of producing edible oils and fats, and margarine.",
-    image: oilsImg,
+    image: oilsFullImg,
     imageAlt:
       "Process diagram from raw materials through ship, silo, crushing, pressing, filtering, steaming to edible oils and supermarket.",
     suggestedAnswer: `The diagram shows how edible fats and oils are made and shows all the stages involved, from collecting the raw materials to producing the oils and fats. There are nine stages in this process, which will be outlined below.

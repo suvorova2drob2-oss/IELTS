@@ -4,7 +4,7 @@ import {
   WRITE_M8A_STEPS,
   writingM8a,
 } from "../data/writingM8a";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM8a;
 const DRAFT_KEY = "ielts-writing-m8a-draft";
@@ -304,28 +304,18 @@ export function WritingM8aTrainer({
             <span className="write-m2a__badge">{data.write4.write4c.badge}</span>
             {data.write4.write4c.instruction}
           </p>
-          <textarea
-            className="write-m2a__draft"
-            rows={12}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={250}
             placeholder="Write at least 250 words…"
+            rows={12}
+            modelAnswer={data.write4.modelAnswer}
+            modelTitle={data.write4.modelLabel}
+            modelOpenLabel={data.write4.modelLabel}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
           />
-          <WordCountMeter words={countWords(draft)} minWords={250} />
-          <button
-            type="button"
-            className="btn-secondary"
-            onClick={() => setShowModel((v) => !v)}
-          >
-            {showModel ? "Hide model" : data.write4.modelLabel}
-          </button>
-          {showModel && (
-            <article className="read-m3__passage">
-              <p style={{ whiteSpace: "pre-wrap" }}>
-                {data.write4.modelAnswer}
-              </p>
-            </article>
-          )}
         </section>
       )}
 

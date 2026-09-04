@@ -293,11 +293,16 @@ export function VocabularyM4Trainer({
       </div>
 
       {step === 0 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.match1a.heading}</h2>
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.match1a.badge}</span>
             {data.match1a.instruction}
+          </p>
+          <p className="vocab-m3__place-hint">
+            {picked
+              ? `Selected “${picked}” — click a gap`
+              : "Click a word from the bank, then click a gap."}
           </p>
           <div className="vocab-m3__bank">
             {data.match1a.bank.map((w) => {
@@ -328,7 +333,7 @@ export function VocabularyM4Trainer({
                     disabled={checked}
                     onClick={() => placeMatch1a(it.id)}
                   >
-                    {val ?? "________"}
+                    {val ?? "—"}
                   </button>
                   {checked && !ok && (
                     <span className="inline-gap-bad"> → {it.key}</span>
@@ -341,12 +346,12 @@ export function VocabularyM4Trainer({
       )}
 
       {step === 1 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--passage">
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.gap1b.badge}</span>
             {data.gap1b.instruction}
           </p>
-          <div className="vocab-m3__bank">
+          <div className="vocab-m3__bank vocab-m3__bank--passage">
             {data.gap1b.bank.map((w) => {
               const used = usedGap1b.has(w);
               return (
@@ -362,7 +367,7 @@ export function VocabularyM4Trainer({
               );
             })}
           </div>
-          <article className="vocab-m3__passage">
+          <article className="vocab-m3__passage vocab-m3__passage--fit">
             <p>
               {data.gap1b.parts.map((part, i) => {
                 if (!isVocabM4Gap(part)) {
@@ -371,16 +376,18 @@ export function VocabularyM4Trainer({
                 const val = gap1b[part.gap];
                 const ok = val === part.key;
                 return (
-                  <span key={i}>
+                  <span key={i} className="vocab-m3__ital">
                     <strong className="vocab-m3__n">{part.gap}</strong>
-                    <button
-                      type="button"
-                      className={gapCls(val, !!picked, ok)}
-                      disabled={checked}
-                      onClick={() => placeGap1b(part.gap)}
-                    >
-                      {val ?? "________"}
-                    </button>
+                    <span className="vocab-m3__ital-opts">
+                      <button
+                        type="button"
+                        className={gapCls(val, !!picked, ok)}
+                        disabled={checked}
+                        onClick={() => placeGap1b(part.gap)}
+                      >
+                        {val ?? "—"}
+                      </button>
+                    </span>
                     {checked && !ok && (
                       <span className="inline-gap-bad"> → {part.key}</span>
                     )}
@@ -393,7 +400,7 @@ export function VocabularyM4Trainer({
       )}
 
       {step === 2 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.impersonal2a.heading}</h2>
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.impersonal2a.badge}</span>
@@ -503,7 +510,7 @@ export function VocabularyM4Trainer({
       )}
 
       {step === 3 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.wordForms3.badge}</span>
             {data.wordForms3.instruction}
@@ -550,7 +557,7 @@ export function VocabularyM4Trainer({
       )}
 
       {step === 4 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.improve4.badge}</span>
             {data.improve4.instruction}
@@ -598,14 +605,21 @@ export function VocabularyM4Trainer({
       )}
 
       {step === 5 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.collocations5a.heading}</h2>
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.collocations5a.badge}</span>
             {data.collocations5a.instruction}
           </p>
+          <p className="vocab-m3__place-hint">
+            {pickedLetter
+              ? `Selected ${pickedLetter} — click a gap`
+              : "Click a letter (A–G), then click a gap beside a phrase."}
+          </p>
           <div className="vocab-m3__idiom-grid">
-            <ol className="vocab-m3__idiom-left">
+            <div className="vocab-m3__idiom-col">
+              <p className="vocab-m3__idiom-colhead">Phrases 1–7</p>
+              <ol className="vocab-m3__idiom-left">
               {data.collocations5a.left.map((it) => {
                 const val = colo5a[it.id];
                 const ok = val === data.collocations5a.keys[it.id];
@@ -629,8 +643,11 @@ export function VocabularyM4Trainer({
                   </li>
                 );
               })}
-            </ol>
-            <ul className="vocab-m3__idiom-right">
+              </ol>
+            </div>
+            <div className="vocab-m3__idiom-col">
+              <p className="vocab-m3__idiom-colhead">Meanings A–G</p>
+              <ul className="vocab-m3__idiom-right">
               {data.collocations5a.right.map((m) => {
                 const used = usedLetters.has(m.id);
                 return (
@@ -647,12 +664,18 @@ export function VocabularyM4Trainer({
                   </li>
                 );
               })}
-            </ul>
+              </ul>
+            </div>
           </div>
 
-          <p className="vocab-m3__instr">
+          <p className="vocab-m3__instr vocab-m3__instr--mt">
             <span className="write-m2a__badge">{data.collocations5b.badge}</span>
             {data.collocations5b.instruction}
+          </p>
+          <p className="vocab-m3__place-hint">
+            {picked
+              ? `Selected “${picked}” — click a gap`
+              : "Click a phrase from the bank, then click a gap."}
           </p>
           <div className="vocab-m3__bank">
             {data.collocations5b.bank.map((w) => {
@@ -683,7 +706,7 @@ export function VocabularyM4Trainer({
                     disabled={checked}
                     onClick={() => placeColo5b(it.id)}
                   >
-                    {val ?? "________"}
+                    {val ?? "—"}
                   </button>
                   {it.after}
                   {checked && !ok && (

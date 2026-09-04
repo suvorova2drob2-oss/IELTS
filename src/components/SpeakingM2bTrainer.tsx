@@ -189,28 +189,32 @@ export function SpeakingM2bTrainer({
       )}
 
       {step === 2 && (
-        <section className="speak-m2b__speak">
+        <section
+          className={`speak-m2b__speak${showModel2b ? " speak-m2b__speak--split" : ""}`}
+        >
           <p className="speak-m1b__instr">
             <span className="speak-m1b__badge">{data.speak2b.badge}</span>
             {data.speak2b.instruction}
           </p>
-          <ul className="speak-m2b__topics">
-            {data.speak2b.topics.map((t, i) => (
-              <li key={t}>
-                <button
-                  type="button"
-                  className={`speak-m2b__topic ${topic === i ? "speak-m2b__topic--on" : ""}`}
-                  onClick={() => setTopic(i)}
-                >
-                  <span className="speak-m2b__topic-n">{i + 1}</span>
-                  <span>{t}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-          <p className="speak-m1b__cue">{data.speak2b.speakCue}</p>
+          <div className="speak-m3a__pick-main">
+            <ul className="speak-m2b__topics">
+              {data.speak2b.topics.map((t, i) => (
+                <li key={t}>
+                  <button
+                    type="button"
+                    className={`speak-m2b__topic ${topic === i ? "speak-m2b__topic--on" : ""}`}
+                    onClick={() => setTopic(i)}
+                  >
+                    <span className="speak-m2b__topic-n">{i + 1}</span>
+                    <span>{t}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="speak-m1b__cue">{data.speak2b.speakCue}</p>
+          </div>
           {showModel2b && (
-            <aside className="speak-m2b__model">
+            <aside className="speak-m3a__model speak-m3a__model--prominent">
               <strong>{data.speak2b.modelLabel}</strong>
               <p>{data.speak2b.modelAnswer}</p>
             </aside>
@@ -247,7 +251,7 @@ export function SpeakingM2bTrainer({
           </article>
           <p className="speak-m1b__cue">1 minute to prepare · 1–2 minutes to speak</p>
           {showCueModel && cueIx === 0 && (
-            <aside className="speak-m2b__model">
+            <aside className="speak-m3a__model speak-m3a__model--prominent">
               <strong>{data.cueModel.label}</strong>
               <p>{data.cueModel.text}</p>
             </aside>
@@ -257,11 +261,11 @@ export function SpeakingM2bTrainer({
 
       {step === 4 && (
         <section className="speak-m2b__models">
-          <aside className="speak-m2b__model speak-m2b__model--full">
+          <aside className="speak-m3a__model speak-m3a__model--prominent speak-m2b__model--full">
             <strong>{data.speak2b.modelLabel}</strong>
             <p>{data.speak2b.modelAnswer}</p>
           </aside>
-          <aside className="speak-m2b__model speak-m2b__model--full">
+          <aside className="speak-m3a__model speak-m3a__model--prominent speak-m2b__model--full">
             <strong>{data.cueModel.label}</strong>
             <p>{data.cueModel.text}</p>
           </aside>

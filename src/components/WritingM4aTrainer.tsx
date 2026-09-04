@@ -4,7 +4,7 @@ import {
   WRITE_M4A_STEPS,
   writingM4a,
 } from "../data/writingM4a";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM4a;
 const DRAFT_KEY = "ielts-writing-m4a-draft";
@@ -121,10 +121,6 @@ export function WritingM4aTrainer({
       setChecked(true);
       return;
     }
-    if (step === 3 && !showModel) {
-      setShowModel(true);
-      return;
-    }
     if (step >= WRITE_M4A_STEPS.length - 1) {
       onBack?.();
       return;
@@ -140,9 +136,7 @@ export function WritingM4aTrainer({
       ? "Show joke tip →"
       : needsCheck && !checked
         ? "Check →"
-        : step === 3 && !showModel
-          ? "Show model →"
-          : WRITE_M4A_NEXT[step];
+        : WRITE_M4A_NEXT[step];
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport write-m3a">
@@ -330,23 +324,18 @@ export function WritingM4aTrainer({
             <span className="write-m3a__badge">{data.write4.writeB.badge}</span>
             {data.write4.writeB.instruction}
           </p>
-          <WordCountMeter
-            words={countWords(draft)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
             minWords={250}
-            label="Task 2 · exam minimum"
-          />
-          <textarea
-            rows={10}
-            value={draft}
             placeholder="Write your essay…"
-            onChange={(e) => setDraft(e.target.value)}
+            rows={10}
+            modelAnswer={data.write4.modelAnswer}
+            modelTitle={data.write4.modelLabel}
+            modelOpenLabel={data.write4.modelLabel}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
           />
-          {showModel && (
-            <article className="write-m3a__model">
-              <h3>{data.write4.modelLabel}</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{data.write4.modelAnswer}</p>
-            </article>
-          )}
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.write4.peerC.badge}</span>
             {data.write4.peerC.instruction}

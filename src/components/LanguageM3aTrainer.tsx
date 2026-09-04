@@ -14,6 +14,35 @@ function clampStep(n: number | undefined): number {
   return Math.max(0, Math.min(n, LANG_M3A_STEPS.length - 1));
 }
 
+type GapFillChunk = { text: string } | { gap: number; cap?: boolean };
+
+function gapFillRows(
+  parts: Array<{ text: string } | { gap: number; cap?: boolean }>,
+): GapFillChunk[][] {
+  const rows: GapFillChunk[][] = [];
+  let row: GapFillChunk[] = [];
+
+  const pushRow = () => {
+    if (row.length) {
+      rows.push(row);
+      row = [];
+    }
+  };
+
+  for (const part of parts) {
+    if ("text" in part) {
+      part.text.split("\n\n").forEach((piece, idx) => {
+        if (idx > 0) pushRow();
+        if (piece) row.push({ text: piece });
+      });
+    } else {
+      row.push({ gap: part.gap, cap: part.cap });
+    }
+  }
+  pushRow();
+  return rows;
+}
+
 export function LanguageM3aTrainer({
   onBack,
   restart,
@@ -233,7 +262,7 @@ export function LanguageM3aTrainer({
             <span className="lang-m3a__badge">{data.realUnreal.badge}</span>
             {data.realUnreal.instruction}
           </p>
-          <ol className="lang-m3a__real-list">
+          <ol className="lang-m3a__real-list flow-stage__body">
             {data.realUnreal.items.map((it) => {
               const sel = realUnreal[it.id];
               const ok = sel === it.key;
@@ -539,6 +568,11 @@ export function LanguageM3aTrainer({
             <span className="lang-m3a__badge">{data.gapFill.badge}</span>
             {data.gapFill.instruction}
           </p>
+          <p className="lang-m3a__place-hint">
+            {pickedWord
+              ? `Selected “${pickedWord}” — click a gap in the sentence`
+              : "Click a word from the box, then click a gap in the sentence."}
+          </p>
           <div className="lang-m3a__bank">
             {data.gapFill.bank.map((w) => {
               const used = usedGapWords.has(normalizeChip(w));
@@ -555,49 +589,42 @@ export function LanguageM3aTrainer({
               );
             })}
           </div>
-          <article className="lang-m3a__passage">
-            <p>
-              {data.gapFill.parts.map((part, i) => {
-                if (!("gap" in part)) {
-                  return (
-                    <span key={i}>
-                      {part.text.split("\n\n").map((chunk, j, arr) => (
-                        <span key={j}>
-                          {chunk}
-                          {j < arr.length - 1 ? (
-                            <>
-                              <br />
-                              <br />
-                            </>
-                          ) : null}
-                        </span>
-                      ))}
-                    </span>
-                  );
-                }
-                const val = gaps[part.gap];
-                const ok = gapOk(part.gap);
-                let cls = "lang-m3a__slot lang-m3a__slot--inline";
-                if (val) cls += " lang-m3a__slot--filled";
-                if (pickedWord && !val) cls += " lang-m3a__slot--ready";
-                if (checked) cls += ok ? " lang-m3a__slot--ok" : " lang-m3a__slot--bad";
-                const display =
-                  val && part.cap
-                    ? val.charAt(0).toUpperCase() + val.slice(1)
-                    : val;
-                return (
-                  <button
-                    key={i}
-                    type="button"
-                    className={cls}
-                    disabled={checked}
-                    onClick={() => placeGap(part.gap)}
-                  >
-                    {display || " ______ "}
-                  </button>
-                );
-              })}
-            </p>
+          <article className="lang-m3a__passage lang-m3a__passage--gap flow-stage__body">
+            <ol className="lang-m3a__gap-sentences">
+              {gapFillRows(data.gapFill.parts).map((chunks, ri) => (
+                <li key={ri} className="lang-m3a__gap-row">
+                  {chunks.map((chunk, ci) => {
+                    if ("text" in chunk) {
+                      return <span key={ci}>{chunk.text}</span>;
+                    }
+                    const val = gaps[chunk.gap];
+                    const ok = gapOk(chunk.gap);
+                    let cls = "lang-m3a__gap-chip";
+                    if (val) cls += " lang-m3a__gap-chip--filled";
+                    if (pickedWord && !val) cls += " lang-m3a__gap-chip--ready";
+                    if (checked)
+                      cls += ok
+                        ? " lang-m3a__gap-chip--ok"
+                        : " lang-m3a__gap-chip--bad";
+                    const display =
+                      val && chunk.cap
+                        ? val.charAt(0).toUpperCase() + val.slice(1)
+                        : val;
+                    return (
+                      <button
+                        key={ci}
+                        type="button"
+                        className={cls}
+                        disabled={checked}
+                        onClick={() => placeGap(chunk.gap)}
+                      >
+                        {display ?? "—"}
+                      </button>
+                    );
+                  })}
+                </li>
+              ))}
+            </ol>
             {checked && gapScore < Object.keys(data.gapFill.keys).length && (
               <p className="lang-m3a__tip lang-m3a__tip--block">
                 Answers: 1 otherwise · 2 provided that · 3 Unless · 4
@@ -614,7 +641,7 @@ export function LanguageM3aTrainer({
             <span className="lang-m3a__badge">{data.rewrite.badge}</span>
             {data.rewrite.instruction}
           </p>
-          <ol className="lang-m3a__rewrite">
+          <ol className="lang-m3a__rewrite flow-stage__body">
             {data.rewrite.items.map((it) => {
               const ok = checkLangM3a(rewrite[it.id] ?? "", it.answers);
               return (

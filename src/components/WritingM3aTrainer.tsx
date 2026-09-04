@@ -5,7 +5,7 @@ import {
   writingM3a,
 } from "../data/writingM3a";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM3a;
 const STEP_KEY = "ielts-writing-m3a-step";
@@ -24,6 +24,102 @@ function load(key: string): string {
     return "";
   }
 }
+
+function WriteM3aFollowLetters({
+  instruction,
+  letters,
+  referenceHint,
+  introduces,
+  supports,
+  setIntroduces,
+  setSupports,
+  introducesKey,
+  supportsKey,
+  checked,
+  introduceLabel = "Introduces the solution",
+  supportLabel = "Supports the solution",
+}: {
+  instruction?: string;
+  letters: string[];
+  referenceHint?: string;
+  introduces: string | null;
+  supports: string | null;
+  setIntroduces: (id: string) => void;
+  setSupports: (id: string) => void;
+  introducesKey: string;
+  supportsKey: string;
+  checked: boolean;
+  introduceLabel?: string;
+  supportLabel?: string;
+}) {
+  const followOk =
+    introduces === introducesKey && supports === supportsKey;
+
+  const chipState = (
+    id: string,
+    selected: string | null,
+    key: string,
+  ): string => {
+    if (checked) {
+      if (id === key) return "write-m3a__follow-letter--ok";
+      if (selected === id) return "write-m3a__follow-letter--bad";
+      return "";
+    }
+    if (selected === id) return "write-m3a__follow-letter--picked";
+    return "";
+  };
+
+  return (
+    <div className="write-m3a__follow-compact">
+      {instruction ? (
+        <p className="write-m3a__follow-compact-h">{instruction}</p>
+      ) : null}
+      {referenceHint ? (
+        <p className="write-m3a__follow-ref-hint">{referenceHint}</p>
+      ) : null}
+      <div className="write-m3a__follow-letter-rows">
+        <div className="write-m3a__follow-letter-row">
+          <span className="write-m3a__follow-letter-label">{introduceLabel}</span>
+          <div className="write-m3a__follow-letter-bank">
+            {letters.map((id) => (
+              <button
+                key={`intro-${id}`}
+                type="button"
+                className={`write-m3a__follow-letter ${chipState(id, introduces, introducesKey)}`}
+                disabled={checked}
+                onClick={() => setIntroduces(id)}
+              >
+                {id}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="write-m3a__follow-letter-row">
+          <span className="write-m3a__follow-letter-label">{supportLabel}</span>
+          <div className="write-m3a__follow-letter-bank">
+            {letters.map((id) => (
+              <button
+                key={`supp-${id}`}
+                type="button"
+                className={`write-m3a__follow-letter ${chipState(id, supports, supportsKey)}`}
+                disabled={checked}
+                onClick={() => setSupports(id)}
+              >
+                {id}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      {checked && !followOk && (
+        <p className="write-m3a__tip write-m3a__tip--block">
+          → Introduces {introducesKey}, supports {supportsKey}
+        </p>
+      )}
+    </div>
+  );
+}
+
 
 export function WritingM3aTrainer({
   onBack,
@@ -204,8 +300,6 @@ export function WritingM3aTrainer({
   const nextLabel =
     needsCheck && !checked ? "Check →" : WRITE_M3A_NEXT[step];
 
-  const words = countWords(draft);
-
   return (
     <div className="app-shell reading-flow reading-flow--viewport write-m3a">
       <div className="reading-chrome">
@@ -252,7 +346,7 @@ export function WritingM3aTrainer({
       )}
 
       {step === 1 && (
-        <section className="write-m3a__panel">
+        <section className="write-m3a__panel write-m3a__panel--stage">
           <p className="write-m3a__expert">{data.expertWriting}</p>
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.structures.badge}</span>
@@ -265,7 +359,7 @@ export function WritingM3aTrainer({
           <p className="write-m3a__hint">
             Select every suitable structure, then Check.
           </p>
-          <div className="write-m3a__structs">
+          <div className="write-m3a__structs flow-stage__body">
             {data.structures.options.map((opt) => {
               const on = structPick.includes(opt.id);
               const isKey = data.structures.keys.includes(opt.id);
@@ -300,12 +394,12 @@ export function WritingM3aTrainer({
       )}
 
       {step === 2 && (
-        <section className="write-m3a__panel">
+        <section className="write-m3a__panel write-m3a__panel--stage">
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.para3a.badge}</span>
             {data.para3a.instruction}
           </p>
-          <ol className="write-m3a__sent-grid">
+          <ol className="write-m3a__sent-grid flow-stage__body">
             {data.para3a.sentences.map((s) => {
               const sel = ps[s.id];
               const ok = sel === s.key;
@@ -351,190 +445,213 @@ export function WritingM3aTrainer({
       )}
 
       {step === 3 && (
-        <section className="write-m3a__panel write-m3a__panel--fn">
+        <section className="write-m3a__panel write-m3a__panel--fn write-m3a__panel--fn-split">
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.functions.badge}</span>
             {data.functions.instruction}
           </p>
-          <div className="write-m3a__fn-bank">
-            {data.para3a.sentences.map((s) => {
-              const used = usedLetters.has(s.id);
-              return (
-                <button
-                  key={s.id}
-                  type="button"
-                  className={`pr-chip write-m3a__letter ${pickedLetter === s.id ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
-                  disabled={checked || used}
-                  onClick={() => setPickedLetter(s.id)}
-                  title={s.text}
-                >
-                  {s.id}
-                </button>
-              );
-            })}
-          </div>
-          <ol className="write-m3a__fn-slots">
-            {data.functions.slots.map((slot) => {
-              const val = fnMatch[slot.id];
-              const ok = val === slot.key;
-              let cls = "write-m3a__slot";
-              if (val) cls += " write-m3a__slot--filled";
-              if (pickedLetter && !val) cls += " write-m3a__slot--ready";
-              if (checked)
-                cls += ok ? " write-m3a__slot--ok" : " write-m3a__slot--bad";
-              return (
-                <li key={slot.id}>
-                  <button
-                    type="button"
-                    className={cls}
-                    disabled={checked}
-                    onClick={() => placeFn(slot.id)}
-                  >
-                    <strong>{slot.id}.</strong> {slot.label}
-                    {val ? ` — ${val}` : " — click to place"}
-                  </button>
-                  {checked && !ok && (
-                    <span className="write-m3a__tip">→ {slot.key}</span>
-                  )}
-                </li>
-              );
-            })}
-          </ol>
-          <p className="write-m3a__instr write-m3a__instr--sub">
-            {data.functions.followUp.instruction}
-          </p>
-          <div className="write-m3a__follow">
-            <div className="write-m3a__follow-row">
-              <span>Introduces</span>
-              {data.para3a.sentences.map((s) => {
-                let state = "";
-                if (checked) {
-                  if (s.id === data.functions.followUp.introducesKey)
-                    state = "pr-chip--ok";
-                  else if (introduces === s.id) state = "pr-chip--bad";
-                } else if (introduces === s.id) state = "pr-chip--picked";
-                return (
-                  <button
-                    key={`i-${s.id}`}
-                    type="button"
-                    className={`pr-chip ${state}`}
-                    disabled={checked}
-                    onClick={() => setIntroduces(s.id)}
-                  >
-                    {s.id}
-                  </button>
-                );
-              })}
+          <div className="write-m3a__fn-split">
+            <aside className="write-m3a__fn-ref">
+              <p className="write-m3a__fn-ref-h">Sentences from Exercise 3a</p>
+              <ol className="write-m3a__fn-ref-list">
+                {data.para3a.sentences.map((s) => {
+                  const used = usedLetters.has(s.id);
+                  const picked = pickedLetter === s.id;
+                  return (
+                    <li key={s.id}>
+                      <button
+                        type="button"
+                        className={`write-m3a__fn-ref-letter pr-chip ${picked ? "pr-chip--picked" : ""} ${used ? "pr-chip--used" : ""}`}
+                        disabled={checked || used}
+                        onClick={() => setPickedLetter(s.id)}
+                        aria-label={`Select sentence ${s.id}`}
+                      >
+                        {s.id}
+                      </button>
+                      <span className="write-m3a__fn-ref-text">
+                        <strong>{s.id}.</strong> {s.text}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
+            </aside>
+            <div className="write-m3a__fn-work">
+              <div className="write-m3a__fn-match">
+                <p className="write-m3a__fn-section-h">Part 1 — Match functions</p>
+                <p className="write-m3a__place-hint">
+                  {pickedLetter
+                    ? `Selected ${pickedLetter} — click a function row to place it`
+                    : "Pick a letter (A–F) on the left, then click a function (1–6)."}
+                </p>
+                <ol className="write-m3a__fn-list flow-stage__body">
+                  {data.functions.slots.map((slot) => {
+                    const val = fnMatch[slot.id];
+                    const ok = val === slot.key;
+                    let cls = "write-m3a__fn-row";
+                    if (val) cls += " write-m3a__fn-row--filled";
+                    if (pickedLetter && !val) cls += " write-m3a__fn-row--ready";
+                    if (checked)
+                      cls += ok
+                        ? " write-m3a__fn-row--ok"
+                        : " write-m3a__fn-row--bad";
+                    return (
+                      <li key={slot.id}>
+                        <button
+                          type="button"
+                          className={cls}
+                          disabled={checked}
+                          onClick={() => placeFn(slot.id)}
+                        >
+                          <span className="write-m3a__fn-row-num">{slot.id}.</span>
+                          <span className="write-m3a__fn-row-label">
+                            {slot.label}
+                          </span>
+                          <span
+                            className={`write-m3a__fn-row-letter${val ? " write-m3a__fn-row-letter--filled" : ""}`}
+                          >
+                            {val ?? "?"}
+                          </span>
+                        </button>
+                        {checked && !ok && (
+                          <span className="write-m3a__tip">→ {slot.key}</span>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+              <div className="write-m3a__fn-follow">
+                <p className="write-m3a__fn-section-h">Part 2 — Solution sentences</p>
+                <WriteM3aFollowLetters
+                  instruction={data.functions.followUp.instruction}
+                  letters={data.para3a.sentences.map((s) => s.id)}
+                  referenceHint="Use sentences A–F on the left."
+                  introduces={introduces}
+                  supports={supports}
+                  setIntroduces={setIntroduces}
+                  setSupports={setSupports}
+                  introducesKey={data.functions.followUp.introducesKey}
+                  supportsKey={data.functions.followUp.supportsKey}
+                  checked={checked}
+                />
+              </div>
             </div>
-            <div className="write-m3a__follow-row">
-              <span>Supports</span>
-              {data.para3a.sentences.map((s) => {
-                let state = "";
-                if (checked) {
-                  if (s.id === data.functions.followUp.supportsKey)
-                    state = "pr-chip--ok";
-                  else if (supports === s.id) state = "pr-chip--bad";
-                } else if (supports === s.id) state = "pr-chip--picked";
-                return (
-                  <button
-                    key={`s-${s.id}`}
-                    type="button"
-                    className={`pr-chip ${state}`}
-                    disabled={checked}
-                    onClick={() => setSupports(s.id)}
-                  >
-                    {s.id}
-                  </button>
-                );
-              })}
-            </div>
-            {checked && !followOk && (
-              <span className="write-m3a__tip">
-                → Introduces {data.functions.followUp.introducesKey}, supports{" "}
-                {data.functions.followUp.supportsKey}
-              </span>
-            )}
           </div>
         </section>
       )}
 
       {step === 4 && (
-        <section className="write-m3a__panel write-m3a__panel--notes">
+        <section className="write-m3a__panel write-m3a__panel--notes write-m3a__panel--stage">
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.para3c.badge}</span>
             {data.para3c.instruction}
           </p>
-          <textarea
-            className="write-m3a__textarea"
-            value={notes3c}
-            onChange={(e) => setNotes3c(e.target.value)}
-            placeholder="Your issue + paragraph (topic → problems → solutions)…"
-            rows={8}
-          />
+          <div className="write-m3a__notes-split flow-stage__body">
+            <aside className="write-m3a__context">
+              <div className="write-m3a__context-block">
+                <p className="write-m3a__context-h">Essay task (Exercise 2)</p>
+                <blockquote className="write-m3a__context-quote">
+                  {data.structures.title}
+                </blockquote>
+              </div>
+              <div className="write-m3a__context-block">
+                <p className="write-m3a__context-h">
+                  Paragraph structure (Exercise 3b)
+                </p>
+                <ol className="write-m3a__context-slots">
+                  {data.functions.slots.map((slot) => (
+                    <li key={slot.id}>
+                      <strong>{slot.id}.</strong> {slot.label}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </aside>
+            <div className="write-m3a__notes-main">
+              <p className="write-m3a__notes-label">
+                Your paragraph (new issue + problems + solutions):
+              </p>
+              <textarea
+                className="write-m3a__textarea write-m3a__textarea--notes"
+                value={notes3c}
+                onChange={(e) => setNotes3c(e.target.value)}
+                placeholder="Topic sentence → problems → solutions (structure from 3b)…"
+              />
+            </div>
+          </div>
         </section>
       )}
 
       {step === 5 && (
-        <section className="write-m3a__panel">
+        <section className="write-m3a__panel write-m3a__panel--stage write-m3a__panel--order">
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.order4a.badge}</span>
             <strong>{data.order4a.heading}</strong> —{" "}
             {data.order4a.instruction}
           </p>
           <p className="write-m3a__hint">
-            Click a sentence letter to add it to the sequence. Click a filled
+            Click a sentence to add it to the sequence (1–6). Click a filled
             slot to undo.
           </p>
-          <div className="write-m3a__order-grid">
-            <ol className="write-m3a__seq">
-              {orderKey.map((_, i) => {
-                const id = sentOrder[i];
-                let cls = "write-m3a__slot";
-                if (checked && id) {
-                  cls +=
-                    id === orderKey[i]
-                      ? " write-m3a__slot--ok"
-                      : " write-m3a__slot--bad";
-                } else if (id) cls += " write-m3a__slot--filled";
-                return (
-                  <li key={i}>
-                    <span className="write-m3a__slot-n">{i + 1}</span>
-                    <button
-                      type="button"
-                      className={cls}
-                      disabled={checked}
-                      onClick={() => {
-                        if (checked || !id) return;
-                        setSentOrder((o) => o.filter((_, j) => j !== i));
-                      }}
-                    >
-                      {id ?? "—"}
-                    </button>
-                    {checked && id && id !== orderKey[i] && (
-                      <span className="write-m3a__tip">→ {orderKey[i]}</span>
-                    )}
-                  </li>
-                );
-              })}
-            </ol>
-            <ul className="write-m3a__sent-list">
-              {data.order4a.items.map((it) => {
-                const used = sentOrder.includes(it.id);
-                return (
-                  <li key={it.id}>
-                    <button
-                      type="button"
-                      className={`pr-chip write-m3a__letter ${used ? "pr-chip--used" : ""}`}
-                      disabled={checked || used || orderDone}
-                      onClick={() => placeSent(it.id)}
-                    >
-                      {it.id}
-                    </button>
-                    <span>{it.text}</span>
-                  </li>
-                );
-              })}
-            </ul>
+          <div className="write-m3a__order-grid flow-stage__body">
+            <div className="write-m3a__order-card">
+              <p className="write-m3a__order-card-h">Your order</p>
+              <ol className="write-m3a__seq">
+                {orderKey.map((_, i) => {
+                  const id = sentOrder[i];
+                  let cls = "write-m3a__slot";
+                  if (checked && id) {
+                    cls +=
+                      id === orderKey[i]
+                        ? " write-m3a__slot--ok"
+                        : " write-m3a__slot--bad";
+                  } else if (id) cls += " write-m3a__slot--filled";
+                  return (
+                    <li key={i}>
+                      <span className="write-m3a__slot-n">{i + 1}</span>
+                      <button
+                        type="button"
+                        className={cls}
+                        disabled={checked}
+                        onClick={() => {
+                          if (checked || !id) return;
+                          setSentOrder((o) => o.filter((_, j) => j !== i));
+                        }}
+                      >
+                        {id ?? "— click a sentence →"}
+                      </button>
+                      {checked && id && id !== orderKey[i] && (
+                        <span className="write-m3a__tip">→ {orderKey[i]}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+            <div className="write-m3a__order-card">
+              <p className="write-m3a__order-card-h">Sentences</p>
+              <ul className="write-m3a__sent-list write-m3a__sent-list--pick">
+                {data.order4a.items.map((it) => {
+                  const used = sentOrder.includes(it.id);
+                  return (
+                    <li key={it.id}>
+                      <button
+                        type="button"
+                        className={`write-m3a__sent-pick ${used ? "write-m3a__sent-pick--used" : ""}`}
+                        disabled={checked || used || orderDone}
+                        onClick={() => placeSent(it.id)}
+                      >
+                        <span className="write-m3a__sent-pick-id">{it.id}</span>
+                        <span className="write-m3a__sent-pick-text">
+                          {it.text}
+                        </span>
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
           {checked && orderScore < orderKey.length && (
             <p className="write-m3a__tip write-m3a__tip--block">
@@ -545,141 +662,144 @@ export function WritingM3aTrainer({
       )}
 
       {step === 6 && (
-        <section className="write-m3a__panel write-m3a__panel--sol4">
+        <section className="write-m3a__panel write-m3a__panel--stage write-m3a__panel--sol4">
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.sol4b.badge}</span>
             {data.sol4b.instruction}
           </p>
-          <p className="write-m3a__hint">
-            Use the ordered nutrition paragraph from 4a (B–D–E–C–F–A).
-          </p>
-          <ul className="write-m3a__sent-list write-m3a__sent-list--ref">
-            {data.order4a.key.map((id) => {
-              const it = data.order4a.items.find((x) => x.id === id)!;
-              return (
-                <li key={id}>
-                  <strong>{id}</strong>
-                  <span>{it.text}</span>
-                </li>
-              );
-            })}
-          </ul>
-          <div className="write-m3a__follow">
-            <div className="write-m3a__follow-row">
-              <span>Introduces the solution</span>
-              {data.order4a.items.map((s) => {
-                let state = "";
-                if (checked) {
-                  if (s.id === data.sol4b.introducesKey) state = "pr-chip--ok";
-                  else if (intro4 === s.id) state = "pr-chip--bad";
-                } else if (intro4 === s.id) state = "pr-chip--picked";
-                return (
-                  <button
-                    key={`i4-${s.id}`}
-                    type="button"
-                    className={`pr-chip ${state}`}
-                    disabled={checked}
-                    onClick={() => setIntro4(s.id)}
-                  >
-                    {s.id}
-                  </button>
-                );
-              })}
+          <div className="write-m3a__sol4-split flow-stage__body">
+            <aside className="write-m3a__fn-ref">
+              <p className="write-m3a__fn-ref-h">
+                Ordered paragraph (Exercise 4a)
+              </p>
+              <ol className="write-m3a__fn-ref-list">
+                {data.order4a.key.map((id, i) => {
+                  const it = data.order4a.items.find((x) => x.id === id)!;
+                  return (
+                    <li key={id}>
+                      <span className="write-m3a__fn-ref-letter write-m3a__fn-ref-letter--static">
+                        {i + 1}
+                      </span>
+                      <span className="write-m3a__fn-ref-text">
+                        <strong>{id}.</strong> {it.text}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ol>
+            </aside>
+            <div className="write-m3a__sol4-main">
+              <WriteM3aFollowLetters
+                letters={data.order4a.items.map((s) => s.id)}
+                referenceHint="Use the ordered paragraph on the left (letters A–F)."
+                introduces={intro4}
+                supports={supp4}
+                setIntroduces={setIntro4}
+                setSupports={setSupp4}
+                introducesKey={data.sol4b.introducesKey}
+                supportsKey={data.sol4b.supportsKey}
+                checked={checked}
+              />
             </div>
-            <div className="write-m3a__follow-row">
-              <span>Supports the solution</span>
-              {data.order4a.items.map((s) => {
-                let state = "";
-                if (checked) {
-                  if (s.id === data.sol4b.supportsKey) state = "pr-chip--ok";
-                  else if (supp4 === s.id) state = "pr-chip--bad";
-                } else if (supp4 === s.id) state = "pr-chip--picked";
-                return (
-                  <button
-                    key={`s4-${s.id}`}
-                    type="button"
-                    className={`pr-chip ${state}`}
-                    disabled={checked}
-                    onClick={() => setSupp4(s.id)}
-                  >
-                    {s.id}
-                  </button>
-                );
-              })}
-            </div>
-            {checked && !sol4Ok && (
-              <span className="write-m3a__tip">
-                → Introduces {data.sol4b.introducesKey}, supports{" "}
-                {data.sol4b.supportsKey}
-              </span>
-            )}
           </div>
         </section>
       )}
 
       {step === 7 && (
-        <section className="write-m3a__panel write-m3a__panel--write">
-          <p className="write-m3a__expert">{data.testStrategies}</p>
-          <h2 className="write-m3a__title">{data.write.heading}</h2>
+        <section className="write-m3a__panel write-m3a__panel--stage write-m3a__panel--write">
           <p className="write-m3a__instr">
-            <span className="write-m3a__badge">{data.write.planA.badge}</span>
-            {data.write.planA.instruction}
+            <span className="write-m3a__badge">{data.write.badge}</span>
+            <strong>{data.write.heading}</strong>
           </p>
-          <blockquote className="write-m3a__title-box">
+          <blockquote className="write-m3a__title-box write-m3a__title-box--write">
             {data.write.title}
           </blockquote>
-          <div className="write-m3a__write-grid">
-            <div className="write-m3a__plan-col">
-              <p className="write-m3a__instr write-m3a__instr--sub">
-                <span className="write-m3a__badge">
-                  {data.write.planB.badge}
-                </span>
-                {data.write.planB.instruction}
-              </p>
-              <p className="write-m3a__instr write-m3a__instr--sub">
-                <span className="write-m3a__badge">
-                  {data.write.planC.badge}
-                </span>
-                {data.write.planC.instruction}
-              </p>
-              <div className="write-m3a__struct-mini">
-                {data.structures.options.map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    className={`pr-chip ${structWrite === opt.id ? "pr-chip--picked" : ""}`}
-                    onClick={() => setStructWrite(opt.id)}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+          <div className="write-m3a__write-stage flow-stage__body">
+            <aside className="write-m3a__write-ref">
+              <div className="write-m3a__context-block">
+                <p className="write-m3a__context-h">{data.write.strategies.heading}</p>
+                <ul className="write-m2a__strategies write-m3a__strategies">
+                  {data.write.strategies.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
+              <div className="write-m3a__context-block">
+                <p className="write-m3a__context-h">{data.write.expertTips.heading}</p>
+                <ul className="write-m2a__strategies write-m3a__strategies">
+                  {data.write.expertTips.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="write-m3a__context-block">
+                <p className="write-m3a__context-h">
+                  Structures from Exercise 2 — pick one (5c)
+                </p>
+                <div className="write-m3a__write-structs">
+                  {data.structures.options.map((opt) => {
+                    const picked = structWrite === opt.id;
+                    const suitable = data.structures.keys.includes(opt.id);
+                    let cls = `write-m3a__struct write-m3a__struct--pick write-m3a__struct--${opt.tone}`;
+                    if (picked) cls += " write-m3a__struct--on";
+                    if (suitable) cls += " write-m3a__struct--suitable";
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        className={cls}
+                        onClick={() => setStructWrite(opt.id)}
+                      >
+                        <strong>{opt.label}</strong>
+                        <ul>
+                          {opt.lines.map((line) => (
+                            <li key={line}>{line}</li>
+                          ))}
+                        </ul>
+                      </button>
+                    );
+                  })}
+                </div>
+                <p className="write-m3a__struct-note">{data.structures.tip}</p>
+              </div>
+            </aside>
+            <div className="write-m3a__plan-col">
+              <p className="write-m3a__col-h">Plan (5a–5c)</p>
+              <ul className="write-m3a__write-steps">
+                <li>
+                  <span className="write-m3a__badge">{data.write.planA.badge}</span>
+                  {data.write.planA.instruction}
+                </li>
+                <li>
+                  <span className="write-m3a__badge">{data.write.planB.badge}</span>
+                  {data.write.planB.instruction}
+                </li>
+                <li>
+                  <span className="write-m3a__badge">{data.write.planC.badge}</span>
+                  {data.write.planC.instruction}
+                </li>
+              </ul>
               <textarea
                 className="write-m3a__textarea write-m3a__textarea--plan"
                 value={plan}
                 onChange={(e) => setPlan(e.target.value)}
                 placeholder="Problems · solutions · support ideas…"
-                rows={6}
               />
             </div>
             <div className="write-m3a__essay-col">
-              <p className="write-m3a__instr write-m3a__instr--sub">
-                <span className="write-m3a__badge">
-                  {data.write.writeD.badge}
-                </span>
+              <p className="write-m3a__col-h">
+                <span className="write-m3a__badge">{data.write.writeD.badge}</span>
                 {data.write.writeD.instruction}
               </p>
-              <WordCountMeter
-                words={words}
+              <WritingComposePanel
+                draft={draft}
+                onDraftChange={setDraft}
                 minWords={data.write.minWords}
-                label="Task 2 · exam minimum"
-              />
-              <textarea
-                className="write-m3a__textarea write-m3a__textarea--essay"
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                placeholder="Write your essay here…"
+                placeholder="Write your essay here (at least 250 words)…"
                 rows={12}
+                showModel={false}
+                onToggleModel={() => {}}
+                textareaClassName="write-m3a__textarea write-m3a__textarea--essay write-compose__ta"
               />
             </div>
           </div>

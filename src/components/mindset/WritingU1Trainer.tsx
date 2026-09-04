@@ -4,7 +4,7 @@ import {
   MS_U1_WRITE_STEPS,
   writingU1,
 } from "../../data/mindset/writingU1";
-import { WordCountMeter, countWords } from "../WordCountMeter";
+import { WritingComposePanel } from "../WritingComposePanel";
 import {
   MsLineGraph,
   MS_U1_CAPITAL_GRAPH,
@@ -695,33 +695,20 @@ export function WritingU1Trainer({
               yMax={MS_U1_CAPITAL_GRAPH.yMax}
             />
           </article>
-          <WordCountMeter
-            words={countWords(draft)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
             minWords={data.exam.minWords}
-            label="Task 1 · exam minimum"
-          />
-          <textarea
-            className="write-m2a__area"
-            rows={12}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
             placeholder="Write your Task 1 response here…"
+            rows={12}
+            modelAnswer={data.exam.sample}
+            modelTitle="Sample answer"
+            modelOpenLabel="Show sample answer"
+            modelCloseLabel="Hide sample answer"
+            showModel={showSample}
+            onToggleModel={() => setShowSample((v) => !v)}
+            textareaClassName="write-m2a__area write-compose__ta"
           />
-          <button
-            type="button"
-            className="pr-chip"
-            onClick={() => setShowSample((v) => !v)}
-          >
-            {showSample ? "Hide sample answer" : "Show sample answer"}
-          </button>
-          {showSample && (
-            <article
-              className="read-m3__passage read-m3__passage--solo"
-              style={{ marginTop: 8 }}
-            >
-              <p style={{ whiteSpace: "pre-wrap" }}>{data.exam.sample}</p>
-            </article>
-          )}
         </section>
       )}
 

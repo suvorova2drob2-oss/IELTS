@@ -4,7 +4,7 @@ import {
   WRITE_M4B_STEPS,
   writingM4b,
 } from "../data/writingM4b";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM4b;
 const DRAFT_KEY = "ielts-writing-m4b-draft";
@@ -141,10 +141,6 @@ export function WritingM4bTrainer({
       setShowPlanTips(true);
       return;
     }
-    if (step === 4 && !showModel) {
-      setShowModel(true);
-      return;
-    }
     if (step >= WRITE_M4B_STEPS.length - 1) {
       onBack?.();
       return;
@@ -160,9 +156,7 @@ export function WritingM4bTrainer({
       ? "Check →"
       : step === 2 && !showPlanTips
         ? "Show suggested plan →"
-        : step === 4 && !showModel
-          ? "Show model →"
-          : WRITE_M4B_NEXT[step];
+        : WRITE_M4B_NEXT[step];
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport write-m3a">
@@ -445,25 +439,18 @@ export function WritingM4bTrainer({
             {data.write6.writeB.instruction}
           </p>
           <p className="write-m3a__task-title">{data.write6.writeB.title}</p>
-          <WordCountMeter
-            words={countWords(draft)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
             minWords={250}
-            label="Task 2 · exam minimum"
-          />
-          <textarea
-            rows={10}
-            value={draft}
             placeholder="Write your essay…"
-            onChange={(e) => setDraft(e.target.value)}
+            rows={10}
+            modelAnswer={data.write6.modelAnswer}
+            modelTitle={data.write6.modelLabel}
+            modelOpenLabel={data.write6.modelLabel}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
           />
-          {showModel && (
-            <article className="write-m3a__model">
-              <h3>{data.write6.modelLabel}</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>
-                {data.write6.modelAnswer}
-              </p>
-            </article>
-          )}
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.assess.badge}</span>
             {data.assess.instruction}

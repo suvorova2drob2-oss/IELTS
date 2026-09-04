@@ -260,7 +260,7 @@ export function LanguageM2aTrainer({
             <span className="lang-m2a__badge">{data.rewrite.badge}</span>
             {data.rewrite.instruction}
           </p>
-          <ol className="lang-m2a__rewrite">
+          <ol className="lang-m2a__rewrite flow-stage__body">
             {data.rewrite.items.map((it) => {
               const ok = checkLangM2a(rewrite[it.id] ?? "", it.answers);
               return (

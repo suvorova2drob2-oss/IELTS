@@ -159,17 +159,14 @@ export function ReadingM3bTrainer({
             ))}
           </article>
           <aside className="read-m3__side read-m3__side--exam">
-            <h2 className="read-m3__h">{data.exam.heading}</h2>
-            <p className="write-m2a__expert">{data.exam.strategies}</p>
-            <p className="read-m3__instr">
+            <p className="read-m3__instr read-m3__instr--exam-top">
               <span className="write-m2a__badge">{data.exam.badge}</span>
-              Questions 1–5
+              Questions 1–5 · {data.exam.headingsInstr}
             </p>
-            <p className="read-m3__hint">{data.exam.headingsInstr}</p>
             <p className="read-m3__place-hint">
               {pickedHead
-                ? `Selected ${pickedHead} — now click Paragraph A–E`
-                : "Click a heading, then click a paragraph gap below. Click a filled gap to undo."}
+                ? `Selected ${pickedHead} — click Paragraph A–E`
+                : "Click a heading, then a paragraph gap. Click a filled gap to undo."}
             </p>
             <ul className="read-m3__para-slots read-m3__para-slots--match">
               {PARAS.map((p, i) => {
@@ -228,9 +225,9 @@ export function ReadingM3bTrainer({
             </ul>
 
             <p className="read-m3__instr read-m3__instr--mt">
-              Questions 6–7
+              <span className="write-m2a__badge">6–7</span>
+              {data.exam.mcInstr}
             </p>
-            <p className="read-m3__hint">{data.exam.mcInstr}</p>
             <ul className="read-m3__mc">
               {data.exam.mcOptions.map((opt) => {
                 const on = mcPick.includes(opt.id);

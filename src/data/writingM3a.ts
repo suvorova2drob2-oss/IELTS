@@ -222,5 +222,24 @@ export const writingM3a = {
         "Read the strategies and write your essay. Remember to write at least 250 words.",
     },
     minWords: 250,
+    strategies: {
+      heading: "TEST STRATEGIES page 173",
+      items: [
+        "Analyse the essay title carefully — identify every part you must answer (problems and solutions).",
+        "Plan before you write: note the main problems and possible solutions (Exercise 5a).",
+        "Add ideas to support your solutions — examples or explanations (Exercise 5b).",
+        "Choose a structure from Exercise 2 and organise your ideas into paragraphs (Exercise 5c).",
+        "Write at least 250 words. Leave time to check grammar, punctuation and spelling.",
+      ],
+    },
+    expertTips: {
+      heading: "EXPERT WRITING page 193 · from this module",
+      items: [
+        "Introduce each problem with a clear topic sentence.",
+        "Explain problems in more detail before you move to solutions.",
+        "Introduce each solution clearly; support it with an example or further explanation.",
+        "Use linking phrases to connect problems, solutions and support (see Language & Vocabulary in this module).",
+      ],
+    },
   },
 };

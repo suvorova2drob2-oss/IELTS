@@ -1,4 +1,5 @@
 import headacheImg from "../assets/listen-m3b-headache.png";
+import { EXPERT_M3_AUDIO } from "./expertAudio";
 
 export const LISTEN_M3B_STEPS = [
   "1 Before listen",
@@ -35,8 +36,6 @@ export const listeningM3b = {
   id: "listening-m3b-flow",
   bookPages: "p. 48 in your coursebook",
   sectionTitle: "Listening · Section 4",
-  noAudioNote:
-    "Аудио пока нет — можно пройти подготовку и заполнить задания. Ответы 1–10 проверьте по script 3.6 (p. 204), когда появятся треки.",
   before: {
     badge: "1",
     heading: "Before you listen",
@@ -168,7 +167,8 @@ export const listeningM3b = {
   exam: {
     badge: "3b",
     instruction: "3.6 Listen and complete the test tasks.",
-    audioNote: "Track 3.6 — audio will be added later.",
+    audio: EXPERT_M3_AUDIO.track03_06,
+    audioLabel: "Track 03_06",
   },
   analysis: {
     badge: "4a",

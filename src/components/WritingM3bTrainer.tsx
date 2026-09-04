@@ -5,7 +5,7 @@ import {
   writingM3b,
 } from "../data/writingM3b";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM3b;
 const MIN_WORDS = 250;
@@ -154,8 +154,6 @@ export function WritingM3bTrainer({
   const nextLabel =
     needsCheck && !checked ? "Check →" : WRITE_M3B_NEXT[step];
 
-  const words = countWords(draft);
-
   return (
     <div className="app-shell reading-flow reading-flow--viewport write-m3a">
       <div className="reading-chrome">
@@ -202,7 +200,7 @@ export function WritingM3bTrainer({
       )}
 
       {step === 1 && (
-        <section className="write-m3a__panel">
+        <section className="write-m3a__panel write-m3a__panel--stage">
           <p className="write-m3a__expert">{data.expertWriting}</p>
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.understand.badge}</span>
@@ -218,7 +216,7 @@ export function WritingM3bTrainer({
           <p className="write-m3a__hint">
             Select every appropriate solution, then Check.
           </p>
-          <div className="write-m3a__structs">
+          <div className="write-m3a__structs flow-stage__body">
             {data.understand.solutions.map((opt) => {
               const on = solPick.includes(opt.id);
               let cls = "write-m3a__struct write-m3a__struct--blue";
@@ -396,17 +394,15 @@ export function WritingM3bTrainer({
           </blockquote>
           <div className="write-m3a__write-grid">
             <div className="write-m3a__essay-col">
-              <WordCountMeter
-                words={words}
+              <WritingComposePanel
+                draft={draft}
+                onDraftChange={setDraft}
                 minWords={MIN_WORDS}
-                label="Task 2 · exam minimum"
-              />
-              <textarea
-                className="write-m3a__textarea write-m3a__textarea--essay"
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
                 placeholder="Write your essay here…"
                 rows={12}
+                showModel={false}
+                onToggleModel={() => {}}
+                textareaClassName="write-m3a__textarea write-m3a__textarea--essay write-compose__ta"
               />
             </div>
             <div className="write-m3a__plan-col">

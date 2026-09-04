@@ -4,6 +4,7 @@ import {
   WRITE_M5B_STEPS,
   writingM5b,
 } from "../data/writingM5b";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM5b;
 
@@ -215,25 +216,18 @@ export function WritingM5bTrainer({
             {data.write5.instruction}
           </p>
           <p className="read-m3__hint">{data.write5.task}</p>
-          <textarea
-            className="write-m3a__draft"
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={150}
             placeholder="Write at least 150 words…"
+            rows={10}
+            modelAnswer={data.write5.modelAnswer}
+            modelTitle={data.write5.modelLabel}
+            modelOpenLabel={data.write5.modelLabel}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
           />
-          <button
-            type="button"
-            className="pr-chip"
-            onClick={() => setShowModel((v) => !v)}
-          >
-            {showModel ? "Hide model" : "Show model"}
-          </button>
-          {showModel && (
-            <article className="write-m3a__model-scroll">
-              <h3>{data.write5.modelLabel}</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{data.write5.modelAnswer}</p>
-            </article>
-          )}
         </section>
       )}
       {step === 5 && (

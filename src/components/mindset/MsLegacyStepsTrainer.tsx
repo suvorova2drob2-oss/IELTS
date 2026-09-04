@@ -2,7 +2,7 @@ import { chipExhausted, gapChipExhausted } from "./bankChipUse";
 /* Shared renderer for Mindset U2–U4 step arrays (intro/mcq/match/gaps/discuss/sort/exam). */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
-import { WordCountMeter, countWords } from "../WordCountMeter";
+import { WritingComposePanel } from "../WritingComposePanel";
 
 function norm(s: string): string {
   return s.toLowerCase().replace(/[()]/g, "").replace(/\s+/g, " ").trim();
@@ -475,37 +475,20 @@ export function MsLegacyStepsTrainer({
               <p style={{ whiteSpace: "pre-wrap" }}>{s.prompt}</p>
             </article>
           )}
-          <WordCountMeter
-            words={countWords(draft)}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
             minWords={s.minWords ?? 150}
-            label={`Writing · minimum ${s.minWords ?? 150} words`}
-          />
-          <textarea
-            className="write-m2a__area"
-            rows={10}
-            value={draft}
-            onChange={(e) => setDraft(e.target.value)}
             placeholder="Write your answer here…"
+            rows={10}
+            modelAnswer={s.sample}
+            modelTitle="Sample answer"
+            modelOpenLabel="Show sample"
+            modelCloseLabel="Hide sample"
+            showModel={showSample}
+            onToggleModel={() => setShowSample((v) => !v)}
+            textareaClassName="write-m2a__area write-compose__ta"
           />
-          {s.sample && (
-            <>
-              <button
-                type="button"
-                className="pr-chip"
-                onClick={() => setShowSample((v) => !v)}
-              >
-                {showSample ? "Hide sample" : "Show sample"}
-              </button>
-              {showSample && (
-                <article
-                  className="read-m3__passage read-m3__passage--solo"
-                  style={{ marginTop: 8 }}
-                >
-                  <p style={{ whiteSpace: "pre-wrap" }}>{s.sample}</p>
-                </article>
-              )}
-            </>
-          )}
         </section>
       )}
 

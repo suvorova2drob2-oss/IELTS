@@ -214,11 +214,16 @@ export function VocabularyM3Trainer({
       </div>
 
       {step === 0 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.match.heading}</h2>
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.match.badge}</span>
             {data.match.instruction}
+          </p>
+          <p className="vocab-m3__place-hint">
+            {picked
+              ? `Selected “${picked}” — click a gap in 1–6`
+              : "Click a word from the bank, then click a gap in the sentence."}
           </p>
           <div className="vocab-m3__bank">
             {data.match.bank.map((w) => {
@@ -255,7 +260,7 @@ export function VocabularyM3Trainer({
                     disabled={checked}
                     onClick={() => placeMatch(it.id)}
                   >
-                    {val ?? "________"}
+                    {val ?? "—"}
                   </button>
                   {it.after}
                   {checked && !ok && (
@@ -269,12 +274,12 @@ export function VocabularyM3Trainer({
       )}
 
       {step === 1 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--passage">
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.yoga.badge}</span>
             {data.yoga.instruction}
           </p>
-          <article className="vocab-m3__passage">
+          <article className="vocab-m3__passage vocab-m3__passage--fit">
             <h3>{data.yoga.title}</h3>
             <p>
               {data.yoga.parts.map((part, i) => {
@@ -285,26 +290,28 @@ export function VocabularyM3Trainer({
                 return (
                   <span key={i} className="vocab-m3__ital">
                     <strong className="vocab-m3__n">{part.gap}</strong>
-                    {part.options.map((opt) => {
-                      let state = "";
-                      if (checked) {
-                        if (opt === part.key) state = "pr-chip--ok";
-                        else if (sel === opt) state = "pr-chip--bad";
-                      } else if (sel === opt) state = "pr-chip--picked";
-                      return (
-                        <button
-                          key={opt}
-                          type="button"
-                          className={`pr-chip ${state}`}
-                          disabled={checked}
-                          onClick={() =>
-                            setItal((a) => ({ ...a, [part.gap]: opt }))
-                          }
-                        >
-                          {opt}
-                        </button>
-                      );
-                    })}
+                    <span className="vocab-m3__ital-opts">
+                      {part.options.map((opt) => {
+                        let state = "";
+                        if (checked) {
+                          if (opt === part.key) state = "pr-chip--ok";
+                          else if (sel === opt) state = "pr-chip--bad";
+                        } else if (sel === opt) state = "pr-chip--picked";
+                        return (
+                          <button
+                            key={opt}
+                            type="button"
+                            className={`pr-chip vocab-m3__ital-chip ${state}`}
+                            disabled={checked}
+                            onClick={() =>
+                              setItal((a) => ({ ...a, [part.gap]: opt }))
+                            }
+                          >
+                            {opt}
+                          </button>
+                        );
+                      })}
+                    </span>
                   </span>
                 );
               })}
@@ -314,11 +321,16 @@ export function VocabularyM3Trainer({
       )}
 
       {step === 2 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.collocations.heading}</h2>
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.collocations.badge}</span>
             {data.collocations.instruction}
+          </p>
+          <p className="vocab-m3__place-hint">
+            {picked
+              ? `Selected “${picked}” — click a gap`
+              : "Click a collocation from the bank, then click a gap."}
           </p>
           <div className="vocab-m3__bank">
             {data.collocations.bank.map((w) => {
@@ -353,7 +365,7 @@ export function VocabularyM3Trainer({
                     disabled={checked}
                     onClick={() => placeColo(it.id)}
                   >
-                    {val ?? "________"}
+                    {val ?? "—"}
                   </button>
                   {it.after}
                   <strong>{it.bold}</strong>
@@ -381,14 +393,21 @@ export function VocabularyM3Trainer({
       )}
 
       {step === 4 && (
-        <section className="vocab-m3__idioms">
+        <section className="vocab-m3__idioms vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.idioms.heading}</h2>
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.idioms.badge}</span>
             {data.idioms.instruction}
           </p>
+          <p className="vocab-m3__place-hint">
+            {pickedLetter
+              ? `Selected ${pickedLetter} — click a gap beside an idiom (1–7)`
+              : "Click a meaning (A–G), then click the gap beside an idiom."}
+          </p>
           <div className="vocab-m3__idiom-grid">
-            <ol className="vocab-m3__idiom-left">
+            <div className="vocab-m3__idiom-col">
+              <p className="vocab-m3__idiom-colhead">Idioms 1–7</p>
+              <ol className="vocab-m3__idiom-left">
               {data.idioms.items.map((it) => {
                 const val = idiomMap[it.id];
                 const ok = val === it.key;
@@ -413,8 +432,11 @@ export function VocabularyM3Trainer({
                   </li>
                 );
               })}
-            </ol>
-            <ul className="vocab-m3__idiom-right">
+              </ol>
+            </div>
+            <div className="vocab-m3__idiom-col">
+              <p className="vocab-m3__idiom-colhead">Meanings A–G</p>
+              <ul className="vocab-m3__idiom-right">
               {data.idioms.meanings.map((m) => {
                 const used = usedLetters.has(m.id);
                 return (
@@ -431,16 +453,22 @@ export function VocabularyM3Trainer({
                   </li>
                 );
               })}
-            </ul>
+              </ul>
+            </div>
           </div>
         </section>
       )}
 
       {step === 5 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.idiomFill.badge}</span>
             {data.idiomFill.instruction}
+          </p>
+          <p className="vocab-m3__place-hint">
+            {picked
+              ? `Selected “${picked}” — click a gap in 1–5`
+              : "Click an idiom from the bank, then click a gap in the sentence."}
           </p>
           <div className="vocab-m3__bank">
             {data.idiomFill.bank.map((w) => {
@@ -475,7 +503,7 @@ export function VocabularyM3Trainer({
                     disabled={checked}
                     onClick={() => placeFill(it.id)}
                   >
-                    {val ?? "________"}
+                    {val ?? "—"}
                   </button>
                   {it.after}
                   {checked && !ok && (

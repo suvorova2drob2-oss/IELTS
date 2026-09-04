@@ -4,6 +4,7 @@ import {
   WRITE_M5A_STEPS,
   writingM5a,
 } from "../data/writingM5a";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM5a;
 
@@ -139,9 +140,18 @@ export function WritingM5aTrainer({
       {step === 4 && (
         <section className="write-m3a__panel">
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.write5.badge}</span>{data.write5.instruction}</p>
-          <textarea className="write-m3a__draft" value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Write at least 150 words…" />
-          <button type="button" className="pr-chip" onClick={() => setShowModel((v) => !v)}>{showModel ? "Hide model" : "Show model"}</button>
-          {showModel && <article className="write-m3a__model-scroll"><h3>{data.write5.modelLabel}</h3><p style={{ whiteSpace: "pre-wrap" }}>{data.write5.modelAnswer}</p></article>}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={150}
+            placeholder="Write at least 150 words…"
+            rows={10}
+            modelAnswer={data.write5.modelAnswer}
+            modelTitle={data.write5.modelLabel}
+            modelOpenLabel={data.write5.modelLabel}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
+          />
         </section>
       )}
       {step === 5 && (<section className="write-m3a__panel"><p className="read-m3__instr"><span className="write-m2a__badge">{data.peer6.badge}</span>{data.peer6.instruction}</p></section>)}

@@ -126,7 +126,7 @@ export function VocabularyM7Trainer({
       </div>
 
       {step === 0 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.meanings1a.badge}</span>
             {data.meanings1a.instruction}
@@ -174,7 +174,7 @@ export function VocabularyM7Trainer({
       )}
 
       {step === 1 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.complete1b.badge}</span>
             {data.complete1b.instruction}
@@ -209,7 +209,7 @@ export function VocabularyM7Trainer({
       )}
 
       {step === 2 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.families2.badge}</span>
             {data.families2.instruction}
@@ -243,7 +243,7 @@ export function VocabularyM7Trainer({
       )}
 
       {step === 3 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.collocations3.badge}</span>
             {data.collocations3.instruction}
@@ -278,7 +278,7 @@ export function VocabularyM7Trainer({
       )}
 
       {step === 4 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.match4.badge}</span>
             {data.match4.instruction}

@@ -207,7 +207,7 @@ export function VocabularyM9Trainer({
       </div>
 
       {step === 0 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.match1a.badge}</span>
             {data.match1a.heading}. {data.match1a.instruction}
@@ -218,7 +218,7 @@ export function VocabularyM9Trainer({
       )}
 
       {step === 1 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.forms1b.badge}</span>
             {data.forms1b.instruction}
@@ -229,7 +229,7 @@ export function VocabularyM9Trainer({
       )}
 
       {step === 2 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.collocations2a.badge}</span>
             {data.collocations2a.instruction}
@@ -240,7 +240,7 @@ export function VocabularyM9Trainer({
       )}
 
       {step === 3 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.speaking2b.badge}</span>
             {data.speaking2b.instruction}
@@ -250,7 +250,7 @@ export function VocabularyM9Trainer({
       )}
 
       {step === 4 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.mcq3a.badge}</span>
             {data.mcq3a.instruction}
@@ -292,7 +292,7 @@ export function VocabularyM9Trainer({
       )}
 
       {step === 5 && (
-        <section className="vocab-m3__panel">
+        <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.practice3b.badge}</span>
             {data.practice3b.instruction}

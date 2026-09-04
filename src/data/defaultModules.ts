@@ -495,7 +495,7 @@ export const defaultCourse: CourseData = {
               pages: "p. 44",
               trainerId: "listening-m3a-flow",
               trainerLabel:
-                "Listening Section 4 · meditation (prep + match; audio later).",
+                "Listening Section 4 · meditation (prep + exam).",
             },
             {
               id: "3a-language",
@@ -551,7 +551,7 @@ export const defaultCourse: CourseData = {
               pages: "p. 48",
               trainerId: "listening-m3b-flow",
               trainerLabel:
-                "Section 4 · alternative medicine (prep + exam; audio later).",
+                "Section 4 · alternative medicine (prep + exam).",
             },
             {
               id: "3b-language",

@@ -1,0 +1,43 @@
+---
+description: Viewport trainer panels — stage fills height; split/compose scrolls.
+alwaysApply: true
+---
+
+# Stage vs scroll flow panels
+
+Shell: `reading-flow--viewport` = `100dvh` flex column + fixed footer.
+
+## Stage (default for most steps)
+
+Panel `flex: 1` — uses space between chrome and footer.
+
+**Passage / short quiz:** instruction stays top; **inner card grows** (`flex: 1`) so there is no tiny green box + void below (e.g. Yoga italics).
+
+**Bank + gaps (`--fill`):** bank + hint stay top; **list/grid is the stage body** (`flex: 1`, `justify-content: safe center`). Never `flex: 0` on that list — see `stage-fill-body.mdc`.
+
+**Speaking forms / tech / 5a:** cards/grid = stage body; stretch to row height or center as a block.
+
+Applies globally in CSS to: `vocab-m3__panel`, `speak-m3a__panel` (not `--split`), `read-m3__panel`, `review-m2__panel`, `listen-m3*__panel`, `lang-m3*__panel` (not split/match/rewrite).
+
+## Scroll (fill whitelist)
+
+Only when content truly needs a scroll pane:
+
+- `read-m3__split`, `__panel--split`, `__panel--write`
+- `write-m2a/m3a__panel`
+- `lang-m3a--match`, `--rewrite`
+
+## Typography
+
+Passage / chips: use `clamp()` — never below 0.88rem for interactive chips on desktop.
+
+## Do not
+
+- `flex: 0` on stage panels **or stage bodies** (creates void under content)
+- Duplicate CSS for the same selector that resets `flex: 1` → `flex: 0`
+- `max-width: 640px` without `margin-inline: auto`
+- `flex: 1` on inner lists with `align-content: start` only — use `justify-content: safe center` when few rows
+
+## `--fill` modifier
+
+Visual styling for bank + gap rows — **not** “stretch panel to void”. Stage + `--fill` work together.

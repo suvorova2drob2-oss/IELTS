@@ -5,12 +5,13 @@ import {
   WRITE_M2A_STEPS,
   writingM2a,
 } from "../data/writingM2a";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = writingM2a;
 const STEP_KEY = "ielts-writing-m2a-step";
 const DRAFT_KEY = "ielts-writing-m2a-draft";
+const DRAFT_PERSIST_KEY = "ielts-writing-m2a-draft-persist";
 
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
@@ -19,7 +20,11 @@ function clampStep(n: number | undefined): number {
 
 function loadDraft(): string {
   try {
-    return sessionStorage.getItem(DRAFT_KEY) ?? "";
+    return (
+      sessionStorage.getItem(DRAFT_KEY) ??
+      localStorage.getItem(DRAFT_PERSIST_KEY) ??
+      ""
+    );
   } catch {
     return "";
   }
@@ -44,6 +49,7 @@ export function WritingM2aTrainer({
   const [voice, setVoice] = useState<Record<number, string>>({});
   const [draft, setDraft] = useState(loadDraft);
   const [showModel, setShowModel] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -60,6 +66,7 @@ export function WritingM2aTrainer({
     try {
       sessionStorage.removeItem(STEP_KEY);
       sessionStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(DRAFT_PERSIST_KEY);
     } catch {
       /* ignore */
     }
@@ -80,6 +87,17 @@ export function WritingM2aTrainer({
       /* ignore */
     }
   }, [draft]);
+
+  const saveWriting = () => {
+    try {
+      sessionStorage.setItem(DRAFT_KEY, draft);
+      localStorage.setItem(DRAFT_PERSIST_KEY, draft);
+    } catch {
+      /* ignore */
+    }
+    setSavedFlash(true);
+    window.setTimeout(() => setSavedFlash(false), 2000);
+  };
 
   const wordKey = data.orderWords.key;
   const wordScore = wordOrder.filter((w, i) => w === wordKey[i]).length;
@@ -126,10 +144,6 @@ export function WritingM2aTrainer({
       setChecked(true);
       return;
     }
-    if (step === 8 && !showModel) {
-      setShowModel(true);
-      return;
-    }
     if (step >= WRITE_M2A_STEPS.length - 1) {
       onBack?.();
       return;
@@ -140,11 +154,7 @@ export function WritingM2aTrainer({
   };
 
   const nextLabel =
-    needsCheck && !checked
-      ? "Check →"
-      : step === 8 && !showModel
-        ? "Show model →"
-        : WRITE_M2A_NEXT[step];
+    needsCheck && !checked ? "Check →" : WRITE_M2A_NEXT[step];
 
   const score =
     step === 2
@@ -217,23 +227,15 @@ export function WritingM2aTrainer({
       )}
 
       {step === 1 && (
-        <section className="write-m2a__diagram write-m2a__diagram--split">
-          <div className="write-m2a__diagram-copy">
-            <header className="write-m2a__head">
-              <h2 className="write-m2a__title">{data.diagram.heading}</h2>
-              <p className="write-m2a__expert">{data.diagram.expert}</p>
-              <p className="write-m2a__instr">
-                <span className="write-m2a__badge">{data.diagram.badge}</span>
-                {data.diagram.instruction}
-              </p>
-            </header>
-            <p className="write-m2a__cue">Discuss with a partner</p>
-          </div>
-          <figure className="write-m2a__fig write-m2a__fig--diagram">
-            <div className="write-m2a__fig-media">
-              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
-            </div>
+        <section className="write-m2a__diagram">
+          <header className="write-m2a__head">
+            <h2 className="write-m2a__title">{data.diagram.heading}</h2>
+            <p className="write-m2a__expert">{data.diagram.expert}</p>
+          </header>
+          <figure className="write-m2a__fig write-m2a__fig--book">
+            <img src={data.diagram.image} alt={data.diagram.imageAlt} />
           </figure>
+          <p className="write-m2a__cue">Discuss with a partner</p>
         </section>
       )}
 
@@ -300,7 +302,10 @@ export function WritingM2aTrainer({
           </div>
           <figure className="write-m2a__fig write-m2a__fig--side">
             <div className="write-m2a__fig-media">
-              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+              <img
+                src={data.diagram.imageCompact ?? data.diagram.image}
+                alt={data.diagram.imageAlt}
+              />
             </div>
           </figure>
         </section>
@@ -371,7 +376,10 @@ export function WritingM2aTrainer({
           </div>
           <figure className="write-m2a__fig write-m2a__fig--side">
             <div className="write-m2a__fig-media">
-              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+              <img
+                src={data.diagram.imageCompact ?? data.diagram.image}
+                alt={data.diagram.imageAlt}
+              />
             </div>
           </figure>
         </section>
@@ -488,7 +496,10 @@ export function WritingM2aTrainer({
           </div>
           <figure className="write-m2a__fig write-m2a__fig--side">
             <div className="write-m2a__fig-media">
-              <img src={data.diagram.image} alt={data.diagram.imageAlt} />
+              <img
+                src={data.diagram.imageCompact ?? data.diagram.image}
+                alt={data.diagram.imageAlt}
+              />
             </div>
           </figure>
         </section>
@@ -507,48 +518,22 @@ export function WritingM2aTrainer({
 
       {step === 8 && (
         <section className="write-m2a__write">
-          <div className="write-m2a__write-side">
-            <p className="write-m2a__instr">
-              <span className="write-m2a__badge">{data.write.badge}</span>
-              {data.write.planInstruction}
-            </p>
-            <p className="write-m2a__instr write-m2a__instr--sub">
-              {data.write.writeInstruction}
-            </p>
-            <ul className="write-m2a__strategies">
-              {data.write.strategies.map((s) => (
-                <li key={s}>{s}</li>
-              ))}
-            </ul>
-            <figure className="write-m2a__fig write-m2a__fig--oils">
-              <figcaption>{data.write.title}</figcaption>
-              <div className="write-m2a__fig-media">
-                <img src={data.write.image} alt={data.write.imageAlt} />
-              </div>
-            </figure>
-          </div>
-          <div className="write-m2a__compose">
-            <WordCountMeter
-              words={countWords(draft)}
-              minWords={150}
-              label="Task 1 · exam minimum"
-            />
-            <textarea
-              className="write-m2a__ta"
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              placeholder="Write your process description…"
-              rows={12}
-            />
-            {showModel && (
-              <aside className="write-m2a__model">
-                <strong>Suggested answer</strong>
-                {data.write.suggestedAnswer.split("\n\n").map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </aside>
-            )}
-          </div>
+          <figure className="write-m2a__fig write-m2a__fig--book">
+            <img src={data.write.image} alt={data.write.imageAlt} />
+          </figure>
+          <WritingComposePanel
+            className="write-m2a__compose"
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={150}
+            placeholder="Write your process description…"
+            rows={12}
+            modelAnswer={data.write.suggestedAnswer}
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
+            onSave={saveWriting}
+            savedFlash={savedFlash}
+          />
         </section>
       )}
 

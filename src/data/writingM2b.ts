@@ -1,5 +1,6 @@
 import volcanoImg from "../assets/write-m2b-volcano.png";
 import diagramImg from "../assets/write-m2b-diagram.png";
+import diagramFullImg from "../assets/write-m2b-diagram-full.png";
 
 export const WRITE_M2B_STEPS = [
   "1 Lead-in",
@@ -62,7 +63,8 @@ export const writingM2b = {
       "Write at least 150 words.",
     ],
     diagramTitle: "The formation of supervolcanoes",
-    image: diagramImg,
+    image: diagramFullImg,
+    imageCompact: diagramImg,
     imageAlt:
       "Four-stage cycle diagram: magma chamber, pressure and fissures, eruption with smoke and lava, then land depression.",
     questions: [
@@ -94,6 +96,22 @@ export const writingM2b = {
       badge: "3a",
       instruction:
         "Read the coherence and cohesion descriptors on page 190. With a partner, discuss the differences between bands 6 and 7.",
+      descriptorsPage: "Expert Writing · page 190 · Writing Task 1",
+      descriptorsTitle: "Coherence and Cohesion",
+      openLabel: "Open page 190 · Coherence & Cohesion",
+      hideLabel: "Hide page 190",
+      discussCue: "Discuss bands 6 vs 7 with a partner",
+      descriptors: {
+        band6: [
+          "arranges information and ideas coherently and there is a clear overall progression",
+          "uses cohesive devices effectively, but cohesion within and/or between sentences may be faulty or mechanical",
+          "may not always use referencing clearly or appropriately",
+        ],
+        band7: [
+          "logically organises information and ideas; there is clear progression throughout",
+          "uses a range of cohesive devices appropriately although there may be some under-/over-use",
+        ],
+      },
     },
     b: {
       badge: "3b",

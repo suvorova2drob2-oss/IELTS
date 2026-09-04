@@ -24,7 +24,8 @@ A Windows scrollbar next to empty dark space is always wrong (see also `no-usele
 
 ## How to fix (prefer in order)
 
-1. **Use horizontal space** — two columns, side bank/chips, wider shell (`max-width` not 960px on a full-bleed panel).
+1. **Compact panel mode** — short steps must use `flow-panel--compact` (or `--passage` / `--tech` / `--speak`); never `flex: 1` on the panel. See `compact-flow-panels.mdc`.
+2. **Use horizontal space** — two columns, side bank/chips, wider shell (`max-width` not 960px on a full-bleed panel).
 2. **Tighten** — smaller type, padding, gaps, `min-height`; drop decorative empty rows.
 3. **One scroll pane only** if content is truly longer than the viewport (long essay / long passage) — never scroll a short quiz that would fit after tightening.
 

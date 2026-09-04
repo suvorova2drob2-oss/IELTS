@@ -1,29 +1,67 @@
+import { EXPERT_M3_AUDIO } from "./expertAudio";
+
 export const LISTEN_M3A_STEPS = [
   "1 Quotes",
-  "2a Preview",
-  "2b Analyse Qs",
+  "2a–b Read & analyse",
   "2c Match",
+  "2d Preview listen",
   "3 Exam task",
   "4 Task analysis",
   "5 Discussion",
 ] as const;
 
 export const LISTEN_M3A_NEXT = [
-  "2a Preview →",
-  "2b Analyse →",
+  "2a–b →",
   "2c Match →",
+  "2d Listen →",
   "3 Exam →",
   "4 Analysis →",
   "5 Discussion →",
   "← К модулю",
 ] as const;
 
+function normalizeListen(s: string): string {
+  return s
+    .trim()
+    .toLowerCase()
+    .replace(/[’']/g, "'")
+    .replace(/\s+/g, " ")
+    .replace(/[.,;:!?]+$/g, "")
+    .replace(/^\(|\)$/g, "");
+}
+
+export function checkListenM3a(input: string, accepted: string[]): boolean {
+  const n = normalizeListen(input);
+  if (!n) return false;
+  return accepted.some((a) => normalizeListen(a) === n);
+}
+
+function normalizePair(s: string): string {
+  return normalizeListen(s);
+}
+
+export function examAnswerOkM3a(
+  id: number,
+  value: string,
+  answers: Record<number, string>,
+): boolean {
+  if ([5, 6].includes(id)) {
+    const pair = listeningM3a.pairKeys.find((p) => p.ids.includes(id));
+    if (!pair) return false;
+    const vals = pair.ids.map((i) => normalizePair(answers[i] ?? ""));
+    return (
+      vals.every(Boolean) &&
+      pair.answers.every((a) => vals.includes(normalizePair(a))) &&
+      new Set(vals).size === pair.answers.length
+    );
+  }
+  return checkListenM3a(value, listeningM3a.examKeys[id]);
+}
+
 export const listeningM3a = {
   id: "listening-m3a-flow",
   bookPages: "p. 44 in your coursebook",
   sectionTitle: "Listening · Section 4",
-  noAudioNote:
-    "Аудио пока нет — можно пройти подготовку и matching. Ответы 1–9 появятся с треками 3.4 / 3.5.",
   quotes: {
     badge: "1",
     heading: "Before you listen",
@@ -62,6 +100,19 @@ export const listeningM3a = {
     instruction:
       "Read the questions. What do you think the main subject of the lecture will be?",
     predictCue: "Main subject: meditation (and its benefits)",
+    readHint:
+      "Read the questions on the left, then answer the analysis prompts on the right (with a partner if you can).",
+  },
+  previewListen: {
+    badge: "2d",
+    heading: "Preview listen",
+    instruction: "2d Listen and complete questions 1–4 only (Track 03_04).",
+    hint:
+      "Play the audio, type each answer in the numbered gap, then press Check →. Green = correct; red shows the key answer.",
+    scriptNote:
+      "Audio script 3.4 is on p. 203 of your coursebook (Audio scripts at the back) — optional if you want to read along.",
+    audio: EXPERT_M3_AUDIO.track03_04,
+    audioLabel: "Track 03_04",
   },
   questions: [
     {
@@ -232,20 +283,80 @@ export const listeningM3a = {
     heading: "Test practice",
     strategies: "TEST STRATEGIES page 168",
     instruction:
-      "Read the questions and complete the rest of the test task. Use the ideas in Exercises 2a–2c to prepare before you listen.",
-    audioNote: "Tracks 3.4 / 3.5 — audio will be added later.",
+      "3.5 Listen and complete the full test task (questions 1–9). Use the ideas in Exercises 2a–2c to prepare before you listen.",
+    hint:
+      "Play Track 03_05, fill all gaps, then press Check →. Q5 and Q6 are two indirect benefits — either order.",
+    scriptNote:
+      "Full transcript: audio script 3.5 on pp. 203–204 (Audio scripts at the back of the coursebook).",
+    audio: EXPERT_M3_AUDIO.track03_05,
+    audioLabel: "Track 03_05",
   },
+  /** Teacher's Book · Listening p. 44 · Exercises 2d & 3 */
+  examKeys: {
+    1: ["trials", "large-scale trials", "large scale trials"],
+    2: ["gene activity"],
+    3: ["improve skin disorders"],
+    4: ["slow down ageing", "slow down aging"],
+    5: ["giving up smoking", "eating more healthily"],
+    6: ["giving up smoking", "eating more healthily"],
+    7: ["stress"],
+    8: ["10 minutes", "ten minutes", "10"],
+    9: ["medical intervention"],
+  } as Record<number, string[]>,
+  /** Q5–6 accept either order; each pair must contain both answers. */
+  pairKeys: [
+    { ids: [5, 6], answers: ["giving up smoking", "eating more healthily"] },
+  ],
+  /** @deprecated use examKeys — kept for preview step scoring */
+  previewKeys: {
+    1: ["trials", "large-scale trials", "large scale trials"],
+    2: ["gene activity"],
+    3: ["improve skin disorders"],
+    4: ["slow down ageing", "slow down aging"],
+  } as Record<number, string[]>,
   analysis: {
     badge: "4a",
     heading: "Task analysis",
-    a: "Read audio script 3.5 on page 203 and underline the sections with the answers.",
+    a: "Compare your Exercise 3 answers with the key. Re-play Track 03_05 and listen for each gap in order (Q1 → Q9).",
+    bookNote:
+      "Full transcript: audio script 3.5 on pp. 203–204 (Audio scripts at the back of the coursebook).",
+    audio: EXPERT_M3_AUDIO.track03_05,
+    audioLabel: "Track 03_05",
+    answerKeyTitle: "Answer key (Teacher's Book · Exercise 3)",
+    answerKeyLines: [
+      "1 (large-scale) trials",
+      "2 gene activity",
+      "3 improve skin disorders",
+      "4 slow down ageing / aging",
+      "5–6 giving up smoking · eating more healthily (either order)",
+      "7 stress",
+      "8 10 / ten minutes",
+      "9 medical intervention",
+    ],
+    perQuestionNotes: {
+      1: "Plural noun, max 2 words — research evidence (trials).",
+      2: "Noun phrase — meditation may change gene activity.",
+      3: "Verb + noun, max 3 words — a physical benefit (skin disorders).",
+      4: "Verb + noun, max 3 words — another physical benefit (ageing).",
+      5: "Indirect benefit — either giving up smoking or eating more healthily.",
+      6: "Pair with Q5 — both answers must appear, in either order.",
+      7: "Noun after ‘meditation and …’ — a research topic (stress).",
+      8: "Number + unit counts as one answer (10 / ten minutes).",
+      9: "Noun — meditation complements but does not replace medical intervention.",
+    } as Record<number, string>,
     b: {
       badge: "4b",
-      instruction: "Analyse your answers using the questions.",
-      items: [
-        "Did you choose the correct part of speech?",
-        "Did you write the correct number of words?",
-        "Did you write singular and plural words correctly?",
+      instruction:
+        "For each question you got wrong, tick what you need to improve:",
+      checklist: [
+        "I used the correct part of speech (noun / verb phrase / number).",
+        "I stayed within the word limit (2 words for Q1–2, 7–9; 3 words for Q3–6).",
+        "I wrote singular and plural forms correctly (e.g. Q1 needs a plural noun).",
+      ],
+      tips: [
+        "Most gaps need nouns or noun phrases. Q3–4 ask for examples — often verb + noun.",
+        "Count every word and number. Hyphenated words count as one word (large-scale).",
+        "Q1 needs a plural noun (few ___). Q5–6 are a pair — either order, both required.",
       ],
     },
   },

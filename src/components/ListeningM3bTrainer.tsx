@@ -5,6 +5,7 @@ import {
   LISTEN_M3B_STEPS,
   listeningM3b,
 } from "../data/listeningM3b";
+import { AudioPlayer } from "./AudioPlayer";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = listeningM3b;
@@ -201,8 +202,6 @@ export function ListeningM3bTrainer({
         </div>
       </div>
 
-      <p className="listen-m3b__banner">{data.noAudioNote}</p>
-
       {step === 0 && (
         <section className="listen-m3b__panel listen-m3b__panel--lead">
           <figure className="listen-m3b__hero">
@@ -232,6 +231,7 @@ export function ListeningM3bTrainer({
           <blockquote className="listen-m3b__excerpt">
             {data.wrongAnswers.excerpt}
           </blockquote>
+          <div className="listen-m3b__wrong-stage flow-stage__body">
           <div className="listen-m3b__student-box">
             <p className="listen-m3b__student-q">
               {data.wrongAnswers.question}
@@ -297,6 +297,7 @@ export function ListeningM3bTrainer({
           {checked && (
             <p className="listen-m3b__tip">{data.wrongAnswers.explanation}</p>
           )}
+          </div>
         </section>
       )}
 
@@ -318,7 +319,7 @@ export function ListeningM3bTrainer({
               </li>
             ))}
           </ol>
-          <div className="listen-m3b__qgrid">
+          <div className="listen-m3b__qgrid flow-stage__body">
             <article className="listen-m3b__box">
               <h3>Questions 1–5</h3>
               <p className="listen-m3b__limit">{data.q1to5.limit}</p>
@@ -348,14 +349,16 @@ export function ListeningM3bTrainer({
 
       {step === 3 && (
         <section className="listen-m3b__panel">
-          <h2 className="listen-m3b__h">{data.preview.heading}</h2>
-          <p className="write-m2a__expert">{data.preview.strategies}</p>
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">{data.exam.badge}</span>
-            {data.exam.instruction}
-          </p>
-          <p className="listen-m3b__audio-note">{data.exam.audioNote}</p>
-          <div className="listen-m3b__qgrid">
+          <header className="listen-m3b__exam-head">
+            <h2 className="listen-m3b__h">{data.preview.heading}</h2>
+            <p className="write-m2a__expert">{data.preview.strategies}</p>
+            <p className="listen-m3b__instr">
+              <span className="write-m2a__badge">{data.exam.badge}</span>
+              {data.exam.instruction}
+            </p>
+            <AudioPlayer src={data.exam.audio} label={data.exam.audioLabel} />
+          </header>
+          <div className="listen-m3b__qgrid flow-stage__body">
             <article className="listen-m3b__box">
               <h3>Questions 1–5</h3>
               <p className="listen-m3b__limit">{data.q1to5.limit}</p>

@@ -4,6 +4,7 @@ import {
   WRITE_M7B_STEPS,
   writingM7b,
 } from "../data/writingM7b";
+import { WritingComposePanel } from "./WritingComposePanel";
 
 const data = writingM7b;
 
@@ -34,8 +35,8 @@ export function WritingM7bTrainer({
   const goNext = () => {
     if ((step === 1 || step === 2) && !showTip) { setShowTip(true); return; }
     if (step === 4) {
-      if (!showModel) { setShowModel(true); return; }
-      onBack?.(); return;
+      onBack?.();
+      return;
     }
     if (needsCheck && !checked) { setChecked(true); return; }
     if (step >= WRITE_M7B_STEPS.length - 1) { onBack?.(); return; }
@@ -43,7 +44,6 @@ export function WritingM7bTrainer({
   };
   const nextLabel =
     (step === 1 || step === 2) && !showTip ? "Show tip →" :
-    step === 4 && !showModel ? "Show model →" :
     needsCheck && !checked ? "Check →" : WRITE_M7B_NEXT[step];
 
   return (
@@ -119,9 +119,18 @@ export function WritingM7bTrainer({
         <section className="write-m3a__panel">
           <p className="write-m2a__expert">{data.write.expert}</p>
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.write.badge}</span>{data.write.instruction}</p>
-          <textarea className="write-m2a__textarea" rows={10} value={draft} onChange={(e) => setDraft(e.target.value)} placeholder="Write at least 150 words…" />
-          <p className="write-m2a__count">{draft.trim().split(/\s+/).filter(Boolean).length} words</p>
-          {showModel && <article className="read-m3__tip" style={{ whiteSpace: "pre-wrap" }}>{data.write.model}</article>}
+          <WritingComposePanel
+            draft={draft}
+            onDraftChange={setDraft}
+            minWords={150}
+            placeholder="Write at least 150 words…"
+            rows={10}
+            modelAnswer={data.write.model}
+            modelTitle="Suggested answer"
+            modelOpenLabel="Suggested answer"
+            showModel={showModel}
+            onToggleModel={() => setShowModel((v) => !v)}
+          />
         </section>
       )}
 

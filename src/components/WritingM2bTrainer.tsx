@@ -5,11 +5,14 @@ import {
   WRITE_M2B_STEPS,
   writingM2b,
 } from "../data/writingM2b";
-import { WordCountMeter, countWords } from "./WordCountMeter";
+import { WritingComposePanel } from "./WritingComposePanel";
+import { countWords } from "./WordCountMeter";
 
 const data = writingM2b;
 const STEP_KEY = "ielts-writing-m2b-step";
 const DRAFT_KEY = "ielts-writing-m2b-draft";
+
+const DRAFT_PERSIST_KEY = "ielts-writing-m2b-draft-persist";
 
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
@@ -18,7 +21,11 @@ function clampStep(n: number | undefined): number {
 
 function loadDraft(): string {
   try {
-    return sessionStorage.getItem(DRAFT_KEY) ?? "";
+    return (
+      sessionStorage.getItem(DRAFT_KEY) ??
+      localStorage.getItem(DRAFT_PERSIST_KEY) ??
+      ""
+    );
   } catch {
     return "";
   }
@@ -43,6 +50,8 @@ export function WritingM2bTrainer({
   const [writeTicks, setWriteTicks] = useState<Record<number, boolean>>({});
   const [draft, setDraft] = useState(loadDraft);
   const [showModel, setShowModel] = useState(false);
+  const [showDescriptors, setShowDescriptors] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -56,9 +65,11 @@ export function WritingM2bTrainer({
     setWriteTicks({});
     setDraft("");
     setShowModel(false);
+    setShowDescriptors(false);
     try {
       sessionStorage.removeItem(STEP_KEY);
       sessionStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(DRAFT_PERSIST_KEY);
     } catch {
       /* ignore */
     }
@@ -79,6 +90,17 @@ export function WritingM2bTrainer({
       /* ignore */
     }
   }, [draft]);
+
+  const saveWriting = () => {
+    try {
+      sessionStorage.setItem(DRAFT_KEY, draft);
+      localStorage.setItem(DRAFT_PERSIST_KEY, draft);
+    } catch {
+      /* ignore */
+    }
+    setSavedFlash(true);
+    window.setTimeout(() => setSavedFlash(false), 2000);
+  };
 
   const cohesionGaps = [1, 2, 3, 4];
   const cohesionScore = cohesionGaps.filter(
@@ -115,6 +137,7 @@ export function WritingM2bTrainer({
     setChecked(false);
     setShowTips(false);
     setShowModel(false);
+    setShowDescriptors(false);
     setStep((s) => s - 1);
   };
 
@@ -125,10 +148,6 @@ export function WritingM2bTrainer({
     }
     if (needsCheck && !checked) {
       setChecked(true);
-      return;
-    }
-    if (step === 5 && !showModel) {
-      setShowModel(true);
       return;
     }
     if (step >= WRITE_M2B_STEPS.length - 1) {
@@ -146,9 +165,7 @@ export function WritingM2bTrainer({
       ? "Show tips →"
       : needsCheck && !checked
         ? "Check →"
-        : step === 5 && !showModel
-          ? "Show model →"
-          : WRITE_M2B_NEXT[step];
+        : WRITE_M2B_NEXT[step];
 
   const score = step === 3 ? cohesionScore : step === 4 ? italScore : 0;
   const total =
@@ -210,7 +227,7 @@ export function WritingM2bTrainer({
 
       {step === 1 && (
         <section className="write-m2b__understand">
-          <header className="write-m2a__head">
+          <header className="write-m2a__head write-m2b__understand-head">
             <h2 className="write-m2a__title">{data.understand.heading}</h2>
             <p className="write-m2a__expert">{data.understand.expert}</p>
             <p className="write-m2a__instr">
@@ -219,22 +236,9 @@ export function WritingM2bTrainer({
             </p>
           </header>
           <div className="write-m2b__understand-grid">
-            <div className="write-m2b__diagram-col">
-              <aside className="write-m2b__task-box">
-                {data.understand.taskBox.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </aside>
-              <figure className="write-m2a__fig write-m2b__fig">
-                <figcaption>{data.understand.diagramTitle}</figcaption>
-                <div className="write-m2a__fig-media">
-                  <img
-                    src={data.understand.image}
-                    alt={data.understand.imageAlt}
-                  />
-                </div>
-              </figure>
-            </div>
+            <figure className="write-m2a__fig write-m2a__fig--book write-m2b__fig--task">
+              <img src={data.understand.image} alt={data.understand.imageAlt} />
+            </figure>
             <ol className="write-m2b__qs">
               {data.understand.questions.map((item, i) => (
                 <li key={item.q}>
@@ -254,11 +258,49 @@ export function WritingM2bTrainer({
       {step === 2 && (
         <section className="write-m2b__plan">
           <h2 className="write-m2a__title">{data.plan.heading}</h2>
-          <p className="write-m2a__instr">
-            <span className="write-m2a__badge">{data.plan.a.badge}</span>
-            {data.plan.a.instruction}
-          </p>
-          <p className="write-m2a__cue">Discuss bands 6 vs 7</p>
+          <div className="write-m2b__plan-a">
+            <p className="write-m2a__instr">
+              <span className="write-m2a__badge">{data.plan.a.badge}</span>
+              {data.plan.a.instruction}
+            </p>
+            <button
+              type="button"
+              className={`write-m2b__page-btn${showDescriptors ? " write-m2b__page-btn--open" : ""}`}
+              aria-expanded={showDescriptors}
+              onClick={() => setShowDescriptors((open) => !open)}
+            >
+              {showDescriptors ? data.plan.a.hideLabel : data.plan.a.openLabel}
+            </button>
+            {showDescriptors && (
+              <aside className="write-m2b__descriptors">
+                <p className="write-m2b__descriptors-source">
+                  {data.plan.a.descriptorsPage}
+                </p>
+                <h3 className="write-m2b__descriptors-title">
+                  {data.plan.a.descriptorsTitle}
+                </h3>
+                <div className="write-m2b__descriptors-grid">
+                  <div className="write-m2b__descriptors-band">
+                    <h4>Band 6</h4>
+                    <ul>
+                      {data.plan.a.descriptors.band6.map((line) => (
+                        <li key={line}>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="write-m2b__descriptors-band write-m2b__descriptors-band--7">
+                    <h4>Band 7</h4>
+                    <ul>
+                      {data.plan.a.descriptors.band7.map((line) => (
+                        <li key={line}>{line}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+                <p className="write-m2a__cue">{data.plan.a.discussCue}</p>
+              </aside>
+            )}
+          </div>
           <p className="write-m2a__instr">
             <span className="write-m2a__badge">{data.plan.b.badge}</span>
             {data.plan.b.instruction}
@@ -436,7 +478,7 @@ export function WritingM2bTrainer({
               <figcaption>{data.understand.diagramTitle}</figcaption>
               <div className="write-m2a__fig-media">
                 <img
-                  src={data.understand.image}
+                  src={data.understand.imageCompact ?? data.understand.image}
                   alt={data.understand.imageAlt}
                 />
               </div>
@@ -446,26 +488,20 @@ export function WritingM2bTrainer({
             <p className="write-m2a__instr write-m2a__instr--sub">
               {data.write.writeInstruction}
             </p>
-            <WordCountMeter
-              words={countWords(draft)}
+            <WritingComposePanel
+              draft={draft}
+              onDraftChange={setDraft}
               minWords={150}
-              label="Task 1 · exam minimum"
-            />
-            <textarea
-              className="write-m2a__ta"
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
               placeholder="Write your process summary…"
-              rows={12}
+              rows={10}
+              modelAnswer={data.write.modelAnswer}
+              modelTitle={data.write.modelLabel}
+              modelOpenLabel={data.write.modelLabel}
+              showModel={showModel}
+              onToggleModel={() => setShowModel((v) => !v)}
+              onSave={saveWriting}
+              savedFlash={savedFlash}
             />
-            {showModel && (
-              <aside className="write-m2b__model">
-                <strong>{data.write.modelLabel}</strong>
-                {data.write.modelAnswer.split("\n\n").map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </aside>
-            )}
           </div>
         </section>
       )}

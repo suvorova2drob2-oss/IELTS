@@ -1,0 +1,69 @@
+---
+description: Stage panels must fill viewport height — no content pinned to top with void below.
+alwaysApply: true
+---
+
+# Stage fill body (no top-pin + void)
+
+In `reading-flow--viewport` trainers, short tasks (bank + gaps, tech cards, speak grid) must **use the space between tabs and footer** — not sit in a strip at the top with 60%+ empty background below.
+
+## Architecture
+
+```
+panel (flex:1 column, overflow:hidden)
+  ├── chrome (instr, bank, hint) — flex-shrink:0
+  └── stage body (flex:1) — grows + centers rows
+```
+
+## Required CSS on stage body
+
+```css
+.task-list-or-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  align-self: stretch;
+  justify-content: safe center;   /* flex column lists */
+  align-content: safe center;     /* grids */
+  overflow-y: auto;               /* only this pane scrolls if too tall */
+}
+```
+
+Prefer class `flow-stage__body` on the growing child, or extend the global selectors in `index.css` (`.vocab-m3__panel--fill .vocab-m3__list`, `speak-m3a__tech--compact`, etc.).
+
+## Hard ban
+
+```css
+/* BAD — pins rows to top, void below */
+.stage-list { flex: 0 0 auto; align-content: start; overflow: visible; }
+
+/* BAD — duplicate rule later in file overrides flex:1 */
+.panel--fill .list { flex: 1 1 auto; }
+.panel--fill .list { flex: 0 0 auto; }  /* ← never */
+```
+
+Never add a second block for the same selector that resets `flex: 0` or `align-content: start` on a stage body.
+
+## Panel modifiers
+
+| Modifier | Stage body |
+|----------|------------|
+| `--fill` | `.vocab-m3__list`, `> .read-m3__para-slots`, `> .read-m3__qs`, `> .listen-m3b__grid` |
+| `--passage` | `.vocab-m3__passage--fit` (`flex:1`, passage grows) |
+| `--tech` | `.speak-m3a__tech--compact` (cards stretch to row height) |
+| `--speak` | `.speak-m3a__speak-grid` |
+| Language M3a/b | `.lang-m3a__real-list`, `.lang-m3a__type-slots`, `.lang-m3a__mcq`, `.lang-m3b__meaning-grid`, `.lang-m3b__gap-list` |
+| `--rewrite` | `.lang-m3a__rewrite`, `.lang-m2a__rewrite` (2×2 grid, rows stretch) |
+
+Panel itself: `overflow: hidden`. **One** inner scroller only when content truly exceeds height.
+
+## Chip buttons on dark panels
+
+Never force `background: #fff` on `.pr-chip` inside lang/vocab/speak trainers — use brass/dark pills (`rgba(255,255,255,0.1)` + gold picked state).
+
+## Before shipping any trainer step
+
+1. Mental check at ~1280×800: is there empty space **below** the task that the list/grid could occupy?
+2. If yes → stage body must have `flex: 1`, not `flex: 0`.
+3. Grep the selector — no duplicate override later in `index.css`.
+
+Related: `compact-flow-panels.mdc`, `fit-viewport-content.mdc`, `no-useless-scroll.mdc`.

@@ -8,7 +8,7 @@ import type {
   MindsetFlowData,
   YnngItem,
 } from "../../data/mindset/flowTypes";
-import { WordCountMeter, countWords } from "../WordCountMeter";
+import { WritingComposePanel } from "../WritingComposePanel";
 import {
   MsBarPairGraph,
   MsPiePairGraph,
@@ -754,33 +754,20 @@ export function MindsetFlowTrainer({
                 <p className="write-m2a__cue">{p.tableNote}</p>
               )}
             </article>
-            <WordCountMeter
-              words={countWords(draft)}
+            <WritingComposePanel
+              draft={draft}
+              onDraftChange={setDraft}
               minWords={p.minWords}
-              label={`Writing · minimum ${p.minWords} words`}
-            />
-            <textarea
-              className="write-m2a__area"
-              rows={10}
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
               placeholder="Write your answer here…"
+              rows={10}
+              modelAnswer={p.sample}
+              modelTitle="Sample answer"
+              modelOpenLabel="Show sample answer"
+              modelCloseLabel="Hide sample answer"
+              showModel={showSample}
+              onToggleModel={() => setShowSample((v) => !v)}
+              textareaClassName="write-m2a__area write-compose__ta"
             />
-            <button
-              type="button"
-              className="pr-chip"
-              onClick={() => setShowSample((v) => !v)}
-            >
-              {showSample ? "Hide sample answer" : "Show sample answer"}
-            </button>
-            {showSample && (
-              <article
-                className="read-m3__passage read-m3__passage--solo"
-                style={{ marginTop: 8 }}
-              >
-                <p style={{ whiteSpace: "pre-wrap" }}>{p.sample}</p>
-              </article>
-            )}
           </section>
         );
       case "keysOnly":
