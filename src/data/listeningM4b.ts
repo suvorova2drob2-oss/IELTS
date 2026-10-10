@@ -1,14 +1,18 @@
 export const LISTEN_M4B_STEPS = [
   "1 Before listen",
-  "2a–2c Links",
-  "3a Predict",
+  "2a Linking word",
+  "2b Match links",
+  "2c Discuss",
+  "3 Predict",
   "4 Exam",
   "5 Analysis",
 ] as const;
 
 export const LISTEN_M4B_NEXT = [
-  "2a–2c Links →",
-  "3a Predict →",
+  "2a Linking word →",
+  "2b Match links →",
+  "2c Discuss →",
+  "3 Predict →",
   "4 Exam →",
   "5 Analysis →",
   "← К модулю",
@@ -29,12 +33,13 @@ export function checkListenM4b(input: string, accepted: string[]): boolean {
   return accepted.some((a) => normalize(a) === n);
 }
 
+import { EXPERT_M4_AUDIO } from "./expertAudio";
+import { LISTEN_M4B_SCRIPT } from "./listenScriptM4";
+
 export const listeningM4b = {
   id: "listening-m4b-flow",
   bookPages: "p. 63 in your coursebook",
   sectionTitle: "Listening · Section 2",
-  noAudioNote:
-    "Аудио пока нет — можно пройти подготовку и заполнить задания. Ответы 1–10 появятся с треком, когда он будет добавлен.",
   before: {
     badge: "1",
     heading: "Before you listen",
@@ -146,7 +151,10 @@ export const listeningM4b = {
     strategies: "TEST STRATEGIES page 168",
     instruction:
       "Complete the table and the notes. Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
-    audioNote: "Audio will be added later.",
+    audio: EXPERT_M4_AUDIO.track04_02,
+    audioLabel: "Track 04_02 · script 4.2",
+    scriptLabel: "Audio script 4.2",
+    script: LISTEN_M4B_SCRIPT,
     table: {
       title: "Gift-giving: cultural advice",
       limit:

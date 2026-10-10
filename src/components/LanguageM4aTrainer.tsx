@@ -88,28 +88,49 @@ export function LanguageM4aTrainer({
   const usedThat = new Set(Object.values(thatGaps));
 
   const needsCheck = true;
+  const ownFilled = data.ownIdeas5.stems.filter(
+    (_, i) => (ownIdeas[i] ?? "").trim().length > 0,
+  ).length;
   const score =
     step === 0
       ? fragScore
       : step === 1
-        ? typeScore + rewriteScore
+        ? typeScore
         : step === 2
-          ? mcqScore + matchScore
+          ? rewriteScore
           : step === 3
-            ? punctOk
-              ? 1
-              : 0
-            : (thatOk ? 1 : 0) + thatGapScore;
+            ? mcqScore
+            : step === 4
+              ? matchScore
+              : step === 5
+                ? punctOk
+                  ? 1
+                  : 0
+                : step === 6
+                  ? ownFilled
+                  : step === 7
+                    ? thatOk
+                      ? 1
+                      : 0
+                    : thatGapScore;
   const total =
     step === 0
       ? data.fragments1a.fragments.length
       : step === 1
-        ? data.errorTypes1b.items.length + data.rewrite1c.items.length
+        ? data.errorTypes1b.items.length
         : step === 2
-          ? data.mcq2.items.length + data.match3.beginnings.length
+          ? data.rewrite1c.items.length
           : step === 3
-            ? 1
-            : 1 + data.thatClauses.gap6b.items.length;
+            ? data.mcq2.items.length
+            : step === 4
+              ? data.match3.beginnings.length
+              : step === 5
+                ? 1
+                : step === 6
+                  ? data.ownIdeas5.stems.length
+                  : step === 7
+                    ? 1
+                    : data.thatClauses.gap6b.items.length;
 
   const toggleFrag = (f: string) => {
     if (checked) return;
@@ -257,7 +278,7 @@ export function LanguageM4aTrainer({
       )}
 
       {step === 1 && (
-        <section className="lang-m3b__panel">
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">{data.errorTypes1b.badge}</span>
             {data.errorTypes1b.instruction}
@@ -278,7 +299,7 @@ export function LanguageM4aTrainer({
               );
             })}
           </div>
-          <ol className="lang-m3b__list">
+          <ol className="lang-m3b__list flow-stage__body">
             {data.errorTypes1b.items.map((it) => {
               const val = errorTypes[it.id];
               const ok = val === it.key;
@@ -305,12 +326,16 @@ export function LanguageM4aTrainer({
               );
             })}
           </ol>
+        </section>
+      )}
 
+      {step === 2 && (
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">{data.rewrite1c.badge}</span>
             {data.rewrite1c.instruction}
           </p>
-          <ol className="lang-m3b__list">
+          <ol className="lang-m3b__list flow-stage__body">
             {data.rewrite1c.items.map((it) => {
               const val = rewrites[it.id] ?? "";
               const ok = checkLangM4a(val, it.answers);
@@ -345,14 +370,14 @@ export function LanguageM4aTrainer({
         </section>
       )}
 
-      {step === 2 && (
-        <section className="lang-m3b__panel">
+      {step === 3 && (
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <h2 className="lang-m3b__h">{data.mcq2.heading}</h2>
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">{data.mcq2.badge}</span>
             {data.mcq2.instruction}
           </p>
-          <ul className="lang-m3b__mc-grid">
+          <ul className="lang-m3b__mc-grid flow-stage__body">
             {data.mcq2.items.map((it) => (
               <li key={it.id}>
                 <p>
@@ -384,7 +409,11 @@ export function LanguageM4aTrainer({
               </li>
             ))}
           </ul>
+        </section>
+      )}
 
+      {step === 4 && (
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">{data.match3.badge}</span>
             {data.match3.instruction}
@@ -405,7 +434,7 @@ export function LanguageM4aTrainer({
               );
             })}
           </div>
-          <ol className="lang-m3b__list">
+          <ol className="lang-m3b__list flow-stage__body">
             {data.match3.beginnings.map((b) => {
               const val = match[b.id];
               const ok = val === data.match3.keys[b.id];
@@ -438,7 +467,7 @@ export function LanguageM4aTrainer({
         </section>
       )}
 
-      {step === 3 && (
+      {step === 5 && (
         <section className="lang-m3b__panel">
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">{data.punctuate4.badge}</span>
@@ -460,13 +489,13 @@ export function LanguageM4aTrainer({
         </section>
       )}
 
-      {step === 4 && (
-        <section className="lang-m3b__panel">
+      {step === 6 && (
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">{data.ownIdeas5.badge}</span>
             {data.ownIdeas5.instruction}
           </p>
-          <ol className="lang-m3b__list">
+          <ol className="lang-m3b__list flow-stage__body">
             {data.ownIdeas5.stems.map((stem, i) => (
               <li key={stem}>
                 <p>
@@ -487,7 +516,11 @@ export function LanguageM4aTrainer({
               </li>
             ))}
           </ol>
+        </section>
+      )}
 
+      {step === 7 && (
+        <section className="lang-m3b__panel">
           <h2 className="lang-m3b__h">{data.thatClauses.heading}</h2>
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">
@@ -520,7 +553,11 @@ export function LanguageM4aTrainer({
           {checked && (
             <p className="lang-m3b__tip">{data.thatClauses.q6a.tip}</p>
           )}
+        </section>
+      )}
 
+      {step === 8 && (
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <p className="lang-m3b__instr">
             <span className="write-m2a__badge">
               {data.thatClauses.gap6b.badge}
@@ -543,7 +580,7 @@ export function LanguageM4aTrainer({
               );
             })}
           </div>
-          <ol className="lang-m3b__list">
+          <ol className="lang-m3b__list flow-stage__body">
             {data.thatClauses.gap6b.items.map((it) => {
               const val = thatGaps[it.id];
               const ok = val === it.key;

@@ -47,7 +47,8 @@ Never add a second block for the same selector that resets `flex: 0` or `align-c
 
 | Modifier | Stage body |
 |----------|------------|
-| `--fill` | `.vocab-m3__list`, `> .read-m3__para-slots`, `> .read-m3__qs`, `> .listen-m3b__grid` |
+| `--fill` | `.vocab-m3__list`, `> .review-m2__passive`, `> .review-m2__mc`, `> .read-m3__para-slots`, `> .read-m3__qs`, `> .listen-m3b__grid` |
+| `--idioms` / match | `.vocab-m3__idiom-grid` (2 columns: phrases ‖ meanings) — wrap in `.vocab-m3__idioms`; never stack 5a+5b in one step |
 | `--passage` | `.vocab-m3__passage--fit` (`flex:1`, passage grows) |
 | `--tech` | `.speak-m3a__tech--compact` (cards stretch to row height) |
 | `--speak` | `.speak-m3a__speak-grid` |

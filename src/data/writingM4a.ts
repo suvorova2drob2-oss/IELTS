@@ -1,3 +1,5 @@
+import cartoonImg from "../assets/write-m4a-recycling-cartoon.svg";
+
 export const WRITE_M4A_STEPS = [
   "1 Cartoon",
   "2 Order paras",
@@ -21,6 +23,8 @@ export const writingM4a = {
   cartoon: {
     badge: "1",
     heading: "Lead-in",
+    image: cartoonImg,
+    imageCaption: "Recycling the recycling plans?",
     instruction:
       "Look at the cartoon. What is the joke? Then discuss the questions in small groups.",
     jokeTip:

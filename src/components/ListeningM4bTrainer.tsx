@@ -1,16 +1,54 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import {
   checkListenM4b,
   LISTEN_M4B_NEXT,
   LISTEN_M4B_STEPS,
   listeningM4b,
 } from "../data/listeningM4b";
+import { AudioPlayer } from "./AudioPlayer";
+import { ListenTranscriptPanel } from "./ListenTranscriptPanel";
 
 const data = listeningM4b;
 
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
   return Math.max(0, Math.min(n, LISTEN_M4B_STEPS.length - 1));
+}
+
+function ListenM4bGap({
+  id,
+  checked,
+  val,
+  answerKey,
+  setAnswers,
+}: {
+  id: number;
+  checked: boolean;
+  val: string;
+  answerKey: string[];
+  setAnswers: Dispatch<SetStateAction<Record<number, string>>>;
+}) {
+  const ok = checked && checkListenM4b(val, answerKey);
+  const bad = checked && !ok;
+  return (
+    <span
+      className={`inline-gap-wrap ${ok ? "inline-gap-wrap--ok" : ""} ${bad ? "inline-gap-wrap--bad" : ""}`}
+    >
+      <input
+        className={`listen-m3b__input${ok ? " listen-m3b__input--ok" : ""}${bad ? " listen-m3b__input--bad" : ""}`}
+        value={val}
+        placeholder={`${id}`}
+        aria-label={`Answer ${id}`}
+        disabled={checked}
+        onChange={(e) =>
+          setAnswers((a) => ({ ...a, [id]: e.target.value }))
+        }
+      />
+      {checked && !ok && (
+        <span className="inline-gap-bad"> → {answerKey[0]}</span>
+      )}
+    </span>
+  );
 }
 
 export function ListeningM4bTrainer({
@@ -53,11 +91,21 @@ export function ListeningM4bTrainer({
     checkListenM4b(answers[id] ?? "", data.answerKeys[id]),
   ).length;
 
-  const needsCheck = step === 1 || step === 3;
+  const needsCheck = step === 1 || step === 2 || step === 5;
   const score =
-    step === 1 ? (link2aOk ? 1 : 0) + link2bScore : examScore;
+    step === 1
+      ? link2aOk
+        ? 1
+        : 0
+      : step === 2
+        ? link2bScore
+        : examScore;
   const total =
-    step === 1 ? 1 + data.links.a2b.items.length : examIds.length;
+    step === 1
+      ? 1
+      : step === 2
+        ? data.links.a2b.items.length
+        : examIds.length;
 
   const place2b = (id: number) => {
     if (checked) return;
@@ -86,13 +134,8 @@ export function ListeningM4bTrainer({
   };
 
   const goNext = () => {
-    if ((step === 0 || step === 2) && !showTips) {
+    if ((step === 0 || step === 4) && !showTips) {
       setShowTips(true);
-      return;
-    }
-    if (step === 1 && !checked) {
-      // also reveal 2c tip after check
-      setChecked(true);
       return;
     }
     if (needsCheck && !checked) {
@@ -110,36 +153,11 @@ export function ListeningM4bTrainer({
   };
 
   const nextLabel =
-    (step === 0 || step === 2) && !showTips
+    (step === 0 || step === 4) && !showTips
       ? "Show tips →"
       : needsCheck && !checked
         ? "Check →"
         : LISTEN_M4B_NEXT[step];
-
-  const Gap = ({ id }: { id: number }) => {
-    const val = answers[id] ?? "";
-    const ok = checked && checkListenM4b(val, data.answerKeys[id]);
-    const bad = checked && !ok;
-    return (
-      <span
-        className={`inline-gap-wrap ${ok ? "inline-gap-wrap--ok" : ""} ${bad ? "inline-gap-wrap--bad" : ""}`}
-      >
-        <input
-          className={`listen-m3b__input${ok ? " listen-m3b__input--ok" : ""}${bad ? " listen-m3b__input--bad" : ""}`}
-          value={val}
-          placeholder={`${id}`}
-          aria-label={`Answer ${id}`}
-          disabled={checked}
-          onChange={(e) =>
-            setAnswers((a) => ({ ...a, [id]: e.target.value }))
-          }
-        />
-        {checked && !ok && (
-          <span className="inline-gap-bad"> → {data.answerKeys[id][0]}</span>
-        )}
-      </span>
-    );
-  };
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport listen-m3b">
@@ -174,8 +192,6 @@ export function ListeningM4bTrainer({
           ))}
         </div>
       </div>
-
-      <p className="listen-m3b__banner">{data.noAudioNote}</p>
 
       {step === 0 && (
         <section className="listen-m3b__panel listen-m3b__panel--lead">
@@ -230,7 +246,11 @@ export function ListeningM4bTrainer({
           {checked && (
             <p className="listen-m3b__tip">{data.links.a2a.tip}</p>
           )}
+        </section>
+      )}
 
+      {step === 2 && (
+        <section className="listen-m3b__panel listen-m3b__panel--fill">
           <p className="listen-m3b__instr">
             <span className="write-m2a__badge">{data.links.a2b.badge}</span>
             {data.links.a2b.instruction}
@@ -252,7 +272,7 @@ export function ListeningM4bTrainer({
               );
             })}
           </div>
-          <ol className="listen-m3b__preview-list">
+          <ol className="listen-m3b__preview-list flow-stage__body">
             {data.links.a2b.items.map((it) => {
               const val = link2b[it.id];
               const ok = val === it.key;
@@ -279,18 +299,21 @@ export function ListeningM4bTrainer({
               );
             })}
           </ol>
+        </section>
+      )}
 
+      {step === 3 && (
+        <section className="listen-m3b__panel">
           <p className="listen-m3b__instr">
             <span className="write-m2a__badge">{data.links.a2c.badge}</span>
             {data.links.a2c.instruction}
           </p>
-          {checked && (
-            <p className="listen-m3b__tip">{data.links.a2c.tip}</p>
-          )}
+          <p className="listen-m3b__tip">{data.links.a2c.tip}</p>
+          <p className="write-m2a__cue">Discuss with a partner</p>
         </section>
       )}
 
-      {step === 2 && (
+      {step === 4 && (
         <section className="listen-m3b__panel">
           <h2 className="listen-m3b__h">{data.predict3a.heading}</h2>
           <p className="listen-m3b__instr">
@@ -309,16 +332,25 @@ export function ListeningM4bTrainer({
         </section>
       )}
 
-      {step === 3 && (
-        <section className="listen-m3b__panel">
-          <h2 className="listen-m3b__h">{data.exam.heading}</h2>
-          <p className="write-m2a__expert">{data.exam.strategies}</p>
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">{data.exam.badge}</span>
-            {data.exam.instruction}
-          </p>
-          <p className="listen-m3b__audio-note">{data.exam.audioNote}</p>
-          <div className="listen-m3b__qgrid">
+      {step === 5 && (
+        <section className="listen-m3b__panel listen-m3b__panel--exam">
+          <div className="listen-m3b__exam-head">
+            <h2 className="listen-m3b__h">{data.exam.heading}</h2>
+            <p className="write-m2a__expert">{data.exam.strategies}</p>
+            <p className="listen-m3b__instr">
+              <span className="write-m2a__badge">{data.exam.badge}</span>
+              {data.exam.instruction}
+            </p>
+            <AudioPlayer
+              src={data.exam.audio}
+              label={data.exam.audioLabel}
+            />
+            <ListenTranscriptPanel
+              label={data.exam.scriptLabel}
+              lines={data.exam.script}
+            />
+          </div>
+          <div className="listen-m3b__qgrid flow-stage__body">
             <article className="listen-m3b__box">
               <h3>{data.exam.table.title}</h3>
               <p className="listen-m3b__limit">{data.exam.table.limit}</p>
@@ -337,7 +369,13 @@ export function ListeningM4bTrainer({
                       {row.cells.map((cell) => (
                         <td key={cell.id}>
                           {cell.before}
-                          <Gap id={cell.id} />
+                          <ListenM4bGap
+                          id={cell.id}
+                          checked={checked}
+                          val={answers[cell.id] ?? ""}
+                          answerKey={data.answerKeys[cell.id]}
+                          setAnswers={setAnswers}
+                        />
                           {cell.after}
                         </td>
                       ))}
@@ -352,7 +390,13 @@ export function ListeningM4bTrainer({
               {data.exam.notes.items.map((it) => (
                 <p key={it.id}>
                   {it.before}
-                  <Gap id={it.id} />
+                  <ListenM4bGap
+                  id={it.id}
+                  checked={checked}
+                  val={answers[it.id] ?? ""}
+                  answerKey={data.answerKeys[it.id]}
+                  setAnswers={setAnswers}
+                />
                   {it.after}
                 </p>
               ))}
@@ -361,13 +405,17 @@ export function ListeningM4bTrainer({
         </section>
       )}
 
-      {step === 4 && (
+      {step === 6 && (
         <section className="listen-m3b__panel">
           <h2 className="listen-m3b__h">{data.analysis.heading}</h2>
           <p className="listen-m3b__instr">
             <span className="write-m2a__badge">{data.analysis.badge}</span>
             {data.analysis.instruction}
           </p>
+          <ListenTranscriptPanel
+            label={data.exam.scriptLabel}
+            lines={data.exam.script}
+          />
           <ul className="write-m2b__checks">
             {data.analysis.checklist.map((item, i) => (
               <li key={item}>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   checkReadM4a,
   READ_M4A_NEXT,
@@ -13,6 +13,18 @@ const LETTERS = ["A", "B", "C", "D", "E"] as const;
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
   return Math.max(0, Math.min(n, READ_M4A_STEPS.length - 1));
+}
+
+function highlightPhrase(sentence: string, phrase: string): ReactNode {
+  const i = sentence.indexOf(phrase);
+  if (i === -1) return sentence;
+  return (
+    <>
+      {sentence.slice(0, i)}
+      <mark className="read-m3__lang-mark">{phrase}</mark>
+      {sentence.slice(i + phrase.length)}
+    </>
+  );
 }
 
 export function ReadingM4aTrainer({
@@ -31,6 +43,8 @@ export function ReadingM4aTrainer({
   const [match, setMatch] = useState<Record<number, string>>({});
   const [pickedLetter, setPickedLetter] = useState<string | null>(null);
   const [summary, setSummary] = useState<Record<number, string>>({});
+  const [openLangTheme, setOpenLangTheme] = useState<string | null>(null);
+  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -41,6 +55,8 @@ export function ReadingM4aTrainer({
     setMatch({});
     setPickedLetter(null);
     setSummary({});
+    setOpenLangTheme(null);
+    setFlipped({});
   }, [restart, initialStep]);
 
   const typeOk =
@@ -164,18 +180,12 @@ export function ReadingM4aTrainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.beforeYouRead.badge}</span>
-            {data.beforeYouRead.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.beforeYouRead.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <p className="write-m2a__cue">Discuss with a partner</p>
-        </section>
+        <ExpertDiscussPanel
+          key="before-you-read"
+          badge={data.beforeYouRead.badge}
+          instruction={data.beforeYouRead.instruction}
+          questions={data.beforeYouRead.questions}
+        />
       )}
 
       {step === 1 && (
@@ -270,7 +280,7 @@ export function ReadingM4aTrainer({
                 </button>
               ))}
             </div>
-            <ul className="read-m3__para-slots">
+            <ul className="read-m3__para-slots read-m3__para-slots--match-rows">
               {data.matchingInfo.items.map((it) => {
                 const val = match[it.id];
                 const ok = val === it.key;
@@ -374,6 +384,125 @@ export function ReadingM4aTrainer({
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
         />
+      )}
+
+      {step === 6 && (
+        <section className="read-m3__panel read-m3__panel--lang">
+          <h2 className="read-m3__h">{data.languagePack.heading}</h2>
+          <p className="read-m3__instr">
+            <span className="write-m2a__badge">{data.languagePack.badge}</span>
+            {data.languagePack.instruction}
+          </p>
+          <ul className="read-m3__lang-list">
+            {data.languagePack.themes.map((theme) => {
+              const open = openLangTheme === theme.id;
+              return (
+                <li key={theme.id} className="read-m3__lang-theme">
+                  <button
+                    type="button"
+                    className={`read-m3__lang-tab ${open ? "read-m3__lang-tab--on" : ""}`}
+                    aria-expanded={open}
+                    onClick={() =>
+                      setOpenLangTheme((id) =>
+                        id === theme.id ? null : theme.id,
+                      )
+                    }
+                  >
+                    <span className="read-m3__lang-tab-label">
+                      {theme.tabLabel}
+                    </span>
+                    <span className="read-m3__lang-tab-chevron" aria-hidden>
+                      {open ? "▾" : "▸"}
+                    </span>
+                  </button>
+                  {open && (
+                    <div className="read-m3__lang-body">
+                      <p className="read-m3__tip read-m3__lang-hint">
+                        <strong>Use it:</strong> {theme.useHint}
+                      </p>
+                      <ul className="read-m3__lang-items">
+                        {theme.items.map((item) => (
+                          <li key={item.phrase} className="read-m3__lang-item">
+                            <p className="read-m3__lang-phrase">{item.phrase}</p>
+                            <blockquote className="read-m3__lang-sentence">
+                              {highlightPhrase(item.sentence, item.phrase)}
+                            </blockquote>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
+
+      {step === 7 && (
+        <section className="read-m4a__phrases">
+          <h2 className="read-m3__h">Cool phrases</h2>
+          <ol className="read-m4a__phrase-grid">
+            {data.coolPhrases.map((phrase, i) => (
+              <li key={phrase}>
+                <span>{i + 1}</span>
+                {phrase}
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {step === 8 && (
+        <section className="read-m4a__flips">
+          <p className="read-m3__instr">Click a card to see the upgrade.</p>
+          <div className="read-m4a__flip-grid">
+            {data.flipCards.map((card, i) => {
+              const on = !!flipped[i];
+              return (
+                <button
+                  key={card.plain}
+                  type="button"
+                  className={`read-m4a__flip ${on ? "read-m4a__flip--on" : ""}`}
+                  aria-pressed={on}
+                  onClick={() =>
+                    setFlipped((prev) => ({ ...prev, [i]: !prev[i] }))
+                  }
+                >
+                  <span className="read-m4a__flip-inner">
+                    <span className="read-m4a__flip-face">
+                      <span className="read-m4a__flip-kicker">{i + 1}</span>
+                      {card.plain}
+                    </span>
+                    <span className="read-m4a__flip-face read-m4a__flip-back">
+                      <span className="read-m4a__flip-kicker">Upgrade</span>
+                      {card.upgrade}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {step === 9 && (
+        <section className="read-m4a__case">
+          <article className="read-m4a__case-brief">
+            <p className="read-m4a__case-kicker">{data.savePlanet.kicker}</p>
+            <h2 className="read-m3__h">{data.savePlanet.heading}</h2>
+            <p className="read-m4a__case-task">{data.savePlanet.instruction}</p>
+            <p className="read-m4a__case-situation">{data.savePlanet.situation}</p>
+          </article>
+          <ol className="read-m4a__case-list">
+            {data.savePlanet.checklist.map((item, i) => (
+              <li key={item}>
+                <span>{i + 1}</span>
+                {item}
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
 
       <div

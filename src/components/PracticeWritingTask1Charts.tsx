@@ -1,9 +1,4 @@
-import type { Task1Model } from "../data/practiceWritingTask1Models";
-
-const coal = "#c4a574";
-const gas = "#6eb5c0";
-const nuclear = "#e0c08a";
-const renew = "#7dce82";
+import type { Task1BarData, Task1Model } from "../data/practiceWritingTask1Models";
 
 const housing = "#e0c08a";
 const food = "#7dce82";
@@ -89,33 +84,29 @@ function Pie({
   );
 }
 
-function BarChart() {
-  const sources = [
-    { key: "coal", label: "Coal", color: coal },
-    { key: "gas", label: "Gas", color: gas },
-    { key: "nuclear", label: "Nuclear", color: nuclear },
-    { key: "renew", label: "Renewables", color: renew },
-  ];
-  const countries = [
-    { name: "UK", values: [35, 40, 15, 10] },
-    { name: "France", values: [8, 10, 70, 12] },
-    { name: "Australia", values: [60, 22, 0, 18] },
-  ];
+function barTicks(max: number): number[] {
+  const step = max <= 50 ? 10 : 20;
+  const ticks: number[] = [];
+  for (let n = 0; n <= max; n += step) ticks.push(n);
+  return ticks;
+}
+
+function GroupedBarChart({ data }: { data: Task1BarData }) {
+  const { chartTitle, yAxis, max, categories, groups } = data;
   const W = 560;
   const H = 200;
   const pad = { l: 38, r: 12, t: 10, b: 28 };
-  const max = 80;
   const plotW = W - pad.l - pad.r;
   const plotH = H - pad.t - pad.b;
-  const groupW = plotW / countries.length;
+  const groupW = plotW / groups.length;
   const barW = 16;
   const gap = 5;
-  const cluster = sources.length * barW + (sources.length - 1) * gap;
+  const cluster = categories.length * barW + (categories.length - 1) * gap;
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="pw-graph__svg" role="img">
-      <title>Electricity generation by source, 2010 (%)</title>
-      {[0, 20, 40, 60, 80].map((n) => {
+      <title>{chartTitle}</title>
+      {barTicks(max).map((n) => {
         const y = pad.t + plotH - (n / max) * plotH;
         return (
           <g key={n}>
@@ -132,22 +123,22 @@ function BarChart() {
           </g>
         );
       })}
-      {countries.map((c, i) => {
+      {groups.map((c, i) => {
         const gx = pad.l + i * groupW + (groupW - cluster) / 2;
         return (
-          <g key={c.name}>
+          <g key={c.label}>
             {c.values.map((v, j) => {
               const h = (v / max) * plotH;
               const x = gx + j * (barW + gap);
               const y = pad.t + plotH - h;
               return (
                 <rect
-                  key={sources[j].key}
+                  key={`${c.label}-${categories[j].label}`}
                   x={x}
                   y={v === 0 ? pad.t + plotH - 2 : y}
                   width={barW}
                   height={v === 0 ? 2 : h}
-                  fill={sources[j].color}
+                  fill={categories[j].color}
                   rx="2"
                 />
               );
@@ -157,7 +148,7 @@ function BarChart() {
               y={H - 8}
               className="pw-graph__tick pw-graph__tick--x"
             >
-              {c.name}
+              {c.label}
             </text>
           </g>
         );
@@ -168,7 +159,7 @@ function BarChart() {
         className="pw-graph__axis"
         transform={`rotate(-90 18 ${H / 2})`}
       >
-        % of electricity
+        {yAxis}
       </text>
     </svg>
   );
@@ -373,31 +364,30 @@ function MixedVisual() {
   );
 }
 
+export function Task1BarChartVisual({ data }: { data: Task1BarData }) {
+  return (
+    <>
+      <p className="pw-graph__title">{data.chartTitle}</p>
+      <GroupedBarChart data={data} />
+      <ul className="pw-graph__legend">
+        {data.categories.map((s) => (
+          <li key={s.label}>
+            <span className="pw-graph__legend-btn" style={{ cursor: "default" }}>
+              <span className="pw-t1-swatch" style={{ background: s.color }} />
+              {s.label}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
 export function Task1ModelChart({ model }: { model: Task1Model }) {
   return (
     <div className="pw-graph pw-t1-visual">
-      {model.kind === "bar" && (
-        <>
-          <p className="pw-graph__title">
-            Electricity generation by source, 2010 (%)
-          </p>
-          <BarChart />
-          <ul className="pw-graph__legend">
-            {[
-              { label: "Coal", color: coal },
-              { label: "Gas", color: gas },
-              { label: "Nuclear", color: nuclear },
-              { label: "Renewables", color: renew },
-            ].map((s) => (
-              <li key={s.label}>
-                <span className="pw-graph__legend-btn" style={{ cursor: "default" }}>
-                  <span className="pw-t1-swatch" style={{ background: s.color }} />
-                  {s.label}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </>
+      {model.kind === "bar" && model.barData && (
+        <Task1BarChartVisual data={model.barData} />
       )}
       {model.kind === "pie" && (
         <>

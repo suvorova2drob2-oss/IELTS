@@ -18,6 +18,7 @@ export function AudioPlayer({
   const [playing, setPlaying] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -26,6 +27,8 @@ export function AudioPlayer({
     el.currentTime = 0;
     setPlaying(false);
     setCurrent(0);
+    setDuration(0);
+    setLoadError(false);
   }, [src]);
 
   return (
@@ -35,10 +38,20 @@ export function AudioPlayer({
         ref={ref}
         src={src}
         preload="metadata"
-        onLoadedMetadata={() => setDuration(ref.current?.duration ?? 0)}
+        onLoadedMetadata={() => {
+          setLoadError(false);
+          setDuration(ref.current?.duration ?? 0);
+        }}
+        onDurationChange={() => setDuration(ref.current?.duration ?? 0)}
         onTimeUpdate={() => setCurrent(ref.current?.currentTime ?? 0)}
         onEnded={() => setPlaying(false)}
+        onError={() => setLoadError(true)}
       />
+      {loadError && (
+        <span className="pl-audio__err" role="status">
+          Не удалось загрузить аудио — проверьте интернет или обновите страницу (Ctrl+F5).
+        </span>
+      )}
       <button
         type="button"
         className="pl-audio__play"

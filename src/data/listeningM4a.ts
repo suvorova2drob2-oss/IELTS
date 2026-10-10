@@ -29,12 +29,13 @@ export function checkListenM4a(input: string, accepted: string[]): boolean {
   return accepted.some((a) => normalize(a) === n);
 }
 
+import { EXPERT_M4_AUDIO } from "./expertAudio";
+import { LISTEN_M4A_SCRIPT } from "./listenScriptM4";
+
 export const listeningM4a = {
   id: "listening-m4a-flow",
   bookPages: "p. 60 in your coursebook",
   sectionTitle: "Listening · Section 2",
-  noAudioNote:
-    "Аудио пока нет — можно пройти подготовку и заполнить задания. Ответы 1–7 проверьте по script 4.1 (pp. 204–205), когда появятся треки.",
   before: {
     badge: "1",
     heading: "Before you listen",
@@ -114,7 +115,10 @@ export const listeningM4a = {
     strategies: "TEST STRATEGIES page 168",
     instruction:
       "Complete the table and the notes below. Write NO MORE THAN THREE WORDS AND/OR A NUMBER for questions 1–4 and NO MORE THAN TWO WORDS AND/OR A NUMBER for questions 5–7.",
-    audioNote: "Track 4.1 — audio will be added later.",
+    audio: EXPERT_M4_AUDIO.track04_01,
+    audioLabel: "Track 04_01 · script 4.1",
+    scriptLabel: "Audio script 4.1",
+    script: LISTEN_M4A_SCRIPT,
     table: {
       title: "Community upcycling workshops",
       limit:

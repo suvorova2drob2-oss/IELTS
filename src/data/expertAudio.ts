@@ -5,6 +5,12 @@ function expertTrack(module: number, trackId: string): string {
   return `./audio/expert/module-${module}/${encodeURIComponent(file)}`;
 }
 
+/** Hosted coursebook MP3 (same naming as CD / public/audio copies). */
+function expertTrackHosted(module: number, trackId: string): string {
+  const file = `Expert IELTS_Cbk_7_5 Track ${trackId}.mp3`;
+  return `https://storage.yandexcloud.net/cpeaudio/IELTS/unit%20${module}/${encodeURIComponent(file)}`;
+}
+
 /** Module 2 · A world of change (Listening p. 28–31) */
 export const EXPERT_M2_AUDIO = {
   /** 2.2 Robert & Filipo walks */
@@ -31,4 +37,12 @@ export const EXPERT_M3_AUDIO = {
   track03_06: expertTrack(3, "03_06"),
   /** Speaking 5 — model answers */
   track03_07: expertTrack(3, "03_07"),
+} as const;
+
+/** Module 4 · A consumer society (Listening p. 60–63) — hosted on Yandex (CD track names). */
+export const EXPERT_M4_AUDIO = {
+  /** Listening 4a · Section 2 exam (upcycling workshops, script 4.1) */
+  track04_01: expertTrackHosted(4, "04_01"),
+  /** Listening 4b · Section 2 exam (gift-giving, script 4.2) */
+  track04_02: expertTrackHosted(4, "04_02"),
 } as const;

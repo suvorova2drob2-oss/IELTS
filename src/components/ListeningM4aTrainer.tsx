@@ -1,17 +1,150 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import {
   checkListenM4a,
   LISTEN_M4A_NEXT,
   LISTEN_M4A_STEPS,
   listeningM4a,
 } from "../data/listeningM4a";
+import { AudioPlayer } from "./AudioPlayer";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { ListenTranscriptPanel } from "./ListenTranscriptPanel";
 
 const data = listeningM4a;
 
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
   return Math.max(0, Math.min(n, LISTEN_M4A_STEPS.length - 1));
+}
+
+function ListenM4aGap({
+  id,
+  checked,
+  val,
+  answerKey,
+  setAnswers,
+}: {
+  id: number;
+  checked: boolean;
+  val: string;
+  answerKey: string[];
+  setAnswers: Dispatch<SetStateAction<Record<number, string>>>;
+}) {
+  const ok = checked && checkListenM4a(val, answerKey);
+  const bad = checked && !!val && !ok;
+  return (
+    <span
+      className={`inline-gap-wrap ${ok ? "inline-gap-wrap--ok" : ""} ${bad || (checked && !ok) ? "inline-gap-wrap--bad" : ""}`}
+    >
+      <input
+        className={`listen-m3b__input${ok ? " listen-m3b__input--ok" : ""}${bad || (checked && !ok) ? " listen-m3b__input--bad" : ""}`}
+        value={val}
+        placeholder={`${id}`}
+        aria-label={`Answer ${id}`}
+        disabled={checked}
+        onChange={(e) =>
+          setAnswers((a) => ({ ...a, [id]: e.target.value }))
+        }
+      />
+      {checked && !ok && (
+        <span className="inline-gap-bad"> → {answerKey[0]}</span>
+      )}
+    </span>
+  );
+}
+
+function GapPreview({ id }: { id: number }) {
+  return (
+    <span className="listen-m4a__gap-preview" aria-label={`Question ${id}`}>
+      {id}
+    </span>
+  );
+}
+
+function ListenM4aExamContent({
+  readonly,
+  checked,
+  answers,
+  setAnswers,
+  showNotes = true,
+}: {
+  readonly?: boolean;
+  checked: boolean;
+  answers: Record<number, string>;
+  setAnswers: Dispatch<SetStateAction<Record<number, string>>>;
+  showNotes?: boolean;
+}) {
+  return (
+    <div
+      className={`listen-m3b__qgrid${readonly ? " listen-m4a__qgrid--preview" : " flow-stage__body"}`}
+    >
+      <article className="listen-m3b__box">
+        <h3>{data.exam.table.title}</h3>
+        <p className="listen-m3b__limit">{data.exam.table.limit}</p>
+        <table className="listen-m3b__table">
+          <thead>
+            <tr>
+              {data.exam.table.headers.map((h) => (
+                <th key={h}>{h}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.exam.table.rows.map((row) => (
+              <tr key={row.workshop}>
+                <td>{row.workshop}</td>
+                {row.cells.map((cell, i) => (
+                  <td key={i}>
+                    {"given" in cell && cell.given ? (
+                      cell.given
+                    ) : "id" in cell && cell.id != null ? (
+                      <>
+                        {cell.before}
+                        {readonly ? (
+                          <GapPreview id={cell.id} />
+                        ) : (
+                          <ListenM4aGap
+                            id={cell.id}
+                            checked={checked}
+                            val={answers[cell.id] ?? ""}
+                            answerKey={data.answerKeys[cell.id]}
+                            setAnswers={setAnswers}
+                          />
+                        )}
+                        {cell.after}
+                      </>
+                    ) : null}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </article>
+      {showNotes && (
+        <article className="listen-m3b__box">
+          <h3>{data.exam.notes.title}</h3>
+          <p className="listen-m3b__limit">{data.exam.notes.limit}</p>
+          {data.exam.notes.items.map((it) => (
+            <p key={it.id}>
+              {it.before}
+              {readonly ? (
+                <GapPreview id={it.id} />
+              ) : (
+                <ListenM4aGap
+                  id={it.id}
+                  checked={checked}
+                  val={answers[it.id] ?? ""}
+                  answerKey={data.answerKeys[it.id]}
+                  setAnswers={setAnswers}
+                />
+              )}
+              {it.after}
+            </p>
+          ))}
+        </article>
+      )}
+    </div>
+  );
 }
 
 export function ListeningM4aTrainer({
@@ -79,31 +212,6 @@ export function ListeningM4aTrainer({
         ? "Check →"
         : LISTEN_M4A_NEXT[step];
 
-  const Gap = ({ id }: { id: number }) => {
-    const val = answers[id] ?? "";
-    const ok = checked && checkListenM4a(val, data.answerKeys[id]);
-    const bad = checked && !!val && !ok;
-    return (
-      <span
-        className={`inline-gap-wrap ${ok ? "inline-gap-wrap--ok" : ""} ${bad || (checked && !ok) ? "inline-gap-wrap--bad" : ""}`}
-      >
-        <input
-          className={`listen-m3b__input${ok ? " listen-m3b__input--ok" : ""}${bad || (checked && !ok) ? " listen-m3b__input--bad" : ""}`}
-          value={val}
-          placeholder={`${id}`}
-          aria-label={`Answer ${id}`}
-          disabled={checked}
-          onChange={(e) =>
-            setAnswers((a) => ({ ...a, [id]: e.target.value }))
-          }
-        />
-        {checked && !ok && (
-          <span className="inline-gap-bad"> → {data.answerKeys[id][0]}</span>
-        )}
-      </span>
-    );
-  };
-
   return (
     <div className="app-shell reading-flow reading-flow--viewport listen-m3b">
       <div className="reading-chrome">
@@ -137,8 +245,6 @@ export function ListeningM4aTrainer({
         </div>
       </div>
 
-      <p className="listen-m3b__banner">{data.noAudioNote}</p>
-
       {step === 0 && (
         <section className="listen-m3b__panel listen-m3b__panel--lead">
           <div className="listen-m3b__lead-main">
@@ -162,119 +268,113 @@ export function ListeningM4aTrainer({
       )}
 
       {step === 1 && (
-        <section className="listen-m3b__panel">
-          <h2 className="listen-m3b__h">{data.predictTable.heading}</h2>
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">{data.predictTable.badge}</span>
-            {data.predictTable.instruction}
-          </p>
-          <ol className="listen-m3b__preview-list">
-            {data.predictTable.items.map((it) => (
-              <li key={it.id}>
-                <strong>{it.id}.</strong> {it.q}
-                {showTips && (
-                  <p className="listen-m3b__tip">→ {it.tip}</p>
-                )}
-              </li>
-            ))}
-          </ol>
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">
-              {data.predictTable.predict2b.badge}
-            </span>
-            {data.predictTable.predict2b.instruction}
-          </p>
-          {showTips && (
-            <p className="listen-m3b__tip">
-              → {data.predictTable.predict2b.tip}
+        <section className="listen-m3b__panel listen-m4a__panel--predict">
+          <div className="listen-m4a__predict-chrome">
+            <h2 className="listen-m3b__h">{data.predictTable.heading}</h2>
+            <p className="listen-m3b__instr">
+              <span className="write-m2a__badge">{data.predictTable.badge}</span>
+              {data.predictTable.instruction}
             </p>
-          )}
+          </div>
+          <div className="listen-m4a__predict-split">
+            <ListenM4aExamContent
+              readonly
+              checked={false}
+              answers={answers}
+              setAnswers={setAnswers}
+              showNotes={false}
+            />
+            <div className="listen-m4a__predict-side">
+              <ol className="listen-m3b__preview-list listen-m3b__preview-list--num">
+                {data.predictTable.items.map((it) => (
+                  <li key={it.id}>
+                    {it.q}
+                    {showTips && (
+                      <p className="listen-m3b__tip">→ {it.tip}</p>
+                    )}
+                  </li>
+                ))}
+              </ol>
+              <p className="listen-m3b__instr">
+                <span className="write-m2a__badge">
+                  {data.predictTable.predict2b.badge}
+                </span>
+                {data.predictTable.predict2b.instruction}
+              </p>
+              {showTips && (
+                <p className="listen-m3b__tip">
+                  → {data.predictTable.predict2b.tip}
+                </p>
+              )}
+            </div>
+          </div>
         </section>
       )}
 
       {step === 2 && (
-        <section className="listen-m3b__panel">
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">{data.predictNotes.badge}</span>
-            {data.predictNotes.instruction}
-          </p>
-          {showTips && (
-            <p className="listen-m3b__tip">→ {data.predictNotes.tip}</p>
-          )}
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">
-              {data.predictNotes.predict3b.badge}
-            </span>
-            {data.predictNotes.predict3b.instruction}
-          </p>
-          <ol className="listen-m3b__preview-list">
-            {data.predictNotes.predict3b.items.map((it) => (
-              <li key={it.id}>
-                <strong>{it.id}.</strong> {it.q}
-                {showTips && (
-                  <p className="listen-m3b__tip">→ {it.tip}</p>
-                )}
-              </li>
-            ))}
-          </ol>
+        <section className="listen-m3b__panel listen-m4a__panel--predict">
+          <div className="listen-m4a__predict-chrome">
+            <p className="listen-m3b__instr">
+              <span className="write-m2a__badge">{data.predictNotes.badge}</span>
+              {data.predictNotes.instruction}
+            </p>
+            {showTips && (
+              <p className="listen-m3b__tip">→ {data.predictNotes.tip}</p>
+            )}
+          </div>
+          <div className="listen-m4a__predict-split">
+            <ListenM4aExamContent
+              readonly
+              checked={false}
+              answers={answers}
+              setAnswers={setAnswers}
+              showNotes
+            />
+            <div className="listen-m4a__predict-side">
+              <p className="listen-m3b__instr">
+                <span className="write-m2a__badge">
+                  {data.predictNotes.predict3b.badge}
+                </span>
+                {data.predictNotes.predict3b.instruction}
+              </p>
+              <ol className="listen-m3b__preview-list listen-m3b__preview-list--num">
+                {data.predictNotes.predict3b.items.map((it) => (
+                  <li key={it.id}>
+                    {it.q}
+                    {showTips && (
+                      <p className="listen-m3b__tip">→ {it.tip}</p>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
         </section>
       )}
 
       {step === 3 && (
-        <section className="listen-m3b__panel">
-          <h2 className="listen-m3b__h">{data.exam.heading}</h2>
-          <p className="write-m2a__expert">{data.exam.strategies}</p>
-          <p className="listen-m3b__instr">
-            <span className="write-m2a__badge">{data.exam.badge}</span>
-            {data.exam.instruction}
-          </p>
-          <p className="listen-m3b__audio-note">{data.exam.audioNote}</p>
-          <div className="listen-m3b__qgrid">
-            <article className="listen-m3b__box">
-              <h3>{data.exam.table.title}</h3>
-              <p className="listen-m3b__limit">{data.exam.table.limit}</p>
-              <table className="listen-m3b__table">
-                <thead>
-                  <tr>
-                    {data.exam.table.headers.map((h) => (
-                      <th key={h}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.exam.table.rows.map((row) => (
-                    <tr key={row.workshop}>
-                      <td>{row.workshop}</td>
-                      {row.cells.map((cell, i) => (
-                        <td key={i}>
-                          {"given" in cell && cell.given ? (
-                            cell.given
-                          ) : "id" in cell && cell.id != null ? (
-                            <>
-                              {cell.before}
-                              <Gap id={cell.id} />
-                              {cell.after}
-                            </>
-                          ) : null}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </article>
-            <article className="listen-m3b__box">
-              <h3>{data.exam.notes.title}</h3>
-              <p className="listen-m3b__limit">{data.exam.notes.limit}</p>
-              {data.exam.notes.items.map((it) => (
-                <p key={it.id}>
-                  {it.before}
-                  <Gap id={it.id} />
-                  {it.after}
-                </p>
-              ))}
-            </article>
+        <section className="listen-m3b__panel listen-m3b__panel--exam">
+          <div className="listen-m3b__exam-head">
+            <h2 className="listen-m3b__h">{data.exam.heading}</h2>
+            <p className="write-m2a__expert">{data.exam.strategies}</p>
+            <p className="listen-m3b__instr">
+              <span className="write-m2a__badge">{data.exam.badge}</span>
+              {data.exam.instruction}
+            </p>
+            <AudioPlayer
+              src={data.exam.audio}
+              label={data.exam.audioLabel}
+            />
+            <ListenTranscriptPanel
+              label={data.exam.scriptLabel}
+              lines={data.exam.script}
+            />
           </div>
+          <ListenM4aExamContent
+            checked={checked}
+            answers={answers}
+            setAnswers={setAnswers}
+          />
         </section>
       )}
 

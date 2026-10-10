@@ -1,4 +1,3 @@
-import consumerImg from "../assets/lead-in-m4-consumer.png";
 import type { LeadInData } from "./leadInIntelligence";
 
 /** Module 4 · A consumer society · Lead-in · p. 55 */
@@ -11,16 +10,7 @@ export const leadInConsumer: LeadInData = {
   layout: "stack",
   stackInstruction:
     "Complete the quiz. How many blue boxes did you tick? How many green boxes did you tick?",
-  photos: [
-    {
-      id: "quiz",
-      src: consumerImg,
-      label: "Responsible spender quiz",
-      intelligenceType: "",
-      hint: "",
-      objectFit: "contain",
-    },
-  ],
+  photos: [],
   questions: [
     {
       id: 1,

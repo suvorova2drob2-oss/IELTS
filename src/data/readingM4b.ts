@@ -3,12 +3,18 @@ export const READ_M4B_STEPS = [
   "2 Matching + summary",
   "3 Task analysis",
   "4 Discussion",
+  "Cool phrases",
+  "Flip cards",
+  "Keep yourself",
 ] as const;
 
 export const READ_M4B_NEXT = [
   "2 Matching + summary →",
   "3 Task analysis →",
   "4 Discussion →",
+  "Cool phrases →",
+  "Flip cards →",
+  "Keep yourself →",
   "← К модулю",
 ] as const;
 
@@ -162,6 +168,90 @@ export const readingM4b = {
       "I largely agree with the first statement. When someone buys a new phone or designer bag, they often hope it will signal success or taste, not just function. In my experience, social media has intensified this — people post purchases partly to impress others.",
       "The second statement also rings true. The excitement of a new gadget fades quickly, and daily life feels much the same afterwards. We adapt to what we own, so the promised transformation rarely lasts.",
       "I would agree that belongings can reinforce identity — clothes, books, and hobbies all say something about who we are. However, I think character and relationships matter more in the long run than possessions alone.",
+    ],
+  },
+  coolPhrases: [
+    "imbue things with rich meaning",
+    "human trait",
+    "bolster our sense of identity",
+    "it is akin to relinquishing part of ourselves",
+    "strive for",
+    "diminish my individuality",
+    "our materialistic aspirations",
+    "compulsion begins",
+    "find fulfilment in other key areas of our lives",
+    "the cause of discontentment",
+    "spend lavishly",
+    "it offers more enduring boost",
+    "time is your most precious commodity",
+  ],
+  flipCards: [
+    {
+      plain: "Even a worthless old jumper can feel important.",
+      upgrade:
+        "We imbue things with rich meaning. It is a human trait, not a question of price.",
+      hits: ["imbue things with rich meaning", "human trait"],
+    },
+    {
+      plain: "Our things make us feel like ourselves, so throwing them out hurts.",
+      upgrade:
+        "Our belongings bolster our sense of identity. Throw them away and it is akin to relinquishing part of ourselves.",
+      hits: [
+        "bolster our sense of identity",
+        "it is akin to relinquishing part of ourselves",
+      ],
+    },
+    {
+      plain: "The point of a uniform is to make people feel the same.",
+      upgrade:
+        "Camps and prisons strive for that effect: take away my own clothes and you diminish my individuality.",
+      hits: ["strive for", "diminish my individuality"],
+    },
+    {
+      plain: "We want things because other people have them, not because we need them.",
+      upgrade:
+        "Our materialistic aspirations are set by the people around us, not by what we lack.",
+      hits: ["our materialistic aspirations"],
+    },
+    {
+      plain: "Buying stops being normal and turns into something you cannot switch off.",
+      upgrade: "There is a point where ordinary shopping ends and compulsion begins.",
+      hits: ["compulsion begins"],
+    },
+    {
+      plain: "If you need new things to feel happy, another part of life is probably empty.",
+      upgrade:
+        "We shop because we cannot find fulfilment in other key areas of our lives, yet the buying itself is not always the cause of discontentment.",
+      hits: [
+        "find fulfilment in other key areas of our lives",
+        "the cause of discontentment",
+      ],
+    },
+    {
+      plain: "Throwing money at expensive objects does not keep you happy.",
+      upgrade:
+        "Spend lavishly on objects and the glow dies; spend it on experiences and it offers a more enduring boost.",
+      hits: ["spend lavishly", "it offers a more enduring boost"],
+    },
+    {
+      plain: "Before you buy, ask if it will actually change your day.",
+      upgrade:
+        "The boots matter less than the afternoon you spend in them. Time is your most precious commodity.",
+      hits: ["time is your most precious commodity"],
+    },
+  ],
+  keepYourself: {
+    heading: "Keep yourself",
+    kicker: "Guided speaking",
+    instruction: "To succeed, use every phrase in the checklist as an argument.",
+    situation:
+      "You are talking to a close friend the night before they move city. They plan to throw away every personal object — letters, clothes, the old lamp — and, once they arrive, spend lavishly on a new wardrobe and the latest gadgets so that nobody can tell who they used to be. Convince them to keep a few meaningful things and to spend their money, and their time, differently.",
+    checklist: [
+      "Explain that we imbue things with rich meaning. It is a human trait, not a weakness.",
+      "Warn them that throwing those objects away is akin to relinquishing part of ourselves, because belongings bolster our sense of identity.",
+      "Argue that copying everyone else's lifestyle will diminish my individuality. We should strive for a life that still feels like ours.",
+      "Point out that our materialistic aspirations come from other people, and that this is where compulsion begins. Shopping is not the cause of discontentment.",
+      "Insist they must not spend lavishly. Money spent on people offers a more enduring boost and helps us find fulfilment in other key areas of our lives — time is your most precious commodity.",
     ],
   },
 };

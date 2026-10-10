@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 640" role="img" aria-labelledby="title desc">
+  <title id="title">Responsible spender quiz</title>
+  <desc id="desc">Blue and green shopper habits infographic for Module 4 lead-in</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7f3ea"/>
+      <stop offset="100%" stop-color="#ebe4d4"/>
+    </linearGradient>
+    <filter id="shadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1a1510" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="960" height="640" fill="url(#bg)"/>
+  <text x="480" y="58" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="34" font-weight="800" fill="#1a2430">Are you a responsible spender?</text>
+  <text x="480" y="92" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="18" font-weight="600" fill="#4a5568">Tick the statements that describe you  then count blue vs green boxes</text>
+
+  <!-- Blue column -->
+  <g filter="url(#shadow)">
+    <rect x="48" y="120" width="410" height="480" rx="22" fill="#dbeafe" stroke="#2563eb" stroke-width="3"/>
+  </g>
+  <rect x="48" y="120" width="410" height="56" rx="22" fill="#2563eb"/>
+  <rect x="48" y="148" width="410" height="28" fill="#2563eb"/>
+  <text x="253" y="157" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="800" fill="#fff">Blue  careful spender</text>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="17" font-weight="650" fill="#1e3a5f">
+    <rect x="78" y="200" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="98" y="232">Packed lunch instead of buying lunch</text>
+    <rect x="78" y="268" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="98" y="300">Waits for sales on electronics</text>
+    <rect x="78" y="336" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="98" y="368">Avoids designer labels</text>
+    <rect x="78" y="404" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="98" y="436">Keeps the same phone for years</text>
+  </g>
+  <g transform="translate(360 480)">
+    <circle r="42" fill="#2563eb" opacity="0.15"/>
+    <path d="M-18 8h36v8H-18z M-12-12h24v16h-24z" fill="#2563eb"/>
+    <rect x="-22" y="-28" width="44" height="28" rx="6" fill="#3b82f6"/>
+  </g>
+
+  <!-- Green column -->
+  <g filter="url(#shadow)">
+    <rect x="502" y="120" width="410" height="480" rx="22" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+  </g>
+  <rect x="502" y="120" width="410" height="56" rx="22" fill="#16a34a"/>
+  <rect x="502" y="148" width="410" height="28" fill="#16a34a"/>
+  <text x="707" y="157" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="20" font-weight="800" fill="#fff">Green  not a careful shopper</text>
+
+  <g font-family="Segoe UI, system-ui, sans-serif" font-size="17" font-weight="650" fill="#14532d">
+    <rect x="532" y="200" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="552" y="232">Pays for TV channels never watched</text>
+    <rect x="532" y="268" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="552" y="300">Credit card not cleared every month</text>
+    <rect x="532" y="336" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="552" y="368">Take-away when home late from work</text>
+    <rect x="532" y="404" width="350" height="52" rx="12" fill="#fff" opacity="0.92"/>
+    <text x="552" y="436">Buys clothes before others do</text>
+  </g>
+  <g transform="translate(814 480)">
+    <circle r="42" fill="#16a34a" opacity="0.15"/>
+    <path d="M-20 10c0-8 6-14 14-14h12c8 0 14 6 14 14v6H-20v-6z" fill="#16a34a"/>
+    <rect x="-8" y="-18" width="16" height="22" rx="3" fill="#22c55e"/>
+  </g>
+
+  <text x="480" y="618" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="15" font-weight="600" fill="#64748b">Module 4 � A consumer society � p. 55</text>
+</svg>

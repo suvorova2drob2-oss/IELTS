@@ -411,7 +411,7 @@ function ActivityPanel({
                           return;
                         }
                         if (isVocabularyM3) {
-                          startAt(Math.min(i, 5));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isLanguageFlow) {
@@ -467,11 +467,11 @@ function ActivityPanel({
                           return;
                         }
                         if (isListeningM3a) {
-                          startAt(Math.min(i, 6));
+                          startAt(Math.min(i, 7));
                           return;
                         }
                         if (isListeningM3b) {
-                          startAt(Math.min(i, 4));
+                          startAt(Math.min(i, 5));
                           return;
                         }
                         if (isSpeakingM1b) {
@@ -495,27 +495,27 @@ function ActivityPanel({
                           return;
                         }
                         if (isSpeakingM4a) {
-                          startAt(Math.min(i, 4));
+                          startAt(Math.min(i, 8));
                           return;
                         }
                         if (isSpeakingM4b) {
-                          startAt(Math.min(i, 5));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isReadingM3Flow) {
-                          startAt(Math.min(i, 5));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isReadingM3bFlow) {
-                          startAt(Math.min(i, 3));
+                          startAt(Math.min(i, 4));
                           return;
                         }
                         if (isReadingM4aFlow) {
-                          startAt(Math.min(i, 5));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isReadingM4bFlow) {
-                          startAt(Math.min(i, 3));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isWritingM3b) {
@@ -531,7 +531,7 @@ function ActivityPanel({
                           return;
                         }
                         if (isVocabularyM4) {
-                          startAt(Math.min(i, 5));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isListeningM4a) {
@@ -539,11 +539,11 @@ function ActivityPanel({
                           return;
                         }
                         if (isListeningM4b) {
-                          startAt(Math.min(i, 3));
+                          startAt(Math.min(i, 6));
                           return;
                         }
                         if (isLanguageM4a) {
-                          startAt(Math.min(i, 4));
+                          startAt(Math.min(i, 8));
                           return;
                         }
                         if (isLanguageM4b) {

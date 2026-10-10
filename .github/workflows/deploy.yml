@@ -1,0 +1,50 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Pack dist
+        run: tar -cf dist-upload.tar -C dist .
+
+      - name: Upload archive to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          source: "dist-upload.tar"
+          target: "/tmp"
+          overwrite: true
+
+      - name: Extract on server (both nginx paths)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            set -e
+            mkdir -p /var/www/html/ielts /var/www/ielts
+            for d in /var/www/html/ielts /var/www/ielts; do
+              tar -xf /tmp/dist-upload.tar -C "$d"
+            done
+            rm -f /tmp/dist-upload.tar
+            test -f /var/www/html/ielts/audio/expert/module-3/Expert\ IELTS_Cbk_7_5\ Track\ 03_04.mp3

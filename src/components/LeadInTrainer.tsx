@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { LeadInConsumerQuiz } from "./LeadInConsumerQuiz";
 import {
   leadInIntelligence,
   type LeadInData,
@@ -346,25 +347,33 @@ function StackLeadIn({
   onContinue?: () => void;
   continueLabel?: string;
 }) {
+  const quizClassify = data.questions[0]?.classify;
   const hero = data.photos.length === 1;
+  const quizOnly = quizClassify && data.photos.length === 0;
   return (
     <section
-      className={`card flow-card lead-in-stack ${hero ? "lead-in-stack--hero" : ""}`}
+      className={`card flow-card lead-in-stack ${hero || quizOnly ? "lead-in-stack--hero" : ""}${quizOnly ? " lead-in-stack--quiz" : ""}`}
     >
-      <div className={`lead-in-stack__photos ${hero ? "lead-in-stack__photos--hero" : ""}`}>
-        {data.photos.map((photo) => (
-          <figure key={photo.id} className="lead-in-stack__shot">
-            <img
-              src={photo.src}
-              alt={photo.label}
-              style={
-                photo.objectFit ? { objectFit: photo.objectFit } : undefined
-              }
-            />
-            {photo.label ? <figcaption>{photo.label}</figcaption> : null}
-          </figure>
-        ))}
-      </div>
+      {quizClassify && data.photos.length === 0 ? (
+        <div className="lead-in-stack__photos lead-in-stack__photos--hero lead-in-stack__photos--quiz">
+          <LeadInConsumerQuiz classify={quizClassify} />
+        </div>
+      ) : (
+        <div className={`lead-in-stack__photos ${hero ? "lead-in-stack__photos--hero" : ""}`}>
+          {data.photos.map((photo) => (
+            <figure key={photo.id} className="lead-in-stack__shot">
+              <img
+                src={photo.src}
+                alt={photo.label}
+                style={
+                  photo.objectFit ? { objectFit: photo.objectFit } : undefined
+                }
+              />
+              {photo.label ? <figcaption>{photo.label}</figcaption> : null}
+            </figure>
+          ))}
+        </div>
+      )}
       <div className="lead-in-stack__body">
         {data.stackInstruction && (
           <p className="lead-in-stack__instr">

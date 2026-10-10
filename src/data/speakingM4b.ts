@@ -2,7 +2,8 @@ export const SPEAK_M4B_STEPS = [
   "1 Lead-in",
   "2 Match vocab",
   "3 Discuss",
-  "4 Pronunciation",
+  "4a Pron match",
+  "4b–4c Listen",
   "5 Part 3",
   "6 Assess",
 ] as const;
@@ -10,7 +11,8 @@ export const SPEAK_M4B_STEPS = [
 export const SPEAK_M4B_NEXT = [
   "2 Match vocab →",
   "3 Discuss →",
-  "4 Pronunciation →",
+  "4a Pron match →",
+  "4b–4c Listen →",
   "5 Part 3 →",
   "6 Assess →",
   "← К модулю",

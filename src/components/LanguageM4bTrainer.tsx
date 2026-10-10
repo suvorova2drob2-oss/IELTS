@@ -238,7 +238,7 @@ export function LanguageM4bTrainer({
       </div>
 
       {step === 0 && (
-        <section className="lang-m3b__panel">
+        <section className="lang-m3b__panel lang-m3b__panel--fill">
           <h2 className="lang-m3b__h">{data.match1a.heading}</h2>
           <p className="write-m2a__expert">{data.grammarRef}</p>
           <p className="lang-m3b__instr">
@@ -261,7 +261,7 @@ export function LanguageM4bTrainer({
               );
             })}
           </div>
-          <ol className="lang-m3b__list">
+          <ol className="lang-m3b__list flow-stage__body">
             {data.match1a.sentences.map((s) => {
               const val = match1a[s.id];
               const ok = val === data.match1a.keys[s.id];

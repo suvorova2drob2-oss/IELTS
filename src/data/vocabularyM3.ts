@@ -2,6 +2,7 @@ export const VOCAB_M3_STEPS = [
   "1 Match",
   "2 Yoga italics",
   "3a Collocations",
+  "Role-play cards",
   "3b Discuss",
   "4a Idioms",
   "4b Complete",
@@ -10,6 +11,7 @@ export const VOCAB_M3_STEPS = [
 export const VOCAB_M3_NEXT = [
   "2 Yoga →",
   "3a Collocations →",
+  "Role-play →",
   "3b Discuss →",
   "4a Idioms →",
   "4b Complete →",
@@ -189,6 +191,91 @@ export const vocabularyM3 = {
         key: "pose",
       },
     ],
+  },
+  rolePlay: {
+    heading: "Role-play cards",
+    targetLabel: "Target collocations (from 3a)",
+    targetCollocations: [
+      "find a solution",
+      "face a challenge",
+      "tackle issues",
+      "make a priority",
+      "pose a threat",
+    ],
+    debate: {
+      title: "Activity 1: Role-Play Debate (Emergency Government Summit)",
+      contextHeading: "General context",
+      context:
+        "The government is holding an emergency summit on “Improving the Quality of Life and National Well-being.” Recent statistics show a sharp decline in public health and a rise in stress levels. The Prime Minister has demanded immediate action plans.",
+      taskHeading: "Task",
+      task: "Hold a 10-minute debate. You must present your character’s view and propose solutions.",
+      rule: "Rule: You must naturally use at least three target collocations during your speech.",
+      rolesHeading: "Role cards",
+      roles: [
+        {
+          id: 1,
+          title: "Minister of Health",
+          stance:
+            "You are deeply concerned about the rising rates of chronic diseases and mental exhaustion. You believe that systemic changes and heavy regulations are needed immediately.",
+          arguments: [
+            "Sugar taxes",
+            "Subsidizing therapy",
+            "Restricting junk food ads",
+          ],
+        },
+        {
+          id: 2,
+          title: "Big School Principal",
+          stance:
+            "You see how early stress starts. Students are exhausted by exams, screen time, and lack of movement, leading to severe mental health issues.",
+          arguments: [
+            "Reforming the school curriculum",
+            "Introducing daily mandatory sports",
+            "Hiring more school psychologists",
+          ],
+        },
+        {
+          id: 3,
+          title: "Fitness Industry Union Representative",
+          stance:
+            "You believe the solution lies in active lifestyles and physical culture, but gym memberships and healthy food are currently too expensive for ordinary citizens.",
+          arguments: [
+            "Corporate gym tax discounts",
+            "Building free outdoor sports facilities",
+            "Funding community sports clubs",
+          ],
+        },
+        {
+          id: 4,
+          title: "Popular Lifestyle Blogger / Influencer",
+          stance:
+            "You represent the voice of the younger generation. You believe government bans don’t work. People need trendy, accessible mental health awareness and body-positive lifestyle changes.",
+          arguments: [
+            "Promoting work-life balance on social media",
+            "Creating viral wellness challenges",
+            'Making therapy "cool"',
+          ],
+        },
+      ],
+    },
+    caseStudy: {
+      title: "Activity 2: Corporate Case Study (HR Strategy Session)",
+      contextHeading: "Context",
+      context:
+        "You are the Managing Director of a fast-growing tech company. Over the past six months, employee absenteeism has skyrocketed. A recent anonymous survey revealed that 75% of your staff are suffering from severe burnout, high anxiety, and work-related stress. This is starting to delay major project deadlines and hurt the company’s profits.",
+      taskHeading: "Task",
+      task: "Write a memo or prepare a 3-minute presentation for the Board of Directors outlining your urgent Action Plan to save the team.",
+      guideHeading: "Instructions",
+      guideIntro:
+        "Use the prompt guide below to structure your response, integrating all 5 target expressions.",
+      prompts: [
+        "Explain why the current burnout crisis poses a threat to the company’s future.",
+        "Acknowledge that managers must face a new challenge when leading remote or overworked teams.",
+        "Propose how the HR department will tackle issues relating to mental health and workplace stress.",
+        "Describe what new habits or policies the company should make a priority (e.g., flexible hours, no Friday meetings, mandatory vacation).",
+        "Conclude with confidence that together, the management team will find a solution to this crisis.",
+      ],
+    },
   },
   discuss: {
     badge: "b",

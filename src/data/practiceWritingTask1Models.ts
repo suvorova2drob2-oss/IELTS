@@ -8,6 +8,14 @@ export interface Task1ModelPlan {
   example: string;
 }
 
+export interface Task1BarData {
+  chartTitle: string;
+  yAxis: string;
+  max: number;
+  categories: { label: string; color: string }[];
+  groups: { label: string; values: number[] }[];
+}
+
 export interface Task1Model {
   id: string;
   number: number;
@@ -16,13 +24,77 @@ export interface Task1Model {
   type: string;
   title: string;
   question: string;
+  /** Пошаговая логика «для чайника» — что делать и в каком порядке. */
+  logic: string[];
   usually: string;
   insert: string;
   paragraphs: string[];
   plan: Task1ModelPlan[];
+  barData?: Task1BarData;
 }
 
 export const T1_LINKING_ID = "t1-linking";
+
+/** Одна схема на все grouped bar charts (3–4 страны × 4 категории). */
+export const T1_GROUPED_BAR_INSERT =
+  "① compares the proportion of … → ② Overall, … whereas … while … → ③ accounted for + compared with + respectively → ④ By contrast + made up / stood at + ranging from … to …";
+
+export const T1_GROUPED_BAR_LOGIC = [
+  "Одна модель на все такие bar charts. Всегда 4 абзаца — не больше. Подставляешь тему и цифры с графика.",
+  "Абзац 1 · The bar chart compares the proportion of [что] in [где] in [год]. Цифр нет.",
+  "Абзац 2 · Overall, [главный контраст 1], whereas [контраст 2]. While [мелкая категория] … . Цифр почти нет.",
+  "Абзац 3 · Одна категория (самая яркая): accounted for …, compared with …, … respectively.",
+  "Абзац 4 · By contrast, вторая категория … . Остальное: made up / stood at … ; мелочь — ranging from … to ….",
+  "Слова-каркас (выучить 8): compares · Overall · whereas · while · accounted for · compared with · respectively · By contrast · ranging from … to …",
+];
+
+export function groupedBarPlan(examples: {
+  intro: string;
+  overview: string;
+  details1: string;
+  details2: string;
+}): Task1ModelPlan[] {
+  return [
+    {
+      label: "1 · Introduction",
+      phrases: ["The bar chart compares the proportion of … in … in …"],
+      must: "Тип + что за доли/категории + места + год. Без цифр.",
+      avoid: "We can see that. According to the chart. Firstly.",
+      example: examples.intro,
+    },
+    {
+      label: "2 · Overview",
+      phrases: ["Overall, …", "whereas …", "while …", "was by far / was the dominant …"],
+      must: "2–3 главных контраста. Экзaminер ищет это во 2-м абзаце.",
+      avoid: "Точные проценты. Перечислить все столбики.",
+      example: examples.overview,
+    },
+    {
+      label: "3 · Details · категория 1",
+      phrases: [
+        "accounted for …",
+        "followed by … at …",
+        "compared with …",
+        "… respectively",
+      ],
+      must: "Одна тема (один цвет) через несколько стран/городов.",
+      avoid: "Вторую категорию в этом же абзаце. Читать страну за страной все 4 цвета.",
+      example: examples.details1,
+    },
+    {
+      label: "4 · Details · категория 2 + остальное",
+      phrases: [
+        "By contrast, …",
+        "made up / stood at …",
+        "nearly double / more than … times …",
+        "ranging from … to …",
+      ],
+      must: "Вторая тема + 1–2 коротких факта. Мелкие доли — одним ranging from.",
+      avoid: "Повторить overview слово в слово. The reverse was true of (не нужно).",
+      example: examples.details2,
+    },
+  ];
+}
 
 export const practiceWritingTask1Models: Task1Model[] = [
   {
@@ -34,60 +106,42 @@ export const practiceWritingTask1Models: Task1Model[] = [
     title: "Electricity by source",
     question:
       "The chart shows how electricity was generated in the UK, France and Australia in 2010.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+    logic: T1_GROUPED_BAR_LOGIC,
+    barData: {
+      chartTitle: "Electricity generation by source, 2010 (%)",
+      yAxis: "% of electricity",
+      max: 80,
+      categories: [
+        { label: "Coal", color: "#c4a574" },
+        { label: "Gas", color: "#6eb5c0" },
+        { label: "Nuclear", color: "#e0c08a" },
+        { label: "Renewables", color: "#7dce82" },
+      ],
+      groups: [
+        { label: "UK", values: [35, 40, 15, 10] },
+        { label: "France", values: [8, 10, 70, 12] },
+        { label: "Australia", values: [60, 22, 0, 18] },
+      ],
+    },
     usually:
       "Самый высокий и самый низкий столбец. Одна категория сразу по трём странам. Не читать график слева направо по каждому столбику.",
-    insert:
-      "Overall + The most striking feature + by far → accounted for + followed by + compared with + respectively → The reverse was true of + ranging from … to …",
+    insert: T1_GROUPED_BAR_INSERT,
     paragraphs: [
       "The bar chart compares the proportion of electricity generated from coal, gas, nuclear power and renewables in the UK, France and Australia in 2010.",
-      "==Overall,== the three countries relied on very different mixes. ==The most striking feature is== the size of nuclear power in France. Coal ==was by far the largest== source in Australia, ==whereas== the UK depended most heavily on gas.",
-      "In France, nuclear energy ==accounted for== around 70% of electricity, ==followed by== renewables ==at== about 12%. This was more than four times the UK nuclear figure of roughly 15%, ==compared with== no nuclear generation at all in Australia. Gas stood at about 40% in the UK and at 10% and just over 20% in France and Australia ==respectively==.",
-      "==The reverse was true of== coal, which provided approximately 60% of Australia’s electricity, 35% in the UK and less than 10% in France. Renewables made up a relatively small share in all three countries, ==ranging from== around 10% in the UK ==to== just under 20% in Australia.",
+      "==Overall,== the three countries relied on very different mixes. Nuclear power ==was by far the largest== source in France, ==whereas== coal dominated in Australia and gas in the UK. Renewables ==remained== a relatively minor share ==while== still present in every country.",
+      "In France, nuclear energy ==accounted for== around 70% of electricity, ==followed by== renewables ==at== about 12%. This was more than four times the UK nuclear figure of roughly 15%, ==compared with== no nuclear generation at all in Australia. Gas ==stood at== about 40% in the UK and at 10% and just over 20% in France and Australia ==respectively==.",
+      "==By contrast,== coal ==provided== approximately 60% of Australia’s electricity, compared with 35% in the UK and less than 10% in France. Renewables ==made up== a relatively small share in all three countries, ==ranging from== around 10% in the UK ==to== just under 20% in Australia.",
     ],
-    plan: [
-      {
-        label: "1 · Introduction",
-        phrases: ["The bar chart compares …"],
-        must: "Тип графика. Что за столбики. Где. Когда.",
-        avoid: "Цифры в intro. Копировать заголовок слово в слово. We can see that.",
-        example:
-          "The bar chart compares the proportion of electricity generated from coal, gas, nuclear power and renewables in the UK, France and Australia in 2010.",
-      },
-      {
-        label: "2 · Overview",
-        phrases: [
-          "Overall, …",
-          "The most striking feature is …",
-          "X was by far the largest …",
-          "whereas …",
-        ],
-        must: "Две-три главные черты: кто лидер в каждой стране / самый большой столбец.",
-        avoid: "70% и 15%. Firstly. Перечислить каждый столбик.",
-        example:
-          "Overall, the three countries relied on very different mixes. The most striking feature is the size of nuclear power in France. Coal was by far the largest source in Australia, whereas the UK depended most heavily on gas.",
-      },
-      {
-        label: "3 · Big group",
-        phrases: [
-          "X accounted for …",
-          "followed by … at …",
-          "compared with …",
-          "… and … respectively",
-        ],
-        must: "Лидеры с цифрами. Сравнение стран в одном предложении (compared with / respectively).",
-        avoid: "Слева направо все 12 столбиков. Только UK, потом отдельно France — без сравнения.",
-        example:
-          "In France, nuclear energy accounted for around 70% of electricity, followed by renewables at about 12%. This was more than four times the UK nuclear figure of roughly 15%, compared with no nuclear generation at all in Australia. Gas stood at about 40% in the UK and at 10% and just over 20% in France and Australia respectively.",
-      },
-      {
-        label: "4 · The rest",
-        phrases: ["The reverse was true of …", "ranging from … to …"],
-        must: "Обратная картина (coal). Мелкие категории одним ranging from … to …",
-        avoid: "Повторить overview. Забыть renewables. Новые страны, которых нет на графике.",
-        example:
-          "The reverse was true of coal, which provided approximately 60% of Australia’s electricity, 35% in the UK and less than 10% in France. Renewables made up a relatively small share in all three countries, ranging from around 10% in the UK to just under 20% in Australia.",
-      },
-    ],
+    plan: groupedBarPlan({
+      intro:
+        "The bar chart compares the proportion of electricity generated from coal, gas, nuclear power and renewables in the UK, France and Australia in 2010.",
+      overview:
+        "Overall, the three countries relied on very different mixes. Nuclear power was by far the largest source in France, whereas coal dominated in Australia and gas in the UK. Renewables remained a relatively minor share while still present in every country.",
+      details1:
+        "In France, nuclear energy accounted for around 70% of electricity, followed by renewables at about 12%. This was more than four times the UK nuclear figure of roughly 15%, compared with no nuclear generation at all in Australia. Gas stood at about 40% in the UK and at 10% and just over 20% in France and Australia respectively.",
+      details2:
+        "By contrast, coal provided approximately 60% of Australia’s electricity, compared with 35% in the UK and less than 10% in France. Renewables made up a relatively small share in all three countries, ranging from around 10% in the UK to just under 20% in Australia.",
+    }),
   },
   {
     id: "t1-pie",
@@ -98,6 +152,9 @@ export const practiceWritingTask1Models: Task1Model[] = [
     title: "Household spending",
     question:
       "The charts show how a typical household in one country spent its money in 2000 and in 2020.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+    logic: [
+      "Два круга = два года. Intro без цифр. Overview: кто был лидером в 2000 и кто стал в 2020. Потом год 2000, потом 2020 со сравнением.",
+    ],
     usually:
       "Самый большой кусок в каждом круге. Что выросло и что упало. Не описывать круги по отдельности без сравнения.",
     insert:
@@ -169,6 +226,9 @@ export const practiceWritingTask1Models: Task1Model[] = [
     title: "Airport passengers",
     question:
       "The table shows the number of passengers at five international airports in 2018 and 2023.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+    logic: [
+      "Таблица с двумя годами: intro → overview (max/min + кто вырос/упал) → 2018 → 2023 со сравнением.",
+    ],
     usually:
       "Самая большая и самая маленькая ячейка. Кто вырос, кто упал. Не читать таблицу по строкам слева направо.",
     insert:
@@ -233,6 +293,9 @@ export const practiceWritingTask1Models: Task1Model[] = [
     title: "Island tourism",
     question:
       "The maps show an island in 1990 and after it was developed for tourism in 2020.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+    logic: [
+      "Карта: intro → overview (главное изменение + что осталось) → 1990 по сторонам света → 2020 (built, road linking, remained).",
+    ],
     usually:
       "Что появилось, что исчезло, что осталось. Север / юг / восток / запад. Не описывать карты по очереди как два отдельных острова.",
     insert:
@@ -299,6 +362,9 @@ export const practiceWritingTask1Models: Task1Model[] = [
     title: "Museum visitors",
     question:
       "The table shows how many people visited a museum between 2018 and 2022. The pie chart shows how visitors in 2022 first heard about the museum.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.",
+    logic: [
+      "Два рисунка: один intro на оба → один overview на оба → абзац таблица → абзац pie (Turning to the pie chart).",
+    ],
     usually:
       "Один overview на ОБА рисунка. Потом абзац на таблицу, абзац на pie.",
     insert:
@@ -402,8 +468,8 @@ export const task1Linking: Task1LinkGroup[] = [
           "This was more than four times the UK figure, compared with no nuclear generation in Australia.",
       },
       {
-        frame: "The reverse was true of …",
-        example: "The reverse was true of coal.",
+        frame: "By contrast, …",
+        example: "By contrast, coal provided approximately 60% of Australia’s electricity.",
       },
       {
         frame: "In contrast, …",

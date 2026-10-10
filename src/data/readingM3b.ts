@@ -3,12 +3,14 @@ export const READ_M3B_STEPS = [
   "2 Exam task",
   "3 Task analysis",
   "4 Discussion",
+  "5 Language pack",
 ] as const;
 
 export const READ_M3B_NEXT = [
   "2 Exam task →",
   "3 Task analysis →",
   "4 Discussion →",
+  "Language pack →",
   "← К модулю",
 ] as const;
 
@@ -161,6 +163,165 @@ export const readingM3b = {
     suggestedAnswer: [
       "I'd advise them to start with small, sustainable changes rather than an extreme diet. They could gradually increase physical activity, eat more fruit and vegetables, and probably cut down on processed food. Getting enough sleep and drinking enough water might also make a noticeable difference.",
       "Individuals must certainly take responsibility — no government can force someone to exercise or eat well. However, governments should create conditions that make healthy choices easier, such as safe cycling lanes, clear food labelling, and affordable healthcare. In my view, it has to be a shared effort.",
+    ],
+  },
+  languagePack: {
+    badge: "5",
+    heading: "Language from the passage",
+    instruction:
+      "Open a topic. Learn the phrase and the full sentence from the text, then use it in Speaking Part 3 or Writing Task 2.",
+    themes: [
+      {
+        id: "media",
+        tabLabel:
+          "Media & panic · Writing intro / Speaking «Why are people so worried about health?»",
+        useHint:
+          "Introduce health anxiety — media, fear, and what research actually shows.",
+        items: [
+          {
+            phrase: "a new health scare headline",
+            sentence:
+              "Nearly every day brings with it a new health scare headline.",
+          },
+          {
+            phrase: "evoke feelings of fear and guilt",
+            sentence:
+              "Whether it is about the dangers of using mobile phones, sleeping too much or too little or the risks involved in consuming wheat, it seems that there is always a newspaper story to evoke feelings of fear and guilt and encourage the hypochondriac in many of us.",
+          },
+          {
+            phrase: "headlines misread research findings",
+            sentence:
+              "In their guide to healthy living, Live a Little! Breaking the Rules Won't Break Your Health author and clinical professor of surgery at UCLA, Dr Susan M. Love and co-author Alice Domar, explore whether these warnings can be substantiated, concluding that all too often, headlines misread research findings and incorrectly understood and percentages of risk are reported.",
+          },
+          {
+            phrase: "leading healthier lives than we realise",
+            sentence:
+              "Despite the fact that many people are driven by fear to take every medical test and new pill available, the authors make the case that many of us are leading healthier lives than we realise.",
+          },
+        ],
+      },
+      {
+        id: "sleep",
+        tabLabel:
+          "Sleep · Writing body / Speaking «How much sleep do we need?»",
+        useHint:
+          "Nuance over rigid rules — lifetime pattern, not one bad week.",
+        items: [
+          {
+            phrase: "the overall pattern over your lifetime",
+            sentence:
+              "If you examine the data, you'll notice that those who sleep for seven hours a night throughout their entire lives tend to live the longest. But if you have a lot less sleep for a couple of days, you can catch up. It's all about the overall pattern over your lifetime.",
+          },
+          {
+            phrase: "No direct causal relationship has been found just yet",
+            sentence:
+              "No direct causal relationship has been found just yet. Unhealthy people tend to sleep a lot but we don't know if it's the disease making them sleep or vice versa.",
+          },
+          {
+            phrase:
+              "sleep deprivation is associated with an almost two-fold risk of obesity",
+            sentence:
+              "And although a recent survey in the UK suggests that 94% of men and 96% of women fail to achieve this, research has also found that sleep deprivation is associated with an almost two-fold risk of obesity for both children and adults.",
+          },
+        ],
+      },
+      {
+        id: "diet",
+        tabLabel:
+          "Diet & rules · Writing / Speaking «Five-a-day / supplements?»",
+        useHint:
+          "Argue against perfectionism; use hedging for supplements and herbal remedies.",
+        items: [
+          {
+            phrase: "overly prescriptive rules",
+            sentence:
+              "But be wary of following overly prescriptive rules as there is no benefit from agonising about whether you have the recommended five portions of fruit or vegetables a day.",
+          },
+          {
+            phrase: "The data really isn't there to support such stringency",
+            sentence:
+              "The data really isn't there to support such stringency.",
+          },
+          {
+            phrase: "Scientific consensus also asserts that",
+            sentence:
+              "Scientific consensus also asserts that most vitamin supplements have little or no effect on those who eat a healthy range of food, apart from vitamin D, which does help those living in sunshine-poor environments.",
+          },
+          {
+            phrase: "just as likely to be due to the placebo effect",
+            sentence:
+              "Even the benefits of remedies such as echinacea, for which there exists evidence in its favour, are just as likely to be due to the placebo effect as anything else.",
+          },
+        ],
+      },
+      {
+        id: "exercise",
+        tabLabel:
+          "Exercise · Writing recommendation / Speaking «Do people exercise enough?»",
+        useHint:
+          "Recommend activity without guilt — statistics plus a humane message.",
+        items: [
+          {
+            phrase: "fail to achieve this",
+            sentence:
+              "However, research conducted by the University of Warwick and a recent survey in the UK suggests that 94% of men and 96% of women fail to achieve this.",
+          },
+          {
+            phrase: "the single best thing you can do for your health",
+            sentence:
+              "But exercise is still the single best thing you can do for your health, says Domar.",
+          },
+          {
+            phrase: "remove the guilt if you can't achieve the lofty target",
+            sentence:
+              "Essentially, what we're trying to do is to remove the guilt if you can't achieve the lofty target of 30 minutes a day, five days a week.",
+          },
+        ],
+      },
+      {
+        id: "stress",
+        tabLabel: "Stress · Writing / Speaking «Is stress always bad?»",
+        useHint:
+          "Optimal stress (inverted U) — not «all stress is evil».",
+        items: [
+          {
+            phrase: "stress triggers heart attacks",
+            sentence: "It is well reported that stress triggers heart attacks.",
+          },
+          {
+            phrase: "avoiding the upper end of the stress spectrum",
+            sentence:
+              "Even so, there is no doubt that avoiding the upper end of the stress spectrum is a good idea.",
+          },
+          {
+            phrase:
+              "Stress improves your performance to a point, above which the way you handle things rapidly declines",
+            sentence:
+              "Stress improves your performance to a point, above which the way you handle things rapidly declines.",
+          },
+        ],
+      },
+      {
+        id: "big-idea",
+        tabLabel:
+          "Big idea · Writing thesis / Speaking overview (health obsession)",
+        useHint:
+          "Paraphrase the title — well-being worry dominating our lives.",
+        items: [
+          {
+            phrase:
+              "Worrying about our well-being is dominating our lives, and it's bad for us",
+            sentence:
+              "Eat your five-a-day, take exercise, avoid alcohol, sugar, stress. Worrying about our well-being is dominating our lives, and it's bad for us.",
+          },
+          {
+            phrase:
+              "driven by fear to take every medical test and new pill available",
+            sentence:
+              "Despite the fact that many people are driven by fear to take every medical test and new pill available, the authors make the case that many of us are leading healthier lives than we realise.",
+          },
+        ],
+      },
     ],
   },
 };

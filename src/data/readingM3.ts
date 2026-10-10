@@ -7,6 +7,7 @@ export const READ_M3_STEPS = [
   "3 Exam task",
   "4 Task analysis",
   "5 Discussion",
+  "6 Language pack",
 ] as const;
 
 export const READ_M3_NEXT = [
@@ -15,6 +16,7 @@ export const READ_M3_NEXT = [
   "3 Exam →",
   "4 Analysis →",
   "5 Discussion →",
+  "Language pack →",
   "← К модулю",
 ] as const;
 
@@ -208,6 +210,114 @@ export const readingM3 = {
       "Being in the countryside can help people feel better because the air is cleaner, noise levels are lower, and green spaces have a calming effect. I'd recommend walking, cycling, or simply sitting outside — activities that let you slow down and notice nature rather than rushing through a schedule.",
       "Cities offer convenience: better transport, more jobs, and richer cultural life. However, they can feel crowded, expensive, and stressful. The countryside is quieter and often healthier, but access to services and employment can be limited, and some people find it isolating.",
       "Modern life creates stress through long working hours, constant digital notifications, financial pressure, and the feeling that we must always be productive. Useful strategies include regular exercise, setting boundaries on phone use, talking problems through with friends, and making time for hobbies that are genuinely relaxing.",
+    ],
+  },
+  languagePack: {
+    badge: "6",
+    heading: "Language from the passage",
+    instruction:
+      "Open a topic. Learn the phrase and the full sentence from the text, then use it in Speaking Part 3 or Writing Task 2.",
+    themes: [
+      {
+        id: "modern-life",
+        tabLabel: "Modern life · Writing intro / Speaking «Are cities bad for us?»",
+        useHint:
+          "Task 2 — introduce the problem; Speaking — explain why many people feel worse today.",
+        items: [
+          {
+            phrase: "a more sedentary and isolated life",
+            sentence:
+              "In contrast, an inevitable consequence of the advances in industrialization and technology is a more sedentary and isolated life, where the average person spends more time on their computer or in their vehicle than they do in the outdoors, leading many people – including the unemployed, stay-at-home mothers or the elderly – to feel increasingly lonely, undervalued and stressed.",
+          },
+          {
+            phrase: "a threat to both physical and psychological well-being",
+            sentence:
+              "All of these factors will undoubtedly be a threat to both physical and psychological well-being and although the human body will eventually adapt to its changed circumstances, many people would agree with Paracelsus, the 16th-century German-Swiss physician, who wrote, ‘The art of healing comes from nature, not from the physician,’ a claim based less on science than on intuition but which has nevertheless been a pervasive sentiment throughout the ages.",
+          },
+        ],
+      },
+      {
+        id: "stress",
+        tabLabel:
+          "Stress · Writing body / Speaking «How does stress affect people?»",
+        useHint:
+          "Task 2 — body paragraph (two ways stress harms us); Speaking — give concrete effects.",
+        items: [
+          {
+            phrase: "chronic stress",
+            sentence:
+              "Health professionals have long expressed concern about the potential effects of chronic stress, which can lead to diabetes, obesity, depression, dementia and heart disease in two distinct ways.",
+          },
+          {
+            phrase: "indulge in bad habits such as smoking or alcohol",
+            sentence:
+              "First, under stress we change our behaviour: we start to crave sugar and fat, we are too tired to exercise and we may indulge in bad habits such as smoking or alcohol.",
+          },
+          {
+            phrase: "more prone to disease and start to age more quickly",
+            sentence:
+              "This means we become more prone to disease and start to age more quickly.",
+          },
+        ],
+      },
+      {
+        id: "evidence",
+        tabLabel:
+          "Evidence · Writing «Research shows…» / Speaking «Should cities have more parks?»",
+        useHint:
+          "Task 2 — support your argument with research; Speaking — benefits of green space.",
+        items: [
+          {
+            phrase: "positively impacts on people’s well-being",
+            sentence:
+              "Developments in neuroscience and psychology have meant that what once appeared solely intuitive can now be quantified; several research studies confirm that being surrounded by trees and flowers positively impacts on people’s well-being.",
+          },
+          {
+            phrase:
+              "a lower incidence of 15 diseases, including stress and depression, in those who lived near a green space",
+            sentence:
+              "A team of Dutch researchers also found a lower incidence of 15 diseases, including stress and depression, in those who lived near a green space, and in a series of landmark studies in Chicago, it was found that residents living in large tower blocks surrounded by gardens were more likely to know and support their neighbours and experience less crime than those who overlooked concrete.",
+          },
+        ],
+      },
+      {
+        id: "policy",
+        tabLabel:
+          "Policy · Writing recommendation / Speaking «What should governments do?»",
+        useHint:
+          "Task 2 — recommend action; Speaking — policy + example (e.g. Finland).",
+        items: [
+          {
+            phrase:
+              "make exposure to the outdoors an essential feature of healthcare, education, planning and community development",
+            sentence:
+              "Studies such as these make it clear that one of our main priorities in the modern world should be to make exposure to the outdoors an essential feature of healthcare, education, planning and community development.",
+          },
+          {
+            phrase: "prescribe nature",
+            sentence:
+              "A less widespread, but more innovative, approach empowers doctors to ‘prescribe nature’ to those requiring medical treatment, in the hope that this will help stem an increase in the prevalence of stress, chronic diseases and mental health issues; several pioneering schemes encourage patients and their families to visit nearby parks, providing them with transportation and programmes to follow, such as outdoor conservation work or ‘health walks’.",
+          },
+          {
+            phrase: "part of government health policy",
+            sentence:
+              "In Finland, a country which has high rates of depression, nature experiences have become part of government health policy, with people being recommended to spend five hours a month engaged in walking, mindfulness and reflection.",
+          },
+        ],
+      },
+      {
+        id: "conclusion",
+        tabLabel: "Conclusion · Writing final paragraph",
+        useHint:
+          "Task 2 — balanced conclusion: we may not know everything, but we should act.",
+        items: [
+          {
+            phrase: "incorporate this into every aspect of our daily lives",
+            sentence:
+              "We may never know the precise relationship between nature and health and perhaps it is irrelevant but we do know how nature makes us feel and the challenge is now to incorporate this into every aspect of our daily lives.",
+          },
+        ],
+      },
     ],
   },
 };

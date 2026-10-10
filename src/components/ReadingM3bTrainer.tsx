@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   READ_M3B_NEXT,
   READ_M3B_STEPS,
@@ -12,6 +12,18 @@ const PARAS = ["A", "B", "C", "D", "E"] as const;
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
   return Math.max(0, Math.min(n, READ_M3B_STEPS.length - 1));
+}
+
+function highlightPhrase(sentence: string, phrase: string): ReactNode {
+  const i = sentence.indexOf(phrase);
+  if (i === -1) return sentence;
+  return (
+    <>
+      {sentence.slice(0, i)}
+      <mark className="read-m3__lang-mark">{phrase}</mark>
+      {sentence.slice(i + phrase.length)}
+    </>
+  );
 }
 
 export function ReadingM3bTrainer({
@@ -28,6 +40,7 @@ export function ReadingM3bTrainer({
   const [pickedHead, setPickedHead] = useState<string | null>(null);
   const [paraHeads, setParaHeads] = useState<Record<string, string>>({});
   const [mcPick, setMcPick] = useState<string[]>([]);
+  const [openLangTheme, setOpenLangTheme] = useState<string | null>(null);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -36,6 +49,7 @@ export function ReadingM3bTrainer({
     setPickedHead(null);
     setParaHeads({});
     setMcPick([]);
+    setOpenLangTheme(null);
   }, [restart, initialStep]);
 
   const headScore = PARAS.filter(
@@ -122,6 +136,7 @@ export function ReadingM3bTrainer({
               onClick={() => {
                 setStep(i);
                 setChecked(false);
+                if (i !== 4) setOpenLangTheme(null);
               }}
             >
               {i + 1}. {label}
@@ -282,6 +297,59 @@ export function ReadingM3bTrainer({
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
         />
+      )}
+
+      {step === 4 && (
+        <section className="read-m3__panel read-m3__panel--lang">
+          <h2 className="read-m3__h">{data.languagePack.heading}</h2>
+          <p className="read-m3__instr">
+            <span className="write-m2a__badge">{data.languagePack.badge}</span>
+            {data.languagePack.instruction}
+          </p>
+          <ul className="read-m3__lang-list">
+            {data.languagePack.themes.map((theme) => {
+              const open = openLangTheme === theme.id;
+              return (
+                <li key={theme.id} className="read-m3__lang-theme">
+                  <button
+                    type="button"
+                    className={`read-m3__lang-tab ${open ? "read-m3__lang-tab--on" : ""}`}
+                    aria-expanded={open}
+                    onClick={() =>
+                      setOpenLangTheme((id) =>
+                        id === theme.id ? null : theme.id,
+                      )
+                    }
+                  >
+                    <span className="read-m3__lang-tab-label">
+                      {theme.tabLabel}
+                    </span>
+                    <span className="read-m3__lang-tab-chevron" aria-hidden>
+                      {open ? "▾" : "▸"}
+                    </span>
+                  </button>
+                  {open && (
+                    <div className="read-m3__lang-body">
+                      <p className="read-m3__tip read-m3__lang-hint">
+                        <strong>Use it:</strong> {theme.useHint}
+                      </p>
+                      <ul className="read-m3__lang-items">
+                        {theme.items.map((item) => (
+                          <li key={item.phrase} className="read-m3__lang-item">
+                            <p className="read-m3__lang-phrase">{item.phrase}</p>
+                            <blockquote className="read-m3__lang-sentence">
+                              {highlightPhrase(item.sentence, item.phrase)}
+                            </blockquote>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       )}
 
       <div

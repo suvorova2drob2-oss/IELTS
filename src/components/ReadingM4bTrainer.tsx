@@ -7,6 +7,33 @@ import {
 } from "../data/readingM4b";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
+function highlightHits(text: string, hits: string[]) {
+  const lower = text.toLowerCase();
+  const ranges: { start: number; end: number }[] = [];
+  const sorted = [...hits].sort((a, b) => b.length - a.length);
+  for (const hit of sorted) {
+    const start = lower.indexOf(hit.toLowerCase());
+    if (start < 0) continue;
+    const end = start + hit.length;
+    if (ranges.some((r) => start < r.end && end > r.start)) continue;
+    ranges.push({ start, end });
+  }
+  ranges.sort((a, b) => a.start - b.start);
+  const out = [];
+  let cursor = 0;
+  for (const [i, r] of ranges.entries()) {
+    if (cursor < r.start) out.push(text.slice(cursor, r.start));
+    out.push(
+      <em key={i} className="read-m4a__flip-hit">
+        {text.slice(r.start, r.end)}
+      </em>,
+    );
+    cursor = r.end;
+  }
+  if (cursor < text.length) out.push(text.slice(cursor));
+  return out;
+}
+
 const data = readingM4b;
 const LETTERS = ["A", "B", "C", "D", "E", "F"] as const;
 
@@ -29,6 +56,7 @@ export function ReadingM4bTrainer({
   const [match, setMatch] = useState<Record<number, string>>({});
   const [pickedLetter, setPickedLetter] = useState<string | null>(null);
   const [summary, setSummary] = useState<Record<number, string>>({});
+  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -37,6 +65,7 @@ export function ReadingM4bTrainer({
     setMatch({});
     setPickedLetter(null);
     setSummary({});
+    setFlipped({});
   }, [restart, initialStep]);
 
   const matchScore = data.exam.matching.filter(
@@ -126,22 +155,17 @@ export function ReadingM4bTrainer({
       </div>
 
       {step === 0 && (
-        <section className="read-m3__panel">
-          <p className="read-m3__instr">
-            <span className="write-m2a__badge">{data.beforeYouRead.badge}</span>
-            {data.beforeYouRead.instruction}
-          </p>
-          <ol className="read-m3__qs">
-            {data.beforeYouRead.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <p className="write-m2a__cue">Discuss in groups</p>
-        </section>
+        <ExpertDiscussPanel
+          key="before-you-read"
+          badge={data.beforeYouRead.badge}
+          instruction={data.beforeYouRead.instruction}
+          questions={data.beforeYouRead.questions}
+          cue="Discuss in groups"
+        />
       )}
 
       {step === 1 && (
-        <section className="read-m3__split">
+        <section className="read-m3__split read-m3__split--exam">
           <article className="read-m3__passage">
             <header className="read-m3__hero read-m3__hero--compact">
               <div>
@@ -156,11 +180,16 @@ export function ReadingM4bTrainer({
             ))}
           </article>
 
-          <div className="read-m3__tasks">
+          <aside className="read-m3__side read-m3__side--exam">
             <p className="write-m2a__expert">{data.exam.strategies}</p>
             <p className="read-m3__instr">
               <span className="write-m2a__badge">{data.exam.badge}</span>
               {data.exam.matchingInstr}
+            </p>
+            <p className="read-m3__place-hint">
+              {pickedLetter
+                ? `Selected ${pickedLetter} — click a question row to place it`
+                : "Click A–F, then click the dash on a question. Click a filled answer to undo."}
             </p>
             <div className="read-m3__bank">
               {LETTERS.map((L) => (
@@ -175,7 +204,7 @@ export function ReadingM4bTrainer({
                 </button>
               ))}
             </div>
-            <ol className="read-m3__match-list">
+            <ul className="read-m3__para-slots read-m3__para-slots--match-rows">
               {data.exam.matching.map((it) => {
                 const val = match[it.id];
                 const ok = val === it.key;
@@ -186,14 +215,17 @@ export function ReadingM4bTrainer({
                   cls += ok ? " read-m3__slot--ok" : " read-m3__slot--bad";
                 return (
                   <li key={it.id}>
+                    <span>
+                      {it.id}. {it.text}
+                    </span>
                     <button
                       type="button"
                       className={cls}
                       disabled={checked}
                       onClick={() => placeMatch(it.id)}
+                      aria-label={`Answer ${it.id}`}
                     >
-                      <strong>{it.id}</strong> {it.text}
-                      {val ? ` → ${val}` : " → __"}
+                      {val ?? "—"}
                     </button>
                     {checked && !ok && (
                       <span className="read-m3__tip">→ {it.key}</span>
@@ -201,9 +233,11 @@ export function ReadingM4bTrainer({
                   </li>
                 );
               })}
-            </ol>
+            </ul>
 
-            <p className="read-m3__instr">{data.exam.summaryInstr}</p>
+            <p className="read-m3__instr read-m3__instr--mt">
+              {data.exam.summaryInstr}
+            </p>
             <h3 className="read-m3__h">{data.exam.summaryTitle}</h3>
             <p className="read-m3__summary">
               {data.exam.summaryIntro}
@@ -231,7 +265,7 @@ export function ReadingM4bTrainer({
                 );
               })}
             </p>
-          </div>
+          </aside>
         </section>
       )}
 
@@ -259,6 +293,74 @@ export function ReadingM4bTrainer({
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
         />
+      )}
+
+      {step === 4 && (
+        <section className="read-m4a__phrases">
+          <h2 className="read-m3__h">Cool phrases</h2>
+          <ol className="read-m4a__phrase-grid">
+            {data.coolPhrases.map((phrase, i) => (
+              <li key={phrase}>
+                <span>{i + 1}</span>
+                {phrase}
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {step === 5 && (
+        <section className="read-m4a__flips">
+          <p className="read-m3__instr">Click a card to see the upgrade.</p>
+          <div className="read-m4a__flip-grid">
+            {data.flipCards.map((card, i) => {
+              const on = !!flipped[i];
+              return (
+                <button
+                  key={card.plain}
+                  type="button"
+                  className={`read-m4a__flip ${on ? "read-m4a__flip--on" : ""}`}
+                  aria-pressed={on}
+                  onClick={() =>
+                    setFlipped((prev) => ({ ...prev, [i]: !prev[i] }))
+                  }
+                >
+                  <span className="read-m4a__flip-inner">
+                    <span className="read-m4a__flip-face">
+                      <span className="read-m4a__flip-kicker">{i + 1}</span>
+                      {card.plain}
+                    </span>
+                    <span className="read-m4a__flip-face read-m4a__flip-back">
+                      <span className="read-m4a__flip-kicker">Upgrade</span>
+                      <span>{highlightHits(card.upgrade, card.hits)}</span>
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {step === 6 && (
+        <section className="read-m4a__case">
+          <article className="read-m4a__case-brief">
+            <p className="read-m4a__case-kicker">{data.keepYourself.kicker}</p>
+            <h2 className="read-m3__h">{data.keepYourself.heading}</h2>
+            <p className="read-m4a__case-task">{data.keepYourself.instruction}</p>
+            <p className="read-m4a__case-situation">
+              {data.keepYourself.situation}
+            </p>
+          </article>
+          <ol className="read-m4a__case-list">
+            {data.keepYourself.checklist.map((item, i) => (
+              <li key={item}>
+                <span>{i + 1}</span>
+                {item}
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
 
       <div

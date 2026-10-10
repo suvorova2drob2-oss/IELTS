@@ -4,7 +4,8 @@ export const VOCAB_M4_STEPS = [
   "2a–2b Impersonal",
   "3 Word forms",
   "4 Improve text",
-  "5a–5b Collocations",
+  "5a Match phrases",
+  "5b Gap fill",
 ] as const;
 
 export const VOCAB_M4_NEXT = [
@@ -12,7 +13,8 @@ export const VOCAB_M4_NEXT = [
   "2a–2b Impersonal →",
   "3 Word forms →",
   "4 Improve text →",
-  "5a–5b Collocations →",
+  "5a Match phrases →",
+  "5b Gap fill →",
   "← К модулю",
 ] as const;
 
@@ -96,6 +98,179 @@ export const vocabularyM4 = {
         id: 8,
         text: "To imagine a particular situation.",
         key: "conceive",
+      },
+    ],
+    talk: [
+      {
+        n: 1,
+        verb: "acknowledge",
+        questions: [
+          "Tell me about a time you had to acknowledge that you made a mistake. Was it hard to do?",
+          "What is a global problem that everyone should acknowledge and start solving right now?",
+        ],
+      },
+      {
+        n: 2,
+        verb: "assume",
+        questions: [
+          "Think about your favorite celebrity or blogger. What did you assume about them that turned out to be completely false?",
+          "If you see someone wearing a tailored suit, what do you automatically assume about their job or lifestyle?",
+        ],
+      },
+      {
+        n: 3,
+        verb: "conceive",
+        questions: [
+          "If you could conceive a brand-new video game, app, or business, what would it be about?",
+          "How do you think scientists or inventors conceive such brilliant ideas? Do they just get lucky?",
+        ],
+      },
+      {
+        n: 4,
+        verb: "consider",
+        questions: [
+          "What major life choices or changes are you currently considering for your near future?",
+          "What factors do you usually consider when you are choosing a gift for a close friend?",
+        ],
+      },
+      {
+        n: 5,
+        verb: "contradict",
+        questions: [
+          "Have you ever read a news story or a post online that completely contradicted what you knew to be true?",
+          "Is there a popular rule or fact that you completely contradict or disagree with?",
+        ],
+      },
+      {
+        n: 6,
+        verb: "speculate",
+        questions: [
+          "Scientists love to speculate about life on other planets. What do you think alien life might look like?",
+          "If you look at the current trends, how do you speculate our world will change in the next 10 years?",
+        ],
+      },
+      {
+        n: 7,
+        verb: "convince",
+        questions: [
+          "Tell me about a time you convinced your parents, a teacher, or a friend to let you do something your way.",
+          "What is the most effective way to convince someone to start living a healthier lifestyle?",
+        ],
+      },
+    ],
+    speak2: [
+      {
+        title: "Tech & Future Topics",
+        topics: [
+          {
+            n: 1,
+            prompt:
+              "Will AI eventually replace teachers and traditional schools?",
+            uses: [
+              "I speculate that AI will handle the grading, but...",
+              "We must consider the emotional connection a human teacher provides.",
+              "I acknowledge that AI is faster, but it lacks empathy.",
+            ],
+          },
+          {
+            n: 2,
+            prompt:
+              "Should smartphones be completely banned in schools for students under 16?",
+            uses: [
+              "I assume test scores would go up if we banned them.",
+              "Let's define what a 'distraction' actually is in a modern classroom.",
+              "That study contradicts your point about focus.",
+            ],
+          },
+          {
+            n: 3,
+            prompt:
+              "Is social media doing more harm than good to teenagers' mental health?",
+            uses: [
+              "It is hard to conceive a world without social media today.",
+              "You can't convince me that scrolling for hours is healthy.",
+              "We need to consider both the toxic algorithms and the community aspect.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Lifestyle & Society Topics",
+        topics: [
+          {
+            n: 4,
+            prompt:
+              "Should esports (competitive video gaming) be officially included in the Olympic Games?",
+            uses: [
+              "How do we define an actual sport? Does it require physical fitness?",
+              "I acknowledge that gaming requires intense reflexes and strategy.",
+              "Many people assume gamers are just lazy, which is incorrect.",
+            ],
+          },
+          {
+            n: 5,
+            prompt:
+              "Is a university degree still necessary to have a successful career today?",
+            uses: [
+              "You need to consider the high cost of tuition versus the actual skills learned.",
+              "Data contradicts the idea that only degree-holders get rich.",
+              "I speculate that online certificates will become the new standard.",
+            ],
+          },
+          {
+            n: 6,
+            prompt: "Should homework be completely abolished in schools?",
+            uses: [
+              "It's difficult to conceive how students would retain information without practice.",
+              "You can't convince me that 3 hours of homework a night is productive.",
+              "Teachers must acknowledge that students need free time to rest.",
+            ],
+          },
+          {
+            n: 7,
+            prompt:
+              "Should animal testing for cosmetics and medicines be banned globally?",
+            uses: [
+              "We must consider the human lives saved by medical advancements.",
+              "Cruelty contradicts our basic moral values as a civilized society.",
+              "I assume there are alternative computer models we could use instead.",
+            ],
+          },
+        ],
+      },
+      {
+        title: "Ethics & General Interest Topics",
+        topics: [
+          {
+            n: 8,
+            prompt: "Does money actually buy happiness?",
+            uses: [
+              "First, we need to define what happiness actually means to an individual.",
+              "I speculate that financial security stops stress, which leads to happiness.",
+              "I acknowledge that rich people still suffer from depression.",
+            ],
+          },
+          {
+            n: 9,
+            prompt:
+              "Should graffiti be protected as art, or punished as vandalism?",
+            uses: [
+              "Who gets to define what counts as art and what counts as a crime?",
+              "If a property owner didn't ask for it, it contradicts the law.",
+              "We must consider the talent required to create these murals.",
+            ],
+          },
+          {
+            n: 10,
+            prompt:
+              "If a giant asteroid were heading to Earth, should the government keep it a secret to avoid panic?",
+            uses: [
+              "I assume total chaos would erupt if the public found out.",
+              "I cannot conceive keeping a secret of that scale from humanity.",
+              "You can't convince me that hiding the truth is the ethical choice.",
+            ],
+          },
+        ],
       },
     ],
   },
@@ -287,7 +462,8 @@ export const vocabularyM4 = {
     >,
   },
   collocations5b: {
-    badge: "b",
+    badge: "5b",
+    heading: "Collocations in context",
     instruction:
       "Complete the sentences with the correct form of the collocations in Exercise 5a.",
     bank: [

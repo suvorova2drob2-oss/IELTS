@@ -25,7 +25,6 @@ export function SpeakingM4bTrainer({
   const [step, setStep] = useState(() => clampStep(initialStep));
   const [checked, setChecked] = useState(false);
   const [showWorth, setShowWorth] = useState(false);
-  const [showTips, setShowTips] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
   const [vocab, setVocab] = useState<Record<number, string>>({});
   const [pronMatch, setPronMatch] = useState<Record<number, string>>({});
@@ -37,7 +36,6 @@ export function SpeakingM4bTrainer({
     setStep(clampStep(initialStep));
     setChecked(false);
     setShowWorth(false);
-    setShowTips(false);
     setPicked(null);
     setVocab({});
     setPronMatch({});
@@ -99,7 +97,6 @@ export function SpeakingM4bTrainer({
     }
     setChecked(false);
     setShowWorth(false);
-    setShowTips(false);
     setPicked(null);
     setPickedLabel(null);
     setStep((s) => s - 1);
@@ -114,17 +111,12 @@ export function SpeakingM4bTrainer({
       setChecked(true);
       return;
     }
-    if (step === 3 && checked && !showTips) {
-      setShowTips(true);
-      return;
-    }
     if (step >= SPEAK_M4B_STEPS.length - 1) {
       onBack?.();
       return;
     }
     setChecked(false);
     setShowWorth(false);
-    setShowTips(false);
     setPicked(null);
     setPickedLabel(null);
     setStep((s) => s + 1);
@@ -135,9 +127,7 @@ export function SpeakingM4bTrainer({
       ? "Reveal values →"
       : needsCheck && !checked
         ? "Check →"
-        : step === 3 && checked && !showTips
-          ? "Show 4b–4c tips →"
-          : SPEAK_M4B_NEXT[step];
+        : SPEAK_M4B_NEXT[step];
 
   return (
     <div className="app-shell reading-flow reading-flow--viewport speak-m3a">
@@ -164,7 +154,6 @@ export function SpeakingM4bTrainer({
                 setStep(i);
                 setChecked(false);
                 setShowWorth(false);
-                setShowTips(false);
                 setPicked(null);
                 setPickedLabel(null);
               }}
@@ -198,7 +187,7 @@ export function SpeakingM4bTrainer({
       )}
 
       {step === 1 && (
-        <section className="speak-m3a__panel">
+        <section className="speak-m3a__panel speak-m3a__panel--fill">
           <h2 className="speak-m3a__h">{data.vocab2.heading}</h2>
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">{data.vocab2.badge}</span>
@@ -220,7 +209,7 @@ export function SpeakingM4bTrainer({
               );
             })}
           </div>
-          <ol className="speak-m3a__tech">
+          <ol className="speak-m3a__tech speak-m3a__tech--match flow-stage__body">
             {data.vocab2.items.map((it) => {
               const val = vocab[it.id];
               const ok = val === it.key;
@@ -263,7 +252,7 @@ export function SpeakingM4bTrainer({
       )}
 
       {step === 3 && (
-        <section className="speak-m3a__panel">
+        <section className="speak-m3a__panel speak-m3a__panel--fill">
           <h2 className="speak-m3a__h">{data.pronunciation4.heading}</h2>
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">
@@ -287,7 +276,7 @@ export function SpeakingM4bTrainer({
               );
             })}
           </div>
-          <ol className="speak-m3a__tech">
+          <ol className="speak-m3a__tech speak-m3a__tech--match flow-stage__body">
             {data.pronunciation4.features.map((f) => {
               const val = pronMatch[f.id];
               const ok = val === data.pronunciation4.keys[f.id];
@@ -317,32 +306,33 @@ export function SpeakingM4bTrainer({
               );
             })}
           </ol>
-          {showTips && (
-            <>
-              <p className="speak-m3a__instr">
-                <span className="write-m2a__badge">
-                  {data.pronunciation4.listen4b.badge}
-                </span>
-                {data.pronunciation4.listen4b.instruction}
-              </p>
-              <p className="speak-m3a__tip">
-                {data.pronunciation4.listen4b.tip}
-              </p>
-              <p className="speak-m3a__instr">
-                <span className="write-m2a__badge">
-                  {data.pronunciation4.analyse4c.badge}
-                </span>
-                {data.pronunciation4.analyse4c.instruction}
-              </p>
-              <p className="speak-m3a__tip">
-                {data.pronunciation4.analyse4c.tip}
-              </p>
-            </>
-          )}
         </section>
       )}
 
       {step === 4 && (
+        <section className="speak-m3a__panel">
+          <p className="speak-m3a__instr">
+            <span className="write-m2a__badge">
+              {data.pronunciation4.listen4b.badge}
+            </span>
+            {data.pronunciation4.listen4b.instruction}
+          </p>
+          <p className="speak-m3a__tip">
+            {data.pronunciation4.listen4b.tip}
+          </p>
+          <p className="speak-m3a__instr">
+            <span className="write-m2a__badge">
+              {data.pronunciation4.analyse4c.badge}
+            </span>
+            {data.pronunciation4.analyse4c.instruction}
+          </p>
+          <p className="speak-m3a__tip">
+            {data.pronunciation4.analyse4c.tip}
+          </p>
+        </section>
+      )}
+
+      {step === 5 && (
         <section className="speak-m3a__panel">
           <h2 className="speak-m3a__h">{data.part3.heading}</h2>
           <p className="write-m2a__expert">{data.part3.strategies}</p>
@@ -366,7 +356,7 @@ export function SpeakingM4bTrainer({
         </section>
       )}
 
-      {step === 5 && (
+      {step === 6 && (
         <section className="speak-m3a__panel">
           <h2 className="speak-m3a__h">{data.assess.heading}</h2>
           <p className="speak-m3a__instr">

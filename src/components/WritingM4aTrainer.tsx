@@ -173,23 +173,36 @@ export function WritingM4aTrainer({
       </div>
 
       {step === 0 && (
-        <section className="write-m3a__panel">
+        <section className="write-m3a__panel write-m3a__panel--cartoon">
           <h2 className="write-m3a__h">{data.cartoon.heading}</h2>
           <p className="write-m3a__instr">
             <span className="write-m3a__badge">{data.cartoon.badge}</span>
             {data.cartoon.instruction}
           </p>
-          {showJoke && (
-            <p className="write-m3a__tip write-m3a__tip--block">
-              {data.cartoon.jokeTip}
-            </p>
-          )}
-          <ol className="write-m3a__qs">
-            {data.cartoon.questions.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ol>
-          <p className="write-m2a__cue">Discuss in small groups</p>
+          <div className="write-m3a__cartoon-split flow-stage__body">
+            <figure className="write-m2a__fig write-m3a__cartoon-fig">
+              <img
+                src={data.cartoon.image}
+                alt={data.cartoon.imageCaption ?? "Cartoon lead-in"}
+              />
+              {data.cartoon.imageCaption ? (
+                <figcaption>{data.cartoon.imageCaption}</figcaption>
+              ) : null}
+            </figure>
+            <div className="write-m3a__cartoon-talk">
+              {showJoke && (
+                <p className="write-m3a__tip write-m3a__tip--block">
+                  {data.cartoon.jokeTip}
+                </p>
+              )}
+              <ol className="write-m3a__qs">
+                {data.cartoon.questions.map((q) => (
+                  <li key={q}>{q}</li>
+                ))}
+              </ol>
+              <p className="write-m2a__cue">Discuss in small groups</p>
+            </div>
+          </div>
         </section>
       )}
 

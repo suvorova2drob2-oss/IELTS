@@ -1,14 +1,22 @@
 export const SPEAK_M4A_STEPS = [
   "1 Quote",
   "2a Match terms",
-  "3a–3d Connectors",
+  "2b Partner Qs",
+  "3a Write",
+  "3b Connector bank",
+  "3c Match",
+  "3d Gap fill",
   "4 Part 3",
   "5 Assess",
 ] as const;
 
 export const SPEAK_M4A_NEXT = [
   "2a Match terms →",
-  "3a–3d Connectors →",
+  "2b Partner questions →",
+  "3a Write →",
+  "3b Connector bank →",
+  "3c Match →",
+  "3d Gap fill →",
   "4 Part 3 →",
   "5 Assess →",
   "← К модулю",
@@ -97,7 +105,8 @@ export const speakingM4a = {
     ],
   },
   write2b: {
-    badge: "b",
+    badge: "2b",
+    heading: "Partner questions",
     instruction:
       "Write questions for your partner using the terms in Exercise 2a. Then ask and answer the questions.",
     suggested: [

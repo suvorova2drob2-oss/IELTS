@@ -58,14 +58,19 @@ export function SpeakingM4aTrainer({
     checkSpeakM4a(gap3d[it.id] ?? "", it.answers),
   ).length;
 
-  const needsCheck = step === 1 || step === 2;
+  const needsCheck = step === 1 || step === 5 || step === 6;
   const score =
-    step === 1 ? match2aScore : match3cScore + gap3dScore;
+    step === 1
+      ? match2aScore
+      : step === 5
+        ? match3cScore
+        : gap3dScore;
   const total =
     step === 1
       ? data.match2a.items.length
-      : data.connectors.match3c.items.length +
-        data.connectors.gap3d.items.length;
+      : step === 5
+        ? data.connectors.match3c.items.length
+        : data.connectors.gap3d.items.length;
 
   const place = (
     map: Record<number, string>,
@@ -173,7 +178,7 @@ export function SpeakingM4aTrainer({
       )}
 
       {step === 1 && (
-        <section className="speak-m3a__panel">
+        <section className="speak-m3a__panel speak-m3a__panel--fill">
           <h2 className="speak-m3a__h">{data.match2a.heading}</h2>
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">{data.match2a.badge}</span>
@@ -195,7 +200,7 @@ export function SpeakingM4aTrainer({
               );
             })}
           </div>
-          <ol className="speak-m3a__tech">
+          <ol className="speak-m3a__tech speak-m3a__tech--match flow-stage__body">
             {data.match2a.items.map((it) => {
               const val = match2a[it.id];
               const ok = val === it.key;
@@ -222,19 +227,28 @@ export function SpeakingM4aTrainer({
               );
             })}
           </ol>
-          <p className="speak-m3a__instr">
-            <span className="write-m2a__badge">{data.write2b.badge}</span>
-            {data.write2b.instruction}
-          </p>
-          <ul className="speak-m3a__tech">
-            {data.write2b.suggested.map((q) => (
-              <li key={q}>{q}</li>
-            ))}
-          </ul>
         </section>
       )}
 
       {step === 2 && (
+        <section className="speak-m3a__panel speak-m3a__panel--fill">
+          <h2 className="speak-m3a__h">{data.write2b.heading}</h2>
+          <p className="speak-m3a__instr">
+            <span className="write-m2a__badge">{data.write2b.badge}</span>
+            {data.write2b.instruction}
+          </p>
+          <ul className="speak-m3a__tech speak-m3a__tech--prompts flow-stage__body">
+            {data.write2b.suggested.map((q, i) => (
+              <li key={q}>
+                <strong>{i + 1}.</strong> {q}
+              </li>
+            ))}
+          </ul>
+          <p className="write-m2a__cue">Ask and answer with a partner</p>
+        </section>
+      )}
+
+      {step === 3 && (
         <section className="speak-m3a__panel">
           <h2 className="speak-m3a__h">{data.connectors.heading}</h2>
           <p className="speak-m3a__instr">
@@ -245,16 +259,22 @@ export function SpeakingM4aTrainer({
           </p>
           <p className="write-m2a__cue">{data.connectors.write3a.question}</p>
           <textarea
-            rows={2}
+            rows={3}
             value={answer3a}
             placeholder="Your answer…"
             onChange={(e) => setAnswer3a(e.target.value)}
           />
-          {checked && (
+          <details className="speak-m3a__tip-details">
+            <summary>Suggested answer</summary>
             <p className="speak-m3a__tip">
-              Suggested: {data.connectors.write3a.suggested}
+              {data.connectors.write3a.suggested}
             </p>
-          )}
+          </details>
+        </section>
+      )}
+
+      {step === 4 && (
+        <section className="speak-m3a__panel">
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">
               {data.connectors.bank3b.badge}
@@ -268,10 +288,12 @@ export function SpeakingM4aTrainer({
               </span>
             ))}
           </div>
-          {checked && (
-            <p className="speak-m3a__tip">{data.connectors.bank3b.suggested}</p>
-          )}
+          <p className="speak-m3a__tip">{data.connectors.bank3b.suggested}</p>
+        </section>
+      )}
 
+      {step === 5 && (
+        <section className="speak-m3a__panel speak-m3a__panel--fill">
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">
               {data.connectors.match3c.badge}
@@ -291,7 +313,7 @@ export function SpeakingM4aTrainer({
               </button>
             ))}
           </div>
-          <ol className="speak-m3a__tech">
+          <ol className="speak-m3a__tech speak-m3a__tech--match flow-stage__body">
             {data.connectors.match3c.items.map((it) => {
               const val = match3c[it.id];
               const ok = val === it.key;
@@ -318,7 +340,11 @@ export function SpeakingM4aTrainer({
               );
             })}
           </ol>
+        </section>
+      )}
 
+      {step === 6 && (
+        <section className="speak-m3a__panel speak-m3a__panel--fill">
           <p className="speak-m3a__instr">
             <span className="write-m2a__badge">
               {data.connectors.gap3d.badge}
@@ -341,7 +367,7 @@ export function SpeakingM4aTrainer({
               );
             })}
           </div>
-          <ol className="speak-m3a__tech">
+          <ol className="speak-m3a__tech speak-m3a__tech--match flow-stage__body">
             {data.connectors.gap3d.items.map((it) => {
               const val = gap3d[it.id];
               const ok = checkSpeakM4a(val ?? "", it.answers);
@@ -372,7 +398,7 @@ export function SpeakingM4aTrainer({
         </section>
       )}
 
-      {step === 3 && (
+      {step === 7 && (
         <section className="speak-m3a__panel">
           <h2 className="speak-m3a__h">{data.part3.heading}</h2>
           <p className="write-m2a__expert">{data.part3.strategies}</p>
@@ -396,7 +422,7 @@ export function SpeakingM4aTrainer({
         </section>
       )}
 
-      {step === 4 && (
+      {step === 8 && (
         <section className="speak-m3a__panel">
           <h2 className="speak-m3a__h">{data.assess.heading}</h2>
           <p className="speak-m3a__instr">

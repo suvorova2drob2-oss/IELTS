@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type ReactNode, type SetStateAction } from "react";
 import {
   checkListenM3a,
   examAnswerOkM3a,
@@ -13,9 +13,122 @@ const data = listeningM3a;
 const PREVIEW_QS = [1, 2, 3, 4] as const;
 const EXAM_SINGLES = [1, 2, 3, 4, 7, 8, 9] as const;
 
+function highlightPhrase(sentence: string, phrase: string): ReactNode {
+  const i = sentence.indexOf(phrase);
+  if (i === -1) return sentence;
+  return (
+    <>
+      {sentence.slice(0, i)}
+      <mark className="read-m3__lang-mark">{phrase}</mark>
+      {sentence.slice(i + phrase.length)}
+    </>
+  );
+}
+
+function ListenScriptPanel({
+  label,
+  lines,
+}: {
+  label: string;
+  lines: readonly { speaker: string; text: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <aside
+      className={`pl-script listen-m3a__script-panel ${open ? "pl-script--open" : ""}`}
+    >
+      <div className="pl-script__toggle">
+        <span>{label}</span>
+        <button
+          type="button"
+          className="pl-script__chev"
+          onClick={() => setOpen((o) => !o)}
+        >
+          {open ? "▾ Hide script" : "▸ Read along"}
+        </button>
+      </div>
+      {open && (
+        <div className="pl-script__body listen-m3a__script-body">
+          {lines.map((line, i) => (
+            <p key={`${line.speaker}-${i}`}>
+              {line.speaker === "Narrator" ? (
+                <>
+                  <strong>Narrator: </strong>
+                  {line.text}
+                </>
+              ) : (
+                line.text
+              )}
+            </p>
+          ))}
+        </div>
+      )}
+    </aside>
+  );
+}
+
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
   return Math.max(0, Math.min(n, LISTEN_M3A_STEPS.length - 1));
+}
+
+function ListenM3aGap({
+  id,
+  step,
+  checked,
+  answers,
+  setAnswers,
+}: {
+  id: number;
+  step: number;
+  checked: boolean;
+  answers: Record<number, string>;
+  setAnswers: Dispatch<SetStateAction<Record<number, string>>>;
+}) {
+  const val = answers[id] ?? "";
+  const onExam = step === 4;
+  const keys = data.examKeys[id];
+  const ok =
+    checked &&
+    (onExam
+      ? examAnswerOkM3a(id, val, answers)
+      : checkListenM3a(val, keys));
+  const bad =
+    checked &&
+    val &&
+    !(onExam
+      ? examAnswerOkM3a(id, val, answers)
+      : checkListenM3a(val, keys));
+  let cls = "listen-m3a__input";
+  if (ok) cls += " listen-m3a__input--ok";
+  if (bad) cls += " listen-m3a__input--bad";
+  const showKey =
+    bad &&
+    keys &&
+    ![5, 6].includes(id) &&
+    (onExam || PREVIEW_QS.includes(id as (typeof PREVIEW_QS)[number]));
+  return (
+    <>
+      <input
+        className={cls}
+        value={val}
+        placeholder={`${id}`}
+        aria-label={`Answer ${id}`}
+        onChange={(e) =>
+          setAnswers((a) => ({ ...a, [id]: e.target.value }))
+        }
+      />
+      {showKey && (
+        <span className="inline-gap-bad"> → {keys[0]}</span>
+      )}
+      {bad && checked && [5, 6].includes(id) && onExam && (
+        <span className="inline-gap-bad">
+          {" "}
+          → pair: giving up smoking · eating more healthily
+        </span>
+      )}
+    </>
+  );
 }
 
 export function ListeningM3aTrainer({
@@ -35,6 +148,7 @@ export function ListeningM3aTrainer({
   const [picked, setPicked] = useState<string | null>(null);
   const [match, setMatch] = useState<Record<string, string>>({});
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [openLangTheme, setOpenLangTheme] = useState<string | null>(null);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -46,6 +160,7 @@ export function ListeningM3aTrainer({
     setPicked(null);
     setMatch({});
     setAnswers({});
+    setOpenLangTheme(null);
   }, [restart, initialStep]);
 
   const matchScore = data.match.targets.filter((t) => {
@@ -171,52 +286,7 @@ export function ListeningM3aTrainer({
     };
   });
 
-  const Gap = ({ id }: { id: number }) => {
-    const val = answers[id] ?? "";
-    const onExam = step === 4;
-    const keys = data.examKeys[id];
-    const ok =
-      checked &&
-      (onExam
-        ? examAnswerOkM3a(id, val, answers)
-        : checkListenM3a(val, keys));
-    const bad =
-      checked &&
-      val &&
-      !(onExam
-        ? examAnswerOkM3a(id, val, answers)
-        : checkListenM3a(val, keys));
-    let cls = "listen-m3a__input";
-    if (ok) cls += " listen-m3a__input--ok";
-    if (bad) cls += " listen-m3a__input--bad";
-    const showKey =
-      bad &&
-      keys &&
-      ![5, 6].includes(id) &&
-      (onExam || PREVIEW_QS.includes(id as (typeof PREVIEW_QS)[number]));
-    return (
-      <>
-        <input
-          className={cls}
-          value={val}
-          placeholder={`${id}`}
-          aria-label={`Answer ${id}`}
-          onChange={(e) =>
-            setAnswers((a) => ({ ...a, [id]: e.target.value }))
-          }
-        />
-        {showKey && (
-          <span className="inline-gap-bad"> → {keys[0]}</span>
-        )}
-        {bad && checked && [5, 6].includes(id) && onExam && (
-          <span className="inline-gap-bad">
-            {" "}
-            → pair: giving up smoking · eating more healthily
-          </span>
-        )}
-      </>
-    );
-  };
+  const gapProps = { step, checked, answers, setAnswers };
 
   const ReadOnlyQs = () => (
     <div className="listen-m3a__qgrid listen-m3a__qgrid--read">
@@ -316,6 +386,7 @@ export function ListeningM3aTrainer({
                 setChecked(false);
                 setShowTips(false);
                 setShowAnalysisTips(false);
+                if (i !== 7) setOpenLangTheme(null);
               }}
             >
               {i + 1}. {label}
@@ -449,7 +520,10 @@ export function ListeningM3aTrainer({
               label={data.previewListen.audioLabel}
             />
             <p className="listen-m3a__read-hint">{data.previewListen.hint}</p>
-            <p className="listen-m3a__script-note">{data.previewListen.scriptNote}</p>
+            <ListenScriptPanel
+              label={data.previewListen.scriptLabel}
+              lines={data.previewListen.script}
+            />
           </header>
           <div className="listen-m3a__exam listen-m3a__exam--preview flow-stage__body">
             <article className="listen-m3a__box">
@@ -459,13 +533,13 @@ export function ListeningM3aTrainer({
                 for each answer.
               </p>
               <p>
-                <strong>1</strong> There are <u>few</u> <Gap id={1} /> on the{" "}
+                <strong>1</strong> There are <u>few</u> <ListenM3aGap id={1} {...gapProps} /> on the{" "}
                 <u>benefits</u> of meditation.
               </p>
               <p>
                 <strong>2</strong> There is <u>some indication</u> that
                 meditation <u>may be able to</u> <u>increase our</u>{" "}
-                <Gap id={2} />.
+                <ListenM3aGap id={2} {...gapProps} />.
               </p>
             </article>
             <article className="listen-m3a__box">
@@ -478,10 +552,10 @@ export function ListeningM3aTrainer({
                 <u>In what ways</u> can meditation help us <u>physically</u>?
               </p>
               <p>
-                <strong>3</strong> <Gap id={3} />
+                <strong>3</strong> <ListenM3aGap id={3} {...gapProps} />
               </p>
               <p>
-                <strong>4</strong> <Gap id={4} />
+                <strong>4</strong> <ListenM3aGap id={4} {...gapProps} />
               </p>
             </article>
           </div>
@@ -499,19 +573,22 @@ export function ListeningM3aTrainer({
             </p>
             <AudioPlayer src={data.exam.audio} label={data.exam.audioLabel} />
             <p className="listen-m3a__read-hint">{data.exam.hint}</p>
-            <p className="listen-m3a__script-note">{data.exam.scriptNote}</p>
+            <ListenScriptPanel
+              label={data.exam.scriptLabel}
+              lines={data.exam.script}
+            />
           </header>
           <div className="listen-m3a__exam flow-stage__body">
             <article className="listen-m3a__box">
               <h3>Questions 1–2</h3>
               <p>
-                <strong>1</strong> There are <u>few</u> <Gap id={1} /> on the{" "}
+                <strong>1</strong> There are <u>few</u> <ListenM3aGap id={1} {...gapProps} /> on the{" "}
                 <u>benefits</u> of meditation.
               </p>
               <p>
                 <strong>2</strong> There is <u>some indication</u> that
                 meditation <u>may be able to</u> <u>increase our</u>{" "}
-                <Gap id={2} />.
+                <ListenM3aGap id={2} {...gapProps} />.
               </p>
             </article>
             <article className="listen-m3a__box">
@@ -520,35 +597,35 @@ export function ListeningM3aTrainer({
                 <u>In what ways</u> can meditation help us <u>physically</u>?
               </p>
               <p>
-                <strong>3</strong> <Gap id={3} />
+                <strong>3</strong> <ListenM3aGap id={3} {...gapProps} />
               </p>
               <p>
-                <strong>4</strong> <Gap id={4} />
+                <strong>4</strong> <ListenM3aGap id={4} {...gapProps} />
               </p>
             </article>
             <article className="listen-m3a__box">
               <h3>Questions 5–6</h3>
               <p>What are two indirect benefits of meditation?</p>
               <p>
-                <strong>5</strong> <Gap id={5} />
+                <strong>5</strong> <ListenM3aGap id={5} {...gapProps} />
               </p>
               <p>
-                <strong>6</strong> <Gap id={6} />
+                <strong>6</strong> <ListenM3aGap id={6} {...gapProps} />
               </p>
             </article>
             <article className="listen-m3a__box">
               <h3>Questions 7–9</h3>
               <p>
                 <strong>7</strong> A lot of research has been done in the area
-                of meditation and <Gap id={7} />.
+                of meditation and <ListenM3aGap id={7} {...gapProps} />.
               </p>
               <p>
-                <strong>8</strong> <Gap id={8} /> of daily
+                <strong>8</strong> <ListenM3aGap id={8} {...gapProps} /> of daily
                 meditation can improve a person’s mental well-being.
               </p>
               <p>
                 <strong>9</strong> In most cases, meditation should not be a
-                replacement for <Gap id={9} />.
+                replacement for <ListenM3aGap id={9} {...gapProps} />.
               </p>
             </article>
           </div>
@@ -567,7 +644,10 @@ export function ListeningM3aTrainer({
               src={data.analysis.audio}
               label={data.analysis.audioLabel}
             />
-            <p className="listen-m3a__script-note">{data.analysis.bookNote}</p>
+            <ListenScriptPanel
+              label={data.exam.scriptLabel}
+              lines={data.exam.script}
+            />
           </header>
 
           <div className="listen-m3a__compare flow-stage__body">
@@ -634,6 +714,59 @@ export function ListeningM3aTrainer({
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
         />
+      )}
+
+      {step === 7 && (
+        <section className="read-m3__panel read-m3__panel--lang listen-m3a__lang-pack">
+          <h2 className="read-m3__h">{data.languagePack.heading}</h2>
+          <p className="read-m3__instr">
+            <span className="write-m2a__badge">{data.languagePack.badge}</span>
+            {data.languagePack.instruction}
+          </p>
+          <ul className="read-m3__lang-list">
+            {data.languagePack.themes.map((theme) => {
+              const open = openLangTheme === theme.id;
+              return (
+                <li key={theme.id} className="read-m3__lang-theme">
+                  <button
+                    type="button"
+                    className={`read-m3__lang-tab ${open ? "read-m3__lang-tab--on" : ""}`}
+                    aria-expanded={open}
+                    onClick={() =>
+                      setOpenLangTheme((id) =>
+                        id === theme.id ? null : theme.id,
+                      )
+                    }
+                  >
+                    <span className="read-m3__lang-tab-label">
+                      {theme.tabLabel}
+                    </span>
+                    <span className="read-m3__lang-tab-chevron" aria-hidden>
+                      {open ? "▾" : "▸"}
+                    </span>
+                  </button>
+                  {open && (
+                    <div className="read-m3__lang-body">
+                      <p className="read-m3__tip read-m3__lang-hint">
+                        <strong>Use it:</strong> {theme.useHint}
+                      </p>
+                      <ul className="read-m3__lang-items">
+                        {theme.items.map((item) => (
+                          <li key={item.phrase} className="read-m3__lang-item">
+                            <p className="read-m3__lang-phrase">{item.phrase}</p>
+                            <blockquote className="read-m3__lang-sentence">
+                              {highlightPhrase(item.sentence, item.phrase)}
+                            </blockquote>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
       )}
 
       <div

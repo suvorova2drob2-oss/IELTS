@@ -218,7 +218,7 @@ export function ReviewM4Trainer({
       </div>
 
       {step === 0 && (
-        <section className="review-m2__panel">
+        <section className="review-m2__panel review-m2__panel--fill">
           <p className="language-flow__instruction">
             <span className="write-m2a__badge">{data.vocab1a.badge}</span>{" "}
             {data.vocab1a.instruction}
@@ -239,7 +239,7 @@ export function ReviewM4Trainer({
               );
             })}
           </div>
-          <ol className="review-m2__passive">
+          <ol className="review-m2__passive flow-stage__body">
             {data.vocab1a.items.map((it) => {
               const val = vocab[it.id];
               const ok = checkReviewM4(val ?? "", it.answers);
@@ -271,7 +271,7 @@ export function ReviewM4Trainer({
       )}
 
       {step === 1 && (
-        <section className="review-m2__panel">
+        <section className="review-m2__panel review-m2__panel--fill">
           <p className="language-flow__instruction">
             <span className="write-m2a__badge">{data.match1b.badge}</span>{" "}
             {data.match1b.instruction}
@@ -292,7 +292,7 @@ export function ReviewM4Trainer({
               );
             })}
           </div>
-          <ol className="review-m2__passive">
+          <ol className="review-m2__passive flow-stage__body">
             {data.match1b.left.map((it) => {
               const val = match[it.id];
               const ok = val === data.match1b.keys[it.id];

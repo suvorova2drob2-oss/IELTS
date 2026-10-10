@@ -1,0 +1,31 @@
+---
+description: Practice Writing model pages must fit 100dvh without clipping learner text
+globs: src/components/PracticeWriting*.tsx,src/index.css
+alwaysApply: false
+---
+
+# Practice Writing — viewport fit
+
+`pw-shell` is `height: 100dvh`. Model pages must show **full** prompt, chart, model essay, and compact phrase grid on ~1280×800 **without** clipping paragraphs or hiding the question.
+
+## Hard ban
+
+- `overflow: hidden` (or `max-height` + hidden) on **prompt**, **essay paragraphs**, or plan examples to “make it fit”
+- Long `PlanBlocks` (must/avoid/example wall) on Task 1 pie/table/map/mixed — use `CompactPlanBlocks` + footer row
+- Stacking plan grid **under** a tall single-column essay when horizontal space exists
+- `overflow: auto` on the whole model page while empty background remains
+
+## Required layout (Task 1 non-bar)
+
+- Class `pw-model-page--t1-fit` on pie/table/map/mixed models
+- Split: **chart + logic** | **model only** (2-column essay grid: intro spans full width)
+- Footer `pw-t1-fit-footer`: 4-column phrase grid + linking toggle
+- Tighten type/padding/gaps; use columns — never cut textbook wording
+
+## Before shipping
+
+1. Mental check at 1280×800: all four essay paragraphs + footer visible?
+2. No scrollbar on dark void beside content?
+3. Grep `pw-model-page--t1-fit` — no duplicate CSS that re-enables scroll or clip on `.pw-sample__body`.
+
+Related: `fit-viewport-content.mdc`, `no-useless-scroll.mdc`, `full-textbook-wording.mdc`.

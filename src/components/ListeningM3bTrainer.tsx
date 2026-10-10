@@ -1,4 +1,10 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+  type Dispatch,
+  type ReactNode,
+  type SetStateAction,
+} from "react";
 import {
   checkListenM3b,
   LISTEN_M3B_NEXT,
@@ -9,6 +15,60 @@ import { AudioPlayer } from "./AudioPlayer";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
 
 const data = listeningM3b;
+
+function highlightPhrase(sentence: string, phrase: string): ReactNode {
+  const i = sentence.indexOf(phrase);
+  if (i === -1) return sentence;
+  return (
+    <>
+      {sentence.slice(0, i)}
+      <mark className="read-m3__lang-mark">{phrase}</mark>
+      {sentence.slice(i + phrase.length)}
+    </>
+  );
+}
+
+function ListenScriptPanel({
+  label,
+  lines,
+}: {
+  label: string;
+  lines: readonly { speaker: string; text: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <aside
+      className={`pl-script listen-m3a__script-panel ${open ? "pl-script--open" : ""}`}
+    >
+      <div className="pl-script__toggle">
+        <span>{label}</span>
+        <button
+          type="button"
+          className="pl-script__chev"
+          onClick={() => setOpen((o) => !o)}
+        >
+          {open ? "▾ Hide script" : "▸ Read along"}
+        </button>
+      </div>
+      {open && (
+        <div className="pl-script__body listen-m3a__script-body">
+          {lines.map((line, i) => (
+            <p key={`${line.speaker}-${i}`}>
+              {line.speaker === "Narrator" ? (
+                <>
+                  <strong>Narrator: </strong>
+                  {line.text}
+                </>
+              ) : (
+                line.text
+              )}
+            </p>
+          ))}
+        </div>
+      )}
+    </aside>
+  );
+}
 
 function clampStep(n: number | undefined): number {
   if (n == null || Number.isNaN(n)) return 0;
@@ -37,6 +97,33 @@ function examAnswerOk(
   return checkListenM3b(value, data.answerKeys[id]);
 }
 
+function ListenM3bGap({
+  id,
+  checked,
+  answers,
+  setAnswers,
+}: {
+  id: number;
+  checked: boolean;
+  answers: Record<number, string>;
+  setAnswers: Dispatch<SetStateAction<Record<number, string>>>;
+}) {
+  const val = answers[id] ?? "";
+  const ok = checked && examAnswerOk(id, val, answers);
+  const bad = checked && val && !ok;
+  return (
+    <input
+      className={`listen-m3b__input${ok ? " listen-m3b__input--ok" : ""}${bad ? " listen-m3b__input--bad" : ""}`}
+      value={val}
+      placeholder={`${id}`}
+      aria-label={`Answer ${id}`}
+      onChange={(e) =>
+        setAnswers((a) => ({ ...a, [id]: e.target.value }))
+      }
+    />
+  );
+}
+
 export function ListeningM3bTrainer({
   onBack,
   restart,
@@ -53,6 +140,7 @@ export function ListeningM3bTrainer({
   const [effects, setEffects] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [reasons, setReasons] = useState<string[]>([]);
+  const [openLangTheme, setOpenLangTheme] = useState<string | null>(null);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -63,6 +151,7 @@ export function ListeningM3bTrainer({
     setEffects([]);
     setAnswers({});
     setReasons([]);
+    setOpenLangTheme(null);
   }, [restart, initialStep]);
 
   const mistakeOk = mistake === data.wrongAnswers.mistakeKey;
@@ -144,22 +233,7 @@ export function ListeningM3bTrainer({
         ? "Check →"
         : LISTEN_M3B_NEXT[step];
 
-  const Gap = ({ id }: { id: number }) => {
-    const val = answers[id] ?? "";
-    const ok = checked && examAnswerOk(id, val, answers);
-    const bad = checked && val && !ok;
-    return (
-      <input
-        className={`listen-m3b__input${ok ? " listen-m3b__input--ok" : ""}${bad ? " listen-m3b__input--bad" : ""}`}
-        value={val}
-        placeholder={`${id}`}
-        aria-label={`Answer ${id}`}
-        onChange={(e) =>
-          setAnswers((a) => ({ ...a, [id]: e.target.value }))
-        }
-      />
-    );
-  };
+  const gapProps = { checked, answers, setAnswers };
 
   const effectBank = [
     "tiredness",
@@ -357,6 +431,10 @@ export function ListeningM3bTrainer({
               {data.exam.instruction}
             </p>
             <AudioPlayer src={data.exam.audio} label={data.exam.audioLabel} />
+            <ListenScriptPanel
+              label={data.exam.scriptLabel}
+              lines={data.exam.script}
+            />
           </header>
           <div className="listen-m3b__qgrid flow-stage__body">
             <article className="listen-m3b__box">
@@ -365,7 +443,7 @@ export function ListeningM3bTrainer({
               {data.q1to5.items.map((it) => (
                 <p key={it.id}>
                   <strong>{it.id}</strong> {it.before}
-                  <Gap id={it.id} />
+                  <ListenM3bGap id={it.id} {...gapProps} />
                   {it.after}
                 </p>
               ))}
@@ -378,7 +456,7 @@ export function ListeningM3bTrainer({
                   <p>{g.prompt}</p>
                   {g.ids.map((id) => (
                     <p key={id}>
-                      <strong>{id}</strong> <Gap id={id} />
+                      <strong>{id}</strong> <ListenM3bGap id={id} {...gapProps} />
                     </p>
                   ))}
                 </div>
@@ -395,6 +473,10 @@ export function ListeningM3bTrainer({
             <span className="write-m2a__badge">{data.analysis.badge}</span>
             {data.analysis.a}
           </p>
+          <ListenScriptPanel
+            label={data.exam.scriptLabel}
+            lines={data.exam.script}
+          />
           <p className="listen-m3b__instr">
             <span className="write-m2a__badge">{data.analysis.b.badge}</span>
             {data.analysis.b.instruction}
@@ -412,9 +494,59 @@ export function ListeningM3bTrainer({
               </li>
             ))}
           </ul>
-          <p className="listen-m3b__cue">
-            Compare your exam answers with script 3.6 on page 204.
+        </section>
+      )}
+
+      {step === 5 && (
+        <section className="read-m3__panel read-m3__panel--lang listen-m3b__lang-pack">
+          <h2 className="read-m3__h">{data.languagePack.heading}</h2>
+          <p className="read-m3__instr">
+            <span className="write-m2a__badge">{data.languagePack.badge}</span>
+            {data.languagePack.instruction}
           </p>
+          <ul className="read-m3__lang-list">
+            {data.languagePack.themes.map((theme) => {
+              const open = openLangTheme === theme.id;
+              return (
+                <li key={theme.id} className="read-m3__lang-theme">
+                  <button
+                    type="button"
+                    className={`read-m3__lang-tab ${open ? "read-m3__lang-tab--on" : ""}`}
+                    aria-expanded={open}
+                    onClick={() =>
+                      setOpenLangTheme((id) =>
+                        id === theme.id ? null : theme.id,
+                      )
+                    }
+                  >
+                    <span className="read-m3__lang-tab-label">
+                      {theme.tabLabel}
+                    </span>
+                    <span className="read-m3__lang-tab-chevron" aria-hidden>
+                      {open ? "▾" : "▸"}
+                    </span>
+                  </button>
+                  {open && (
+                    <div className="read-m3__lang-body">
+                      <p className="read-m3__tip read-m3__lang-hint">
+                        <strong>Use it:</strong> {theme.useHint}
+                      </p>
+                      <ul className="read-m3__lang-items">
+                        {theme.items.map((item) => (
+                          <li key={item.phrase} className="read-m3__lang-item">
+                            <p className="read-m3__lang-phrase">{item.phrase}</p>
+                            <blockquote className="read-m3__lang-sentence">
+                              {highlightPhrase(item.sentence, item.phrase)}
+                            </blockquote>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
         </section>
       )}
 

@@ -1,16 +1,24 @@
 export const LANG_M4A_STEPS = [
   "1a Fragments",
-  "1b–1c Fix",
-  "2–3 Subordinate",
+  "1b Error types",
+  "1c Rewrite",
+  "2 MCQ",
+  "3 Match endings",
   "4 Punctuate",
-  "5–6 that-clauses",
+  "5 Own ideas",
+  "6a that-clause",
+  "6b Gap fill",
 ] as const;
 
 export const LANG_M4A_NEXT = [
-  "1b–1c Fix →",
-  "2–3 Subordinate →",
+  "1b Error types →",
+  "1c Rewrite →",
+  "2 MCQ →",
+  "3 Match endings →",
   "4 Punctuate →",
-  "5–6 that-clauses →",
+  "5 Own ideas →",
+  "6a that-clause →",
+  "6b Gap fill →",
   "← К модулю",
 ] as const;
 

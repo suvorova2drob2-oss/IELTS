@@ -5,6 +5,10 @@ export const READ_M4A_STEPS = [
   "4a Matching",
   "5 Summary",
   "6 Discussion",
+  "7 Language pack",
+  "Cool phrases",
+  "Flip cards",
+  "Save the planet",
 ] as const;
 
 export const READ_M4A_NEXT = [
@@ -13,6 +17,10 @@ export const READ_M4A_NEXT = [
   "4a Matching →",
   "5 Summary →",
   "6 Discussion →",
+  "7 Language pack →",
+  "Cool phrases →",
+  "Flip cards →",
+  "Save the planet →",
   "← К модулю",
 ] as const;
 
@@ -164,6 +172,165 @@ export const readingM4a = {
     suggestedAnswer: [
       "People might be persuaded if sharing is shown to save money and reduce waste. Clear apps, insurance, and good reviews could build trust, and campaigns that highlight environmental benefits may appeal to younger consumers who already value sustainability.",
       "Drawbacks include unreliable service, damage to shared items, and privacy concerns when strangers use your belongings. These could be resolved through verified user profiles, deposit systems, and strict quality standards enforced by the platform.",
+    ],
+  },
+  languagePack: {
+    badge: "7",
+    heading: "Language from the passage",
+    instruction:
+      "Open a topic. Learn the phrase and the full sentence from the text, then use it in Speaking Part 3 or Writing Task 2.",
+    themes: [
+      {
+        id: "linear",
+        tabLabel:
+          "Linear economy · Writing intro / Speaking «Why do we waste so much?»",
+        useHint:
+          "Task 2 — describe the throwaway growth model; Speaking — examples of waste.",
+        items: [
+          {
+            phrase: "make-take and dispose",
+            sentence:
+              'In other words, it is a "make-take and dispose" economy in which we extract natural resources, exploit them and then dispose of them as soon as a more up-to-date alternative becomes available.',
+          },
+          {
+            phrase: "squanders the majority of the resources",
+            sentence:
+              "At the moment, the world's growth model squanders the majority of the resources which we procure.",
+          },
+          {
+            phrase: "planned obsolescence is how we live",
+            sentence:
+              "Shamefully cars in Europe remain parked 92% of the time; planned obsolescence is how we live.",
+          },
+        ],
+      },
+      {
+        id: "unsustainable",
+        tabLabel:
+          "Unsustainable growth · Writing body / Speaking «Can we keep consuming?»",
+        useHint:
+          "Task 2 — link rising incomes to environmental pressure; Speaking — future trends.",
+        items: [
+          {
+            phrase: "rapid depletion of existing and readily accessible natural capital",
+            sentence:
+              "It not only endangers the natural world but will eventually have an adverse effect on our living standards; our economic productivity on a global level is being curbed by the rapid depletion of existing and readily accessible natural capital such as clean sources of potable water and forests.",
+          },
+          {
+            phrase: "the global middle class will double by 2030",
+            sentence:
+              "At the same time, it is expected that the global middle class will double by 2030, which means even higher consumption; we consume more as we earn more.",
+          },
+          {
+            phrase: "This path is simply not sustainable",
+            sentence:
+              "This path is simply not sustainable; we cannot continue to grow as a species and live well without changing the way we operate.",
+          },
+        ],
+      },
+      {
+        id: "circular",
+        tabLabel:
+          "Circular economy · Writing solutions / Speaking «How can we reuse more?»",
+        useHint:
+          "Task 2 — propose systemic change; Speaking — repair, sharing, collaboration.",
+        items: [
+          {
+            phrase:
+              "keeping goods and resources in use for as long as possible",
+            sentence:
+              'The central aim of moving towards a circular economy is to improve resource productivity by keeping goods and resources in use for as long as possible, through recovery, reuse, repair, remanufacturing and recycling.',
+          },
+          {
+            phrase: "the sharing economy",
+            sentence:
+              'The so-called "sharing economy" represents a real move forward with enterprises such as car-sharing, which may reduce the number of vehicles on the road or at least limit their growth, and renting out spare rooms.',
+          },
+          {
+            phrase: "rebound effect",
+            sentence:
+              'Moreover, if we resolve the problem in such a piecemeal way, we risk causing a "rebound effect". That is, economic benefits gained in one area such as driving less being offset by all those savings being spent on another product or service.',
+          },
+        ],
+      },
+    ],
+  },
+  coolPhrases: [
+    "enjoy an unprecedented level of prosperity",
+    "come at a steep price",
+    "squander the majority of the resources which we procure",
+    "phones languish in landfills",
+    "Mass and conspicuous consumption",
+    "have an adverse effect on our living standards",
+    "curbed by the rapid depletion",
+    "the quality of the metal has diminished",
+    "schemes are being conceived by many companies",
+    "enhance the focus on longevity",
+    "firms would encounter high costs",
+    "the benefits could outweigh the immediate barriers",
+    "if we resolve the problem in such a piecemeal way",
+    "offset",
+    "maximise the benefits of these new technologies",
+  ],
+  flipCards: [
+    {
+      plain:
+        "Today, people are richer than ever, but it creates huge environmental problems.",
+      upgrade:
+        "Today, we enjoy an unprecedented level of prosperity, but it comes at a steep price.",
+    },
+    {
+      plain:
+        "We waste most of the materials we get, and old gadgets just lie in trash dumps.",
+      upgrade:
+        "We squander the majority of the resources which we procure, while old phones languish in landfills.",
+    },
+    {
+      plain: "Buying lots of expensive things to show off hurts our life.",
+      upgrade:
+        "Mass and conspicuous consumption can have an adverse effect on our living standards.",
+    },
+    {
+      plain:
+        "Economic growth will stop because raw materials are disappearing fast.",
+      upgrade:
+        "Economic growth will be curbed by the rapid depletion of resources.",
+    },
+    {
+      plain: "The iron is not as good as it used to be.",
+      upgrade: "The quality of the metal has diminished.",
+    },
+    {
+      plain: "Many businesses are planning to make products that last longer.",
+      upgrade:
+        "New schemes are being conceived by many companies to enhance the focus on longevity.",
+    },
+    {
+      plain:
+        "Corporations will lose a lot of money at first, but the good sides will be bigger than the problems.",
+      upgrade:
+        "Firms would encounter high costs, but the benefits could outweigh the immediate barriers.",
+    },
+    {
+      plain:
+        "If we fix this issue step-by-step and in small parts, we won't solve the whole crisis.",
+      upgrade:
+        "If we resolve the problem in such a piecemeal way, we cannot offset the damage and maximise the benefits of these new technologies.",
+    },
+  ],
+  savePlanet: {
+    heading: "Save the planet",
+    kicker: "Guided speaking",
+    instruction:
+      "To succeed, use every phrase in the checklist as an argument.",
+    situation:
+      "You are an environmental adviser to a large technology corporation. The director wants to release a new cheap smartphone every year. Your task is to convince him to switch to producing durable phones (once every five years), using the arguments below.",
+    checklist: [
+      "Explain that humanity enjoys an unprecedented level of prosperity, but it comes at a steep price.",
+      "Mention that millions of phones languish in landfills.",
+      "Warn him that mass and conspicuous consumption will be curbed by the rapid depletion of rare metals.",
+      "Argue that although the firms would encounter high costs initially, the benefits could outweigh the immediate barriers.",
+      "Insist that we must enhance the focus on longevity rather than fixing environmental issues in a piecemeal way.",
     ],
   },
 };

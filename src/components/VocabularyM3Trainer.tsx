@@ -32,6 +32,7 @@ export function VocabularyM3Trainer({
   const [idiomMap, setIdiomMap] = useState<Record<number, string>>({});
   const [pickedLetter, setPickedLetter] = useState<string | null>(null);
   const [fill, setFill] = useState<Record<number, string>>({});
+  const [roleAct, setRoleAct] = useState<0 | 1>(0);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -44,6 +45,7 @@ export function VocabularyM3Trainer({
     setIdiomMap({});
     setPickedLetter(null);
     setFill({});
+    setRoleAct(0);
   }, [restart, initialStep]);
 
   const italGaps = data.yoga.parts.filter(isVocabM3Ital);
@@ -66,7 +68,7 @@ export function VocabularyM3Trainer({
   const usedLetters = new Set(Object.values(idiomMap));
   const usedFill = new Set(Object.values(fill));
 
-  const needsCheck = step !== 3;
+  const needsCheck = step !== 3 && step !== 4;
 
   const placeMatch = (id: number) => {
     if (checked) return;
@@ -161,9 +163,9 @@ export function VocabularyM3Trainer({
         ? italScore
         : step === 2
           ? coloScore
-          : step === 4
+          : step === 5
             ? idiomScore
-            : step === 5
+            : step === 6
               ? fillScore
               : 0;
   const total =
@@ -173,9 +175,9 @@ export function VocabularyM3Trainer({
         ? italGaps.length
         : step === 2
           ? data.collocations.items.length
-          : step === 4
+          : step === 5
             ? data.idioms.items.length
-            : step === 5
+            : step === 6
               ? data.idiomFill.items.length
               : 0;
 
@@ -205,6 +207,7 @@ export function VocabularyM3Trainer({
                 setChecked(false);
                 setPicked(null);
                 setPickedLetter(null);
+                if (i !== 3) setRoleAct(0);
               }}
             >
               {i + 1}. {label}
@@ -381,6 +384,113 @@ export function VocabularyM3Trainer({
       )}
 
       {step === 3 && (
+        <section className="vocab-m3__panel vocab-m3__panel--role">
+          <h2 className="vocab-m3__h">{data.rolePlay.heading}</h2>
+          <p className="vocab-m3__role-target-label">
+            {data.rolePlay.targetLabel}
+          </p>
+          <div className="vocab-m3__bank vocab-m3__bank--role">
+            {data.rolePlay.targetCollocations.map((phrase) => (
+              <span key={phrase} className="vocab-m3__role-chip">
+                {phrase}
+              </span>
+            ))}
+          </div>
+          <div className="vocab-m3__role-tabs" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={roleAct === 0}
+              className={`vocab-m3__role-tab ${roleAct === 0 ? "vocab-m3__role-tab--on" : ""}`}
+              onClick={() => setRoleAct(0)}
+            >
+              Activity 1 · Debate
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={roleAct === 1}
+              className={`vocab-m3__role-tab ${roleAct === 1 ? "vocab-m3__role-tab--on" : ""}`}
+              onClick={() => setRoleAct(1)}
+            >
+              Activity 2 · Case study
+            </button>
+          </div>
+          <div className="vocab-m3__role-stage">
+            {roleAct === 0 ? (
+              <div className="vocab-m3__role-act">
+                <div className="vocab-m3__role-intro">
+                  <h3 className="vocab-m3__role-act-title">
+                    {data.rolePlay.debate.title}
+                  </h3>
+                  <p className="vocab-m3__role-block">
+                    <strong>{data.rolePlay.debate.contextHeading}:</strong>{" "}
+                    {data.rolePlay.debate.context}
+                  </p>
+                  <p className="vocab-m3__role-block">
+                    <strong>{data.rolePlay.debate.taskHeading}:</strong>{" "}
+                    {data.rolePlay.debate.task}
+                  </p>
+                  <p className="vocab-m3__role-rule">
+                    {data.rolePlay.debate.rule}
+                  </p>
+                </div>
+                <div className="vocab-m3__role-cards-wrap">
+                  <p className="vocab-m3__idiom-colhead">
+                    {data.rolePlay.debate.rolesHeading}
+                  </p>
+                  <ul className="vocab-m3__role-grid">
+                    {data.rolePlay.debate.roles.map((role) => (
+                      <li key={role.id} className="vocab-m3__role-card">
+                        <p className="vocab-m3__role-card-title">
+                          <strong>Role {role.id}:</strong> {role.title}
+                        </p>
+                        <p className="vocab-m3__role-card-label">Your stance</p>
+                        <p>{role.stance}</p>
+                        <p className="vocab-m3__role-card-label">
+                          Key arguments
+                        </p>
+                        <ul>
+                          {role.arguments.map((arg) => (
+                            <li key={arg}>{arg}</li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <div className="vocab-m3__role-act">
+                <div className="vocab-m3__role-intro">
+                  <h3 className="vocab-m3__role-act-title">
+                    {data.rolePlay.caseStudy.title}
+                  </h3>
+                  <p className="vocab-m3__role-block">
+                    <strong>{data.rolePlay.caseStudy.contextHeading}:</strong>{" "}
+                    {data.rolePlay.caseStudy.context}
+                  </p>
+                  <p className="vocab-m3__role-block">
+                    <strong>{data.rolePlay.caseStudy.taskHeading}:</strong>{" "}
+                    {data.rolePlay.caseStudy.task}
+                  </p>
+                  <p className="vocab-m3__role-block">
+                    <strong>{data.rolePlay.caseStudy.guideHeading}:</strong>{" "}
+                    {data.rolePlay.caseStudy.guideIntro}
+                  </p>
+                </div>
+                <ol className="vocab-m3__role-prompts">
+                  {data.rolePlay.caseStudy.prompts.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ol>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {step === 4 && (
         <ExpertDiscussPanel
           key="discuss"
           badge={data.discuss.badge}
@@ -392,7 +502,7 @@ export function VocabularyM3Trainer({
         />
       )}
 
-      {step === 4 && (
+      {step === 5 && (
         <section className="vocab-m3__idioms vocab-m3__panel--fill">
           <h2 className="vocab-m3__h">{data.idioms.heading}</h2>
           <p className="vocab-m3__instr">
@@ -459,7 +569,7 @@ export function VocabularyM3Trainer({
         </section>
       )}
 
-      {step === 5 && (
+      {step === 6 && (
         <section className="vocab-m3__panel vocab-m3__panel--fill">
           <p className="vocab-m3__instr">
             <span className="write-m2a__badge">{data.idiomFill.badge}</span>
