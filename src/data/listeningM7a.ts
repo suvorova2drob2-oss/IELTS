@@ -1,4 +1,6 @@
-﻿export const LISTEN_M7A_STEPS = [
+﻿import { EXPERT_M7_AUDIO } from "./expertAudio";
+
+export const LISTEN_M7A_STEPS = [
   "1 Before listen",
   "2a–2c Distractors",
   "2d–2e Practice",
@@ -18,8 +20,6 @@ export const listeningM7a = {
   id: "listening-m7a-flow",
   bookPages: "p. 108 in your coursebook",
   sectionTitle: "Listening · Section 1",
-  noAudioNote:
-    "Аудио пока нет — можно пройти подготовку и задания по ключам TB.",
   before: {
     badge: "1",
     heading: "Before you listen",
@@ -62,7 +62,8 @@ export const listeningM7a = {
   },
   practice: {
     badge: "2d",
-    audioNote: "Track 7.3 — audio later",
+    audio: EXPERT_M7_AUDIO.track07_03,
+    audioLabel: "Track 7.3 · Exercises 2d–2e (climbing club)",
     instruction: "Complete the test tasks. (Keys from TB.)",
     mc: [
       {
@@ -118,7 +119,8 @@ export const listeningM7a = {
   exam: {
     badge: "3",
     strategies: "TEST STRATEGIES page 168",
-    audioNote: "Track 7.4 — audio later",
+    audio: EXPERT_M7_AUDIO.track07_04,
+    audioLabel: "Track 7.4 · Section 1 exam (City Cycling Group)",
     instruction: "Complete the test tasks.",
     formTitle: "Customer enquiry form: City Cycling Group",
     gaps: [

@@ -5,6 +5,7 @@ import {
   readingM7b,
 } from "../data/readingM7b";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { PhraseFlipBoard } from "./PhraseFlipBoard";
 
 const data = readingM7b;
 
@@ -28,6 +29,7 @@ export function ReadingM7bTrainer({
   const [strat, setStrat] = useState<Record<number, string>>({});
   const [match, setMatch] = useState<Record<number, string>>({});
   const [summary, setSummary] = useState<Record<number, string>>({});
+  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -37,6 +39,7 @@ export function ReadingM7bTrainer({
     setStrat({});
     setMatch({});
     setSummary({});
+    setFlipped({});
   }, [restart, initialStep]);
 
   const needsCheck = step === 1 || step === 2;
@@ -321,6 +324,16 @@ export function ReadingM7bTrainer({
           questions={data.discussion.questions}
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
+        />
+      )}
+
+      {step === 4 && (
+        <PhraseFlipBoard
+          badge={data.phraseFlips.badge}
+          instruction={data.phraseFlips.instruction}
+          sections={data.phraseFlips.sections}
+          flipped={flipped}
+          setFlipped={setFlipped}
         />
       )}
 

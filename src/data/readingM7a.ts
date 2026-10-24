@@ -4,6 +4,7 @@
   "3 Matching endings",
   "4 Summary",
   "5 Discussion",
+  "6.1 Phrases",
 ] as const;
 
 export const READ_M7A_NEXT = [
@@ -11,6 +12,7 @@ export const READ_M7A_NEXT = [
   "3 Matching →",
   "4 Summary →",
   "5 Discussion →",
+  "6.1 Phrases →",
   "← К модулю",
 ] as const;
 
@@ -274,6 +276,145 @@ export const readingM7a = {
     suggestedAnswer: [
       "Closing streets to traffic can cut pollution and make walking safer and more pleasant. Cities such as Mexico City have introduced car-free days, and the initiative has generally been successful in raising awareness, though enforcement and public transport alternatives remain important.",
       "Cycling can be dangerous where roads are narrow and drivers are not used to sharing space with bikes. Protected cycle lanes, awareness campaigns, and lower speed limits could encourage more cyclists while reducing accidents.",
+    ],
+  },
+  phraseFlips: {
+    badge: "6.1",
+    instruction:
+      "Phrases from the passage for Speaking and Writing. Click a card to see the Russian gloss and a short usage note.",
+    sections: [
+      {
+        id: "origins",
+        title: "¶1–4 · Raahgiri, Ciclovía and urban policy",
+        cards: [
+          {
+            en: "become ubiquitously associated with",
+            ru: "стал повсеместно ассоциироваться с…",
+            tip: "Отличный академический способ сказать, что вещь известна всем.",
+          },
+          {
+            en: "ever since its inception",
+            ru: "с самого его/её начала (основания)",
+            tip: 'Вместо простого "since it started".',
+          },
+          {
+            en: "a ground-breaking event",
+            ru: "революционное / новаторское событие",
+            tip: 'Сильная замена для "important" или "new".',
+          },
+          {
+            en: "raise awareness about the benefits of",
+            ru: "повышая осведомлённость о преимуществах чего-либо",
+            tip: "Клише-мастхэв для эссе на тему экологии и здоровья.",
+          },
+          {
+            en: "a model community occurrence to which other Indian cities can aspire",
+            ru: "образцовое явление, к которому могут стремиться другие города",
+            tip: "Шикарная конструкция для описания хороших примеров и бенчмарков.",
+          },
+          {
+            en: "persisted in trying to convince them and finally succeeded",
+            ru: "упорствовал в попытках убедить их и в конце концов добился успеха",
+            tip: "Для описания преодоления трудностей.",
+          },
+          {
+            en: "The inspiration for Bhatt's idea stemmed from",
+            ru: "Вдохновение для идеи возникло из / коренилось в…",
+            tip: 'Вместо "I got this idea from".',
+          },
+          {
+            en: "It was spearheaded by",
+            ru: "Это было инициировано / возглавлено (кем-то)",
+            tip: 'Заменяет скучное "was started by".',
+          },
+          {
+            en: "a major initiative to encourage large numbers of the population to",
+            ru: "крупная инициатива по поощрению широких слоёв населения к…",
+            tip: "Звучит очень масштабно и официально.",
+          },
+          {
+            en: "enjoy the presence of each other and feel a sense of belonging",
+            ru: "наслаждаться присутствием друг друга и чувствовать сопричастность",
+            tip: "Полезно для тем про социальную изоляцию и психологическое здоровье.",
+          },
+          {
+            en: "in urban areas which are already chronically overcrowded",
+            ru: "в городских районах, которые уже хронически перенаселены",
+            tip: "Сильное, эмоционально и академически точное описание городов.",
+          },
+          {
+            en: "In the face of growing concern",
+            ru: "Перед лицом растущей озабоченности…",
+            tip: "Прекрасный переход к описанию решений проблемы.",
+          },
+          {
+            en: "Proposals have been submitted by",
+            ru: "Предложения были представлены (кем-то)…",
+            tip: "Пассивный залог высокого уровня.",
+          },
+          {
+            en: "converting city centres into pedestrian precincts",
+            ru: "превращение центров городов в пешеходные зоны",
+            tip: "Precincts — продвинутый синоним для areas/zones.",
+          },
+          {
+            en: "opting to walk or cycle in preference to using their own cars",
+            ru: "привело к тому, что значительная часть людей предпочла ходить пешком или ездить на велосипеде, а не пользоваться транспортом или машиной",
+            tip: 'Конструкция "opt to X in preference to Y" — это уровень C2.',
+          },
+          {
+            en: "prioritise pedestrians and cyclists over motorists",
+            ru: "отдавать приоритет пешеходам перед автомобилистами",
+            tip: "Для Task 2 о городской политике и транспорте.",
+          },
+          {
+            en: "Cost-benefit analyses for planned investment",
+            ru: "Анализ затрат и выгод для планируемых инвестиций…",
+            tip: "Бизнес- и экономическая лексика, высоко ценится в IELTS.",
+          },
+        ],
+      },
+      {
+        id: "conflicts",
+        title: "¶5–6 · Cycling conflicts and gender",
+        cards: [
+          {
+            en: "have always resented sharing the road",
+            ru: "всегда возмущались необходимостью делить дорогу",
+            tip: "Resent doing smth — отличный глагол для выражения недовольства.",
+          },
+          {
+            en: "sets the pace",
+            ru: "задаёт темп / служит примером для подражания",
+            tip: "Идиома, означающая лидерство в какой-то сфере.",
+          },
+          {
+            en: "are following in its footsteps",
+            ru: "следуют по его стопам",
+            tip: "Классическая метафора для описания перенятия опыта.",
+          },
+          {
+            en: "with more stringent speed limits implemented for cars",
+            ru: "с введением более строгих ограничений скорости для…",
+            tip: "Stringent — синоним strict, звучит гораздо более академично.",
+          },
+          {
+            en: "more apprehensive than men when it comes to sharing roads with roaring traffic",
+            ru: "…особенно популярны среди женщин, которые… более опасливы/тревожны, чем мужчины, когда дело доходит до…",
+            tip: 'Слово apprehensive отлично заменяет "scared" или "afraid".',
+          },
+          {
+            en: "it rose from nearly zero to 7%",
+            ru: "доля выросла почти с нуля до 7% (Seville / велопоездки)",
+            tip: "Идеальный шаблон для описания графиков в IELTS Writing Task 1.",
+          },
+          {
+            en: "Activists are working hard to ensure past city planning mistakes are not repeated",
+            ru: "Активисты упорно работают над тем, чтобы ошибки прошлого в планировании городов не повторились…",
+            tip: "Для аргументации о том, что города должны учиться на ошибках.",
+          },
+        ],
+      },
     ],
   },
 };

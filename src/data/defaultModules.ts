@@ -443,6 +443,8 @@ export const defaultCourse: CourseData = {
                 "Multiple choice (two answers) 5–6",
                 "Task analysis + Discussion",
                 "Language pack (Speaking & Writing)",
+                "Cool phrases",
+                "Mind map",
               ],
               pages: "pp. 40–41",
               trainerId: "reading-m3-flow",
@@ -1276,11 +1278,12 @@ export const defaultCourse: CourseData = {
                 "Matching endings",
                 "Summary 6–9",
                 "Discussion",
+                "6.1 Phrases (flip cards)",
               ],
               pages: "pp. 104–105",
               trainerId: "reading-m7a-flow",
               trainerLabel:
-                "Raahgiri / Ciclovía · matching endings + summary.",
+                "Raahgiri / Ciclovía · matching endings + summary + phrases.",
             },
             {
               id: "7a-vocabulary",
@@ -1320,12 +1323,13 @@ export const defaultCourse: CourseData = {
                 "1 Before you listen",
                 "2a Synonyms",
                 "2b–2e Distractors",
-                "3 Exam form (no audio yet)",
+                "3 Exam form",
+                "Tracks 7.3–7.4",
               ],
               pages: "p. 108",
               trainerId: "listening-m7a-flow",
               trainerLabel:
-                "Section 1 · City Cycling Group (prep + exam; audio later).",
+                "Section 1 · Tracks 7.3 (2d–2e) + 7.4 (exam).",
             },
             {
               id: "7a-language",
@@ -1376,7 +1380,7 @@ export const defaultCourse: CourseData = {
               pages: "p. 111",
               trainerId: "listening-m7b-flow",
               trainerLabel:
-                "Section 1 · complaint form (prep + exam; audio later).",
+                "Section 1 · Tracks 7.5–7.7 (2a / 2c / exam).",
             },
             {
               id: "7b-language",
@@ -1418,11 +1422,12 @@ export const defaultCourse: CourseData = {
                 "Matching endings",
                 "Summary 6–10",
                 "Discussion",
+                "6.1 Phrases (flip cards)",
               ],
               pages: "pp. 114–115",
               trainerId: "reading-m7b-flow",
               trainerLabel:
-                "Autonomous vehicles · matching endings + summary.",
+                "Autonomous vehicles · matching endings + summary + phrases.",
             },
             {
               id: "7b-writing",

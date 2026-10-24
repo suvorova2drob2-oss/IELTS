@@ -503,7 +503,7 @@ function ActivityPanel({
                           return;
                         }
                         if (isReadingM3Flow) {
-                          startAt(Math.min(i, 6));
+                          startAt(i >= 7 ? 8 : i >= 6 ? 7 : i >= 5 ? 6 : i);
                           return;
                         }
                         if (isReadingM3bFlow) {

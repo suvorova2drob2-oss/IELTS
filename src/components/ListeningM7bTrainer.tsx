@@ -5,6 +5,7 @@ import {
   listeningM7b,
 } from "../data/listeningM7b";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { AudioPlayer } from "./AudioPlayer";
 
 const data = listeningM7b;
 
@@ -58,8 +59,6 @@ export function ListeningM7bTrainer({
           ))}
         </div>
       </div>
-      {data.noAudioNote && <p className="listen-m3b__note">{data.noAudioNote}</p>}
-
       {step === 0 && (
         <section className="listen-m3b__panel">
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.before.badge}</span>{data.before.instruction}</p>
@@ -68,8 +67,9 @@ export function ListeningM7bTrainer({
       )}
 
       {step === 1 && (
-        <section className="listen-m3b__panel">
+        <section className="listen-m3b__panel listen-m3b__panel--posneg">
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.posNeg.badge}</span>{data.posNeg.instruction}</p>
+          <AudioPlayer src={data.posNeg.audio} label={data.posNeg.audioLabel} />
           {data.posNeg.items.map((it) => (
             <div key={it.id} className="listen-m3b__q">
               <button type="button" className={`pr-chip ${answers[it.id] === "A" ? "pr-chip--picked" : ""} ${checked && it.key === "A" ? "pr-chip--ok" : ""}`}
@@ -78,8 +78,13 @@ export function ListeningM7bTrainer({
                 disabled={checked} onClick={() => setAnswers((m) => ({ ...m, [it.id]: "B" }))}>B. {it.b}</button>
             </div>
           ))}
-          <p className="read-m3__tip">{data.posNeg.partB.tip}</p>
+          <p className="read-m3__instr read-m3__instr--sub">
+            <span className="write-m2a__badge">{data.posNeg.partB.badge}</span>
+            {data.posNeg.partB.instruction}
+          </p>
+          <p className="read-m3__tip listen-m7b__2b-tip">{data.posNeg.partB.tip}</p>
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.posNeg.partC.badge}</span>{data.posNeg.partC.instruction}</p>
+          <AudioPlayer src={data.posNeg.partC.audio} label={data.posNeg.partC.audioLabel} />
           {data.posNeg.partC.items.map((q) => (
             <div key={q.id} className="listen-m3b__q">
               <p>{q.id}. {q.text}</p>
@@ -93,35 +98,71 @@ export function ListeningM7bTrainer({
       )}
 
       {step === 2 && (
-        <section className="listen-m3b__panel">
-          <p className="write-m2a__expert">{data.exam.strategies}</p>
-          <p className="listen-m3b__note">{data.exam.audioNote}</p>
-          <p className="read-m3__instr"><span className="write-m2a__badge">{data.exam.badge}</span>{data.exam.instruction}</p>
-          {data.exam.mc.map((q) => (
-            <div key={q.id} className="listen-m3b__q">
-              <p>{q.id}. {q.text}</p>
-              <div className="read-m3__bank">{q.options.map((o) => (
-                <button key={o.id} type="button" className={`pr-chip ${answers[q.id] === o.id ? "pr-chip--picked" : ""} ${checked && o.id === q.key ? "pr-chip--ok" : ""}`}
-                  disabled={checked} onClick={() => setAnswers((m) => ({ ...m, [q.id]: o.id }))}>{o.id}. {o.text}</button>
-              ))}</div>
-            </div>
-          ))}
-          <p className="read-m3__hint"><strong>{data.exam.formTitle}</strong></p>
-          <ul className="read-m3__para-slots listen-m3b__grid">
-            {data.exam.gaps.map((g) => {
-              const val = answers[g.id] ?? "";
-              const ok = g.answers.some((a) => norm(a) === norm(val));
-              return (
-                <li key={g.id}>
-                  <span>{g.id}. {g.label}{" "}
-                    <input className="inline-gap-input" value={val} disabled={checked}
-                      onChange={(e) => setAnswers((m) => ({ ...m, [g.id]: e.target.value }))} />
-                    {checked && !ok && <span className="inline-gap-bad"> → {g.answers[0]}</span>}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+        <section className="listen-m3b__panel listen-m3b__panel--exam listen-m7b__panel--exam">
+          <div className="listen-m3b__exam-head listen-m7b__exam-head">
+            <p className="write-m2a__expert">{data.exam.strategies}</p>
+            <AudioPlayer src={data.exam.audio} label={data.exam.audioLabel} />
+            <p className="listen-m3b__instr">
+              <span className="write-m2a__badge">{data.exam.badge}</span>
+              {data.exam.instruction}
+            </p>
+          </div>
+          <div className="listen-m3b__qgrid flow-stage__body">
+            <article className="listen-m3b__box">
+              <h3>Questions 1–4</h3>
+              <div className="listen-m7b__mc-grid">
+                {data.exam.mc.map((q) => (
+                  <div key={q.id} className="listen-m7b__mc">
+                    <p className="listen-m7b__mc-stem">
+                      {q.id}. {q.text}
+                    </p>
+                    <div className="listen-m7b__mc-opts">
+                      {q.options.map((o) => (
+                        <button
+                          key={o.id}
+                          type="button"
+                          className={`pr-chip listen-m3b__opt ${answers[q.id] === o.id ? "pr-chip--picked" : ""} ${checked && o.id === q.key ? "pr-chip--ok" : ""} ${checked && answers[q.id] === o.id && o.id !== q.key ? "pr-chip--bad" : ""}`}
+                          disabled={checked}
+                          onClick={() =>
+                            setAnswers((m) => ({ ...m, [q.id]: o.id }))
+                          }
+                        >
+                          {o.id}. {o.text}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </article>
+            <article className="listen-m3b__box">
+              <h3>{data.exam.formTitle}</h3>
+              <ul className="listen-m7b__form-grid">
+                {data.exam.gaps.map((g) => {
+                  const val = answers[g.id] ?? "";
+                  const ok = g.answers.some((a) => norm(a) === norm(val));
+                  return (
+                    <li key={g.id}>
+                      <span>
+                        {g.id}. {g.label}{" "}
+                        <input
+                          className={`listen-m3b__input ${checked && ok ? "listen-m3b__input--ok" : ""} ${checked && !ok ? "listen-m3b__input--bad" : ""}`}
+                          value={val}
+                          disabled={checked}
+                          onChange={(e) =>
+                            setAnswers((m) => ({ ...m, [g.id]: e.target.value }))
+                          }
+                        />
+                        {checked && !ok && (
+                          <span className="inline-gap-bad"> → {g.answers[0]}</span>
+                        )}
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </article>
+          </div>
         </section>
       )}
 

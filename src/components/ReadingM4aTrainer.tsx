@@ -38,6 +38,15 @@ export function ReadingM4aTrainer({
 }) {
   const [step, setStep] = useState(() => clampStep(initialStep));
   const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    const btn = document.querySelector<HTMLButtonElement>(
+      ".read-m3 .learn-step-tabs__btn--on",
+    );
+    const strip = btn?.parentElement;
+    if (!btn || !strip) return;
+    strip.scrollTo({ left: Math.max(0, btn.offsetLeft - 8) });
+  }, [step]);
   const [types, setTypes] = useState<string[]>([]);
   const [fnNotes, setFnNotes] = useState<Record<string, string>>({});
   const [match, setMatch] = useState<Record<number, string>>({});
@@ -45,6 +54,13 @@ export function ReadingM4aTrainer({
   const [summary, setSummary] = useState<Record<number, string>>({});
   const [openLangTheme, setOpenLangTheme] = useState<string | null>(null);
   const [flipped, setFlipped] = useState<Record<number, boolean>>({});
+  const [paraId, setParaId] = useState<(typeof LETTERS)[number]>("A");
+  const [taskOpen, setTaskOpen] = useState(false);
+
+  useEffect(() => {
+    setTaskOpen(false);
+    setParaId("A");
+  }, [step]);
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -132,18 +148,72 @@ export function ReadingM4aTrainer({
   const nextLabel =
     needsCheck && !checked ? "Check →" : READ_M4A_NEXT[step];
 
+  const paraIndex = LETTERS.indexOf(paraId);
+  const bookMode = taskOpen ? "read-m3__split--task" : "read-m3__split--read";
+  const bookSwitch = (
+    <div className="read-book-switch">
+      <button
+        type="button"
+        className={!taskOpen ? "is-on" : ""}
+        onClick={() => setTaskOpen(false)}
+      >
+        Читать
+      </button>
+      <button
+        type="button"
+        className={taskOpen ? "is-on" : ""}
+        onClick={() => setTaskOpen(true)}
+      >
+        Задание
+      </button>
+    </div>
+  );
+
   const passagePane = (
-    <article className="read-m3__passage">
+    <article className="read-m3__passage read-m3__passage--page">
       <header className="read-m3__hero read-m3__hero--compact">
         <div>
           <h2>{data.title}</h2>
         </div>
       </header>
+      <div className="read-book-paras">
+        {LETTERS.map((id) => (
+          <button
+            key={id}
+            type="button"
+            className={id === paraId ? "is-on" : ""}
+            onClick={() => setParaId(id)}
+          >
+            {id}
+          </button>
+        ))}
+      </div>
       {data.passage.map((p) => (
-        <p key={p.id}>
+        <p key={p.id} className={p.id === paraId ? "is-on" : ""}>
           <strong className="read-m3__para-id">{p.id}</strong> {p.text}
         </p>
       ))}
+      <div className="read-book-turn">
+        <button
+          type="button"
+          disabled={paraIndex <= 0}
+          onClick={() => setParaId(LETTERS[paraIndex - 1])}
+        >
+          ← {paraIndex > 0 ? LETTERS[paraIndex - 1] : ""}
+        </button>
+        {paraIndex < LETTERS.length - 1 ? (
+          <button
+            type="button"
+            onClick={() => setParaId(LETTERS[paraIndex + 1])}
+          >
+            {LETTERS[paraIndex + 1]} →
+          </button>
+        ) : (
+          <button type="button" onClick={() => setTaskOpen(true)}>
+            К заданию →
+          </button>
+        )}
+      </div>
     </article>
   );
 
@@ -189,7 +259,8 @@ export function ReadingM4aTrainer({
       )}
 
       {step === 1 && (
-        <section className="read-m3__split">
+        <section className={`read-m3__split ${bookMode}`}>
+          {bookSwitch}
           {passagePane}
           <aside className="read-m3__side">
             <p className="read-m3__instr">
@@ -230,7 +301,8 @@ export function ReadingM4aTrainer({
       )}
 
       {step === 2 && (
-        <section className="read-m3__split">
+        <section className={`read-m3__split ${bookMode}`}>
+          {bookSwitch}
           {passagePane}
           <aside className="read-m3__side">
             <p className="read-m3__instr">
@@ -257,7 +329,8 @@ export function ReadingM4aTrainer({
       )}
 
       {step === 3 && (
-        <section className="read-m3__split read-m3__split--exam">
+        <section className={`read-m3__split read-m3__split--exam ${bookMode}`}>
+          {bookSwitch}
           {passagePane}
           <aside className="read-m3__side read-m3__side--exam">
             <p className="write-m2a__expert">{data.matchingInfo.strategies}</p>
@@ -314,7 +387,8 @@ export function ReadingM4aTrainer({
       )}
 
       {step === 4 && (
-        <section className="read-m3__split read-m3__split--exam">
+        <section className={`read-m3__split read-m3__split--exam ${bookMode}`}>
+          {bookSwitch}
           {passagePane}
           <aside className="read-m3__side read-m3__side--exam">
             <p className="write-m2a__expert">{data.summary.strategies}</p>

@@ -8,6 +8,8 @@ export const READ_M3_STEPS = [
   "4 Task analysis",
   "5 Discussion",
   "6 Language pack",
+  "Cool phrases",
+  "Mind map",
 ] as const;
 
 export const READ_M3_NEXT = [
@@ -17,6 +19,8 @@ export const READ_M3_NEXT = [
   "4 Analysis →",
   "5 Discussion →",
   "Language pack →",
+  "Cool phrases →",
+  "Mind map →",
   "← К модулю",
 ] as const;
 
@@ -315,6 +319,160 @@ export const readingM3 = {
             phrase: "incorporate this into every aspect of our daily lives",
             sentence:
               "We may never know the precise relationship between nature and health and perhaps it is irrelevant but we do know how nature makes us feel and the challenge is now to incorporate this into every aspect of our daily lives.",
+          },
+        ],
+      },
+    ],
+  },
+  coolPhrases: [
+    "to be hard-wired to",
+    "a deep-rooted instinct",
+    "feel increasingly lonely, undervalued and stressed",
+    "is expected to rise to about 70 percent",
+    "will undoubtedly be a threat to",
+    "Health professionals have long expressed concern about",
+    "we start to crave sugar and fat",
+    "we are too tired to exercise and we may indulge in bad habits such as smoking or alcohol",
+    "this causes toxic fat to be laid down in our stomachs",
+    "we become more prone to disease and start to age more quickly",
+    "nearsightedness",
+    "a lower incidence of illness amongst inmates in prison cells",
+    "Studies such as these",
+    "make exposure to the outdoors an essential feature of healthcare, education, planning and community development",
+    "Inspiring initiatives are already underway",
+    "help stem an increase in the prevalence of stress",
+    "the challenge is now to incorporate this into every aspect of our daily lives",
+  ],
+  mindMap: {
+    centre: "🌳 The Relationship Between Nature and Health",
+    branches: [
+      {
+        id: "A",
+        emoji: "🖥️",
+        title: "Conflict of Human Nature and Urbanization",
+        sections: [
+          {
+            label: "Deep-Rooted Instincts",
+            details: [
+              "Hard-wired to be hunter-gatherers: strong bond with nature",
+              "Clear purpose in life: responsible for set tasks, community support",
+            ],
+          },
+          {
+            label: "Advances in Industrialization and Technology",
+            details: [
+              "Sedentary and isolated life: computers / vehicles more than outdoors",
+              "Feel increasingly lonely, undervalued and stressed",
+            ],
+          },
+          {
+            label: "The Urban Trend",
+            details: [
+              "Expected to rise to about 70 percent in the next three decades",
+              "Artificial noise, air pollution and traffic",
+            ],
+          },
+          {
+            label: "A Pervasive Sentiment",
+            details: [
+              "Threat to physical and psychological well-being",
+              "Paracelsus: healing comes from nature, not the physician",
+            ],
+          },
+        ],
+      },
+      {
+        id: "B",
+        emoji: "🛑",
+        title: "The Effects of Chronic Stress",
+        sections: [
+          {
+            label: "Widespread Health Issues",
+            details: [
+              "Can lead to diabetes, obesity, depression, dementia and heart disease",
+            ],
+          },
+          {
+            label: "Way 1: Behavioural Change",
+            details: [
+              "Crave sugar and fat",
+              "Too tired to exercise",
+              "Indulge in bad habits such as smoking or alcohol",
+            ],
+          },
+          {
+            label: "Way 2: Direct Biological Impact",
+            details: [
+              "Cortisol is released",
+              "Toxic fat laid down in our stomachs",
+              "Malfunction of mitochondria",
+              "More prone to disease and start to age more quickly",
+            ],
+          },
+        ],
+      },
+      {
+        id: "C",
+        emoji: "🔬",
+        title: "Quantifiable Scientific Research",
+        sections: [
+          {
+            label: "Investigating the Effects of Nature",
+            details: [
+              "What once appeared solely intuitive can now be quantified",
+              "Trees and flowers positively impact people’s well-being",
+            ],
+          },
+          {
+            label: "Landmark Studies",
+            details: [
+              "Dutch researchers: lower incidence of 15 diseases near green spaces",
+              "Chicago gardens: less crime, more neighbour support",
+            ],
+          },
+          {
+            label: "The “Window Effect” (trees rather than concrete)",
+            details: [
+              "Office workers: increased concentration",
+              "Hospital patients: faster recovery, less pain relief",
+              "Prison cells: lower incidence of illness amongst inmates",
+              "Playgrounds: less bullying",
+            ],
+          },
+        ],
+      },
+      {
+        id: "D",
+        emoji: "🚴",
+        title: "Future Schemes and Initiatives",
+        sections: [
+          {
+            label: "Main Priorities in the Modern World",
+            details: [
+              "Exposure to the outdoors as essential in healthcare, education, planning",
+            ],
+          },
+          {
+            label: "Inspiring Initiatives Underway",
+            details: [
+              "Tree planting",
+              "Schemes to walk or cycle",
+              "Children more involved in outdoor pursuits",
+            ],
+          },
+          {
+            label: "Innovative Approaches",
+            details: [
+              "Prescribe nature — stem prevalence of stress and chronic disease",
+              "Park visits, conservation work, ‘health walks’",
+              "Finland: five hours a month — walking, mindfulness, reflection",
+            ],
+          },
+          {
+            label: "The Challenge Now",
+            details: [
+              "Incorporate nature into every aspect of our daily lives",
+            ],
           },
         ],
       },

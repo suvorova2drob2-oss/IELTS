@@ -5,6 +5,7 @@ import {
   readingM7a,
 } from "../data/readingM7a";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { PhraseFlipBoard } from "./PhraseFlipBoard";
 
 const data = readingM7a;
 
@@ -27,6 +28,7 @@ export function ReadingM7aTrainer({
   const [showTip, setShowTip] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Record<number, string>>({});
+  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -35,6 +37,7 @@ export function ReadingM7aTrainer({
     setShowTip(false);
     setPicked(null);
     setAnswers({});
+    setFlipped({});
   }, [restart, initialStep]);
 
   const used = new Set(Object.values(answers));
@@ -149,7 +152,7 @@ export function ReadingM7aTrainer({
       )}
 
       {step === 2 && (
-        <div className="read-m3__split">
+        <section className="read-m3__split read-m3__split--exam">
           <article className="read-m3__passage">
             <header className="read-m3__hero read-m3__hero--compact">
               <div>
@@ -163,19 +166,12 @@ export function ReadingM7aTrainer({
               </p>
             ))}
           </article>
-          <section className="read-m3__panel">
+          <aside className="read-m3__side read-m3__side--exam">
+            <p className="write-m2a__expert">{data.matching.strategies}</p>
             <p className="read-m3__instr">
               <span className="write-m2a__badge">{data.matching.badge}</span>
               {data.matching.instruction}
             </p>
-            <p className="read-m3__hint">{data.matching.strategies}</p>
-            <ul className="read-m3__opts">
-              {data.matching.endings.map((o) => (
-                <li key={o.id}>
-                  <strong>{o.id}</strong> {o.text}
-                </li>
-              ))}
-            </ul>
             <div className="read-m3__bank">
               {data.matching.endings.map((o) => (
                 <button
@@ -189,32 +185,42 @@ export function ReadingM7aTrainer({
                 </button>
               ))}
             </div>
-            <ul className="read-m3__para-slots listen-m3b__grid">
+            <ul className="pr-endings__bank">
+              {data.matching.endings.map((o) => (
+                <li
+                  key={o.id}
+                  className={used.has(o.id) ? "pr-endings__bank-item--used" : undefined}
+                >
+                  <strong>{o.id}</strong> {o.text}
+                </li>
+              ))}
+            </ul>
+            <ul className="read-m3__para-slots read-m3__para-slots--endings">
               {data.matching.stems.map((s) => {
                 const val = answers[s.id] ?? "";
                 const ok = val === s.key;
                 return (
                   <li key={s.id}>
                     <span>
-                      {s.id}. {s.text}{" "}
-                      <button
-                        type="button"
-                        className={`read-m3__slot ${val ? "read-m3__slot--filled" : ""} ${checked ? (ok ? "read-m3__slot--ok" : "read-m3__slot--bad") : ""}`}
-                        disabled={checked}
-                        onClick={() => place(s.id)}
-                      >
-                        {val || "—"}
-                      </button>
-                      {checked && !ok && (
-                        <span className="inline-gap-bad"> → {s.key}</span>
-                      )}
+                      {s.id}. {s.text}
                     </span>
+                    <button
+                      type="button"
+                      className={`read-m3__slot ${val ? "read-m3__slot--filled" : ""} ${picked && !val ? "read-m3__slot--ready" : ""} ${checked ? (ok ? "read-m3__slot--ok" : "read-m3__slot--bad") : ""}`}
+                      disabled={checked}
+                      onClick={() => place(s.id)}
+                    >
+                      {val || "—"}
+                    </button>
+                    {checked && !ok && (
+                      <span className="inline-gap-bad"> → {s.key}</span>
+                    )}
                   </li>
                 );
               })}
             </ul>
-          </section>
-        </div>
+          </aside>
+        </section>
       )}
 
       {step === 3 && (
@@ -288,6 +294,16 @@ export function ReadingM7aTrainer({
           questions={data.discussion.questions}
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
+        />
+      )}
+
+      {step === 5 && (
+        <PhraseFlipBoard
+          badge={data.phraseFlips.badge}
+          instruction={data.phraseFlips.instruction}
+          sections={data.phraseFlips.sections}
+          flipped={flipped}
+          setFlipped={setFlipped}
         />
       )}
 

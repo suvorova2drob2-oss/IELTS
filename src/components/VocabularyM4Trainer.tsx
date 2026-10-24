@@ -763,11 +763,6 @@ export function VocabularyM4Trainer({
             <span className="write-m2a__badge">{data.collocations5b.badge}</span>
             {data.collocations5b.instruction}
           </p>
-          <p className="vocab-m3__place-hint">
-            {picked
-              ? `Selected “${picked}” — click a gap`
-              : "Click a phrase from the bank, then click a gap."}
-          </p>
           <div className="vocab-m3__bank">
             {data.collocations5b.bank.map((w) => {
               const used = usedColo5b.has(w);

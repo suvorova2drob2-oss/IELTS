@@ -1,4 +1,6 @@
-﻿export const LISTEN_M7B_STEPS = [
+﻿import { EXPERT_M7_AUDIO } from "./expertAudio";
+
+export const LISTEN_M7B_STEPS = [
   "1 Before listen",
   "2a–2c Pos/Neg",
   "3 Exam MC + form",
@@ -18,8 +20,6 @@ export const listeningM7b = {
   id: "listening-m7b-flow",
   bookPages: "p. 111 in your coursebook",
   sectionTitle: "Listening · Section 1",
-  noAudioNote:
-    "Аудио пока нет — задания можно пройти по ключам Teacher's Book.",
   before: {
     badge: "1",
     heading: "Before you listen",
@@ -29,6 +29,8 @@ export const listeningM7b = {
   },
   posNeg: {
     badge: "2a",
+    audio: EXPERT_M7_AUDIO.track07_05,
+    audioLabel: "Track 7.5 · Exercise 2a",
     instruction: "Listen and tick the sentence you hear. (Keys from TB.)",
     items: [
       {
@@ -52,6 +54,8 @@ export const listeningM7b = {
     },
     partC: {
       badge: "c",
+      audio: EXPERT_M7_AUDIO.track07_06,
+      audioLabel: "Track 7.6 · Exercise 2c",
       instruction: "Listen and answer the questions in Exercise 2b. (Keys: 1 A, 2 A.)",
       items: [
         {
@@ -80,7 +84,8 @@ export const listeningM7b = {
   exam: {
     badge: "3",
     strategies: "TEST STRATEGIES page 168",
-    audioNote: "Track 7.7 — audio later",
+    audio: EXPERT_M7_AUDIO.track07_07,
+    audioLabel: "Track 7.7 · Section 1 exam",
     instruction: "Complete the test tasks.",
     mc: [
       {

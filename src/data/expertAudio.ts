@@ -39,6 +39,20 @@ export const EXPERT_M3_AUDIO = {
   track03_07: expertTrack(3, "03_07"),
 } as const;
 
+/** Module 7 · On the move (Listening p. 108–111) — hosted on Yandex. */
+export const EXPERT_M7_AUDIO = {
+  /** Listening 7a · 2d–2e climbing club (script 7.3) */
+  track07_03: expertTrackHosted(7, "07_03"),
+  /** Listening 7a · Section 1 exam City Cycling Group (script 7.4) */
+  track07_04: expertTrackHosted(7, "07_04"),
+  /** Listening 7b · 2a tick the sentence (plane / cruise) */
+  track07_05: expertTrackHosted(7, "07_05"),
+  /** Listening 2c · bus journey MC (after 2b) */
+  track07_06: expertTrackHosted(7, "07_06"),
+  /** Listening 3 · Section 1 exam (Silvia complaint) */
+  track07_07: expertTrackHosted(7, "07_07"),
+} as const;
+
 /** Module 4 · A consumer society (Listening p. 60–63) — hosted on Yandex (CD track names). */
 export const EXPERT_M4_AUDIO = {
   /** Listening 4a · Section 2 exam (upcycling workshops, script 4.1) */

@@ -609,6 +609,64 @@ export function ReadingM3Trainer({
         </section>
       )}
 
+      {step === 7 && (
+        <section className="read-m4a__phrases">
+          <h2 className="read-m3__h">Cool phrases</h2>
+          <ol className="read-m4a__phrase-grid">
+            {data.coolPhrases.map((phrase, i) => (
+              <li key={phrase}>
+                <span>{i + 1}</span>
+                {phrase}
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      {step === 8 && (
+        <section className="read-m3__mind">
+          <div className="read-m3__mind-body">
+            <div className="read-m3__mind-centre" role="heading" aria-level={3}>
+              {data.mindMap.centre}
+            </div>
+            <div className="read-m3__mind-branches">
+              {data.mindMap.branches.map((branch) => (
+                <article
+                  key={branch.id}
+                  className={`read-m3__mind-branch read-m3__mind-branch--${branch.id.toLowerCase()}`}
+                >
+                  <header className="read-m3__mind-branch-head">
+                    <span className="read-m3__mind-branch-id">{branch.id}</span>
+                    <span className="read-m3__mind-branch-emoji" aria-hidden>
+                      {branch.emoji}
+                    </span>
+                    <span className="read-m3__mind-branch-title">
+                      {branch.title}
+                    </span>
+                  </header>
+                  <ul className="read-m3__mind-sections">
+                    {branch.sections.map((sec) => (
+                      <li key={sec.label} className="read-m3__mind-section">
+                        <p className="read-m3__mind-idea">{sec.label}</p>
+                        <ul
+                          className={`read-m3__mind-details${sec.details.length > 2 ? " read-m3__mind-details--grid" : ""}`}
+                        >
+                          {sec.details.map((d) => (
+                            <li key={d} className="read-m3__mind-detail">
+                              {d}
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <div
         className={`flow-footer ${checked && needsCheck ? "flow-footer--checked" : ""}`}
       >

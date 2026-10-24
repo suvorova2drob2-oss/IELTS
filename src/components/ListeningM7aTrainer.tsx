@@ -5,6 +5,7 @@ import {
   listeningM7a,
 } from "../data/listeningM7a";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { AudioPlayer } from "./AudioPlayer";
 
 const data = listeningM7a;
 
@@ -62,8 +63,6 @@ export function ListeningM7aTrainer({
           ))}
         </div>
       </div>
-      {data.noAudioNote && <p className="listen-m3b__note">{data.noAudioNote}</p>}
-
       {step === 0 && (
         <section className="listen-m3b__panel">
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.before.badge}</span>{data.before.instruction}</p>
@@ -97,8 +96,8 @@ export function ListeningM7aTrainer({
 
       {step === 2 && (
         <section className="listen-m3b__panel">
-          <p className="listen-m3b__note">{data.practice.audioNote}</p>
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.practice.badge}</span>{data.practice.instruction}</p>
+          <AudioPlayer src={data.practice.audio} label={data.practice.audioLabel} />
           {data.practice.mc.map((q) => (
             <div key={q.id} className="listen-m3b__q">
               <p>{q.id}. {q.text}</p>
@@ -137,7 +136,7 @@ export function ListeningM7aTrainer({
       {step === 3 && (
         <section className="listen-m3b__panel">
           <p className="write-m2a__expert">{data.exam.strategies}</p>
-          <p className="listen-m3b__note">{data.exam.audioNote}</p>
+          <AudioPlayer src={data.exam.audio} label={data.exam.audioLabel} />
           <p className="read-m3__instr"><span className="write-m2a__badge">{data.exam.badge}</span>{data.exam.instruction}</p>
           <p className="read-m3__hint"><strong>{data.exam.formTitle}</strong></p>
           <ul className="read-m3__para-slots">

@@ -3,12 +3,14 @@
   "2a Strategies",
   "3 Matching + summary",
   "4 Discussion",
+  "6.1 Phrases",
 ] as const;
 
 export const READ_M7B_NEXT = [
   "2a Strategies →",
   "3 Exam →",
   "4 Discussion →",
+  "6.1 Phrases →",
   "← К модулю",
 ] as const;
 
@@ -197,6 +199,135 @@ export const readingM7b = {
       "Technology has transformed transport through faster engines, GPS navigation, online booking, and real-time traffic apps. High-speed rail and electric vehicles have also made long-distance and urban travel cleaner and more efficient.",
       "Many people would hesitate to share the road with autonomous vehicles because they do not trust machines to react to unexpected situations. Others might welcome robots if safety statistics clearly show fewer accidents than with human drivers.",
       "Autonomous cars could raise issues around hacking, legal liability after accidents, and job losses for professional drivers. There are also ethical dilemmas when a vehicle must choose between different types of harm in an emergency.",
+    ],
+  },
+  phraseFlips: {
+    badge: "6.1",
+    instruction:
+      "Phrases from the passage for Speaking and Writing. Click a card to see the Russian gloss and a short usage note.",
+    sections: [
+      {
+        id: "vision",
+        title: "¶1–4 · Vision, pods and car ownership",
+        cards: [
+          {
+            en: "promise to be as disruptive and transformative a technology as",
+            ru: "обещает стать такой же подрывной (прорывной) и трансформирующей технологией, как…",
+            tip: 'Грамматика C2: "as + прилагательное + a + существительное + as".',
+          },
+          {
+            en: "envisage the future of self-driving technology as",
+            ru: "представляют себе будущее технологий как…",
+            tip: 'Отличная замена базовому "think about the future".',
+          },
+          {
+            en: "moving on dedicated elevated roadways",
+            ru: "движущиеся по выделенным эстакадам/дорогам",
+            tip: 'Слово "dedicated" незаменимо при описании инфраструктуры.',
+          },
+          {
+            en: "avoiding other pods and neatly parking itself on arrival",
+            ru: "избегая других капсул и аккуратно паркуясь по прибытии",
+            tip: "Деепричастный оборот — динамика и плавность текста.",
+          },
+          {
+            en: "can be summoned and dismissed at will",
+            ru: "могут быть вызваны и отозваны по желанию (в любой момент)",
+            tip: "Сильная идиома для описания удобства сервиса.",
+          },
+          {
+            en: "they promise to redefine urban life as we know it",
+            ru: "они обещают полностью переосмыслить городскую жизнь, какой мы её знаем",
+            tip: "Мощный клише-оборот для масштабных реформ.",
+          },
+          {
+            en: "which facilitated suburbanisation and became symbols of self-definition",
+            ru: "что способствовало субурбанизации и стало символом самовыражения",
+            tip: "Facilitate — академическое «способствовать / облегчать».",
+          },
+          {
+            en: "will also challenge the very notion of car ownership",
+            ru: "также поставит под сомнение само понятие владения автомобилем",
+            tip: "Challenge the very notion — уровень C2 для оспаривания догм.",
+          },
+          {
+            en: 'is a "tenuous assumption"',
+            ru: "является «шатким / слабым предположением»",
+            tip: "Tenuous — для критики слабой аргументации.",
+          },
+        ],
+      },
+      {
+        id: "impact",
+        title: "¶5–8 · Industry, safety and culture",
+        cards: [
+          {
+            en: "are vying for control of the new technology",
+            ru: "ведут борьбу (соперничают) за контроль над новой технологией",
+            tip: 'Vying for — сильнее банального "competing".',
+          },
+          {
+            en: "is also likely to experience major upheavals as",
+            ru: "также, вероятно, переживёт серьёзные потрясения, поскольку…",
+            tip: "Upheaval — кризис / переворот / потрясение.",
+          },
+          {
+            en: "in jeopardy now the first self-driving truck has taken to the road",
+            ru: "окажутся под угрозой, когда первый беспилотный грузовик выехал на дорогу",
+            tip: 'In jeopardy — академический синоним "at risk".',
+          },
+          {
+            en: "94% of road accidents reputedly being the result of human error",
+            ru: "причём 94% ДТП, как утверждают, — результат человеческой ошибки",
+            tip: "Reputedly — «по общему мнению», меньше категоричности.",
+          },
+          {
+            en: "accidents should be dramatically reduced, if not eradicated",
+            ru: "аварии должны быть резко сокращены, если не искоренены полностью",
+            tip: 'Конструкция "reduced, if not eradicated" звучит зрело.',
+          },
+          {
+            en: "will consider banning ordinary cars on the grounds of safety",
+            ru: "рассмотрят возможность запрета обычных автомобилей из соображений безопасности",
+            tip: 'On the grounds of — вместо "because of".',
+          },
+          {
+            en: "make traffic flow more smoothly because they would not brake erratically",
+            ru: "сделает поток более плавным, поскольку они не будут резко тормозить",
+            tip: "Erratically — непредсказуемо, хаотично.",
+          },
+          {
+            en: "the resulting productivity gains could be worth an incredible",
+            ru: "полученный рост производительности может составить невероятную сумму в…",
+            tip: "Для Task 1 / аргументации об экономическом эффекте.",
+          },
+          {
+            en: "will doubtless mourn the passing of machines that became icons of self-determination",
+            ru: "несомненно, будут оплакивать уход машин, ставших символами самоопределения",
+            tip: "Mourn the passing — сильно о конце эпохи (C2).",
+          },
+          {
+            en: "But this independence is purely illusory",
+            ru: "Но эта независимость чисто иллюзорна",
+            tip: "Емко для развенчания мифов.",
+          },
+          {
+            en: "are far from most people's experience of driving",
+            ru: "далеки от реального опыта большинства людей за рулём",
+            tip: "Реклама/теория vs суровая реальность.",
+          },
+          {
+            en: "people will doubtless be incredulous as to why",
+            ru: "люди будут недоумевать / не верить, почему…",
+            tip: 'Incredulous — скептический, "не могу поверить".',
+          },
+          {
+            en: "why such a high rate of road deaths was tolerated for so long",
+            ru: "почему такой высокий уровень смертности на дорогах терпели так долго",
+            tip: "Пассивный залог + was tolerated — академичный тон.",
+          },
+        ],
+      },
     ],
   },
 };
