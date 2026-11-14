@@ -1,4 +1,6 @@
-import cuttingImg from "../assets/lead-in-m10-cutting.png";
+import bernersImg from "../assets/lead-in-m10-berners.jpg";
+import andoImg from "../assets/lead-in-m10-ando.svg";
+import lamarrImg from "../assets/lead-in-m10-lamarr.svg";
 import type { LeadInData } from "./leadInIntelligence";
 
 /** Module 10 · Cutting edge · Lead-in · p. 151 */
@@ -13,11 +15,28 @@ export const leadInCutting: LeadInData = {
     "Look at the photos. Can you match the people with their inventions? Discuss what makes a great inventor — is creativity or knowledge more important? The module title Cutting edge means new and exciting.",
   photos: [
     {
-      id: "cutting",
-      src: cuttingImg,
-      label: "Cutting edge",
-      intelligenceType: "",
-      hint: "",
+      id: "berners",
+      src: bernersImg,
+      label: "Inventor A",
+      intelligenceType: "World Wide Web",
+      hint: "Tim Berners-Lee — world wide web",
+      objectFit: "cover",
+      objectPosition: "center top",
+    },
+    {
+      id: "ando",
+      src: andoImg,
+      label: "Inventor B",
+      intelligenceType: "Instant noodles",
+      hint: "Momofuku Ando — instant noodles",
+      objectFit: "contain",
+    },
+    {
+      id: "lamarr",
+      src: lamarrImg,
+      label: "Inventor C",
+      intelligenceType: "Radio guidance",
+      hint: "Hedy Lamarr — radio guidance technology",
       objectFit: "contain",
     },
   ],

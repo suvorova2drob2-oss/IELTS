@@ -1,11 +1,11 @@
 ﻿import { useEffect, useState } from "react";
 import {
-  checkReadM10a,
   READ_M10A_NEXT,
   READ_M10A_STEPS,
   readingM10a,
 } from "../data/readingM10a";
 import { ExpertDiscussPanel } from "./ExpertDiscussPanel";
+import { PhraseFlipBoard } from "./PhraseFlipBoard";
 
 const data = readingM10a;
 
@@ -28,7 +28,9 @@ export function ReadingM10aTrainer({
   const [showTip, setShowTip] = useState(false);
   const [picked, setPicked] = useState<string | null>(null);
   const [words, setWords] = useState<Record<number, string>>({});
-  const [gaps, setGaps] = useState<Record<number, string>>({});
+  const [endings, setEndings] = useState<Record<number, string>>({});
+  const [mcq, setMcq] = useState<Record<number, string>>({});
+  const [flipped, setFlipped] = useState<Record<number, boolean>>({});
 
   useEffect(() => {
     if (!restart && initialStep == null) return;
@@ -37,22 +39,40 @@ export function ReadingM10aTrainer({
     setShowTip(false);
     setPicked(null);
     setWords({});
-    setGaps({});
+    setEndings({});
+    setMcq({});
+    setFlipped({});
   }, [restart, initialStep]);
 
   const usedWords = new Set(Object.values(words));
-  const allExamGaps = [...data.exam.flowGaps, ...data.exam.sentenceGaps];
+  const usedEndings = new Set(Object.values(endings));
   const wordsScore = data.words.items.filter(
     (it) => words[it.id] === it.key,
   ).length;
-  const examScore = allExamGaps.filter((g) =>
-    checkReadM10a(gaps[g.id] ?? "", g.answers),
+  const endingScore = data.exam.endingStems.filter(
+    (s) => endings[s.id] === s.key,
   ).length;
+  const mcqScore = data.exam.mcq.filter((q) => mcq[q.id] === q.key).length;
 
-  const needsCheck = step === 2 || step === 3;
-  const score = step === 2 ? wordsScore : examScore;
+  const needsCheck = step === 2 || step === 3 || step === 4;
+  const endingTotal = data.exam.endingStems.length;
+  const mcqTotal = data.exam.mcq.length;
+  const score =
+    step === 2
+      ? wordsScore
+      : step === 3
+        ? endingScore
+        : step === 4
+          ? mcqScore
+          : 0;
   const total =
-    step === 2 ? data.words.items.length : allExamGaps.length;
+    step === 2
+      ? data.words.items.length
+      : step === 3
+        ? endingTotal
+        : step === 4
+          ? mcqTotal
+          : 0;
 
   const placeWord = (id: number) => {
     if (checked) return;
@@ -69,6 +89,21 @@ export function ReadingM10aTrainer({
     setPicked(null);
   };
 
+  const placeEnding = (id: number) => {
+    if (checked) return;
+    if (endings[id]) {
+      setEndings((m) => {
+        const next = { ...m };
+        delete next[id];
+        return next;
+      });
+      return;
+    }
+    if (!picked) return;
+    setEndings((m) => ({ ...m, [id]: picked }));
+    setPicked(null);
+  };
+
   const goPrev = () => {
     if (step === 0) {
       onBack?.();
@@ -76,6 +111,7 @@ export function ReadingM10aTrainer({
     }
     setChecked(false);
     setShowTip(false);
+    setPicked(null);
     setStep((s) => s - 1);
   };
 
@@ -86,6 +122,7 @@ export function ReadingM10aTrainer({
     }
     if (needsCheck && !checked) {
       setChecked(true);
+      setPicked(null);
       return;
     }
     if (step >= READ_M10A_STEPS.length - 1) {
@@ -121,36 +158,6 @@ export function ReadingM10aTrainer({
     </article>
   );
 
-  const gapRow = (
-    g: { id: number; before: string; after: string; answers: string[] },
-  ) => {
-    const val = gaps[g.id] ?? "";
-    const ok = checkReadM10a(val, g.answers);
-    return (
-      <li key={g.id}>
-        <span>
-          {g.id}. {g.before}
-          <span
-            className={`inline-gap-wrap ${checked && ok ? "inline-gap-wrap--ok" : ""} ${checked && !ok ? "inline-gap-wrap--bad" : ""}`}
-          >
-            <input
-              className={`inline-gap-input ${checked && ok ? "inline-gap-input--ok" : ""} ${checked && !ok ? "inline-gap-input--bad" : ""}`}
-              value={val}
-              disabled={checked}
-              onChange={(e) =>
-                setGaps((s) => ({ ...s, [g.id]: e.target.value }))
-              }
-            />
-            {checked && !ok && (
-              <span className="inline-gap-bad"> → {g.answers[0]}</span>
-            )}
-          </span>
-          {g.after}
-        </span>
-      </li>
-    );
-  };
-
   return (
     <div className="app-shell reading-flow reading-flow--viewport read-m3">
       <div className="reading-chrome">
@@ -176,6 +183,8 @@ export function ReadingM10aTrainer({
                 setStep(i);
                 setChecked(false);
                 setShowTip(false);
+                setPicked(null);
+                setFlipped({});
               }}
             >
               {i + 1}. {label}
@@ -269,14 +278,65 @@ export function ReadingM10aTrainer({
           <aside className="read-m3__side read-m3__side--exam">
             <p className="write-m2a__expert">{data.exam.strategies}</p>
             <p className="read-m3__instr">
-              <span className="write-m2a__badge">{data.exam.badge}</span>
-              {data.exam.instruction}
+              <span className="write-m2a__badge">{data.exam.endingsBadge}</span>
+              {data.exam.endingsInstruction}
             </p>
-            <h3 className="read-m3__hint">{data.exam.flowTitle}</h3>
-            <ul className="read-m3__para-slots">{data.exam.flowGaps.map(gapRow)}</ul>
-            <h3 className="read-m3__hint">Sentences</h3>
-            <ul className="read-m3__para-slots">
-              {data.exam.sentenceGaps.map(gapRow)}
+            <h3 className="read-m3__hint">{data.exam.endingsTitle}</h3>
+            <p className="read-m3__place-hint">
+              {picked
+                ? `Selected ${picked} — click a gap (1–5) to place. Click a filled gap to undo.`
+                : "Click a letter A–G, then a gap (1–5). Each ending is used once."}
+            </p>
+            <div className="read-m3__bank">
+              {data.exam.endings.map((o) => (
+                <button
+                  key={o.id}
+                  type="button"
+                  className={`pr-chip ${picked === o.id ? "pr-chip--picked" : ""} ${usedEndings.has(o.id) ? "pr-chip--used" : ""}`}
+                  disabled={checked || usedEndings.has(o.id)}
+                  onClick={() => setPicked(o.id)}
+                >
+                  {o.id}
+                </button>
+              ))}
+            </div>
+            <ul className="pr-endings__bank">
+              {data.exam.endings.map((o) => (
+                <li
+                  key={o.id}
+                  className={
+                    usedEndings.has(o.id)
+                      ? "pr-endings__bank-item--used"
+                      : undefined
+                  }
+                >
+                  <strong>{o.id}</strong> {o.text}
+                </li>
+              ))}
+            </ul>
+            <ul className="read-m3__para-slots read-m3__para-slots--endings">
+              {data.exam.endingStems.map((s) => {
+                const val = endings[s.id] ?? "";
+                const ok = val === s.key;
+                return (
+                  <li key={s.id}>
+                    <span>
+                      {s.id}. {s.text}
+                    </span>
+                    <button
+                      type="button"
+                      className={`read-m3__slot ${val ? "read-m3__slot--filled" : ""} ${picked && !val ? "read-m3__slot--ready" : ""} ${checked ? (ok ? "read-m3__slot--ok" : "read-m3__slot--bad") : ""}`}
+                      disabled={checked}
+                      onClick={() => placeEnding(s.id)}
+                    >
+                      {val || "—"}
+                    </button>
+                    {checked && !ok && (
+                      <span className="inline-gap-bad"> → {s.key}</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             {checked && (
               <p className="read-m3__score">
@@ -288,6 +348,64 @@ export function ReadingM10aTrainer({
       )}
 
       {step === 4 && (
+        <section className="read-m3__split read-m3__split--exam">
+          {passagePane}
+          <aside className="read-m3__side read-m3__side--exam">
+            <p className="write-m2a__expert">{data.exam.strategies}</p>
+            <p className="read-m3__instr">
+              <span className="write-m2a__badge">{data.exam.mcqBadge}</span>
+              {data.exam.mcqInstruction}
+            </p>
+            <h3 className="read-m3__hint">{data.exam.mcqTitle}</h3>
+            <ul className="read-m3__para-slots read-m3__para-slots--mcq">
+              {data.exam.mcq.map((q) => {
+                const sel = mcq[q.id] ?? "";
+                return (
+                  <li key={q.id}>
+                    <p className="read-m3__mcq-stem">
+                      <strong>{q.id}.</strong> {q.stem}
+                    </p>
+                    <div className="read-m3__mcq-opts">
+                      {q.options.map((opt) => {
+                        let state = "";
+                        if (checked) {
+                          if (opt.id === q.key) state = "pr-chip--ok";
+                          else if (sel === opt.id) state = "pr-chip--bad";
+                        } else if (sel === opt.id) {
+                          state = "pr-chip--picked";
+                        }
+                        return (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            className={`pr-chip ${state}`}
+                            disabled={checked}
+                            onClick={() =>
+                              setMcq((m) => ({ ...m, [q.id]: opt.id }))
+                            }
+                          >
+                            <strong>{opt.id}</strong> {opt.text}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {checked && sel !== q.key && (
+                      <span className="inline-gap-bad"> → {q.key}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {checked && (
+              <p className="read-m3__score">
+                {score} / {total}
+              </p>
+            )}
+          </aside>
+        </section>
+      )}
+
+      {step === 5 && (
         <section className="read-m3__panel">
           <p className="read-m3__instr">
             <span className="write-m2a__badge">{data.wrongAnswers.badge}</span>
@@ -304,7 +422,7 @@ export function ReadingM10aTrainer({
         </section>
       )}
 
-      {step === 5 && (
+      {step === 6 && (
         <ExpertDiscussPanel
           key="discussion"
           badge={data.discussion.badge}
@@ -312,6 +430,16 @@ export function ReadingM10aTrainer({
           questions={data.discussion.questions}
           suggestedTitle={data.discussion.suggestedTitle}
           suggestedAnswer={data.discussion.suggestedAnswer}
+        />
+      )}
+
+      {step === 7 && (
+        <PhraseFlipBoard
+          badge={data.phraseFlips.badge}
+          instruction={data.phraseFlips.instruction}
+          sections={data.phraseFlips.sections}
+          flipped={flipped}
+          setFlipped={setFlipped}
         />
       )}
 

@@ -2,17 +2,21 @@ export const READ_M10A_STEPS = [
   "Before you read",
   "Skim",
   "Paraphrase words",
-  "Endings + MCQ",
+  "Endings",
+  "Multiple choice",
   "Task analysis",
   "Discussion",
+  "Cool phrases",
 ] as const;
 
 export const READ_M10A_NEXT = [
   "Skim →",
   "Paraphrase →",
-  "Exam →",
+  "Endings →",
+  "MCQ →",
   "Analysis →",
   "Discussion →",
+  "Cool phrases →",
   "← К модулю",
 ] as const;
 
@@ -120,75 +124,158 @@ export const readingM10a = {
     ],
   },
   exam: {
-    badge: "3–4",
     strategies: "TEST STRATEGIES page 172",
-    instruction:
-      "Questions 1–5 Complete each sentence with the correct ending, A–G. Questions 6–9 Choose the correct letter, A, B, C or D. Write the letter only.",
-    flowTitle: "Questions 1–5 Matching sentence endings",
-    flowGaps: [
+    endingsBadge: "3",
+    endingsInstruction:
+      "Complete each sentence with the correct ending, A–G, below. Write the correct letter A–G.",
+    mcqBadge: "4",
+    mcqInstruction:
+      "Choose the correct letter, A, B, C or D.",
+    endingsTitle: "Questions 1–5",
+    endings: [
+      {
+        id: "A",
+        text: "can be obtained by trying to drive brain rhythms more directly.",
+      },
+      {
+        id: "B",
+        text: "is now recognised as an over-simplistic interpretation.",
+      },
+      {
+        id: "C",
+        text: "is the speed at which someone can handle information.",
+      },
+      {
+        id: "D",
+        text: "gives a good indication of how successful a person might be in the future.",
+      },
+      {
+        id: "E",
+        text: "involves different parts of the brain interacting together perfectly.",
+      },
+      {
+        id: "F",
+        text: "is the correlation between the logical and creative hemispheres of the brain.",
+      },
+      {
+        id: "G",
+        text: "demonstrates that genetic factors are not the only consideration.",
+      },
+    ],
+    endingStems: [
       {
         id: 1,
-        before:
-          "1 A test which evaluates the ability to be rational → ",
-        after:
-          " (A can be obtained… B is now recognised as over-simplistic… C is the speed… D gives a good indication of future success… E involves different parts… F is the correlation… G demonstrates genetic factors…)",
-        answers: ["D"],
+        text: "A test which evaluates the ability to be rational",
+        key: "D",
       },
       {
         id: 2,
-        before: "2 A typical indication of a high IQ → ",
-        after: "",
-        answers: ["C"],
+        text: "A typical indication of a high IQ",
+        key: "C",
       },
       {
         id: 3,
-        before:
-          "3 The proven link between better food intake and higher intelligence → ",
-        after: "",
-        answers: ["G"],
+        text: "The proven link between better food intake and higher intelligence",
+        key: "G",
       },
       {
         id: 4,
-        before:
-          "4 Visualising the brain as a division into ‘rational’ and ‘emotional’ halves → ",
-        after: "",
-        answers: ["B"],
+        text: "Visualising the brain as a division into ‘rational’ and ‘emotional’ halves",
+        key: "B",
       },
       {
         id: 5,
-        before: "5 The complexity involved in the creative process → ",
-        after: "",
-        answers: ["E"],
+        text: "The complexity involved in the creative process",
+        key: "E",
       },
     ],
-    sentenceGaps: [
+    mcqTitle: "Questions 6–9",
+    mcq: [
       {
         id: 6,
-        before:
-          "6 What does the writer say about the process experienced by creative people? A It often leads to mental illness. B The initial phase can be extremely time-consuming. C The most common way to find a solution is when asleep. D It is always a struggle to transfer ideas to the written word. → ",
-        after: "",
-        answers: ["B"],
+        stem: "What does the writer say about the process experienced by creative people?",
+        options: [
+          {
+            id: "A",
+            text: "It is often the case that it leads to a form of mental illness.",
+          },
+          {
+            id: "B",
+            text: "The initial phase can be extremely time-consuming.",
+          },
+          {
+            id: "C",
+            text: "The most common way to find a solution to a problem is when asleep.",
+          },
+          {
+            id: "D",
+            text: "It is always a struggle to transfer ideas from the brain to the written word.",
+          },
+        ],
+        key: "B",
       },
       {
         id: 7,
-        before:
-          "7 By studying how to become more creative we learn that it is important to A take risks with the way that you approach ideas. B take every opportunity to rest your mind. C be organised and methodical. D clarify your ideas by speaking to other people. → ",
-        after: "",
-        answers: ["A"],
+        stem: "By studying how to become more creative we learn that it is important to",
+        options: [
+          {
+            id: "A",
+            text: "take risks with the way that you approach ideas.",
+          },
+          {
+            id: "B",
+            text: "take every opportunity to rest your mind.",
+          },
+          {
+            id: "C",
+            text: "be organised and methodical in the way you work.",
+          },
+          {
+            id: "D",
+            text: "clarify your ideas by speaking to other people.",
+          },
+        ],
+        key: "A",
       },
       {
         id: 8,
-        before:
-          "8 The writer says that the urban myth he refers to A is scientifically improbable. B is completely and utterly false. C provides him with daily encouragement. D explains why creativity is innate rather than acquired. → ",
-        after: "",
-        answers: ["A"],
+        stem: "The writer says that the urban myth he refers to",
+        options: [
+          { id: "A", text: "is scientifically improbable." },
+          { id: "B", text: "is completely and utterly false." },
+          {
+            id: "C",
+            text: "provides him with daily encouragement.",
+          },
+          {
+            id: "D",
+            text: "explains why creativity is innate rather than acquired.",
+          },
+        ],
+        key: "A",
       },
       {
         id: 9,
-        before:
-          "9 What point does the writer make in the last paragraph? A Schools fail to encourage creativity. B Students with imbalanced hemispheres fail academically. C Schools are exclusively focused on technology skills. D It is essential for the modern age that creativity is nurtured at school. → ",
-        after: "",
-        answers: ["D"],
+        stem: "What point does the writer make in the last paragraph?",
+        options: [
+          {
+            id: "A",
+            text: "Schools fail to encourage the development of creativity.",
+          },
+          {
+            id: "B",
+            text: "Students whose right and left-brain thinking is imbalanced fail to achieve academic success.",
+          },
+          {
+            id: "C",
+            text: "Schools are exclusively focused on skills useful for technology.",
+          },
+          {
+            id: "D",
+            text: "It is essential for the modern age that creativity is nurtured at school.",
+          },
+        ],
+        key: "D",
       },
     ],
   },
@@ -230,6 +317,186 @@ export const readingM10a = {
     suggestedAnswer: [
       "I'd describe myself as more rational because I tend to analyse problems logically before acting. That said, I rely on creativity when I need original ideas, so the two sides complement each other rather than excluding one another.",
       "Schools should certainly make more room for arts and imagination, perhaps by integrating creative projects into science and language lessons rather than treating them as optional extras. Dedicated studio time, drama workshops, and open-ended assignments could nurture fantasy alongside academic skills.",
+    ],
+  },
+  phraseFlips: {
+    badge: "CP",
+    instruction:
+      "Cool phrases from The science of imagination. Click a card for the Russian gloss, examples and passage links.",
+    sections: [
+      {
+        id: "process",
+        title: "Creative process & free thinking",
+        cards: [
+          {
+            en: "give one's imagination free rein",
+            ru: "дать волю воображению",
+            example:
+              "Just relax and give your imagination free rein during the brainstorming session.",
+            exampleRu:
+              "Просто расслабься и дай волю воображению во время мозгового штурма.",
+          },
+          {
+            en: "a flash of insight",
+            ru: "проблеск озарения, внезапная догадка",
+            tip: "Also in the text: come in a flash — прийти мгновенно.",
+            example:
+              "I was stuck on this problem for days, and then it hit me in a flash of insight.",
+            exampleRu:
+              "Я бился над этой задачей несколько дней, и вдруг меня осенило.",
+          },
+          {
+            en: "lateral thinking",
+            ru: "нестандартное (латеральное) мышление, смотреть на задачу под другим углом",
+            example:
+              "Solving this puzzle requires a bit of lateral thinking.",
+            exampleRu:
+              "Решение этой головоломки требует нестандартного мышления.",
+          },
+          {
+            en: "set something aside",
+            ru: "отложить что-то в сторону (чтобы вернуться позже)",
+            example:
+              "Let's set this issue aside for now and focus on the main goal.",
+            exampleRu:
+              "Давай пока отложим этот вопрос и сфокусируемся на главной цели.",
+          },
+          {
+            en: "sleep on it / sleep on new ideas",
+            ru: "переспать с мыслью, отложить решение до утра",
+            example:
+              "Don't decide right now. Sleep on it and tell me what you think tomorrow.",
+            exampleRu:
+              "Не решай прямо сейчас. Переспи с этой мыслью и скажи мне завтра, что думаешь.",
+          },
+          {
+            en: "immersion in the problem",
+            ru: "глубокое погружение в проблему",
+            example:
+              "Complete immersion in the problem helped him find a unique solution.",
+            exampleRu:
+              "Полное погружение в проблему помогло ему найти уникальное решение.",
+          },
+          {
+            en: "provide the raw material for…",
+            ru: "давать «сырьё» (почву, основу) для чего-либо",
+            example:
+              "Traveling provides the raw material for my future books.",
+            exampleRu:
+              "Путешествия дают мне материал для будущих книг.",
+          },
+          {
+            en: "burst forth",
+            ru: "внезапно прорваться, вырваться наружу, хлынуть (о чувствах, идеях)",
+            inPassage:
+              "…insight and illumination will burst forth in your mind…",
+            example:
+              "When she finally got a chance to speak, all her frustration burst forth.",
+            exampleRu:
+              "Когда ей наконец дали слово, всё её раздражение вырвалось наружу.",
+          },
+          {
+            en: "instigate",
+            ru: "инициировать, подстрекать, провоцировать (часто что-то смелое или непривычное)",
+            inPassage: "…deliberately instigating crazy ideas…",
+            example:
+              "We need someone to instigate real change in this department.",
+            exampleRu:
+              "Нам нужен кто-то, кто запустит реальные перемены в этом отделе.",
+          },
+          {
+            en: "we can all profit from…",
+            ru: "мы все можем извлечь пользу из… (не про деньги, а про жизненный опыт)",
+            inPassage:
+              "We can all profit from our perception of the creative process…",
+            example:
+              "We can all profit from listening more and talking less.",
+            exampleRu:
+              "Нам всем пойдёт на пользу больше слушать и меньше говорить.",
+          },
+        ],
+      },
+      {
+        id: "myths",
+        title: "Myths, change and education",
+        cards: [
+          {
+            en: "there is a grain of truth in this",
+            ru: "в этом есть доля правды",
+            example:
+              "It sounds like a crazy theory, but there is a grain of truth in it.",
+            exampleRu:
+              "Звучит как безумная теория, но в этом есть доля правды.",
+          },
+          {
+            en: "a widely believed urban myth",
+            ru: "широко распространённый миф (городская легенда)",
+            example:
+              "The idea that we only use 10% of our brain is just a widely believed urban myth.",
+            exampleRu:
+              "Идея о том, что мы используем мозг только на 10%, — это просто расхожий миф.",
+          },
+          {
+            en: "this assumption is misleading",
+            ru: "это предположение вводит в заблуждение / ошибочно",
+            example:
+              "Thinking that money solves everything is a misleading assumption.",
+            exampleRu:
+              "Думать, что деньги решают всё, — ошибочное предположение.",
+          },
+          {
+            en: "we can only speculate…",
+            ru: "нам остаётся только гадать / строить догадки…",
+            example:
+              "We can only speculate about how the situation will develop next year.",
+            exampleRu:
+              "Нам остаётся только гадать, как ситуация будет развиваться в следующем году.",
+          },
+          {
+            en: "foster rather than stifle",
+            ru: "поощрять (взращивать), а не подавлять",
+            example:
+              "Good managers foster creativity rather than stifle it.",
+            exampleRu:
+              "Хорошие менеджеры поощряют креативность, а не душат её.",
+          },
+          {
+            en: "cope with the rapid pace of change",
+            ru: "справляться с быстрым темпом перемен",
+            example:
+              "Companies must adapt quickly to cope with the rapid pace of change.",
+            exampleRu:
+              "Компании должны быстро адаптироваться, чтобы справляться с бешеным темпом перемен.",
+          },
+          {
+            en: "aspire to be [someone]",
+            ru: "стремиться стать кем-то, метить высоко",
+            inPassage: "…we could all aspire to be a Leonardo da Vinci.",
+            example:
+              "Many young athletes aspire to be Olympic champions.",
+            exampleRu:
+              "Многие молодые спортсмены стремятся стать олимпийскими чемпионами.",
+          },
+          {
+            en: "a disproportionate number of…",
+            ru: "непропорционально большое количество (огромная доля в какой-то сфере)",
+            inPassage:
+              "A disproportionate number of creative artists, engineers and architects fall into this category.",
+            example:
+              "A disproportionate number of top CEOs started their careers in sales.",
+            exampleRu:
+              "Непропорционально большое число топ-менеджеров начинали карьеру в продажах.",
+          },
+          {
+            en: "fall into this category",
+            ru: "попадать в эту категорию, относиться к этому типу",
+            example:
+              "I love working from home, so I definitely fall into this category.",
+            exampleRu:
+              "Я обожаю работать из дома, так что я точно отношусь к этой категории людей.",
+          },
+        ],
+      },
     ],
   },
 };

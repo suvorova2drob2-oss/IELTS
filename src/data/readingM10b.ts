@@ -1,14 +1,18 @@
 export const READ_M10B_STEPS = [
-  "1 Before you read",
-  "2 Endings + YNNG",
-  "3 Task analysis",
-  "4 Discussion",
+  "Before you read",
+  "Endings",
+  "Yes / No / Not given",
+  "Task analysis",
+  "Discussion",
+  "Cool phrases",
 ] as const;
 
 export const READ_M10B_NEXT = [
-  "2 Exam →",
-  "3 Analysis →",
-  "4 Discussion →",
+  "Endings →",
+  "YNNG →",
+  "Analysis →",
+  "Discussion →",
+  "Cool phrases →",
   "← К модулю",
 ] as const;
 
@@ -61,73 +65,82 @@ export const readingM10b = {
     tip: "Strategy keys: 1 C · 2 C · 3 B · 4 C · 5 A.",
   },
   exam: {
-    badge: "2",
     strategies: "TEST STRATEGIES pages 171 and 172",
-    instruction:
-      "Questions 1–4 Complete each sentence with the correct ending, A–F. Questions 5–9 Yes / No / Not given.",
-    gaps: [
+    endingsBadge: "2",
+    endingsInstruction:
+      "Complete each sentence with the correct ending, A–F, below. Write the correct letter A–F.",
+    ynngBadge: "3",
+    ynngInstruction:
+      "Do the following statements agree with the views of the writer in the text? Write Yes, No or Not given.",
+    endingsTitle: "Questions 1–4",
+    endings: [
+      { id: "A", text: "equal respect for all ideas" },
+      {
+        id: "B",
+        text: "dangers of attacking a proposal on principle",
+      },
+      { id: "C", text: "multiple interpretations" },
+      {
+        id: "D",
+        text: "acceptance of established faulty theories",
+      },
+      {
+        id: "E",
+        text: "problems proving a thesis incorrect",
+      },
+      {
+        id: "F",
+        text: "the period / society in which people live",
+      },
+    ],
+    endingStems: [
       {
         id: 1,
-        before:
-          "1 The delay in scientific advances has been blamed by some scientists on → A equal respect for all ideas · B dangers of attacking a proposal on principle · C multiple interpretations · D acceptance of established faulty theories · E problems proving a thesis incorrect · F the period / society in which people live",
-        after: "",
-        answers: ["D"],
+        text: "The delay in scientific advances has been blamed by some scientists on",
+        key: "D",
       },
       {
         id: 2,
-        before:
-          "2 Science historians view new hypotheses in relation to",
-        after: "",
-        answers: ["F"],
+        text: "Science historians view new hypotheses in relation to",
+        key: "F",
       },
       {
         id: 3,
-        before:
-          "3 It is believed by some science historians that all new ideas should be given",
-        after: "",
-        answers: ["A"],
+        text: "It is believed by some science historians that all new ideas should be given",
+        key: "A",
       },
       {
         id: 4,
-        before:
-          "4 The Quine-Duhem thesis states that any scientific investigation is open to",
-        after: "",
-        answers: ["C"],
+        text: "The Quine-Duhem thesis states that any scientific investigation is open to",
+        key: "C",
       },
+    ],
+    ynngTitle: "Questions 5–9",
+    ynng: [
       {
         id: 5,
-        before:
-          "5 People will consciously reject a new theory if it is contrary to their own prejudices and beliefs.",
-        after: "",
-        answers: ["No"],
+        text: "People will consciously reject a new theory if it is contrary to their own prejudices and beliefs.",
+        key: "No",
       },
       {
         id: 6,
-        before:
-          "6 Ptolemy’s Earth-centric view of cosmology was an acceptable theory for hundreds of years.",
-        after: "",
-        answers: ["Yes"],
+        text: "Ptolemy’s Earth-centric view of cosmology was an acceptable theory for hundreds of years.",
+        key: "Yes",
       },
       {
         id: 7,
-        before:
-          "7 The people responsible for testing Galileo’s theory were at fault for refusing to examine his evidence.",
-        after: "",
-        answers: ["No"],
+        text: "The people responsible for testing Galileo’s theory were at fault for refusing to examine his evidence.",
+        key: "No",
       },
       {
         id: 8,
-        before:
-          "8 Experiments are becoming a less common way of verifying a scientific theory.",
-        after: "",
-        answers: ["Not given", "NG", "Not Given"],
+        text: "Experiments are becoming a less common way of verifying a scientific theory.",
+        key: "Not given",
       },
       {
         id: 9,
-        before:
-          "9 An awareness of good science will reveal itself over time.",
-        after: "",
-        answers: ["Yes"],
+        text: "An awareness of good science will reveal itself over time.",
+        key: "Yes",
       },
     ],
   },
@@ -146,6 +159,186 @@ export const readingM10b = {
     suggestedAnswer: [
       "I think we are most likely to see major progress in medicine and space exploration. Advances in genetics and personalised treatment could extend healthy lifespans, while improved telescopes and missions may reveal more about other planets.",
       "Astronomy and medical research both benefit from international cooperation and heavy investment, which makes breakthroughs more probable. Artificial intelligence may also accelerate discoveries by analysing vast datasets that humans alone could not process.",
+    ],
+  },
+  phraseFlips: {
+    badge: "CP",
+    instruction:
+      "Cool phrases from the reading on scientific progress. Click a card for the Russian gloss, examples and passage links.",
+    sections: [
+      {
+        id: "bias",
+        title: "Judgment, bias & limits",
+        cards: [
+          {
+            en: "take something at face value",
+            ru: "принимать за чистую монету (верить буквально, не проверяя суть)",
+            example:
+              "You can't take everything you read on the internet at face value.",
+            exampleRu:
+              "Нельзя принимать за чистую монету всё, что читаешь в интернете.",
+          },
+          {
+            en: "put the cart before the horse",
+            ru: "ставить телегу впереди лошади (делать в неправильном порядке, путать причину и следствие)",
+            example:
+              "Buying expensive equipment before learning the basics is putting the cart before the horse.",
+            exampleRu:
+              "Покупать дорогое оборудование до изучения основ — это ставить телегу впереди лошади.",
+          },
+          {
+            en: "have good grounds for doing something",
+            ru: "иметь веские основания / причины для чего-либо",
+            example: "They had good grounds for rejecting his proposal.",
+            exampleRu: "У них были веские основания отклонить его предложение.",
+          },
+          {
+            en: "in the face of…",
+            ru: "перед лицом чего-либо, вопреки чему-либо",
+            example:
+              "He refused to admit his mistake even in the face of clear evidence.",
+            exampleRu:
+              "Он отказался признать ошибку даже перед лицом неопровержимых доказательств.",
+          },
+          {
+            en: "be prone to confirmation bias",
+            ru: "быть склонным к предвзятости подтверждения (замечать только удобные факты)",
+            example:
+              "When people argue about politics, they are often prone to confirmation bias.",
+            exampleRu:
+              "Когда люди спорят о политике, они часто склонны замечать только удобные им факты.",
+          },
+          {
+            en: "fall short",
+            ru: "не дотягивать, не оправдывать ожиданий, оказаться недостаточным",
+            example:
+              "The new movie was good, but it fell short of my expectations.",
+            exampleRu:
+              "Новый фильм был неплох, но он не дотянул до моих ожиданий.",
+          },
+          {
+            en: "look increasingly threadbare",
+            ru: "выглядеть всё более избитым, неубедительным («шитым белыми нитками»)",
+            example:
+              "His excuses for being late are looking increasingly threadbare.",
+            exampleRu:
+              "Его оправдания за опоздания выглядят всё более неубедительно.",
+          },
+          {
+            en: "crowd out",
+            ru: "вытеснять (занимать всё место, не оставляя шансов другому)",
+            example:
+              "Big chain stores often crowd out small local businesses.",
+            exampleRu:
+              "Крупные сетевые магазины часто вытесняют мелкий местный бизнес.",
+          },
+          {
+            en: "allow one's judgment (or acuity) to be clouded by…",
+            ru: "позволить чему-либо затуманить рассудок / проницательность",
+            example: "Don't allow your judgment to be clouded by emotions.",
+            exampleRu: "Не позволяй эмоциям затуманить твой рассудок.",
+          },
+          {
+            en: "be far from simple",
+            ru: "быть далеко не простым (это совсем не так просто, как кажется)",
+            example: "Organizing a wedding is far from simple.",
+            exampleRu:
+              "Организовать свадьбу — задача далеко не из простых.",
+          },
+          {
+            en: "nigh on impossible",
+            ru: "почти невозможно (выразительный, чуть книжный синоним almost impossible)",
+            example: "Without a map, finding that place is nigh on impossible.",
+            exampleRu: "Без карты найти это место почти невозможно.",
+          },
+          {
+            en: "see only what suits one's preconceptions",
+            ru: "видеть только то, что укладывается в рамки собственных предубеждений",
+            example:
+              "It's hard to argue with him because he sees only what suits his preconceptions.",
+            exampleRu:
+              "С ним трудно спорить, потому что он видит только то, что подтверждает его предубеждения.",
+          },
+        ],
+      },
+      {
+        id: "science",
+        title: "Theory, authority & change",
+        cards: [
+          {
+            en: "hold back",
+            ru: "сдерживать, тормозить развитие",
+            inPassage:
+              "Copernicus's Sun-centred universe was held back…",
+            example:
+              "Fear of failure can really hold you back in your career.",
+            exampleRu:
+              "Страх неудачи может сильно тормозить тебя в карьере.",
+          },
+          {
+            en: "adhere to something",
+            ru: "придерживаться чего-либо, строго следовать (правилам, идеям)",
+            inPassage: "…no-one adheres to a wrong theory…",
+            example:
+              "It's tough to adhere to a strict schedule when you travel a lot.",
+            exampleRu:
+              "Трудно придерживаться строгого графика, когда много путешествуешь.",
+          },
+          {
+            en: "at its worst",
+            ru: "в худшем проявлении",
+            tip: "Pairs with at least initially — for graded or time-limited judgments.",
+            example:
+              "At its worst, social media can fuel anxiety and misinformation.",
+            exampleRu:
+              "В худшем проявлении соцсети могут усиливать тревогу и дезинформацию.",
+          },
+          {
+            en: "at least initially",
+            ru: "по крайней мере поначалу",
+            example:
+              "At least initially, the new policy seemed to improve results.",
+            exampleRu:
+              "По крайней мере поначалу новая политика казалась улучшающей результаты.",
+          },
+          {
+            en: "any compelling reason",
+            ru: "хоть какая-то веская / убедительная причина",
+            inPassage: "…without any compelling reason to do so.",
+            example:
+              "Give me one compelling reason why I should change my mind.",
+            exampleRu:
+              "Назови мне хоть одну вескую причину, почему я должен передумать.",
+          },
+          {
+            en: "a similar defence can be made for…",
+            ru: "схожим образом можно оправдать / защитить…",
+            example:
+              "A similar defence can be made for people who prefer working alone.",
+            exampleRu:
+              "Схожим образом можно оправдать людей, которые предпочитают работать в одиночку.",
+          },
+          {
+            en: "gain acceptance",
+            ru: "получить признание, прижиться (об идее или тренде)",
+            inPassage: "…today's theories have gained acceptance…",
+            example:
+              "Remote work has finally gained acceptance in traditional companies.",
+            exampleRu:
+              "Удалённая работа наконец-то получила признание в традиционных компаниях.",
+          },
+          {
+            en: "the ultimate authority",
+            ru: "истина в последней инстанции, высший авторитет",
+            inPassage:
+              "…refused to accept experimentation as the ultimate authority.",
+            example:
+              "Just because he's the boss doesn't mean he's the ultimate authority on everything.",
+            exampleRu:
+              "То, что он босс, ещё не значит, что он истина в последней инстанции во всех вопросах.",
+          },
+        ],
+      },
     ],
   },
 };

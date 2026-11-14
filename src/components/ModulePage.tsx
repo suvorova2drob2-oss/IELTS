@@ -791,11 +791,11 @@ function ActivityPanel({
                           return;
                         }
                         if (isReadingM10aFlow) {
-                          startAt(Math.min(i, 5));
+                          startAt(Math.min(i, 7));
                           return;
                         }
                         if (isReadingM10bFlow) {
-                          startAt(Math.min(i, 3));
+                          startAt(Math.min(i, 5));
                           return;
                         }
                         if (isWritingM10a) {

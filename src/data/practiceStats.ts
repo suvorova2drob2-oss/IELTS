@@ -74,6 +74,17 @@ export function savePracticeAttempt(
   store.attempts.unshift(full);
   store.attempts = store.attempts.slice(0, 50);
   localStorage.setItem(STATS_KEY, JSON.stringify(store));
+  /* Opened from the student's homework shell (exam-hw.html): hand the result to the parent page. */
+  try {
+    if (window.parent && window.parent !== window && full.total > 0) {
+      window.parent.postMessage(
+        { type: "exam-hw-result", correct: full.score, total: full.total },
+        "*",
+      );
+    }
+  } catch {
+    /* no parent */
+  }
   return full;
 }
 
